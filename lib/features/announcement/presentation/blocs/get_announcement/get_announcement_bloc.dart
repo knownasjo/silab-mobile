@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:silab/core/helpers/event_transformers.dart';
 import 'package:silab/features/announcement/domain/entities/announcement/announcement_entity.dart';
 import 'package:silab/features/announcement/domain/usecases/get_announcement_usecase.dart';
 
@@ -12,7 +13,8 @@ class GetAnnouncementBloc
 
   GetAnnouncementBloc(this._getAnnouncementUseCase)
       : super(GetAnnouncementInitial()) {
-    on<GetAnnouncementEvent>(onGetAnnouncement);
+    on<GetAnnouncement>(onGetAnnouncement);
+    on<RefreshAnnouncement>(onRefreshAnnouncement, transformer: sequential());
   }
 
   void onGetAnnouncement(
@@ -28,5 +30,30 @@ class GetAnnouncementBloc
     } else {
       emit(const GetAnnouncementFailed(message: 'An Error Occured'));
     }
+  }
+
+  Future<void> onRefreshAnnouncement(
+      RefreshAnnouncement event, Emitter<GetAnnouncementState> emit) async {
+    final current = state;
+    if (current is! GetAnnouncementLoaded ||
+        current.announcement?.id != event.id) {
+      return;
+    }
+
+    if (event.isDeleted) {
+      emit(const GetAnnouncementDeleted(
+          message: 'Pengumuman ini sudah dihapus.'));
+      return;
+    }
+
+    final data = await _getAnnouncementUseCase.announcementRepository
+        .getAnnouncement(id: event.id!);
+
+    if (state != current) return;
+
+    data.fold(
+      (left) => null,
+      (right) => emit(GetAnnouncementLoaded(announcement: right)),
+    );
   }
 }

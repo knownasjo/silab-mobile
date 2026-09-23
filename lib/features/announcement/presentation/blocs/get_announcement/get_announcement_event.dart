@@ -12,3 +12,12 @@ class GetAnnouncementEvent extends Equatable {
 final class GetAnnouncement extends GetAnnouncementEvent {
   const GetAnnouncement({super.id});
 }
+
+final class RefreshAnnouncement extends GetAnnouncementEvent {
+  final bool isDeleted;
+
+  const RefreshAnnouncement({super.id, this.isDeleted = false});
+
+  @override
+  List<Object?> get props => [id, isDeleted];
+}

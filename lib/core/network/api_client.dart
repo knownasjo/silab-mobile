@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silab/app_config.dart';
 import 'package:silab/core/exceptions/exceptions.dart';
+import 'package:silab/core/network/server_event.dart';
 
 class ApiClient {
   final http.Client _client;
@@ -26,10 +27,10 @@ class ApiClient {
   Future<Map<String, dynamic>> post(String path, {Object? body}) =>
       _send('POST', path, body: body);
 
-  Stream<String> listen(String path) {
+  Stream<ServerEvent> listen(String path) {
     final abort = Completer<void>();
-    late final StreamController<String> controller;
-    StreamSubscription<String>? subscription;
+    late final StreamController<ServerEvent> controller;
+    StreamSubscription<ServerEvent>? subscription;
     Timer? retryTimer;
     var failures = 0;
     late final Future<void> Function() connect;
@@ -60,11 +61,11 @@ class ApiClient {
             .transform(utf8.decoder)
             .transform(const LineSplitter())
             .timeout(_eventStreamIdleTimeout)
-            .transform(_eventTypes())
+            .transform(_serverEvents())
             .listen(
-          (type) {
+          (event) {
             failures = 0;
-            if (type != 'ping') controller.add(type);
+            if (event.type != 'ping') controller.add(event);
           },
           onError: (_) => reconnect(failed: true),
           onDone: reconnect,
@@ -75,7 +76,7 @@ class ApiClient {
       }
     };
 
-    controller = StreamController<String>(
+    controller = StreamController<ServerEvent>(
       onListen: connect,
       onCancel: () {
         if (!abort.isCompleted) abort.complete();
@@ -124,16 +125,24 @@ class ApiClient {
     );
   }
 
-  StreamTransformer<String, String> _eventTypes() {
+  StreamTransformer<String, ServerEvent> _serverEvents() {
     String? type;
+    var data = '';
 
     return StreamTransformer.fromHandlers(
       handleData: (line, sink) {
         if (line.startsWith('event:')) {
           type = line.substring(6).trim();
+        } else if (line.startsWith('data:')) {
+          data += line.substring(5).trim();
         } else if (line.isEmpty && type != null) {
-          sink.add(type!);
+          final decoded = _tryJsonDecode(data);
+          sink.add(ServerEvent(
+            type!,
+            decoded is Map<String, dynamic> ? decoded : const {},
+          ));
           type = null;
+          data = '';
         }
       },
     );

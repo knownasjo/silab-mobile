@@ -46,7 +46,14 @@ class _PengumumanPageState extends State<PengumumanPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<GetAnnouncementBloc, GetAnnouncementState>(
       listener: (context, state) {
-        if (state is GetAnnouncementFailed) {
+        if (state is GetAnnouncementDeleted) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              snackBar(message: state.message, type: AlertType.info),
+            );
+          context.canPop() ? context.pop() : context.goNamed('home');
+        } else if (state is GetAnnouncementFailed) {
           if (state.message == 'jwt expired') {
             context.goNamed('authentication');
           } else {

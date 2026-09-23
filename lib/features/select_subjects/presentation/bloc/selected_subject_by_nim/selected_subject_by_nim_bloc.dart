@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:silab/core/helpers/event_transformers.dart';
 import 'package:silab/features/select_subjects/domain/entities/selected_subject/selected_subject_entity.dart';
 import 'package:silab/features/select_subjects/domain/usecases/get_user_selected_subject_usecase.dart';
 
@@ -13,6 +14,8 @@ class SelectedSubjectByNimBloc
   SelectedSubjectByNimBloc(this._getSelectedSubjectByNimUsecase)
       : super(SelectedSubjectByNimInitial()) {
     on<GetUserSelectedSubjects>(onAppOpened);
+    on<RefreshUserSelectedSubjects>(onRefreshUserSelectedSubjects,
+        transformer: sequential());
   }
 
   void onAppOpened(
@@ -28,6 +31,22 @@ class SelectedSubjectByNimBloc
       (left) => emit(SelectedSubjectByNimFailed(message: left.message)),
       (right) => emit(
           SelectedSubjectByNimLoaded(selectedSubjectEntity: data.right.data)),
+    );
+  }
+
+  Future<void> onRefreshUserSelectedSubjects(
+    RefreshUserSelectedSubjects event,
+    Emitter<SelectedSubjectByNimState> emit,
+  ) async {
+    if (state is SelectedSubjectByNimInitial) return;
+
+    final data = await _getSelectedSubjectByNimUsecase.selectedSubjectRepository
+        .getUserSelectedSubjects();
+
+    data.fold(
+      (left) => null,
+      (right) =>
+          emit(SelectedSubjectByNimLoaded(selectedSubjectEntity: right.data)),
     );
   }
 }

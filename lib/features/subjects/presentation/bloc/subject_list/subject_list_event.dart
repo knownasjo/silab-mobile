@@ -12,3 +12,7 @@ class SubjectListEvent extends Equatable {
 final class GetSubjectList extends SubjectListEvent {
   const GetSubjectList({super.semester});
 }
+
+final class RefreshSubjectList extends SubjectListEvent {
+  const RefreshSubjectList();
+}

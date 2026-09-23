@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:silab/core/helpers/event_transformers.dart';
 import 'package:silab/features/announcement/domain/entities/announcement/announcement_entity.dart';
 import 'package:silab/features/announcement/domain/usecases/get_all_announcements_usecase.dart';
 
@@ -13,6 +14,8 @@ class GetAllAnnouncementsBloc
   GetAllAnnouncementsBloc(this._getAllAnnouncementsUseCase)
       : super(GetAllAnnouncementsInitial()) {
     on<GetAllAnnouncements>(onGetAllAnnouncements);
+    on<RefreshAllAnnouncements>(onRefreshAllAnnouncements,
+        transformer: sequential());
   }
 
   void onGetAllAnnouncements(GetAllAnnouncementsEvent event,
@@ -24,6 +27,19 @@ class GetAllAnnouncementsBloc
 
     data.fold(
       (left) => emit(GetAllAnnouncementsFailed(message: left.message)),
+      (right) => emit(GetAllAnnouncementsLoaded(announcements: right)),
+    );
+  }
+
+  Future<void> onRefreshAllAnnouncements(RefreshAllAnnouncements event,
+      Emitter<GetAllAnnouncementsState> emit) async {
+    if (state is GetAllAnnouncementsInitial) return;
+
+    final data = await _getAllAnnouncementsUseCase.announcementRepository
+        .getAllAnnouncement();
+
+    data.fold(
+      (left) => null,
       (right) => emit(GetAllAnnouncementsLoaded(announcements: right)),
     );
   }

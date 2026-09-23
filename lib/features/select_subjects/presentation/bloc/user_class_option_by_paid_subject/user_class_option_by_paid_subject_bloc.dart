@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:silab/core/helpers/event_transformers.dart';
 import 'package:silab/features/select_subjects/domain/usecases/get_user_class_option_by_paid_subject_usecase.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_event.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_state.dart';
@@ -11,6 +12,10 @@ class UserClassOptionByPaidSubjectBloc extends Bloc<
   UserClassOptionByPaidSubjectBloc(this._getUserClassOptionByPaidSubjectUsecase)
       : super(UserClassOptionByPaidSubjectInitial()) {
     on<GetUserClassOptionByPaidSubject>(onGetUserClassOptionByPaidSubject);
+    on<RefreshUserClassOptionByPaidSubject>(
+      onRefreshUserClassOptionByPaidSubject,
+      transformer: sequential(),
+    );
   }
 
   void onGetUserClassOptionByPaidSubject(
@@ -24,6 +29,22 @@ class UserClassOptionByPaidSubjectBloc extends Bloc<
 
     data.fold(
       (left) => emit(UserClassOptionByPaidSubjectFailed(message: left.message)),
+      (right) => emit(UserClassOptionByPaidSubjectLoaded(
+          userClassOptionByPaidSubjectEntity: right.data)),
+    );
+  }
+
+  Future<void> onRefreshUserClassOptionByPaidSubject(
+      RefreshUserClassOptionByPaidSubject event,
+      Emitter<UserClassOptionByPaidSubjectState> emit) async {
+    if (state is UserClassOptionByPaidSubjectInitial) return;
+
+    final data = await _getUserClassOptionByPaidSubjectUsecase
+        .selectedSubjectRepository
+        .getUserClassOptionbyPaidSubjects();
+
+    data.fold(
+      (left) => null,
       (right) => emit(UserClassOptionByPaidSubjectLoaded(
           userClassOptionByPaidSubjectEntity: right.data)),
     );

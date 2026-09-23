@@ -58,10 +58,6 @@ class ClassRepositoryImpl implements ClassRepository {
   }
 
   @override
-  Stream<String> watchClassEvents({String? classId}) =>
-      _classesApiService.watchClassEvents(classId: classId);
-
-  @override
   Future<Either<Failures, AttendanceEntity>> addUserAttendances(
       {String? classId, String? meetingId, String? meetingToken}) async {
     try {

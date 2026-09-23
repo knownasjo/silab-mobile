@@ -102,11 +102,21 @@ fitur itu diaktifkan di `android/app/build.gradle`. Plugin Google Services
    10 detik. Di Detail Kelas, mahasiswa menekan ikon scan pada pertemuan yang
    sesinya dibuka. Tombol scan tidak membuka kamera bila sesi belum dibuka
    atau presensi sudah tercatat.
-7. Detail Kelas diperbarui real-time lewat `GET /class/:id/events`. Begitu
-   asisten membuka sesi, mahasiswa bisa langsung scan tanpa menarik layar
-   untuk refresh. Bila sesi ditutup saat kamera masih terbuka, halaman scan
-   tertutup sendiri dengan pesan "Sesi presensi sudah ditutup oleh asisten."
-   Perubahan presensi manual oleh laboran juga langsung tampil.
+7. Semua tampilan diperbarui real-time lewat `GET /events`, tanpa menarik
+   layar untuk refresh:
+
+   | Tampilan | Berubah saat |
+   |---|---|
+   | Pengumuman di Beranda | laboran membuat, mengubah, atau menghapus pengumuman |
+   | Detail pengumuman | isinya diubah; bila dihapus, halaman tertutup dengan pesan "Pengumuman ini sudah dihapus." |
+   | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran |
+   | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, atau mahasiswa memilih kelas |
+   | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
+   | Pendaftaran Praktikum | mata kuliah baru |
+   | Detail Kelas (Presensi, Classmates) | sesi dibuka/ditutup, presensi diubah laboran, peserta kelas berubah |
+
+   Bila sesi ditutup saat kamera masih terbuka, halaman scan tertutup sendiri
+   dengan pesan "Sesi presensi sudah ditutup oleh asisten."
 
 Status presensi mengikuti aturan yang sama dengan web: `submitted_at` kosong
 berarti **belum presensi**; bila terisi, `is_attended` menentukan **hadir**
@@ -127,13 +137,20 @@ refresh token juga ditolak (sesi lewat 1 hari), dan halaman itu mengarahkan ke
 login. Saat aplikasi dibuka, yang diperiksa adalah masa berlaku refresh token
 (`getSessionExpiry`), bukan access token.
 
-`ApiClient.listen()` membuka stream SSE dengan token dan aturan refresh yang
-sama, lalu tersambung ulang sendiri bila koneksi putus atau tidak ada data
-selama 60 detik. `UserMeetingsBloc` berlangganan lewat `WatchUserMeetings`
-saat Detail Kelas dibuka dan berhenti lewat `StopWatchingUserMeetings` saat
-ditutup. Setiap event memicu `RefreshUserMeetings`, yang memuat ulang tanpa
-state loading agar daftar tidak berkedip. Saat aplikasi kembali dari
-background, stream dibuka ulang karena koneksi lama bisa sudah diputus sistem.
+Pembaruan real-time ada di `lib/features/realtime`. `ApiClient.listen()`
+membuka stream SSE dengan token dan aturan refresh yang sama, lalu tersambung
+ulang sendiri bila koneksi putus atau tidak ada data selama 60 detik.
+`RealtimeBloc` membuka satu stream selama pengguna berada di dalam aplikasi;
+widget `RealtimeSync`, yang membungkus isi `ScaffoldPage`, meneruskan setiap
+event ke bloc yang datanya terpengaruh. Stream ditutup saat logout dan dibuka
+ulang saat aplikasi kembali dari background, karena koneksi lama bisa sudah
+diputus sistem.
+
+Setiap bloc data punya event `Refresh…` (misalnya `RefreshUserRegisteredClass`)
+yang memuat ulang tanpa state loading, jadi daftar tidak berkedip. Refresh
+diabaikan bila data belum pernah dibuka (state masih `Initial`), gagalnya
+tidak menghapus data yang sedang tampil, dan beberapa refresh berjalan
+berurutan (`sequential()` di `lib/core/helpers/event_transformers.dart`).
 
 Entity memakai `freezed`/`json_serializable`. Setelah mengubah entity:
 
@@ -152,8 +169,11 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 ```
 
 - `test/core/network/api_client_test.dart` — token, body, penanganan error,
-  refresh token, dan stream SSE (token, refresh, tersambung ulang, berhenti
-  saat dibatalkan)
+  refresh token, dan stream SSE (token, refresh, isi event, tersambung ulang,
+  berhenti saat dibatalkan)
+- `test/features/realtime/` — `RealtimeBloc` (koneksi pertama, tersambung
+  ulang, logout) dan refresh diam-diam di bloc (tanpa loading, data lama tetap
+  tampil bila gagal, event kelas lain diabaikan, pengumuman dihapus)
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh

@@ -8,6 +8,7 @@ import 'package:silab/features/announcement/data/data_sources/announcement_api_s
 import 'package:silab/features/authentication/data/data_sources/remote/authentication_api_service.dart';
 import 'package:silab/features/authentication/data/models/login_model.dart';
 import 'package:silab/features/classes/data/data_sources/classes_api_service.dart';
+import 'package:silab/features/realtime/data/data_sources/realtime_api_service.dart';
 import 'package:silab/features/schedule/data/data_sources/schedule_api_service.dart';
 import 'package:silab/features/select_subjects/data/data_sources/selected_subject_api_service.dart';
 import 'package:silab/features/subjects/data/data_sources/subject_api_service.dart';
@@ -89,18 +90,13 @@ void main() {
       );
     });
 
-    test('stream event kelas tersambung dan mengirim "ready"', () async {
-      final classes =
-          (await ClassesApiService(api).getUserRegisteredClasses()).data!;
+    test('stream real-time tersambung dan mengirim "ready"', () async {
+      final firstEvent = await RealtimeApiService(api)
+          .watchEvents()
+          .first
+          .timeout(const Duration(seconds: 10));
 
-      for (final c in classes) {
-        final firstEvent = await ClassesApiService(api)
-            .watchClassEvents(classId: c.id)
-            .first
-            .timeout(const Duration(seconds: 10));
-
-        expect(firstEvent, 'ready', reason: c.subject_name);
-      }
+      expect(firstEvent.type, 'ready');
     });
 
     test('pendaftaran praktikum dan pilihan kelas', () async {

@@ -24,7 +24,6 @@ import 'package:silab/features/classes/domain/usecases/add_user_attendances_usec
 import 'package:silab/features/classes/domain/usecases/get_classmates_usecase.dart';
 import 'package:silab/features/classes/domain/usecases/get_user_meetings_data_usecase.dart';
 import 'package:silab/features/classes/domain/usecases/get_user_registered_classes_usecase.dart';
-import 'package:silab/features/classes/domain/usecases/watch_class_events_usecase.dart';
 import 'package:silab/features/classes/presentation/bloc/user_attendances/user_attendances_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/classmates/classmates_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
@@ -57,6 +56,11 @@ import 'package:silab/features/user_details/data/repositories/user_repository_im
 import 'package:silab/features/user_details/domain/repositories/user_repository.dart';
 import 'package:silab/features/user_details/domain/usecases/get_user_details_usecase.dart';
 import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
+import 'package:silab/features/realtime/data/data_sources/realtime_api_service.dart';
+import 'package:silab/features/realtime/data/repository/realtime_repository_impl.dart';
+import 'package:silab/features/realtime/domain/repository/realtime_repository.dart';
+import 'package:silab/features/realtime/domain/usecases/watch_realtime_events_usecase.dart';
+import 'package:silab/features/realtime/presentation/bloc/realtime_bloc.dart';
 import 'package:http/http.dart' as http;
 
 final injector = GetIt.instance;
@@ -82,6 +86,8 @@ Future<void> initializeDependencies() async {
       AnnouncementApiService(injector()));
   injector
       .registerSingleton<ScheduleApiService>(ScheduleApiService(injector()));
+  injector
+      .registerSingleton<RealtimeApiService>(RealtimeApiService(injector()));
 
   injector.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImpl(injector(), injector()));
@@ -95,6 +101,8 @@ Future<void> initializeDependencies() async {
       AnnouncementRepositoryImpl(injector()));
   injector.registerSingleton<ScheduleRepository>(
       ScheduleRepositoryImpl(injector()));
+  injector.registerSingleton<RealtimeRepository>(
+      RealtimeRepositoryImpl(injector()));
 
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
   injector.registerSingleton<GetUserAccessTokenUsecase>(
@@ -125,12 +133,12 @@ Future<void> initializeDependencies() async {
       GetUserMeetingsDataUsecase(injector()));
   injector.registerSingleton<GetClassmatesUsecase>(
       GetClassmatesUsecase(injector()));
-  injector.registerSingleton<WatchClassEventsUsecase>(
-      WatchClassEventsUsecase(injector()));
   injector.registerSingleton<AddUserAttendancesUsecase>(
       AddUserAttendancesUsecase(injector()));
   injector.registerSingleton<GetUserScheduleUsecase>(
       GetUserScheduleUsecase(injector()));
+  injector.registerSingleton<WatchRealtimeEventsUsecase>(
+      WatchRealtimeEventsUsecase(injector()));
 
   injector.registerFactory<AuthenticationBloc>(
       () => AuthenticationBloc(injector(), injector(), injector(), injector()));
@@ -153,11 +161,12 @@ Future<void> initializeDependencies() async {
       () => UserRegisteredClassBloc(injector()));
   injector.registerFactory<UserClassOptionByPaidSubjectBloc>(
       () => UserClassOptionByPaidSubjectBloc(injector()));
-  injector.registerFactory<UserMeetingsBloc>(
-      () => UserMeetingsBloc(injector(), injector()));
+  injector
+      .registerFactory<UserMeetingsBloc>(() => UserMeetingsBloc(injector()));
   injector.registerFactory<ClassmatesBloc>(() => ClassmatesBloc(injector()));
   injector.registerFactory<UserAttendancesBloc>(
       () => UserAttendancesBloc(injector()));
   injector
       .registerFactory<UserScheduleBloc>(() => UserScheduleBloc(injector()));
+  injector.registerFactory<RealtimeBloc>(() => RealtimeBloc(injector()));
 }

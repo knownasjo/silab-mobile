@@ -22,34 +22,17 @@ class ClassDetailPage extends StatefulWidget {
 }
 
 class _ClassDetailPageState extends State<ClassDetailPage> {
-  late final UserMeetingsBloc _userMeetingsBloc;
-  late final AppLifecycleListener _lifecycleListener;
-
-  String? get _classId => widget.classDetailPageExtra.classEntity.id;
-
   @override
   void initState() {
-    super.initState();
-    _userMeetingsBloc = context.read<UserMeetingsBloc>();
     _loadClassData();
-    _watchMeetings();
-    _lifecycleListener = AppLifecycleListener(onShow: _watchMeetings);
-  }
-
-  @override
-  void dispose() {
-    _lifecycleListener.dispose();
-    _userMeetingsBloc.add(const StopWatchingUserMeetings());
-    super.dispose();
+    super.initState();
   }
 
   void _loadClassData() {
-    _userMeetingsBloc.add(GetUserMeetings(classId: _classId));
-    context.read<ClassmatesBloc>().add(GetClassmates(classId: _classId));
-  }
+    final classId = widget.classDetailPageExtra.classEntity.id;
 
-  void _watchMeetings() {
-    _userMeetingsBloc.add(WatchUserMeetings(classId: _classId));
+    context.read<UserMeetingsBloc>().add(GetUserMeetings(classId: classId));
+    context.read<ClassmatesBloc>().add(GetClassmates(classId: classId));
   }
 
   @override

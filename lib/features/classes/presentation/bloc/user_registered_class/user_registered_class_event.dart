@@ -6,3 +6,5 @@ class UserRegisteredClassEvent extends Equatable {
 }
 
 final class GetUserRegisteredClass extends UserRegisteredClassEvent {}
+
+final class RefreshUserRegisteredClass extends UserRegisteredClassEvent {}

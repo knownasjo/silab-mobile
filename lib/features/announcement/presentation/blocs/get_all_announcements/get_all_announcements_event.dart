@@ -6,3 +6,5 @@ class GetAllAnnouncementsEvent extends Equatable {
 }
 
 final class GetAllAnnouncements extends GetAllAnnouncementsEvent {}
+
+final class RefreshAllAnnouncements extends GetAllAnnouncementsEvent {}

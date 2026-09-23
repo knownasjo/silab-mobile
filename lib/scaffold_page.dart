@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/entities/bottom_navbar/bottom_navbar_entity.dart';
 import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:silab/features/realtime/presentation/widgets/realtime_sync.dart';
 import 'package:silab/features/user_details/presentation/widgets/user_welcome_widget.dart';
 
 class ScaffoldPage extends StatefulWidget {
@@ -164,7 +165,7 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
             },
             child: SingleChildScrollView(
               controller: _scrollController,
-              child: widget.navigationShell,
+              child: RealtimeSync(child: widget.navigationShell),
             ),
           ),
         ),

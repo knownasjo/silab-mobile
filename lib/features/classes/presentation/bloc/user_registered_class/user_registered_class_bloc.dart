@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:silab/core/helpers/event_transformers.dart';
 import 'package:silab/core/common/entities/class/class_entity.dart';
 import 'package:silab/features/classes/domain/usecases/get_user_registered_classes_usecase.dart';
 
@@ -13,6 +14,8 @@ class UserRegisteredClassBloc
   UserRegisteredClassBloc(this._getUserRegisteredClassesUseCase)
       : super(UserRegisteredClassInitial()) {
     on<GetUserRegisteredClass>(onGetUserRegisteredClass);
+    on<RefreshUserRegisteredClass>(onRefreshUserRegisteredClass,
+        transformer: sequential());
   }
 
   void onGetUserRegisteredClass(UserRegisteredClassEvent event,
@@ -24,6 +27,19 @@ class UserRegisteredClassBloc
 
     data.fold(
       (left) => emit(UserRegisteredClassFailed(message: left.message)),
+      (right) => emit(UserRegisteredClassLoaded(registeredClasses: right.data)),
+    );
+  }
+
+  Future<void> onRefreshUserRegisteredClass(RefreshUserRegisteredClass event,
+      Emitter<UserRegisteredClassState> emit) async {
+    if (state is UserRegisteredClassInitial) return;
+
+    final data = await _getUserRegisteredClassesUseCase.classRepository
+        .getUserRegisteredClasses();
+
+    data.fold(
+      (left) => null,
       (right) => emit(UserRegisteredClassLoaded(registeredClasses: right.data)),
     );
   }

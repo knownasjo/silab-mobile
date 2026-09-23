@@ -6,3 +6,5 @@ class UserScheduleEvent extends Equatable {
 }
 
 final class GetUserSchedule extends UserScheduleEvent {}
+
+final class RefreshUserSchedule extends UserScheduleEvent {}

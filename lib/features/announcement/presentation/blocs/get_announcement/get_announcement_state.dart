@@ -21,3 +21,7 @@ final class GetAnnouncementLoaded extends GetAnnouncementState {
 final class GetAnnouncementFailed extends GetAnnouncementState {
   const GetAnnouncementFailed({super.message});
 }
+
+final class GetAnnouncementDeleted extends GetAnnouncementState {
+  const GetAnnouncementDeleted({super.message});
+}

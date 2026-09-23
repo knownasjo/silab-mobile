@@ -12,3 +12,7 @@ class ClassmatesEvent extends Equatable {
 final class GetClassmates extends ClassmatesEvent {
   const GetClassmates({super.classId});
 }
+
+final class RefreshClassmates extends ClassmatesEvent {
+  const RefreshClassmates({super.classId});
+}

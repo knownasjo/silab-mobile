@@ -6,3 +6,5 @@ class SelectedSubjectByNimEvent extends Equatable {
 }
 
 final class GetUserSelectedSubjects extends SelectedSubjectByNimEvent {}
+
+final class RefreshUserSelectedSubjects extends SelectedSubjectByNimEvent {}

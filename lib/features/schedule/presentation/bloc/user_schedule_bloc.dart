@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:silab/core/helpers/event_transformers.dart';
 import 'package:silab/features/schedule/domain/entities/schedule/schedule_entity.dart';
 import 'package:silab/features/schedule/domain/usecases/get_user_schedule_usecase.dart';
 
@@ -12,6 +13,7 @@ class UserScheduleBloc extends Bloc<UserScheduleEvent, UserScheduleState> {
   UserScheduleBloc(this._getUserScheduleUsecase)
       : super(UserScheduleInitial()) {
     on<GetUserSchedule>(onGetUserSchedule);
+    on<RefreshUserSchedule>(onRefreshUserSchedule, transformer: sequential());
   }
 
   void onGetUserSchedule(
@@ -23,6 +25,19 @@ class UserScheduleBloc extends Bloc<UserScheduleEvent, UserScheduleState> {
 
     data.fold(
       (left) => emit(UserScheduleFailed(message: left.message)),
+      (right) => emit(UserScheduleSuccess(schedules: right)),
+    );
+  }
+
+  Future<void> onRefreshUserSchedule(
+      RefreshUserSchedule event, Emitter<UserScheduleState> emit) async {
+    if (state is UserScheduleInitial) return;
+
+    final data =
+        await _getUserScheduleUsecase.scheduleRepository.getUserSchedule();
+
+    data.fold(
+      (left) => null,
       (right) => emit(UserScheduleSuccess(schedules: right)),
     );
   }

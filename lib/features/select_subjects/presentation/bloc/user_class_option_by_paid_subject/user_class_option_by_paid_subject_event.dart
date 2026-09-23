@@ -7,3 +7,6 @@ class UserClassOptionByPaidSubjectEvent extends Equatable {
 
 final class GetUserClassOptionByPaidSubject
     extends UserClassOptionByPaidSubjectEvent {}
+
+final class RefreshUserClassOptionByPaidSubject
+    extends UserClassOptionByPaidSubjectEvent {}

@@ -206,8 +206,8 @@ void main() {
     });
   });
 
-  group('stream event kelas (SSE)', () {
-    const eventsPath = '/class/c1/events';
+  group('stream event real-time (SSE)', () {
+    const eventsPath = '/events';
 
     http.StreamedResponse eventStream(List<String> chunks) =>
         http.StreamedResponse(
@@ -247,7 +247,10 @@ void main() {
 
       final events = await api.listen(eventsPath).take(3).toList();
 
-      expect(events, ['ready', 'meeting', 'attendance']);
+      expect(events.map((event) => event.type),
+          ['ready', 'meeting', 'attendance']);
+      expect(events[1].data, {'meeting_id': 'm1'});
+      expect(events[0].data, isEmpty);
       expect(sent.single.url.path, eventsPath);
       expect(sent.single.headers['Authorization'], 'Bearer token-lama');
       expect(sent.single.headers['Accept'], 'text/event-stream');
@@ -271,7 +274,7 @@ void main() {
         prefs,
       );
 
-      expect(await api.listen(eventsPath).first, 'ready');
+      expect((await api.listen(eventsPath).first).type, 'ready');
       expect(tokens, ['Bearer token-lama', 'Bearer token-baru']);
       expect(prefs.getString('accessToken'), 'token-baru');
     });
@@ -292,7 +295,7 @@ void main() {
 
       final events = await api.listen(eventsPath).take(2).toList();
 
-      expect(events, ['ready', 'meeting']);
+      expect(events.map((event) => event.type), ['ready', 'meeting']);
       expect(connections, 2);
     });
 
@@ -308,7 +311,7 @@ void main() {
         prefs,
       );
 
-      expect(await api.listen(eventsPath).first, 'ready');
+      expect((await api.listen(eventsPath).first).type, 'ready');
       expect(attempts, 2);
     });
 
@@ -322,7 +325,7 @@ void main() {
         prefs,
       );
 
-      expect(await api.listen(eventsPath).first, 'ready');
+      expect((await api.listen(eventsPath).first).type, 'ready');
       await Future<void>.delayed(const Duration(milliseconds: 1500));
 
       expect(connections, 1);

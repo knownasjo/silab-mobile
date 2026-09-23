@@ -11,6 +11,7 @@ import 'package:silab/features/classes/presentation/bloc/classmates/classmates_b
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_registered_class/user_registered_class_bloc.dart';
 import 'package:silab/features/schedule/presentation/bloc/user_schedule_bloc.dart';
+import 'package:silab/features/realtime/presentation/bloc/realtime_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/add_selected_class/add_selected_class_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/add_selected_subject/add_selected_subject_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
@@ -82,7 +83,7 @@ class MainApp extends StatelessWidget {
           create: (_) => UserClassOptionByPaidSubjectBloc(injector()),
         ),
         BlocProvider<UserMeetingsBloc>(
-          create: (_) => UserMeetingsBloc(injector(), injector()),
+          create: (_) => UserMeetingsBloc(injector()),
         ),
         BlocProvider<ClassmatesBloc>(
           create: (_) => ClassmatesBloc(injector()),
@@ -92,6 +93,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<UserScheduleBloc>(
           create: (_) => UserScheduleBloc(injector()),
+        ),
+        BlocProvider<RealtimeBloc>(
+          create: (_) => RealtimeBloc(injector()),
         ),
       ],
       child: MaterialApp.router(
