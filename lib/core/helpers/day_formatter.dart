@@ -8,7 +8,6 @@ const Map<String, String> _dayNames = {
   'SUNDAY': 'Minggu',
 };
 
-/// Urutan hari sesuai kalender, untuk mengurutkan jadwal.
 const List<String> weekdayOrder = [
   'MONDAY',
   'TUESDAY',
@@ -19,5 +18,4 @@ const List<String> weekdayOrder = [
   'SUNDAY',
 ];
 
-/// Backend mengirim hari sebagai enum bahasa Inggris (MONDAY, ...).
 String formatDay(String? day) => _dayNames[day] ?? day ?? '-';

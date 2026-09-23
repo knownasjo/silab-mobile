@@ -1,14 +1,3 @@
-// Uji langsung ke silab-backend yang sedang berjalan. Dilewati bila alamat
-// server tidak diberikan, jadi `flutter test` biasa tetap berjalan tanpa
-// server. Jalankan dengan:
-//
-//   flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
-//
-// Akun bawaan adalah akun uji mahasiswa di README backend; ganti dengan
-// --dart-define=TEST_NIM=... dan --dart-define=TEST_PASSWORD=...
-// Uji ini hanya membaca data. Presensi dicoba ke pertemuan yang sesinya
-// tertutup, jadi selalu ditolak backend sebelum ada yang disimpan.
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -89,7 +78,7 @@ void main() {
         for (final m in meetings) {
           expect(m.is_open, isNotNull,
               reason: '${m.meeting_name} tanpa is_open');
-          m.attendanceStatus; // tidak boleh melempar error
+          m.attendanceStatus;
         }
       }
 

@@ -10,7 +10,6 @@ class ScheduleApiService {
 
   const ScheduleApiService(this._apiClient);
 
-  /// Jadwal disusun dari kelas yang diikuti mahasiswa, dikelompokkan per hari.
   Future<List<ScheduleEntity>> getUserSchedule() async {
     final json = await _apiClient.get('/class/me');
     final classes = (json['data'] as List<dynamic>? ?? [])

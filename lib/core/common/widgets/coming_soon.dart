@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Pengganti isi fitur yang belum tersedia.
 class ComingSoon extends StatelessWidget {
   final String feature;
 

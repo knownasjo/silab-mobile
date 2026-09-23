@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 
-/// Baris menu "Keluar" di halaman profil. Setelah token dihapus,
-/// ScaffoldPage mengarahkan pengguna ke halaman login.
 class LogOutButton extends StatelessWidget {
   const LogOutButton({super.key});
 

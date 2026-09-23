@@ -26,8 +26,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
         if (result.data != null &&
             result.data!.accessToken != null &&
             result.data!.refreshToken != null) {
-          // Web admin dan aplikasi ini memakai akun yang sama, tetapi fitur
-          // aplikasi (presensi, pilih kelas) hanya untuk mahasiswa.
           final role = await _authenticationApiService
               .getUserRole(result.data!.accessToken!);
 

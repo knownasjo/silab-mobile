@@ -17,8 +17,6 @@ class MeetingsEntity with _$MeetingsEntity {
     final bool? is_open,
   }) = _MeetingsEntity;
 
-  /// Aturan yang sama dengan web admin: `submitted_at` kosong berarti belum
-  /// presensi. `is_attended` dari backend selalu boolean, tidak pernah null.
   AttendanceStatus get attendanceStatus {
     if (submitted_at == null) return AttendanceStatus.belumPresensi;
 

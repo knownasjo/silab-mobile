@@ -45,8 +45,6 @@ class AuthenticationLocalDataSource {
     }
   }
 
-  /// Sesi berlaku selama refresh token berlaku (1 hari sejak login). Access
-  /// token yang kedaluwarsa diperbarui sendiri oleh ApiClient.
   int? getSessionExpiry() {
     final String? refreshToken = _sharedPreferences.getString('refreshToken');
 

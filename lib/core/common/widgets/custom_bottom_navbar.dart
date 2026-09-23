@@ -35,7 +35,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
     );
     _offsetAnimation = Tween<Offset>(
       begin: Offset.zero,
-      end: const Offset(0, 1.2), // Slide off-screen downward
+      end: const Offset(0, 1.2),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 

@@ -61,17 +61,13 @@ import 'package:http/http.dart' as http;
 final injector = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  // Http
   injector.registerSingleton<http.Client>(http.Client());
 
-  // Shared Preferences
   injector.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
 
-  // Semua permintaan ke backend lewat satu klien
   injector.registerSingleton<ApiClient>(ApiClient(injector(), injector()));
 
-  // Data Sources
   injector.registerSingleton<AuthenticationApiService>(
       AuthenticationApiService(injector()));
   injector.registerSingleton<AuthenticationLocalDataSource>(
@@ -86,7 +82,6 @@ Future<void> initializeDependencies() async {
   injector
       .registerSingleton<ScheduleApiService>(ScheduleApiService(injector()));
 
-  // Repositories
   injector.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImpl(injector(), injector()));
   injector.registerSingleton<UserRepository>(UserRepositoryImpl(injector()));
@@ -100,7 +95,6 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<ScheduleRepository>(
       ScheduleRepositoryImpl(injector()));
 
-  // UseCases
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
   injector.registerSingleton<GetUserAccessTokenUsecase>(
       GetUserAccessTokenUsecase(injector()));
@@ -135,7 +129,6 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<GetUserScheduleUsecase>(
       GetUserScheduleUsecase(injector()));
 
-  // BLoCs
   injector.registerFactory<AuthenticationBloc>(
       () => AuthenticationBloc(injector(), injector(), injector(), injector()));
   injector.registerFactory<UserDetailsBloc>(

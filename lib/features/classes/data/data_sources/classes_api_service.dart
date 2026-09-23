@@ -12,7 +12,6 @@ class ClassesApiService {
   Future<ClassesResponseEntity> getUserRegisteredClasses() async =>
       ClassesResponseEntity.fromJson(await _apiClient.get('/class/me'));
 
-  /// Untuk mahasiswa, setiap pertemuan membawa status presensinya sendiri.
   Future<MeetingsResponseEntity> getUserMeetingsData({
     String? classId,
   }) async =>
@@ -20,7 +19,6 @@ class ClassesApiService {
         await _apiClient.get('/meeting/$classId'),
       );
 
-  /// Hanya nama; `is_me` menandai mahasiswa yang sedang login.
   Future<ClassmatesResponseEntity> getClassmates({String? classId}) async =>
       ClassmatesResponseEntity.fromJson(
         await _apiClient.get('/class/$classId/classmates'),

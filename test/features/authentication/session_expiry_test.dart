@@ -1,7 +1,3 @@
-// Saat aplikasi dibuka, pengguna hanya diarahkan ke login bila sesinya
-// (refresh token, 1 hari) sudah habis, bukan setiap access token (15 menit)
-// kedaluwarsa.
-
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +14,6 @@ import 'package:silab/features/authentication/domain/usecases/user_login_usecase
 import 'package:silab/features/authentication/domain/usecases/user_logout_usecase.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 
-/// JWT tanpa tanda tangan sah; aplikasi hanya membaca `exp` di dalamnya.
 String jwtExpiringAt(DateTime exp) {
   String encode(Map<String, Object> json) =>
       base64Url.encode(utf8.encode(jsonEncode(json))).replaceAll('=', '');

@@ -1,6 +1,3 @@
-// Memastikan setiap entity bisa membaca respons silab-backend apa adanya.
-// Contoh JSON di bawah diambil dari respons backend yang sebenarnya.
-
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';

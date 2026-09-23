@@ -33,8 +33,6 @@ class QrScanPage extends StatefulWidget {
 class _QrScanPageState extends State<QrScanPage> {
   late MobileScannerController _controller;
 
-  // Kamera mengirim hasil deteksi berkali-kali per detik; satu QR cukup
-  // dikirim sekali sampai hasilnya diketahui.
   bool _isSubmitting = false;
 
   void _handleBarcode(BarcodeCapture barcodes) {
@@ -51,8 +49,6 @@ class _QrScanPageState extends State<QrScanPage> {
         );
   }
 
-  /// Beri jeda sebelum memindai lagi, supaya QR yang sama tidak langsung
-  /// dikirim ulang dan pesan error sempat terbaca.
   void _resumeScanningAfterDelay() {
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;

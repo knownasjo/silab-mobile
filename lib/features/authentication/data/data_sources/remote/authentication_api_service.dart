@@ -12,8 +12,6 @@ class AuthenticationApiService {
         await _apiClient.post('/auth/login', body: loginData.toJson()),
       );
 
-  /// Peran pemilik token (MAHASISWA, LABORAN, ...). Token login SILAB tidak
-  /// memuat peran, jadi harus ditanyakan ke /auth/me.
   Future<String?> getUserRole(String accessToken) async {
     final json = await _apiClient.get('/auth/me', accessToken: accessToken);
 

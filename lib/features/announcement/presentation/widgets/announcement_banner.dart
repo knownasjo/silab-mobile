@@ -76,7 +76,6 @@ class _AnnouncementBannerState extends State<AnnouncementBanner> {
             ),
             child: InkWell(
               onTap: () {
-                // Tipe dari backend: PRACTICUM, BASIC, INHALL, ASSISTANT.
                 if (widget.type == 'PRACTICUM') {
                   context.goNamed('daftar-praktikum');
                   return;

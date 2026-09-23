@@ -9,7 +9,6 @@ class SelectedSubjectApiService {
 
   const SelectedSubjectApiService(this._apiClient);
 
-  /// Untuk mahasiswa, backend hanya mengembalikan pendaftaran miliknya.
   Future<SelectedSubjectResponseEntity> getUserSelectedSubject() async =>
       SelectedSubjectResponseEntity.fromJson(
         await _apiClient.get('/activation'),
@@ -22,7 +21,6 @@ class SelectedSubjectApiService {
         await _apiClient.post('/activation', body: {'subjectIds': subjects}),
       );
 
-  /// Kelas dari mata kuliah yang sudah lunas dan belum punya kelas.
   Future<UserClassOptionByPaidSubjectResponseEntity>
       getUserClassOptionbyPaidSubjects() async =>
           UserClassOptionByPaidSubjectResponseEntity.fromJson(

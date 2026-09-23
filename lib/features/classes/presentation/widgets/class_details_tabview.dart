@@ -303,7 +303,6 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
     );
   }
 
-  /// Kamera hanya dibuka bila scan masih mungkin berhasil.
   void _onMeetingTapped(MeetingsEntity meeting) {
     final String? reason;
     if (meeting.attendanceStatus != AttendanceStatus.belumPresensi) {
