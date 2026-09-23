@@ -34,6 +34,7 @@ class _QrScanPageState extends State<QrScanPage> {
   late MobileScannerController _controller;
 
   bool _isSubmitting = false;
+  bool _hasLeft = false;
 
   void _handleBarcode(BarcodeCapture barcodes) {
     final token = barcodes.barcodes.firstOrNull?.displayValue;
@@ -52,9 +53,41 @@ class _QrScanPageState extends State<QrScanPage> {
   void _resumeScanningAfterDelay() {
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;
+
+      if (_isSessionClosed(context.read<UserMeetingsBloc>().state)) {
+        _leaveClosedSession();
+        return;
+      }
+
       _isSubmitting = false;
       _controller.start();
     });
+  }
+
+  bool _isSessionClosed(UserMeetingsState state) {
+    if (state is! UserMeetingsLoaded) return false;
+
+    final meeting = state.meetingsData
+        ?.where((meeting) => meeting.id == widget.qrScanPageExtra.meetingId)
+        .firstOrNull;
+
+    return meeting != null && meeting.is_open != true;
+  }
+
+  void _leaveClosedSession() {
+    if (_hasLeft || !mounted) return;
+    _hasLeft = true;
+
+    _controller.stop();
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        snackBar(
+          message: 'Sesi presensi sudah ditutup oleh asisten.',
+          type: AlertType.info,
+        ),
+      );
+    context.pop();
   }
 
   @override
@@ -64,7 +97,23 @@ class _QrScanPageState extends State<QrScanPage> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return BlocListener<UserMeetingsBloc, UserMeetingsState>(
+      listenWhen: (_, current) => _isSessionClosed(current),
+      listener: (context, state) {
+        if (!_isSubmitting) _leaveClosedSession();
+      },
+      child: _buildScanner(context),
+    );
+  }
+
+  Widget _buildScanner(BuildContext context) {
     return BlocConsumer<UserAttendancesBloc, UserAttendancesState>(
       listener: (context, state) {
         if (state is UserAttendancesLoading) {
@@ -82,9 +131,9 @@ class _QrScanPageState extends State<QrScanPage> {
             snackBar(message: state.message, type: AlertType.success),
           );
 
-          context
-              .read<UserMeetingsBloc>()
-              .add(GetUserMeetings(classId: widget.qrScanPageExtra.classId));
+          context.read<UserMeetingsBloc>().add(
+              RefreshUserMeetings(classId: widget.qrScanPageExtra.classId));
+          _hasLeft = true;
           context.pop();
         } else if (state is UserAttendancesFailed) {
           Navigator.of(context, rootNavigator: true).pop();

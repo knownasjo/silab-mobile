@@ -24,6 +24,7 @@ import 'package:silab/features/classes/domain/usecases/add_user_attendances_usec
 import 'package:silab/features/classes/domain/usecases/get_classmates_usecase.dart';
 import 'package:silab/features/classes/domain/usecases/get_user_meetings_data_usecase.dart';
 import 'package:silab/features/classes/domain/usecases/get_user_registered_classes_usecase.dart';
+import 'package:silab/features/classes/domain/usecases/watch_class_events_usecase.dart';
 import 'package:silab/features/classes/presentation/bloc/user_attendances/user_attendances_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/classmates/classmates_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
@@ -124,6 +125,8 @@ Future<void> initializeDependencies() async {
       GetUserMeetingsDataUsecase(injector()));
   injector.registerSingleton<GetClassmatesUsecase>(
       GetClassmatesUsecase(injector()));
+  injector.registerSingleton<WatchClassEventsUsecase>(
+      WatchClassEventsUsecase(injector()));
   injector.registerSingleton<AddUserAttendancesUsecase>(
       AddUserAttendancesUsecase(injector()));
   injector.registerSingleton<GetUserScheduleUsecase>(
@@ -150,8 +153,8 @@ Future<void> initializeDependencies() async {
       () => UserRegisteredClassBloc(injector()));
   injector.registerFactory<UserClassOptionByPaidSubjectBloc>(
       () => UserClassOptionByPaidSubjectBloc(injector()));
-  injector
-      .registerFactory<UserMeetingsBloc>(() => UserMeetingsBloc(injector()));
+  injector.registerFactory<UserMeetingsBloc>(
+      () => UserMeetingsBloc(injector(), injector()));
   injector.registerFactory<ClassmatesBloc>(() => ClassmatesBloc(injector()));
   injector.registerFactory<UserAttendancesBloc>(
       () => UserAttendancesBloc(injector()));

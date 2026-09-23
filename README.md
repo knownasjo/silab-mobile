@@ -102,6 +102,11 @@ fitur itu diaktifkan di `android/app/build.gradle`. Plugin Google Services
    10 detik. Di Detail Kelas, mahasiswa menekan ikon scan pada pertemuan yang
    sesinya dibuka. Tombol scan tidak membuka kamera bila sesi belum dibuka
    atau presensi sudah tercatat.
+7. Detail Kelas diperbarui real-time lewat `GET /class/:id/events`. Begitu
+   asisten membuka sesi, mahasiswa bisa langsung scan tanpa menarik layar
+   untuk refresh. Bila sesi ditutup saat kamera masih terbuka, halaman scan
+   tertutup sendiri dengan pesan "Sesi presensi sudah ditutup oleh asisten."
+   Perubahan presensi manual oleh laboran juga langsung tampil.
 
 Status presensi mengikuti aturan yang sama dengan web: `submitted_at` kosong
 berarti **belum presensi**; bila terisi, `is_attended` menentukan **hadir**
@@ -122,6 +127,14 @@ refresh token juga ditolak (sesi lewat 1 hari), dan halaman itu mengarahkan ke
 login. Saat aplikasi dibuka, yang diperiksa adalah masa berlaku refresh token
 (`getSessionExpiry`), bukan access token.
 
+`ApiClient.listen()` membuka stream SSE dengan token dan aturan refresh yang
+sama, lalu tersambung ulang sendiri bila koneksi putus atau tidak ada data
+selama 60 detik. `UserMeetingsBloc` berlangganan lewat `WatchUserMeetings`
+saat Detail Kelas dibuka dan berhenti lewat `StopWatchingUserMeetings` saat
+ditutup. Setiap event memicu `RefreshUserMeetings`, yang memuat ulang tanpa
+state loading agar daftar tidak berkedip. Saat aplikasi kembali dari
+background, stream dibuka ulang karena koneksi lama bisa sudah diputus sistem.
+
 Entity memakai `freezed`/`json_serializable`. Setelah mengubah entity:
 
 ```bash
@@ -139,7 +152,8 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 ```
 
 - `test/core/network/api_client_test.dart` — token, body, penanganan error,
-  dan refresh token
+  refresh token, dan stream SSE (token, refresh, tersambung ulang, berhenti
+  saat dibatalkan)
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh

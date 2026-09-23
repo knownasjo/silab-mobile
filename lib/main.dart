@@ -82,7 +82,7 @@ class MainApp extends StatelessWidget {
           create: (_) => UserClassOptionByPaidSubjectBloc(injector()),
         ),
         BlocProvider<UserMeetingsBloc>(
-          create: (_) => UserMeetingsBloc(injector()),
+          create: (_) => UserMeetingsBloc(injector(), injector()),
         ),
         BlocProvider<ClassmatesBloc>(
           create: (_) => ClassmatesBloc(injector()),

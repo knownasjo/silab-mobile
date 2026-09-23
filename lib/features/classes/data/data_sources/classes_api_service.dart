@@ -24,6 +24,9 @@ class ClassesApiService {
         await _apiClient.get('/class/$classId/classmates'),
       );
 
+  Stream<String> watchClassEvents({String? classId}) =>
+      _apiClient.listen('/class/$classId/events');
+
   Future<AttendanceEntity> addUserAttendance({
     String? classId,
     String? meetingId,

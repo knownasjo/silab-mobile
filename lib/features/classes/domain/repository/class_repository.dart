@@ -16,6 +16,8 @@ abstract class ClassRepository {
     String? classId,
   });
 
+  Stream<String> watchClassEvents({String? classId});
+
   Future<Either<Failures, AttendanceEntity>> addUserAttendances({
     String? classId,
     String? meetingId,

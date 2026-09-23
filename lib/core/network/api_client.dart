@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,8 @@ class ApiClient {
   final SharedPreferences _sharedPreferences;
 
   static const Duration _timeout = Duration(seconds: 20);
+  static const Duration _eventStreamIdleTimeout = Duration(seconds: 60);
+  static const int _maxEventStreamRetrySeconds = 30;
   static const String _expiredTokenMessage = 'jwt expired';
 
   Future<String?>? _pendingRefresh;
@@ -22,6 +25,119 @@ class ApiClient {
 
   Future<Map<String, dynamic>> post(String path, {Object? body}) =>
       _send('POST', path, body: body);
+
+  Stream<String> listen(String path) {
+    final abort = Completer<void>();
+    late final StreamController<String> controller;
+    StreamSubscription<String>? subscription;
+    Timer? retryTimer;
+    var failures = 0;
+    late final Future<void> Function() connect;
+
+    void reconnect({bool failed = false}) {
+      subscription = null;
+      if (abort.isCompleted) return;
+      if (failed) failures++;
+
+      retryTimer = Timer(
+        Duration(
+          seconds: min(1 << min(failures, 5), _maxEventStreamRetrySeconds),
+        ),
+        connect,
+      );
+    }
+
+    connect = () async {
+      try {
+        final response = await _openEventStream(path, abort.future);
+
+        if (abort.isCompleted) {
+          await response.stream.listen(null).cancel();
+          return;
+        }
+
+        subscription = response.stream
+            .transform(utf8.decoder)
+            .transform(const LineSplitter())
+            .timeout(_eventStreamIdleTimeout)
+            .transform(_eventTypes())
+            .listen(
+          (type) {
+            failures = 0;
+            if (type != 'ping') controller.add(type);
+          },
+          onError: (_) => reconnect(failed: true),
+          onDone: reconnect,
+          cancelOnError: true,
+        );
+      } on Exception {
+        reconnect(failed: true);
+      }
+    };
+
+    controller = StreamController<String>(
+      onListen: connect,
+      onCancel: () {
+        if (!abort.isCompleted) abort.complete();
+        retryTimer?.cancel();
+        return subscription?.cancel();
+      },
+    );
+
+    return controller.stream;
+  }
+
+  Future<http.StreamedResponse> _openEventStream(
+    String path,
+    Future<void> abortTrigger,
+  ) async {
+    Future<http.StreamedResponse> open(String? accessToken) {
+      final request = _buildRequest(
+        'GET',
+        path,
+        accessToken: accessToken,
+        abortTrigger: abortTrigger,
+      )..headers['Accept'] = 'text/event-stream';
+
+      return _client.send(request).timeout(_timeout);
+    }
+
+    var response = await open(_sharedPreferences.getString('accessToken'));
+    if (response.statusCode == 200) return response;
+
+    var json = _decode(await http.Response.fromStream(response));
+
+    if (json['message'] == _expiredTokenMessage) {
+      final newAccessToken = await _refreshAccessToken();
+
+      if (newAccessToken != null) {
+        response = await open(newAccessToken);
+        if (response.statusCode == 200) return response;
+
+        json = _decode(await http.Response.fromStream(response));
+      }
+    }
+
+    throw RequestErrorException(
+      json['message'] as String? ??
+          'Terjadi kesalahan (HTTP ${response.statusCode}).',
+    );
+  }
+
+  StreamTransformer<String, String> _eventTypes() {
+    String? type;
+
+    return StreamTransformer.fromHandlers(
+      handleData: (line, sink) {
+        if (line.startsWith('event:')) {
+          type = line.substring(6).trim();
+        } else if (line.isEmpty && type != null) {
+          sink.add(type!);
+          type = null;
+        }
+      },
+    );
+  }
 
   Future<Map<String, dynamic>> _send(
     String method,
@@ -83,14 +199,18 @@ class ApiClient {
     return accessToken;
   }
 
-  Future<http.Response> _request(
+  http.Request _buildRequest(
     String method,
     String path, {
     Object? body,
     String? accessToken,
-  }) async {
-    final request =
-        http.Request(method, Uri.parse('${AppConfig.shared.baseUrl}$path'));
+    Future<void>? abortTrigger,
+  }) {
+    final request = http.AbortableRequest(
+      method,
+      Uri.parse('${AppConfig.shared.baseUrl}$path'),
+      abortTrigger: abortTrigger,
+    );
 
     if (accessToken != null) {
       request.headers['Authorization'] = 'Bearer $accessToken';
@@ -100,6 +220,18 @@ class ApiClient {
       request.headers['Content-Type'] = 'application/json';
       request.body = jsonEncode(body);
     }
+
+    return request;
+  }
+
+  Future<http.Response> _request(
+    String method,
+    String path, {
+    Object? body,
+    String? accessToken,
+  }) async {
+    final request =
+        _buildRequest(method, path, body: body, accessToken: accessToken);
 
     try {
       return await http.Response.fromStream(

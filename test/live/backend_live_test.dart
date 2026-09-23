@@ -89,6 +89,20 @@ void main() {
       );
     });
 
+    test('stream event kelas tersambung dan mengirim "ready"', () async {
+      final classes =
+          (await ClassesApiService(api).getUserRegisteredClasses()).data!;
+
+      for (final c in classes) {
+        final firstEvent = await ClassesApiService(api)
+            .watchClassEvents(classId: c.id)
+            .first
+            .timeout(const Duration(seconds: 10));
+
+        expect(firstEvent, 'ready', reason: c.subject_name);
+      }
+    });
+
     test('pendaftaran praktikum dan pilihan kelas', () async {
       final subjects = (await SubjectApiService(api).getSubjectList()).data!;
       expect(subjects, isNotEmpty);

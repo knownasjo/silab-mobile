@@ -205,4 +205,127 @@ void main() {
       );
     });
   });
+
+  group('stream event kelas (SSE)', () {
+    const eventsPath = '/class/c1/events';
+
+    http.StreamedResponse eventStream(List<String> chunks) =>
+        http.StreamedResponse(
+          Stream.fromIterable(chunks.map(utf8.encode)),
+          200,
+          headers: {'content-type': 'text/event-stream'},
+        );
+
+    http.StreamedResponse jsonStream(Object body, int statusCode) =>
+        http.StreamedResponse(
+          Stream.value(utf8.encode(jsonEncode(body))),
+          statusCode,
+        );
+
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({
+        'accessToken': 'token-lama',
+        'refreshToken': 'refresh-sah',
+      });
+      prefs = await SharedPreferences.getInstance();
+    });
+
+    test('meneruskan event perubahan, mengabaikan ping, dan mengirim token',
+        () async {
+      final sent = <http.BaseRequest>[];
+      final api = ApiClient(
+        MockClient.streaming((request, _) async {
+          sent.add(request);
+          return eventStream([
+            'event: ready\ndata: {}\n\nevent: pi',
+            'ng\ndata: {}\n\nevent: meeting\ndata: {"meeting_id":"m1"}\n',
+            '\nevent: attendance\ndata: {"meeting_id":"m1"}\n\n',
+          ]);
+        }),
+        prefs,
+      );
+
+      final events = await api.listen(eventsPath).take(3).toList();
+
+      expect(events, ['ready', 'meeting', 'attendance']);
+      expect(sent.single.url.path, eventsPath);
+      expect(sent.single.headers['Authorization'], 'Bearer token-lama');
+      expect(sent.single.headers['Accept'], 'text/event-stream');
+    });
+
+    test('access token kedaluwarsa: diperbarui lalu tersambung', () async {
+      final tokens = <String?>[];
+      final api = ApiClient(
+        MockClient.streaming((request, _) async {
+          if (request.url.path == '/auth/refresh') {
+            return jsonStream({
+              'status': true,
+              'data': {'accessToken': 'token-baru'},
+            }, 200);
+          }
+          tokens.add(request.headers['Authorization']);
+          return request.headers['Authorization'] == 'Bearer token-baru'
+              ? eventStream(['event: ready\ndata: {}\n\n'])
+              : jsonStream({'status': false, 'message': 'jwt expired'}, 400);
+        }),
+        prefs,
+      );
+
+      expect(await api.listen(eventsPath).first, 'ready');
+      expect(tokens, ['Bearer token-lama', 'Bearer token-baru']);
+      expect(prefs.getString('accessToken'), 'token-baru');
+    });
+
+    test('tersambung ulang otomatis setelah server menutup koneksi', () async {
+      var connections = 0;
+      final api = ApiClient(
+        MockClient.streaming((request, _) async {
+          connections++;
+          return eventStream([
+            connections == 1
+                ? 'event: ready\ndata: {}\n\n'
+                : 'event: meeting\ndata: {}\n\n',
+          ]);
+        }),
+        prefs,
+      );
+
+      final events = await api.listen(eventsPath).take(2).toList();
+
+      expect(events, ['ready', 'meeting']);
+      expect(connections, 2);
+    });
+
+    test('server tidak bisa dihubungi: dicoba lagi sampai tersambung',
+        () async {
+      var attempts = 0;
+      final api = ApiClient(
+        MockClient.streaming((request, _) async {
+          attempts++;
+          if (attempts == 1) throw http.ClientException('Connection refused');
+          return eventStream(['event: ready\ndata: {}\n\n']);
+        }),
+        prefs,
+      );
+
+      expect(await api.listen(eventsPath).first, 'ready');
+      expect(attempts, 2);
+    });
+
+    test('berhenti tersambung ulang setelah langganan dibatalkan', () async {
+      var connections = 0;
+      final api = ApiClient(
+        MockClient.streaming((request, _) async {
+          connections++;
+          return eventStream(['event: ready\ndata: {}\n\n']);
+        }),
+        prefs,
+      );
+
+      expect(await api.listen(eventsPath).first, 'ready');
+      await Future<void>.delayed(const Duration(milliseconds: 1500));
+
+      expect(connections, 1);
+    });
+  });
 }

@@ -12,3 +12,15 @@ class UserMeetingsEvent extends Equatable {
 final class GetUserMeetings extends UserMeetingsEvent {
   const GetUserMeetings({super.classId});
 }
+
+final class RefreshUserMeetings extends UserMeetingsEvent {
+  const RefreshUserMeetings({super.classId});
+}
+
+final class WatchUserMeetings extends UserMeetingsEvent {
+  const WatchUserMeetings({super.classId});
+}
+
+final class StopWatchingUserMeetings extends UserMeetingsEvent {
+  const StopWatchingUserMeetings();
+}
