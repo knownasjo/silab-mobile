@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'schedule_response_entity.dart';
+part of 'classmates_response_entity.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,48 +14,48 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ScheduleResponseEntity _$ScheduleResponseEntityFromJson(
+ClassmatesResponseEntity _$ClassmatesResponseEntityFromJson(
     Map<String, dynamic> json) {
-  return _ScheduleResponseEntity.fromJson(json);
+  return _ClassmatesResponseEntity.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ScheduleResponseEntity {
-  String? get status => throw _privateConstructorUsedError;
+mixin _$ClassmatesResponseEntity {
+  bool? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
-  List<ScheduleEntity>? get data => throw _privateConstructorUsedError;
+  List<ClassmateEntity>? get data => throw _privateConstructorUsedError;
 
-  /// Serializes this ScheduleResponseEntity to a JSON map.
+  /// Serializes this ClassmatesResponseEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of ScheduleResponseEntity
+  /// Create a copy of ClassmatesResponseEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ScheduleResponseEntityCopyWith<ScheduleResponseEntity> get copyWith =>
+  $ClassmatesResponseEntityCopyWith<ClassmatesResponseEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ScheduleResponseEntityCopyWith<$Res> {
-  factory $ScheduleResponseEntityCopyWith(ScheduleResponseEntity value,
-          $Res Function(ScheduleResponseEntity) then) =
-      _$ScheduleResponseEntityCopyWithImpl<$Res, ScheduleResponseEntity>;
+abstract class $ClassmatesResponseEntityCopyWith<$Res> {
+  factory $ClassmatesResponseEntityCopyWith(ClassmatesResponseEntity value,
+          $Res Function(ClassmatesResponseEntity) then) =
+      _$ClassmatesResponseEntityCopyWithImpl<$Res, ClassmatesResponseEntity>;
   @useResult
-  $Res call({String? status, String? message, List<ScheduleEntity>? data});
+  $Res call({bool? status, String? message, List<ClassmateEntity>? data});
 }
 
 /// @nodoc
-class _$ScheduleResponseEntityCopyWithImpl<$Res,
-        $Val extends ScheduleResponseEntity>
-    implements $ScheduleResponseEntityCopyWith<$Res> {
-  _$ScheduleResponseEntityCopyWithImpl(this._value, this._then);
+class _$ClassmatesResponseEntityCopyWithImpl<$Res,
+        $Val extends ClassmatesResponseEntity>
+    implements $ClassmatesResponseEntityCopyWith<$Res> {
+  _$ClassmatesResponseEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ScheduleResponseEntity
+  /// Create a copy of ClassmatesResponseEntity
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -68,7 +68,7 @@ class _$ScheduleResponseEntityCopyWithImpl<$Res,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -76,34 +76,34 @@ class _$ScheduleResponseEntityCopyWithImpl<$Res,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<ScheduleEntity>?,
+              as List<ClassmateEntity>?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$ScheduleResponseEntityImplCopyWith<$Res>
-    implements $ScheduleResponseEntityCopyWith<$Res> {
-  factory _$$ScheduleResponseEntityImplCopyWith(
-          _$ScheduleResponseEntityImpl value,
-          $Res Function(_$ScheduleResponseEntityImpl) then) =
-      __$$ScheduleResponseEntityImplCopyWithImpl<$Res>;
+abstract class _$$ClassmatesResponseEntityImplCopyWith<$Res>
+    implements $ClassmatesResponseEntityCopyWith<$Res> {
+  factory _$$ClassmatesResponseEntityImplCopyWith(
+          _$ClassmatesResponseEntityImpl value,
+          $Res Function(_$ClassmatesResponseEntityImpl) then) =
+      __$$ClassmatesResponseEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? status, String? message, List<ScheduleEntity>? data});
+  $Res call({bool? status, String? message, List<ClassmateEntity>? data});
 }
 
 /// @nodoc
-class __$$ScheduleResponseEntityImplCopyWithImpl<$Res>
-    extends _$ScheduleResponseEntityCopyWithImpl<$Res,
-        _$ScheduleResponseEntityImpl>
-    implements _$$ScheduleResponseEntityImplCopyWith<$Res> {
-  __$$ScheduleResponseEntityImplCopyWithImpl(
-      _$ScheduleResponseEntityImpl _value,
-      $Res Function(_$ScheduleResponseEntityImpl) _then)
+class __$$ClassmatesResponseEntityImplCopyWithImpl<$Res>
+    extends _$ClassmatesResponseEntityCopyWithImpl<$Res,
+        _$ClassmatesResponseEntityImpl>
+    implements _$$ClassmatesResponseEntityImplCopyWith<$Res> {
+  __$$ClassmatesResponseEntityImplCopyWithImpl(
+      _$ClassmatesResponseEntityImpl _value,
+      $Res Function(_$ClassmatesResponseEntityImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ScheduleResponseEntity
+  /// Create a copy of ClassmatesResponseEntity
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -112,11 +112,11 @@ class __$$ScheduleResponseEntityImplCopyWithImpl<$Res>
     Object? message = freezed,
     Object? data = freezed,
   }) {
-    return _then(_$ScheduleResponseEntityImpl(
+    return _then(_$ClassmatesResponseEntityImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -124,28 +124,28 @@ class __$$ScheduleResponseEntityImplCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<ScheduleEntity>?,
+              as List<ClassmateEntity>?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ScheduleResponseEntityImpl implements _ScheduleResponseEntity {
-  const _$ScheduleResponseEntityImpl(
-      {this.status, this.message, final List<ScheduleEntity>? data})
+class _$ClassmatesResponseEntityImpl implements _ClassmatesResponseEntity {
+  const _$ClassmatesResponseEntityImpl(
+      {this.status, this.message, final List<ClassmateEntity>? data})
       : _data = data;
 
-  factory _$ScheduleResponseEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ScheduleResponseEntityImplFromJson(json);
+  factory _$ClassmatesResponseEntityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClassmatesResponseEntityImplFromJson(json);
 
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? message;
-  final List<ScheduleEntity>? _data;
+  final List<ClassmateEntity>? _data;
   @override
-  List<ScheduleEntity>? get data {
+  List<ClassmateEntity>? get data {
     final value = _data;
     if (value == null) return null;
     if (_data is EqualUnmodifiableListView) return _data;
@@ -155,14 +155,14 @@ class _$ScheduleResponseEntityImpl implements _ScheduleResponseEntity {
 
   @override
   String toString() {
-    return 'ScheduleResponseEntity(status: $status, message: $message, data: $data)';
+    return 'ClassmatesResponseEntity(status: $status, message: $message, data: $data)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ScheduleResponseEntityImpl &&
+            other is _$ClassmatesResponseEntityImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.message, message) || other.message == message) &&
             const DeepCollectionEquality().equals(other._data, _data));
@@ -173,43 +173,43 @@ class _$ScheduleResponseEntityImpl implements _ScheduleResponseEntity {
   int get hashCode => Object.hash(
       runtimeType, status, message, const DeepCollectionEquality().hash(_data));
 
-  /// Create a copy of ScheduleResponseEntity
+  /// Create a copy of ClassmatesResponseEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ScheduleResponseEntityImplCopyWith<_$ScheduleResponseEntityImpl>
-      get copyWith => __$$ScheduleResponseEntityImplCopyWithImpl<
-          _$ScheduleResponseEntityImpl>(this, _$identity);
+  _$$ClassmatesResponseEntityImplCopyWith<_$ClassmatesResponseEntityImpl>
+      get copyWith => __$$ClassmatesResponseEntityImplCopyWithImpl<
+          _$ClassmatesResponseEntityImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ScheduleResponseEntityImplToJson(
+    return _$$ClassmatesResponseEntityImplToJson(
       this,
     );
   }
 }
 
-abstract class _ScheduleResponseEntity implements ScheduleResponseEntity {
-  const factory _ScheduleResponseEntity(
-      {final String? status,
+abstract class _ClassmatesResponseEntity implements ClassmatesResponseEntity {
+  const factory _ClassmatesResponseEntity(
+      {final bool? status,
       final String? message,
-      final List<ScheduleEntity>? data}) = _$ScheduleResponseEntityImpl;
+      final List<ClassmateEntity>? data}) = _$ClassmatesResponseEntityImpl;
 
-  factory _ScheduleResponseEntity.fromJson(Map<String, dynamic> json) =
-      _$ScheduleResponseEntityImpl.fromJson;
+  factory _ClassmatesResponseEntity.fromJson(Map<String, dynamic> json) =
+      _$ClassmatesResponseEntityImpl.fromJson;
 
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get message;
   @override
-  List<ScheduleEntity>? get data;
+  List<ClassmateEntity>? get data;
 
-  /// Create a copy of ScheduleResponseEntity
+  /// Create a copy of ClassmatesResponseEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ScheduleResponseEntityImplCopyWith<_$ScheduleResponseEntityImpl>
+  _$$ClassmatesResponseEntityImplCopyWith<_$ClassmatesResponseEntityImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

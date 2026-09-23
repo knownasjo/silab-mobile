@@ -55,7 +55,7 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
 
   @override
   void initState() {
-    context.read<AuthenticationBloc>().add(CheckAccessTokenExpiry());
+    context.read<AuthenticationBloc>().add(CheckSessionExpiry());
     _scrollController = ScrollController();
     super.initState();
   }
@@ -105,7 +105,7 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        if (state is AccessTokenExpired) {
+        if (state is SessionExpired || state is UserLoggedOut) {
           context.goNamed('authentication');
         }
       },

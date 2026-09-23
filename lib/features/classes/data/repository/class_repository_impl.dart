@@ -5,6 +5,7 @@ import 'package:silab/core/failures/failures.dart';
 import 'package:silab/features/classes/data/data_sources/classes_api_service.dart';
 import 'package:silab/features/classes/domain/entities/attendance/attendance_entity.dart';
 import 'package:silab/features/classes/domain/entities/class_list_response/classes_response_entity.dart';
+import 'package:silab/features/classes/domain/entities/classmates_response/classmates_response_entity.dart';
 import 'package:silab/features/classes/domain/entities/meetings_response/meetings_response_entity.dart';
 import 'package:silab/features/classes/domain/repository/class_repository.dart';
 
@@ -33,6 +34,20 @@ class ClassRepositoryImpl implements ClassRepository {
     try {
       final result =
           await _classesApiService.getUserMeetingsData(classId: classId);
+
+      return Right(result);
+    } on RequestErrorException catch (e) {
+      return Left(RequestFailures(e.message));
+    } on SocketException catch (e) {
+      return Left(RequestFailures(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failures, ClassmatesResponseEntity>> getClassmates(
+      {String? classId}) async {
+    try {
+      final result = await _classesApiService.getClassmates(classId: classId);
 
       return Right(result);
     } on RequestErrorException catch (e) {

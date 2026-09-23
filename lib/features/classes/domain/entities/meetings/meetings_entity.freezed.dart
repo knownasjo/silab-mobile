@@ -24,6 +24,7 @@ mixin _$MeetingsEntity {
   String? get meeting_name => throw _privateConstructorUsedError;
   String? get submitted_at => throw _privateConstructorUsedError;
   bool? get is_attended => throw _privateConstructorUsedError;
+  bool? get is_open => throw _privateConstructorUsedError;
 
   /// Serializes this MeetingsEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $MeetingsEntityCopyWith<$Res> {
       {String? id,
       String? meeting_name,
       String? submitted_at,
-      bool? is_attended});
+      bool? is_attended,
+      bool? is_open});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$MeetingsEntityCopyWithImpl<$Res, $Val extends MeetingsEntity>
     Object? meeting_name = freezed,
     Object? submitted_at = freezed,
     Object? is_attended = freezed,
+    Object? is_open = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -85,6 +88,10 @@ class _$MeetingsEntityCopyWithImpl<$Res, $Val extends MeetingsEntity>
           ? _value.is_attended
           : is_attended // ignore: cast_nullable_to_non_nullable
               as bool?,
+      is_open: freezed == is_open
+          ? _value.is_open
+          : is_open // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -101,7 +108,8 @@ abstract class _$$MeetingsEntityImplCopyWith<$Res>
       {String? id,
       String? meeting_name,
       String? submitted_at,
-      bool? is_attended});
+      bool? is_attended,
+      bool? is_open});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$$MeetingsEntityImplCopyWithImpl<$Res>
     Object? meeting_name = freezed,
     Object? submitted_at = freezed,
     Object? is_attended = freezed,
+    Object? is_open = freezed,
   }) {
     return _then(_$MeetingsEntityImpl(
       id: freezed == id
@@ -139,15 +148,24 @@ class __$$MeetingsEntityImplCopyWithImpl<$Res>
           ? _value.is_attended
           : is_attended // ignore: cast_nullable_to_non_nullable
               as bool?,
+      is_open: freezed == is_open
+          ? _value.is_open
+          : is_open // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MeetingsEntityImpl implements _MeetingsEntity {
+class _$MeetingsEntityImpl extends _MeetingsEntity {
   const _$MeetingsEntityImpl(
-      {this.id, this.meeting_name, this.submitted_at, this.is_attended});
+      {this.id,
+      this.meeting_name,
+      this.submitted_at,
+      this.is_attended,
+      this.is_open})
+      : super._();
 
   factory _$MeetingsEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$MeetingsEntityImplFromJson(json);
@@ -160,10 +178,12 @@ class _$MeetingsEntityImpl implements _MeetingsEntity {
   final String? submitted_at;
   @override
   final bool? is_attended;
+  @override
+  final bool? is_open;
 
   @override
   String toString() {
-    return 'MeetingsEntity(id: $id, meeting_name: $meeting_name, submitted_at: $submitted_at, is_attended: $is_attended)';
+    return 'MeetingsEntity(id: $id, meeting_name: $meeting_name, submitted_at: $submitted_at, is_attended: $is_attended, is_open: $is_open)';
   }
 
   @override
@@ -177,13 +197,14 @@ class _$MeetingsEntityImpl implements _MeetingsEntity {
             (identical(other.submitted_at, submitted_at) ||
                 other.submitted_at == submitted_at) &&
             (identical(other.is_attended, is_attended) ||
-                other.is_attended == is_attended));
+                other.is_attended == is_attended) &&
+            (identical(other.is_open, is_open) || other.is_open == is_open));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, meeting_name, submitted_at, is_attended);
+  int get hashCode => Object.hash(
+      runtimeType, id, meeting_name, submitted_at, is_attended, is_open);
 
   /// Create a copy of MeetingsEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -202,12 +223,14 @@ class _$MeetingsEntityImpl implements _MeetingsEntity {
   }
 }
 
-abstract class _MeetingsEntity implements MeetingsEntity {
+abstract class _MeetingsEntity extends MeetingsEntity {
   const factory _MeetingsEntity(
       {final String? id,
       final String? meeting_name,
       final String? submitted_at,
-      final bool? is_attended}) = _$MeetingsEntityImpl;
+      final bool? is_attended,
+      final bool? is_open}) = _$MeetingsEntityImpl;
+  const _MeetingsEntity._() : super._();
 
   factory _MeetingsEntity.fromJson(Map<String, dynamic> json) =
       _$MeetingsEntityImpl.fromJson;
@@ -220,6 +243,8 @@ abstract class _MeetingsEntity implements MeetingsEntity {
   String? get submitted_at;
   @override
   bool? get is_attended;
+  @override
+  bool? get is_open;
 
   /// Create a copy of MeetingsEntity
   /// with the given fields replaced by the non-null parameter values.

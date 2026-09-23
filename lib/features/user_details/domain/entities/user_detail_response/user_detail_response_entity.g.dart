@@ -9,7 +9,7 @@ part of 'user_detail_response_entity.dart';
 _$UserDetailResponseEntityImpl _$$UserDetailResponseEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$UserDetailResponseEntityImpl(
-      status: json['status'] as String?,
+      status: json['status'] as bool?,
       message: json['message'] as String?,
       data: json['data'] == null
           ? null

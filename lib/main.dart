@@ -7,6 +7,7 @@ import 'package:silab/features/announcement/presentation/blocs/get_all_announcem
 import 'package:silab/features/announcement/presentation/blocs/get_announcement/get_announcement_bloc.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_attendances/user_attendances_bloc.dart';
+import 'package:silab/features/classes/presentation/bloc/classmates/classmates_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_registered_class/user_registered_class_bloc.dart';
 import 'package:silab/features/schedule/presentation/bloc/user_schedule_bloc.dart';
@@ -16,23 +17,23 @@ import 'package:silab/features/select_subjects/presentation/bloc/selected_subjec
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_bloc.dart';
 import 'package:silab/features/subjects/presentation/bloc/subject_details/subject_details_bloc.dart';
 import 'package:silab/features/subjects/presentation/bloc/subject_list/subject_list_bloc.dart';
-import 'package:silab/features/subjects/presentation/bloc/user_selected_subjects_details/bloc/user_selected_subjects_details_bloc.dart';
 import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
 import 'package:silab/injector.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  AppConfig.create(
+    appName: "SILAB",
+    baseUrl: resolveApiBaseUrl(),
+    flavor: Flavor.prod,
+  );
+
   await initializeDependencies();
   setPathUrlStrategy();
 
   runApp(const MainApp());
-
-  AppConfig.create(
-    appName: "SILAB",
-    baseUrl: "http://10.4.52.201:3001",
-    flavor: Flavor.prod,
-  );
 }
 
 class MainApp extends StatelessWidget {
@@ -43,7 +44,12 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
-          create: (_) => AuthenticationBloc(injector(), injector(), injector()),
+          create: (_) => AuthenticationBloc(
+            injector(),
+            injector(),
+            injector(),
+            injector(),
+          ),
         ),
         BlocProvider<UserDetailsBloc>(
           create: (_) => UserDetailsBloc(injector(), injector()),
@@ -66,9 +72,6 @@ class MainApp extends StatelessWidget {
         BlocProvider<GetAnnouncementBloc>(
           create: (_) => GetAnnouncementBloc(injector()),
         ),
-        BlocProvider<UserSelectedSubjectsDetailsBloc>(
-          create: (_) => UserSelectedSubjectsDetailsBloc(injector()),
-        ),
         BlocProvider<AddSelectedClassBloc>(
           create: (_) => AddSelectedClassBloc(injector()),
         ),
@@ -80,6 +83,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<UserMeetingsBloc>(
           create: (_) => UserMeetingsBloc(injector()),
+        ),
+        BlocProvider<ClassmatesBloc>(
+          create: (_) => ClassmatesBloc(injector()),
         ),
         BlocProvider<UserAttendancesBloc>(
           create: (_) => UserAttendancesBloc(injector()),

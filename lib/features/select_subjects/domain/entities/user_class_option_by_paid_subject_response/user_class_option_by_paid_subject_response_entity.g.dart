@@ -10,7 +10,7 @@ _$UserClassOptionByPaidSubjectResponseEntityImpl
     _$$UserClassOptionByPaidSubjectResponseEntityImplFromJson(
             Map<String, dynamic> json) =>
         _$UserClassOptionByPaidSubjectResponseEntityImpl(
-          status: json['status'] as String?,
+          status: json['status'] as bool?,
           message: json['message'] as String?,
           data: (json['data'] as List<dynamic>?)
               ?.map((e) => UserClassOptionByPaidSubjectEntity.fromJson(

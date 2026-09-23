@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:silab/core/helpers/day_formatter.dart';
 import 'package:silab/core/common/entities/class/class_entity.dart';
 
 class ClassCard extends StatelessWidget {
@@ -92,7 +93,7 @@ class ClassCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        classEntity.day!,
+                        formatDay(classEntity.day),
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.normal,

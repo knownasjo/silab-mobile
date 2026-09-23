@@ -21,13 +21,14 @@ UserClassOptionByPaidSubjectEntity _$UserClassOptionByPaidSubjectEntityFromJson(
 
 /// @nodoc
 mixin _$UserClassOptionByPaidSubjectEntity {
+  @JsonKey(name: 'id')
   String? get class_id => throw _privateConstructorUsedError;
   String? get subject_name => throw _privateConstructorUsedError;
   String? get subject_class => throw _privateConstructorUsedError;
   String? get semester => throw _privateConstructorUsedError;
   String? get session_time => throw _privateConstructorUsedError;
-  String? get quota => throw _privateConstructorUsedError;
-  String? get registered_students => throw _privateConstructorUsedError;
+  int? get quota => throw _privateConstructorUsedError;
+  int? get registered_students => throw _privateConstructorUsedError;
   String? get day => throw _privateConstructorUsedError;
 
   /// Serializes this UserClassOptionByPaidSubjectEntity to a JSON map.
@@ -50,13 +51,13 @@ abstract class $UserClassOptionByPaidSubjectEntityCopyWith<$Res> {
           UserClassOptionByPaidSubjectEntity>;
   @useResult
   $Res call(
-      {String? class_id,
+      {@JsonKey(name: 'id') String? class_id,
       String? subject_name,
       String? subject_class,
       String? semester,
       String? session_time,
-      String? quota,
-      String? registered_students,
+      int? quota,
+      int? registered_students,
       String? day});
 }
 
@@ -109,11 +110,11 @@ class _$UserClassOptionByPaidSubjectEntityCopyWithImpl<$Res,
       quota: freezed == quota
           ? _value.quota
           : quota // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       registered_students: freezed == registered_students
           ? _value.registered_students
           : registered_students // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       day: freezed == day
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
@@ -132,13 +133,13 @@ abstract class _$$UserClassOptionByPaidSubjectEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? class_id,
+      {@JsonKey(name: 'id') String? class_id,
       String? subject_name,
       String? subject_class,
       String? semester,
       String? session_time,
-      String? quota,
-      String? registered_students,
+      int? quota,
+      int? registered_students,
       String? day});
 }
 
@@ -190,11 +191,11 @@ class __$$UserClassOptionByPaidSubjectEntityImplCopyWithImpl<$Res>
       quota: freezed == quota
           ? _value.quota
           : quota // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       registered_students: freezed == registered_students
           ? _value.registered_students
           : registered_students // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       day: freezed == day
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
@@ -208,7 +209,7 @@ class __$$UserClassOptionByPaidSubjectEntityImplCopyWithImpl<$Res>
 class _$UserClassOptionByPaidSubjectEntityImpl
     implements _UserClassOptionByPaidSubjectEntity {
   const _$UserClassOptionByPaidSubjectEntityImpl(
-      {this.class_id,
+      {@JsonKey(name: 'id') this.class_id,
       this.subject_name,
       this.subject_class,
       this.semester,
@@ -222,6 +223,7 @@ class _$UserClassOptionByPaidSubjectEntityImpl
       _$$UserClassOptionByPaidSubjectEntityImplFromJson(json);
 
   @override
+  @JsonKey(name: 'id')
   final String? class_id;
   @override
   final String? subject_name;
@@ -232,9 +234,9 @@ class _$UserClassOptionByPaidSubjectEntityImpl
   @override
   final String? session_time;
   @override
-  final String? quota;
+  final int? quota;
   @override
-  final String? registered_students;
+  final int? registered_students;
   @override
   final String? day;
 
@@ -290,13 +292,13 @@ class _$UserClassOptionByPaidSubjectEntityImpl
 abstract class _UserClassOptionByPaidSubjectEntity
     implements UserClassOptionByPaidSubjectEntity {
   const factory _UserClassOptionByPaidSubjectEntity(
-      {final String? class_id,
+      {@JsonKey(name: 'id') final String? class_id,
       final String? subject_name,
       final String? subject_class,
       final String? semester,
       final String? session_time,
-      final String? quota,
-      final String? registered_students,
+      final int? quota,
+      final int? registered_students,
       final String? day}) = _$UserClassOptionByPaidSubjectEntityImpl;
 
   factory _UserClassOptionByPaidSubjectEntity.fromJson(
@@ -304,6 +306,7 @@ abstract class _UserClassOptionByPaidSubjectEntity
       _$UserClassOptionByPaidSubjectEntityImpl.fromJson;
 
   @override
+  @JsonKey(name: 'id')
   String? get class_id;
   @override
   String? get subject_name;
@@ -314,9 +317,9 @@ abstract class _UserClassOptionByPaidSubjectEntity
   @override
   String? get session_time;
   @override
-  String? get quota;
+  int? get quota;
   @override
-  String? get registered_students;
+  int? get registered_students;
   @override
   String? get day;
 

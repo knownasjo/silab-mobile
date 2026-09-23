@@ -9,7 +9,7 @@ part of 'announcement_list_response_entity.dart';
 _$AnnouncementListResponseEntityImpl
     _$$AnnouncementListResponseEntityImplFromJson(Map<String, dynamic> json) =>
         _$AnnouncementListResponseEntityImpl(
-          status: json['status'] as String?,
+          status: json['status'] as bool?,
           message: json['message'] as String?,
           data: (json['data'] as List<dynamic>?)
               ?.map(

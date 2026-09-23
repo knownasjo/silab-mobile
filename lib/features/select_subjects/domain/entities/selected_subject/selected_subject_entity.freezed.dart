@@ -21,8 +21,9 @@ SelectedSubjectEntity _$SelectedSubjectEntityFromJson(
 
 /// @nodoc
 mixin _$SelectedSubjectEntity {
+  @JsonKey(name: 'id')
   String? get activation_id => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
   List<SelectedSubjectSubjectsEntity>? get subjects =>
       throw _privateConstructorUsedError;
@@ -44,8 +45,8 @@ abstract class $SelectedSubjectEntityCopyWith<$Res> {
       _$SelectedSubjectEntityCopyWithImpl<$Res, SelectedSubjectEntity>;
   @useResult
   $Res call(
-      {String? activation_id,
-      String? status,
+      {@JsonKey(name: 'id') String? activation_id,
+      bool? status,
       String? created_at,
       List<SelectedSubjectSubjectsEntity>? subjects});
 }
@@ -79,7 +80,7 @@ class _$SelectedSubjectEntityCopyWithImpl<$Res,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -102,8 +103,8 @@ abstract class _$$SelectedSubjectEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? activation_id,
-      String? status,
+      {@JsonKey(name: 'id') String? activation_id,
+      bool? status,
       String? created_at,
       List<SelectedSubjectSubjectsEntity>? subjects});
 }
@@ -135,7 +136,7 @@ class __$$SelectedSubjectEntityImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
@@ -152,7 +153,7 @@ class __$$SelectedSubjectEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
   const _$SelectedSubjectEntityImpl(
-      {this.activation_id,
+      {@JsonKey(name: 'id') this.activation_id,
       this.status,
       this.created_at,
       final List<SelectedSubjectSubjectsEntity>? subjects})
@@ -162,9 +163,10 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
       _$$SelectedSubjectEntityImplFromJson(json);
 
   @override
+  @JsonKey(name: 'id')
   final String? activation_id;
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? created_at;
   final List<SelectedSubjectSubjectsEntity>? _subjects;
@@ -219,8 +221,8 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
 
 abstract class _SelectedSubjectEntity implements SelectedSubjectEntity {
   const factory _SelectedSubjectEntity(
-          {final String? activation_id,
-          final String? status,
+          {@JsonKey(name: 'id') final String? activation_id,
+          final bool? status,
           final String? created_at,
           final List<SelectedSubjectSubjectsEntity>? subjects}) =
       _$SelectedSubjectEntityImpl;
@@ -229,9 +231,10 @@ abstract class _SelectedSubjectEntity implements SelectedSubjectEntity {
       _$SelectedSubjectEntityImpl.fromJson;
 
   @override
+  @JsonKey(name: 'id')
   String? get activation_id;
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get created_at;
   @override

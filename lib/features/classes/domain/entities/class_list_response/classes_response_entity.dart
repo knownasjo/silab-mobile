@@ -7,7 +7,7 @@ part 'classes_response_entity.g.dart';
 @freezed
 class ClassesResponseEntity with _$ClassesResponseEntity {
   const factory ClassesResponseEntity({
-    final String? status,
+    final bool? status,
     final String? message,
     final List<ClassEntity>? data,
   }) = _ClassesResponseEntity;

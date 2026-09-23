@@ -9,7 +9,7 @@ part of 'meetings_response_entity.dart';
 _$MeetingsResponseEntityImpl _$$MeetingsResponseEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$MeetingsResponseEntityImpl(
-      status: json['status'] as String?,
+      status: json['status'] as bool?,
       message: json['message'] as String?,
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => MeetingsEntity.fromJson(e as Map<String, dynamic>))

@@ -30,7 +30,7 @@ class BuildSchedulePageScheduleList extends StatelessWidget {
           ),
           PracticumsScheduleCard(
             practicumsEntity:
-                state.schedules?[index].practicums?.reversed.toList() ?? [],
+                state.schedules?[index].practicums ?? [],
           )
         ],
       ),

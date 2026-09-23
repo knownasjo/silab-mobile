@@ -1,3 +1,4 @@
+import 'package:silab/features/authentication/presentation/widgets/log_out_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -159,6 +160,17 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 8,
+                          ),
+                          child: Divider(
+                            color: const Color(0xff1d1d1d).withOpacity(0.5),
+                            thickness: 0.5,
+                          ),
+                        ),
+                        const LogOutButton(),
                       ],
                     ),
                   )

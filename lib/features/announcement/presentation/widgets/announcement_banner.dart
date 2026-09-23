@@ -76,25 +76,23 @@ class _AnnouncementBannerState extends State<AnnouncementBanner> {
             ),
             child: InkWell(
               onTap: () {
-                switch (widget.type) {
-                  case 'Practicum':
-                    context.goNamed('daftar-praktikum');
-                    break;
-                  case 'Basic':
-                    context.goNamed('pengumuman',
-                        extra: PengumumanPageExtra(
-                          author: widget.author,
-                          body: widget.body,
-                          title: widget.title,
-                          type: widget.type,
-                          createdAt: widget.createdAt,
-                        ),
-                        pathParameters: {
-                          'id': widget.id,
-                        });
-                  default:
-                    break;
+                // Tipe dari backend: PRACTICUM, BASIC, INHALL, ASSISTANT.
+                if (widget.type == 'PRACTICUM') {
+                  context.goNamed('daftar-praktikum');
+                  return;
                 }
+
+                context.goNamed(
+                  'pengumuman',
+                  extra: PengumumanPageExtra(
+                    author: widget.author,
+                    body: widget.body,
+                    title: widget.title,
+                    type: widget.type,
+                    createdAt: widget.createdAt,
+                  ),
+                  pathParameters: {'id': widget.id},
+                );
               },
               child: const Text(
                 'Pelajari lebih lanjut',

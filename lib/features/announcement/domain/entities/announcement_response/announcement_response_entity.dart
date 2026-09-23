@@ -7,7 +7,7 @@ part 'announcement_response_entity.g.dart';
 @freezed
 class AnnouncementResponseEntity with _$AnnouncementResponseEntity {
   const factory AnnouncementResponseEntity({
-    final String? status,
+    final bool? status,
     final String? message,
     final AnnouncementEntity? data,
   }) = _AnnouncementResponseEntity;

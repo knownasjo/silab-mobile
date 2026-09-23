@@ -15,6 +15,7 @@ SnackBar snackBar({
     textColor = const Color(0xffFE2f60);
     backgroundColor = const Color(0xffFfD9D9);
   } else if (type == AlertType.info) {
+    textColor = const Color(0xff1d1d1d);
     backgroundColor = const Color(0xffFAC730);
   } else {
     textColor = const Color(0xff50cd89);

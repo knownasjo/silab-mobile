@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:silab/core/network/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silab/features/announcement/data/data_sources/announcement_api_service.dart';
 import 'package:silab/features/announcement/data/repository/announcement_repository_impl.dart';
@@ -11,17 +12,20 @@ import 'package:silab/features/authentication/data/data_sources/local/authentica
 import 'package:silab/features/authentication/data/data_sources/remote/authentication_api_service.dart';
 import 'package:silab/features/authentication/data/repositories/authentication_repository_impl.dart';
 import 'package:silab/features/authentication/domain/repositories/authentication_repository.dart';
-import 'package:silab/features/authentication/domain/usecases/get_access_token_expiry.dart';
+import 'package:silab/features/authentication/domain/usecases/get_session_expiry.dart';
 import 'package:silab/features/authentication/domain/usecases/get_user_access_token_usecase.dart';
 import 'package:silab/features/authentication/domain/usecases/user_login_usecase.dart';
+import 'package:silab/features/authentication/domain/usecases/user_logout_usecase.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:silab/features/classes/data/data_sources/classes_api_service.dart';
 import 'package:silab/features/classes/data/repository/class_repository_impl.dart';
 import 'package:silab/features/classes/domain/repository/class_repository.dart';
 import 'package:silab/features/classes/domain/usecases/add_user_attendances_usecase.dart';
+import 'package:silab/features/classes/domain/usecases/get_classmates_usecase.dart';
 import 'package:silab/features/classes/domain/usecases/get_user_meetings_data_usecase.dart';
 import 'package:silab/features/classes/domain/usecases/get_user_registered_classes_usecase.dart';
 import 'package:silab/features/classes/presentation/bloc/user_attendances/user_attendances_bloc.dart';
+import 'package:silab/features/classes/presentation/bloc/classmates/classmates_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_registered_class/user_registered_class_bloc.dart';
 import 'package:silab/features/schedule/data/data_sources/schedule_api_service.dart';
@@ -45,10 +49,8 @@ import 'package:silab/features/subjects/data/repository/subject_repository_impl.
 import 'package:silab/features/subjects/domain/repository/subject_repository.dart';
 import 'package:silab/features/subjects/domain/usecases/get_subject_details_usecase.dart';
 import 'package:silab/features/subjects/domain/usecases/get_subject_list_usecase.dart';
-import 'package:silab/features/subjects/domain/usecases/get_user_selected_subjects_details_usecase.dart';
 import 'package:silab/features/subjects/presentation/bloc/subject_details/subject_details_bloc.dart';
 import 'package:silab/features/subjects/presentation/bloc/subject_list/subject_list_bloc.dart';
-import 'package:silab/features/subjects/presentation/bloc/user_selected_subjects_details/bloc/user_selected_subjects_details_bloc.dart';
 import 'package:silab/features/user_details/data/data_sources/user_api_service.dart';
 import 'package:silab/features/user_details/data/repositories/user_repository_impl.dart';
 import 'package:silab/features/user_details/domain/repositories/user_repository.dart';
@@ -66,9 +68,12 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<SharedPreferences>(
       await SharedPreferences.getInstance());
 
+  // Semua permintaan ke backend lewat satu klien
+  injector.registerSingleton<ApiClient>(ApiClient(injector(), injector()));
+
   // Data Sources
   injector.registerSingleton<AuthenticationApiService>(
-      AuthenticationApiService(client: injector()));
+      AuthenticationApiService(injector()));
   injector.registerSingleton<AuthenticationLocalDataSource>(
       AuthenticationLocalDataSource(injector()));
   injector.registerSingleton<UserApiService>(UserApiService(injector()));
@@ -99,8 +104,8 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
   injector.registerSingleton<GetUserAccessTokenUsecase>(
       GetUserAccessTokenUsecase(injector()));
-  injector.registerSingleton<GetAccessTokenExpiry>(
-      GetAccessTokenExpiry(injector()));
+  injector.registerSingleton<GetSessionExpiry>(GetSessionExpiry(injector()));
+  injector.registerSingleton<UserLogoutUsecase>(UserLogoutUsecase(injector()));
   injector.registerSingleton<GetUserDetailsUseCase>(
       GetUserDetailsUseCase(injector()));
   injector.registerSingleton<GetSelectedSubjectByNimUsecase>(
@@ -115,8 +120,6 @@ Future<void> initializeDependencies() async {
       GetAllAnnouncementsUseCase(injector()));
   injector.registerSingleton<GetAnnouncementUseCase>(
       GetAnnouncementUseCase(injector()));
-  injector.registerSingleton<GetUserSelectedSubjectsDetailsUseCase>(
-      GetUserSelectedSubjectsDetailsUseCase(injector()));
   injector.registerSingleton<AddSelectedClassUseCase>(
       AddSelectedClassUseCase(injector()));
   injector.registerSingleton<GetUserRegisteredClassesUseCase>(
@@ -125,6 +128,8 @@ Future<void> initializeDependencies() async {
       GetUserClassOptionByPaidSubjectUsecase(injector()));
   injector.registerSingleton<GetUserMeetingsDataUsecase>(
       GetUserMeetingsDataUsecase(injector()));
+  injector.registerSingleton<GetClassmatesUsecase>(
+      GetClassmatesUsecase(injector()));
   injector.registerSingleton<AddUserAttendancesUsecase>(
       AddUserAttendancesUsecase(injector()));
   injector.registerSingleton<GetUserScheduleUsecase>(
@@ -132,7 +137,7 @@ Future<void> initializeDependencies() async {
 
   // BLoCs
   injector.registerFactory<AuthenticationBloc>(
-      () => AuthenticationBloc(injector(), injector(), injector()));
+      () => AuthenticationBloc(injector(), injector(), injector(), injector()));
   injector.registerFactory<UserDetailsBloc>(
       () => UserDetailsBloc(injector(), injector()));
   injector.registerFactory<SelectedSubjectByNimBloc>(
@@ -146,8 +151,6 @@ Future<void> initializeDependencies() async {
       () => GetAnnouncementBloc(injector()));
   injector.registerFactory<GetAllAnnouncementsBloc>(
       () => GetAllAnnouncementsBloc(injector()));
-  injector.registerFactory<UserSelectedSubjectsDetailsBloc>(
-      () => UserSelectedSubjectsDetailsBloc(injector()));
   injector.registerFactory<AddSelectedClassBloc>(
       () => AddSelectedClassBloc(injector()));
   injector.registerFactory<UserRegisteredClassBloc>(
@@ -156,6 +159,7 @@ Future<void> initializeDependencies() async {
       () => UserClassOptionByPaidSubjectBloc(injector()));
   injector
       .registerFactory<UserMeetingsBloc>(() => UserMeetingsBloc(injector()));
+  injector.registerFactory<ClassmatesBloc>(() => ClassmatesBloc(injector()));
   injector.registerFactory<UserAttendancesBloc>(
       () => UserAttendancesBloc(injector()));
   injector

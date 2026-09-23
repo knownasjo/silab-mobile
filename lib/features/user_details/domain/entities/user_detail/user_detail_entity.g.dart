@@ -10,7 +10,7 @@ _$UserDetailEntityImpl _$$UserDetailEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$UserDetailEntityImpl(
       nim: json['nim'] as String?,
-      fullname: json['fullname'] as String?,
+      fullname: json['name'] as String?,
       email: json['email'] as String?,
     );
 
@@ -18,6 +18,6 @@ Map<String, dynamic> _$$UserDetailEntityImplToJson(
         _$UserDetailEntityImpl instance) =>
     <String, dynamic>{
       'nim': instance.nim,
-      'fullname': instance.fullname,
+      'name': instance.fullname,
       'email': instance.email,
     };

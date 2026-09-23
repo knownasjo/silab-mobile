@@ -21,6 +21,7 @@ UserDetailEntity _$UserDetailEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserDetailEntity {
   String? get nim => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
   String? get fullname => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
 
@@ -40,7 +41,8 @@ abstract class $UserDetailEntityCopyWith<$Res> {
           UserDetailEntity value, $Res Function(UserDetailEntity) then) =
       _$UserDetailEntityCopyWithImpl<$Res, UserDetailEntity>;
   @useResult
-  $Res call({String? nim, String? fullname, String? email});
+  $Res call(
+      {String? nim, @JsonKey(name: 'name') String? fullname, String? email});
 }
 
 /// @nodoc
@@ -87,7 +89,8 @@ abstract class _$$UserDetailEntityImplCopyWith<$Res>
       __$$UserDetailEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? nim, String? fullname, String? email});
+  $Res call(
+      {String? nim, @JsonKey(name: 'name') String? fullname, String? email});
 }
 
 /// @nodoc
@@ -127,7 +130,8 @@ class __$$UserDetailEntityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserDetailEntityImpl implements _UserDetailEntity {
-  const _$UserDetailEntityImpl({this.nim, this.fullname, this.email});
+  const _$UserDetailEntityImpl(
+      {this.nim, @JsonKey(name: 'name') this.fullname, this.email});
 
   factory _$UserDetailEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserDetailEntityImplFromJson(json);
@@ -135,6 +139,7 @@ class _$UserDetailEntityImpl implements _UserDetailEntity {
   @override
   final String? nim;
   @override
+  @JsonKey(name: 'name')
   final String? fullname;
   @override
   final String? email;
@@ -179,7 +184,7 @@ class _$UserDetailEntityImpl implements _UserDetailEntity {
 abstract class _UserDetailEntity implements UserDetailEntity {
   const factory _UserDetailEntity(
       {final String? nim,
-      final String? fullname,
+      @JsonKey(name: 'name') final String? fullname,
       final String? email}) = _$UserDetailEntityImpl;
 
   factory _UserDetailEntity.fromJson(Map<String, dynamic> json) =
@@ -188,6 +193,7 @@ abstract class _UserDetailEntity implements UserDetailEntity {
   @override
   String? get nim;
   @override
+  @JsonKey(name: 'name')
   String? get fullname;
   @override
   String? get email;

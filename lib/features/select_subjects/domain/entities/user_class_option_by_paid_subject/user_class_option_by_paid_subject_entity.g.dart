@@ -10,20 +10,20 @@ _$UserClassOptionByPaidSubjectEntityImpl
     _$$UserClassOptionByPaidSubjectEntityImplFromJson(
             Map<String, dynamic> json) =>
         _$UserClassOptionByPaidSubjectEntityImpl(
-          class_id: json['class_id'] as String?,
+          class_id: json['id'] as String?,
           subject_name: json['subject_name'] as String?,
           subject_class: json['subject_class'] as String?,
           semester: json['semester'] as String?,
           session_time: json['session_time'] as String?,
-          quota: json['quota'] as String?,
-          registered_students: json['registered_students'] as String?,
+          quota: (json['quota'] as num?)?.toInt(),
+          registered_students: (json['registered_students'] as num?)?.toInt(),
           day: json['day'] as String?,
         );
 
 Map<String, dynamic> _$$UserClassOptionByPaidSubjectEntityImplToJson(
         _$UserClassOptionByPaidSubjectEntityImpl instance) =>
     <String, dynamic>{
-      'class_id': instance.class_id,
+      'id': instance.class_id,
       'subject_name': instance.subject_name,
       'subject_class': instance.subject_class,
       'semester': instance.semester,

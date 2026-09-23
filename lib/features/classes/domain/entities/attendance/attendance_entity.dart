@@ -6,7 +6,7 @@ part 'attendance_entity.g.dart';
 @freezed
 class AttendanceEntity with _$AttendanceEntity {
   const factory AttendanceEntity({
-    final String? status,
+    final bool? status,
     final String? message,
   }) = _AttendanceEntity;
 

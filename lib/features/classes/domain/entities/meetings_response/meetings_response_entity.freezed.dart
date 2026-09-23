@@ -21,7 +21,7 @@ MeetingsResponseEntity _$MeetingsResponseEntityFromJson(
 
 /// @nodoc
 mixin _$MeetingsResponseEntity {
-  String? get status => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   List<MeetingsEntity>? get data => throw _privateConstructorUsedError;
 
@@ -41,7 +41,7 @@ abstract class $MeetingsResponseEntityCopyWith<$Res> {
           $Res Function(MeetingsResponseEntity) then) =
       _$MeetingsResponseEntityCopyWithImpl<$Res, MeetingsResponseEntity>;
   @useResult
-  $Res call({String? status, String? message, List<MeetingsEntity>? data});
+  $Res call({bool? status, String? message, List<MeetingsEntity>? data});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$MeetingsResponseEntityCopyWithImpl<$Res,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -90,7 +90,7 @@ abstract class _$$MeetingsResponseEntityImplCopyWith<$Res>
       __$$MeetingsResponseEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? status, String? message, List<MeetingsEntity>? data});
+  $Res call({bool? status, String? message, List<MeetingsEntity>? data});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class __$$MeetingsResponseEntityImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -140,7 +140,7 @@ class _$MeetingsResponseEntityImpl implements _MeetingsResponseEntity {
       _$$MeetingsResponseEntityImplFromJson(json);
 
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? message;
   final List<MeetingsEntity>? _data;
@@ -192,7 +192,7 @@ class _$MeetingsResponseEntityImpl implements _MeetingsResponseEntity {
 
 abstract class _MeetingsResponseEntity implements MeetingsResponseEntity {
   const factory _MeetingsResponseEntity(
-      {final String? status,
+      {final bool? status,
       final String? message,
       final List<MeetingsEntity>? data}) = _$MeetingsResponseEntityImpl;
 
@@ -200,7 +200,7 @@ abstract class _MeetingsResponseEntity implements MeetingsResponseEntity {
       _$MeetingsResponseEntityImpl.fromJson;
 
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get message;
   @override

@@ -9,7 +9,7 @@ part of 'attendance_entity.dart';
 _$AttendanceEntityImpl _$$AttendanceEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$AttendanceEntityImpl(
-      status: json['status'] as String?,
+      status: json['status'] as bool?,
       message: json['message'] as String?,
     );
 

@@ -7,7 +7,7 @@ part 'user_detail_entity.g.dart';
 class UserDetailEntity with _$UserDetailEntity {
   const factory UserDetailEntity({
     final String? nim,
-    final String? fullname,
+    @JsonKey(name: 'name') final String? fullname,
     final String? email,
   }) = _UserDetailEntity;
 

@@ -9,7 +9,7 @@ part of 'add_selected_class_response_entity.dart';
 _$AddSelectedClassResponseEntityImpl
     _$$AddSelectedClassResponseEntityImplFromJson(Map<String, dynamic> json) =>
         _$AddSelectedClassResponseEntityImpl(
-          status: json['status'] as String?,
+          status: json['status'] as bool?,
           message: json['message'] as String?,
         );
 

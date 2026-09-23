@@ -18,6 +18,8 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: state.selectedSubjectEntity?.length ?? 0,
       itemBuilder: (context, index) {
+        final isPaid = state.selectedSubjectEntity![index].status == true;
+
         return Container(
           margin: const EdgeInsets.only(
             top: 16,
@@ -51,22 +53,20 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color:
-                          state.selectedSubjectEntity![index].status! == 'Paid'
+                          isPaid
                               ? const Color(0xffE8FFF3)
                               : const Color(0xffFBFBEF),
                       border: Border.all(
-                        color: state.selectedSubjectEntity![index].status! ==
-                                'Paid'
+                        color: isPaid
                             ? const Color(0xff50CD89)
                             : const Color(0xffFFBF01),
                       ),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Text(
-                      state.selectedSubjectEntity![index].status!,
+                      isPaid ? 'Lunas' : 'Belum Lunas',
                       style: TextStyle(
-                        color: state.selectedSubjectEntity![index].status! ==
-                                'Paid'
+                        color: isPaid
                             ? const Color(0xff27A149)
                             : const Color(0xffFFBF01),
                       ),

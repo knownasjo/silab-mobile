@@ -21,7 +21,7 @@ AnnouncementResponseEntity _$AnnouncementResponseEntityFromJson(
 
 /// @nodoc
 mixin _$AnnouncementResponseEntity {
-  String? get status => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   AnnouncementEntity? get data => throw _privateConstructorUsedError;
 
@@ -42,7 +42,7 @@ abstract class $AnnouncementResponseEntityCopyWith<$Res> {
       _$AnnouncementResponseEntityCopyWithImpl<$Res,
           AnnouncementResponseEntity>;
   @useResult
-  $Res call({String? status, String? message, AnnouncementEntity? data});
+  $Res call({bool? status, String? message, AnnouncementEntity? data});
 
   $AnnouncementEntityCopyWith<$Res>? get data;
 }
@@ -71,7 +71,7 @@ class _$AnnouncementResponseEntityCopyWithImpl<$Res,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -107,7 +107,7 @@ abstract class _$$AnnouncementResponseEntityImplCopyWith<$Res>
       __$$AnnouncementResponseEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? status, String? message, AnnouncementEntity? data});
+  $Res call({bool? status, String? message, AnnouncementEntity? data});
 
   @override
   $AnnouncementEntityCopyWith<$Res>? get data;
@@ -136,7 +136,7 @@ class __$$AnnouncementResponseEntityImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -160,7 +160,7 @@ class _$AnnouncementResponseEntityImpl implements _AnnouncementResponseEntity {
       _$$AnnouncementResponseEntityImplFromJson(json);
 
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? message;
   @override
@@ -205,7 +205,7 @@ class _$AnnouncementResponseEntityImpl implements _AnnouncementResponseEntity {
 abstract class _AnnouncementResponseEntity
     implements AnnouncementResponseEntity {
   const factory _AnnouncementResponseEntity(
-      {final String? status,
+      {final bool? status,
       final String? message,
       final AnnouncementEntity? data}) = _$AnnouncementResponseEntityImpl;
 
@@ -213,7 +213,7 @@ abstract class _AnnouncementResponseEntity
       _$AnnouncementResponseEntityImpl.fromJson;
 
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get message;
   @override

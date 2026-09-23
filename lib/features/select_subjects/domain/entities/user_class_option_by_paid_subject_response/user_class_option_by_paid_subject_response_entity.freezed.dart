@@ -22,7 +22,7 @@ UserClassOptionByPaidSubjectResponseEntity
 
 /// @nodoc
 mixin _$UserClassOptionByPaidSubjectResponseEntity {
-  String? get status => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   List<UserClassOptionByPaidSubjectEntity>? get data =>
       throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $UserClassOptionByPaidSubjectResponseEntityCopyWith<$Res> {
           UserClassOptionByPaidSubjectResponseEntity>;
   @useResult
   $Res call(
-      {String? status,
+      {bool? status,
       String? message,
       List<UserClassOptionByPaidSubjectEntity>? data});
 }
@@ -77,7 +77,7 @@ class _$UserClassOptionByPaidSubjectResponseEntityCopyWithImpl<$Res,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -101,7 +101,7 @@ abstract class _$$UserClassOptionByPaidSubjectResponseEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? status,
+      {bool? status,
       String? message,
       List<UserClassOptionByPaidSubjectEntity>? data});
 }
@@ -129,7 +129,7 @@ class __$$UserClassOptionByPaidSubjectResponseEntityImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -157,7 +157,7 @@ class _$UserClassOptionByPaidSubjectResponseEntityImpl
       _$$UserClassOptionByPaidSubjectResponseEntityImplFromJson(json);
 
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? message;
   final List<UserClassOptionByPaidSubjectEntity>? _data;
@@ -213,7 +213,7 @@ class _$UserClassOptionByPaidSubjectResponseEntityImpl
 abstract class _UserClassOptionByPaidSubjectResponseEntity
     implements UserClassOptionByPaidSubjectResponseEntity {
   const factory _UserClassOptionByPaidSubjectResponseEntity(
-          {final String? status,
+          {final bool? status,
           final String? message,
           final List<UserClassOptionByPaidSubjectEntity>? data}) =
       _$UserClassOptionByPaidSubjectResponseEntityImpl;
@@ -223,7 +223,7 @@ abstract class _UserClassOptionByPaidSubjectResponseEntity
       _$UserClassOptionByPaidSubjectResponseEntityImpl.fromJson;
 
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get message;
   @override

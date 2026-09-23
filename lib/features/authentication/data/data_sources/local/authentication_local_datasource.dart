@@ -16,6 +16,11 @@ class AuthenticationLocalDataSource {
     }
   }
 
+  Future<void> clearUserTokens() async {
+    await _sharedPreferences.remove('accessToken');
+    await _sharedPreferences.remove('refreshToken');
+  }
+
   String? getUserAccessToken() {
     return _sharedPreferences.getString('accessToken');
   }
@@ -40,11 +45,13 @@ class AuthenticationLocalDataSource {
     }
   }
 
-  int? getAccessTokenExpiry() {
-    final String? accessToken = _sharedPreferences.getString('accessToken');
+  /// Sesi berlaku selama refresh token berlaku (1 hari sejak login). Access
+  /// token yang kedaluwarsa diperbarui sendiri oleh ApiClient.
+  int? getSessionExpiry() {
+    final String? refreshToken = _sharedPreferences.getString('refreshToken');
 
-    if (accessToken != null) {
-      return JwtDecoder.decode(accessToken)['exp'];
+    if (refreshToken != null) {
+      return JwtDecoder.decode(refreshToken)['exp'];
     } else {
       return null;
     }

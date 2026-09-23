@@ -9,7 +9,7 @@ part of 'login_response_entity.dart';
 _$LoginResponseEntityImpl _$$LoginResponseEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$LoginResponseEntityImpl(
-      status: json['status'] as String?,
+      status: json['status'] as bool?,
       message: json['message'] as String?,
       data: json['data'] == null
           ? null

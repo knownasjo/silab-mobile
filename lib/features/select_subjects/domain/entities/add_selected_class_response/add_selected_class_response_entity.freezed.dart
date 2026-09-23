@@ -21,7 +21,7 @@ AddSelectedClassResponseEntity _$AddSelectedClassResponseEntityFromJson(
 
 /// @nodoc
 mixin _$AddSelectedClassResponseEntity {
-  String? get status => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   /// Serializes this AddSelectedClassResponseEntity to a JSON map.
@@ -42,7 +42,7 @@ abstract class $AddSelectedClassResponseEntityCopyWith<$Res> {
       _$AddSelectedClassResponseEntityCopyWithImpl<$Res,
           AddSelectedClassResponseEntity>;
   @useResult
-  $Res call({String? status, String? message});
+  $Res call({bool? status, String? message});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$AddSelectedClassResponseEntityCopyWithImpl<$Res,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -86,7 +86,7 @@ abstract class _$$AddSelectedClassResponseEntityImplCopyWith<$Res>
       __$$AddSelectedClassResponseEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? status, String? message});
+  $Res call({bool? status, String? message});
 }
 
 /// @nodoc
@@ -111,7 +111,7 @@ class __$$AddSelectedClassResponseEntityImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -131,7 +131,7 @@ class _$AddSelectedClassResponseEntityImpl
       _$$AddSelectedClassResponseEntityImplFromJson(json);
 
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? message;
 
@@ -174,14 +174,14 @@ class _$AddSelectedClassResponseEntityImpl
 abstract class _AddSelectedClassResponseEntity
     implements AddSelectedClassResponseEntity {
   const factory _AddSelectedClassResponseEntity(
-      {final String? status,
+      {final bool? status,
       final String? message}) = _$AddSelectedClassResponseEntityImpl;
 
   factory _AddSelectedClassResponseEntity.fromJson(Map<String, dynamic> json) =
       _$AddSelectedClassResponseEntityImpl.fromJson;
 
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get message;
 

@@ -26,6 +26,16 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
         if (result.data != null &&
             result.data!.accessToken != null &&
             result.data!.refreshToken != null) {
+          // Web admin dan aplikasi ini memakai akun yang sama, tetapi fitur
+          // aplikasi (presensi, pilih kelas) hanya untuk mahasiswa.
+          final role = await _authenticationApiService
+              .getUserRole(result.data!.accessToken!);
+
+          if (role != 'MAHASISWA') {
+            return Left(RequestFailures(
+                'Aplikasi SILAB mobile khusus untuk mahasiswa.'));
+          }
+
           await setUserTokens(
             refreshToken: result.data!.refreshToken,
             accessToken: result.data!.accessToken,
@@ -53,6 +63,13 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     } else {
       return Left(RequestFailures('An Error Occurred!'));
     }
+  }
+
+  @override
+  Future<Either<Failures, String>> logout() async {
+    await _authenticationLocalDataSource.clearUserTokens();
+
+    return const Right('success');
   }
 
   @override
@@ -107,12 +124,12 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Either<Failures, int> getAccessTokenExpiry() {
-    final int? accessTokenExpiry =
-        _authenticationLocalDataSource.getAccessTokenExpiry();
+  Either<Failures, int> getSessionExpiry() {
+    final int? sessionExpiry =
+        _authenticationLocalDataSource.getSessionExpiry();
 
-    if (accessTokenExpiry != null) {
-      return Right(accessTokenExpiry);
+    if (sessionExpiry != null) {
+      return Right(sessionExpiry);
     } else {
       return Left(RequestFailures('An Error Occurred!'));
     }

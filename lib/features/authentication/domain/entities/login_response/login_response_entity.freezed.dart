@@ -20,7 +20,7 @@ LoginResponseEntity _$LoginResponseEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LoginResponseEntity {
-  String? get status => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   LoginDataEntity? get data => throw _privateConstructorUsedError;
 
@@ -40,7 +40,7 @@ abstract class $LoginResponseEntityCopyWith<$Res> {
           LoginResponseEntity value, $Res Function(LoginResponseEntity) then) =
       _$LoginResponseEntityCopyWithImpl<$Res, LoginResponseEntity>;
   @useResult
-  $Res call({String? status, String? message, LoginDataEntity? data});
+  $Res call({bool? status, String? message, LoginDataEntity? data});
 
   $LoginDataEntityCopyWith<$Res>? get data;
 }
@@ -68,7 +68,7 @@ class _$LoginResponseEntityCopyWithImpl<$Res, $Val extends LoginResponseEntity>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$$LoginResponseEntityImplCopyWith<$Res>
       __$$LoginResponseEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? status, String? message, LoginDataEntity? data});
+  $Res call({bool? status, String? message, LoginDataEntity? data});
 
   @override
   $LoginDataEntityCopyWith<$Res>? get data;
@@ -130,7 +130,7 @@ class __$$LoginResponseEntityImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ class _$LoginResponseEntityImpl implements _LoginResponseEntity {
       _$$LoginResponseEntityImplFromJson(json);
 
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? message;
   @override
@@ -196,7 +196,7 @@ class _$LoginResponseEntityImpl implements _LoginResponseEntity {
 
 abstract class _LoginResponseEntity implements LoginResponseEntity {
   const factory _LoginResponseEntity(
-      {final String? status,
+      {final bool? status,
       final String? message,
       final LoginDataEntity? data}) = _$LoginResponseEntityImpl;
 
@@ -204,7 +204,7 @@ abstract class _LoginResponseEntity implements LoginResponseEntity {
       _$LoginResponseEntityImpl.fromJson;
 
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get message;
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:silab/core/helpers/day_formatter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/entities/class/class_entity.dart';
 import 'package:silab/features/classes/presentation/pages/class_detail_page.dart';
@@ -132,7 +133,9 @@ class RegisteredClassCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          classEntity != null ? classEntity!.day! : 'Hari',
+                          classEntity != null
+                              ? formatDay(classEntity!.day)
+                              : 'Hari',
                         ),
                       ],
                     ),

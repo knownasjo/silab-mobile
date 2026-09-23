@@ -8,7 +8,7 @@ part 'user_class_option_by_paid_subject_response_entity.g.dart';
 class UserClassOptionByPaidSubjectResponseEntity
     with _$UserClassOptionByPaidSubjectResponseEntity {
   const factory UserClassOptionByPaidSubjectResponseEntity({
-    final String? status,
+    final bool? status,
     final String? message,
     final List<UserClassOptionByPaidSubjectEntity>? data,
   }) = _UserClassOptionByPaidSubjectResponseEntity;

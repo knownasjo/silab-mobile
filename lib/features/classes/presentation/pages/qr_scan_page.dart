@@ -31,24 +31,34 @@ class QrScanPage extends StatefulWidget {
 }
 
 class _QrScanPageState extends State<QrScanPage> {
-  Barcode? _barcode;
   late MobileScannerController _controller;
 
+  // Kamera mengirim hasil deteksi berkali-kali per detik; satu QR cukup
+  // dikirim sekali sampai hasilnya diketahui.
+  bool _isSubmitting = false;
+
   void _handleBarcode(BarcodeCapture barcodes) {
-    if (mounted) {
-      setState(() {
-        _barcode = barcodes.barcodes.firstOrNull;
-      });
-      if (_barcode != null && _barcode!.displayValue != null) {
-        context.read<UserAttendancesBloc>().add(
-              AddUserAttendances(
-                classId: widget.qrScanPageExtra.classId,
-                meetingId: widget.qrScanPageExtra.meetingId,
-                meetingToken: _barcode!.displayValue,
-              ),
-            );
-      }
-    }
+    final token = barcodes.barcodes.firstOrNull?.displayValue;
+    if (!mounted || _isSubmitting || token == null) return;
+
+    _isSubmitting = true;
+    context.read<UserAttendancesBloc>().add(
+          AddUserAttendances(
+            classId: widget.qrScanPageExtra.classId,
+            meetingId: widget.qrScanPageExtra.meetingId,
+            meetingToken: token,
+          ),
+        );
+  }
+
+  /// Beri jeda sebelum memindai lagi, supaya QR yang sama tidak langsung
+  /// dikirim ulang dan pesan error sempat terbaca.
+  void _resumeScanningAfterDelay() {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
+      _isSubmitting = false;
+      _controller.start();
+    });
   }
 
   @override
@@ -82,12 +92,18 @@ class _QrScanPageState extends State<QrScanPage> {
           context.pop();
         } else if (state is UserAttendancesFailed) {
           Navigator.of(context, rootNavigator: true).pop();
+
+          if (state.message == 'jwt expired') {
+            context.goNamed('authentication');
+            return;
+          }
+
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             snackBar(message: state.message, type: AlertType.error),
           );
 
-          _controller.start();
+          _resumeScanningAfterDelay();
         }
       },
       builder: (context, state) {

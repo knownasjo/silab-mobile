@@ -1,49 +1,40 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silab/app_config.dart';
-import 'package:silab/core/exceptions/exceptions.dart';
-import 'package:silab/features/schedule/domain/entities/schedule_response/schedule_response_entity.dart';
-import 'package:http/http.dart' as http;
+import 'package:collection/collection.dart';
+import 'package:silab/core/common/entities/class/class_entity.dart';
+import 'package:silab/core/helpers/day_formatter.dart';
+import 'package:silab/core/network/api_client.dart';
+import 'package:silab/features/schedule/domain/entities/practicums/practicums_entity.dart';
+import 'package:silab/features/schedule/domain/entities/schedule/schedule_entity.dart';
 
 class ScheduleApiService {
-  final SharedPreferences _sharedPreferences;
+  final ApiClient _apiClient;
 
-  const ScheduleApiService(this._sharedPreferences);
+  const ScheduleApiService(this._apiClient);
 
-  Future<ScheduleResponseEntity> getUserSchedule() async {
-    try {
-      final token = _sharedPreferences.getString('accessToken');
+  /// Jadwal disusun dari kelas yang diikuti mahasiswa, dikelompokkan per hari.
+  Future<List<ScheduleEntity>> getUserSchedule() async {
+    final json = await _apiClient.get('/class/me');
+    final classes = (json['data'] as List<dynamic>? ?? [])
+        .map((item) => ClassEntity.fromJson(item as Map<String, dynamic>))
+        .toList();
 
-      final response = await http.get(
-        Uri.parse('${AppConfig.shared.baseUrl}/users/schedules/me'),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
+    final classesByDay = groupBy(classes, (ClassEntity c) => c.day);
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        return ScheduleResponseEntity.fromJson(data);
-      } else if (response.statusCode == 401) {
-        final data = jsonDecode(response.body);
-        throw RequestErrorException(data['message']);
-      } else {
-        final data = jsonDecode(response.body);
-        throw RequestErrorException(data['message']);
-      }
-    } on SocketException catch (e) {
-      throw RequestErrorException(e.message);
-    } on TimeoutException catch (e) {
-      throw RequestErrorException(e.message!);
-    } on http.ClientException {
-      throw RequestErrorException(
-          "Client error, check your internet connections.");
-    } on HttpException {
-      throw RequestErrorException(
-          "Http error, check your internet connections");
-    }
+    return weekdayOrder
+        .where(classesByDay.containsKey)
+        .map(
+          (day) => ScheduleEntity(
+            day: formatDay(day),
+            practicums: classesByDay[day]!
+                .map(
+                  (c) => PracticumsEntity(
+                    subject_name: c.subject_name,
+                    subject_class: c.subject_class,
+                    session: c.session_time,
+                  ),
+                )
+                .toList(),
+          ),
+        )
+        .toList();
   }
 }

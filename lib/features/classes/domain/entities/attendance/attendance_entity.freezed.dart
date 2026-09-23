@@ -20,7 +20,7 @@ AttendanceEntity _$AttendanceEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AttendanceEntity {
-  String? get status => throw _privateConstructorUsedError;
+  bool? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   /// Serializes this AttendanceEntity to a JSON map.
@@ -39,7 +39,7 @@ abstract class $AttendanceEntityCopyWith<$Res> {
           AttendanceEntity value, $Res Function(AttendanceEntity) then) =
       _$AttendanceEntityCopyWithImpl<$Res, AttendanceEntity>;
   @useResult
-  $Res call({String? status, String? message});
+  $Res call({bool? status, String? message});
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$AttendanceEntityCopyWithImpl<$Res, $Val extends AttendanceEntity>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,7 @@ abstract class _$$AttendanceEntityImplCopyWith<$Res>
       __$$AttendanceEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? status, String? message});
+  $Res call({bool? status, String? message});
 }
 
 /// @nodoc
@@ -104,7 +104,7 @@ class __$$AttendanceEntityImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -122,7 +122,7 @@ class _$AttendanceEntityImpl implements _AttendanceEntity {
       _$$AttendanceEntityImplFromJson(json);
 
   @override
-  final String? status;
+  final bool? status;
   @override
   final String? message;
 
@@ -162,14 +162,14 @@ class _$AttendanceEntityImpl implements _AttendanceEntity {
 }
 
 abstract class _AttendanceEntity implements AttendanceEntity {
-  const factory _AttendanceEntity(
-      {final String? status, final String? message}) = _$AttendanceEntityImpl;
+  const factory _AttendanceEntity({final bool? status, final String? message}) =
+      _$AttendanceEntityImpl;
 
   factory _AttendanceEntity.fromJson(Map<String, dynamic> json) =
       _$AttendanceEntityImpl.fromJson;
 
   @override
-  String? get status;
+  bool? get status;
   @override
   String? get message;
 

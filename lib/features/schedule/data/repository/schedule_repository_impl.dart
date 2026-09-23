@@ -15,9 +15,7 @@ class ScheduleRepositoryImpl implements ScheduleRepository {
   @override
   Future<Either<Failures, List<ScheduleEntity>>> getUserSchedule() async {
     try {
-      final result = await scheduleApiService.getUserSchedule();
-
-      return Right(result.data!);
+      return Right(await scheduleApiService.getUserSchedule());
     } on RequestErrorException catch (e) {
       return Left(RequestFailures(e.message));
     } on SocketException catch (e) {

@@ -12,6 +12,7 @@ _$MeetingsEntityImpl _$$MeetingsEntityImplFromJson(Map<String, dynamic> json) =>
       meeting_name: json['meeting_name'] as String?,
       submitted_at: json['submitted_at'] as String?,
       is_attended: json['is_attended'] as bool?,
+      is_open: json['is_open'] as bool?,
     );
 
 Map<String, dynamic> _$$MeetingsEntityImplToJson(
@@ -21,4 +22,5 @@ Map<String, dynamic> _$$MeetingsEntityImplToJson(
       'meeting_name': instance.meeting_name,
       'submitted_at': instance.submitted_at,
       'is_attended': instance.is_attended,
+      'is_open': instance.is_open,
     };
