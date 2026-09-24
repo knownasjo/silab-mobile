@@ -25,6 +25,15 @@ final class AuthenticationFailed extends AuthenticationState {
   const AuthenticationFailed({super.message});
 }
 
+final class AuthenticationUnverified extends AuthenticationState {
+  final String email;
+
+  const AuthenticationUnverified({required this.email, super.message});
+
+  @override
+  List<Object?> get props => [email, message];
+}
+
 class SessionExpired extends AuthenticationState {}
 
 final class UserLoggedOut extends AuthenticationState {}

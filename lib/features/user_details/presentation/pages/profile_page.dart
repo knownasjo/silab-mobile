@@ -1,5 +1,6 @@
 import 'package:silab/features/authentication/presentation/widgets/log_out_button.dart';
 import 'package:flutter/material.dart';
+import 'package:silab/core/helpers/initials.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
@@ -184,15 +185,9 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserInitials(UserDetailsState state) {
-    String? userInitials;
-
-    if (state is UserDetailLoaded) {
-      final List<String> fullname =
-          state.userDetailEntity!.fullname!.split(' ');
-      userInitials = fullname.length > 1
-          ? '${fullname[0][0]}${fullname[1][0]}'
-          : fullname[0];
-    }
+    final String? userInitials = state is UserDetailLoaded
+        ? nameInitials(state.userDetailEntity?.fullname)
+        : null;
 
     return Skeletonizer(
       enabled: state is UserDetailLoading ? true : false,

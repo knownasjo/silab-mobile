@@ -181,6 +181,7 @@ class ApiClient {
     throw RequestErrorException(
       json['message'] as String? ??
           'Terjadi kesalahan (HTTP ${response.statusCode}).',
+      data: json['data'],
     );
   }
 

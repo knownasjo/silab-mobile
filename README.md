@@ -85,6 +85,26 @@ fitur itu diaktifkan di `android/app/build.gradle`. Plugin Google Services
 |---|---|
 | 2000016099 | mahasiswa001 |
 
+## Pendaftaran akun
+
+Mahasiswa membuat akun sendiri dari halaman login ("Belum punya akun?
+Daftar"):
+
+1. Isi email kampus `namadepanNIM@webmail.uad.ac.id`, nama lengkap, password
+   (min. 8 karakter), dan konfirmasinya. NIM tampil otomatis dari email
+   (`lib/core/helpers/campus_email.dart`) dan tidak bisa diubah.
+2. Backend mengirim kode 6 angka ke email itu. Layar Verifikasi mengirim kode
+   begitu 6 angka terisi; tombol "Kirim ulang kode" aktif setelah hitung mundur
+   60 detik.
+3. Kode benar → token disimpan dan mahasiswa langsung masuk ke Beranda.
+
+Login dengan akun yang belum diverifikasi (backend membalas 403 dengan
+`data.email`) membuka layar Verifikasi untuk email tersebut. Fitur ada di
+`lib/features/registration` dengan dua bloc: `RegistrationBloc` (form) dan
+`RegistrationVerificationBloc` (kode dan kirim ulang). Avatar di Profil dan
+daftar Classmates memakai inisial dua kata pertama nama lengkap
+(`lib/core/helpers/initials.dart`).
+
 ## Alur yang tersambung ke web
 
 1. Laboran membuat pengumuman bertipe **Practicum** di web → di aplikasi,
@@ -174,6 +194,10 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/realtime/` — `RealtimeBloc` (koneksi pertama, tersambung
   ulang, logout) dan refresh diam-diam di bloc (tanpa loading, data lama tetap
   tampil bila gagal, event kelas lain diabaikan, pengumuman dihapus)
+- `test/features/registration/registration_test.dart` — NIM dari email
+  kampus, inisial nama, repository (token disimpan hanya bila kode benar),
+  login akun belum terverifikasi membawa email, urutan state kedua bloc, form
+  Daftar menolak isian kosong, dan layar kode (hitung mundur, kirim otomatis)
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh

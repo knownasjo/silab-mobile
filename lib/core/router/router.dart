@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:silab/injector.dart';
+import 'package:silab/features/registration/presentation/bloc/registration/registration_bloc.dart';
+import 'package:silab/features/registration/presentation/bloc/registration_verification/registration_verification_bloc.dart';
+import 'package:silab/features/registration/presentation/pages/registration_page.dart';
+import 'package:silab/features/registration/presentation/pages/registration_verification_page.dart';
 import 'package:silab/app_config.dart';
 import 'package:silab/features/classes/presentation/pages/qr_scan_page.dart';
 import 'package:silab/features/select_subjects/presentation/pages/daftar_praktikum_page.dart';
@@ -33,6 +39,26 @@ final GoRouter router = GoRouter(
       name: 'authentication',
       parentNavigatorKey: _rootNavigator,
       builder: (context, state) => const AuthenticationPage(),
+    ),
+    GoRoute(
+      path: '/register',
+      name: 'register',
+      parentNavigatorKey: _rootNavigator,
+      builder: (context, state) => BlocProvider(
+        create: (_) => injector<RegistrationBloc>(),
+        child: const RegistrationPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/register/verify',
+      name: 'register-verify',
+      parentNavigatorKey: _rootNavigator,
+      builder: (context, state) => BlocProvider(
+        create: (_) => injector<RegistrationVerificationBloc>(),
+        child: RegistrationVerificationPage(
+          extra: state.extra as RegistrationVerificationPageExtra,
+        ),
+      ),
     ),
     GoRoute(
       path: '/splash',

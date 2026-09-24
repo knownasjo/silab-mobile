@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:silab/core/failures/failures.dart';
 import 'package:silab/features/authentication/data/models/login_model.dart';
 import 'package:silab/features/authentication/domain/entities/login_data/login_data_entity.dart';
 import 'package:silab/features/authentication/domain/usecases/get_session_expiry.dart';
@@ -46,7 +47,11 @@ class AuthenticationBloc
         .userLogin(loginData: event.loginData);
 
     data.fold(
-      (left) => emit(AuthenticationFailed(message: left.message)),
+      (left) => emit(
+        left is UnverifiedAccountFailures
+            ? AuthenticationUnverified(email: left.email, message: left.message)
+            : AuthenticationFailed(message: left.message),
+      ),
       (right) => emit(AuthenticationSuccess(data: right.data)),
     );
   }

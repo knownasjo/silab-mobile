@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:silab/core/helpers/initials.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/coming_soon.dart';
@@ -207,7 +208,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
             radius: 20,
             backgroundColor: isMe ? const Color(0xff3272CA) : Colors.white,
             child: Text(
-              name.isEmpty ? '?' : name[0].toUpperCase(),
+              nameInitials(name),
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: isMe ? Colors.white : const Color(0xff3272CA),

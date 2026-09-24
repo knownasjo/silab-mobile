@@ -47,6 +47,13 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
         return Left(RequestFailures('An Error Occurred!'));
       }
     } on RequestErrorException catch (e) {
+      final data = e.data;
+      final email = data is Map ? data['email'] : null;
+
+      if (email is String) {
+        return Left(UnverifiedAccountFailures(e.message, email));
+      }
+
       return Left(RequestFailures(e.message));
     }
   }

@@ -61,6 +61,14 @@ import 'package:silab/features/realtime/data/repository/realtime_repository_impl
 import 'package:silab/features/realtime/domain/repository/realtime_repository.dart';
 import 'package:silab/features/realtime/domain/usecases/watch_realtime_events_usecase.dart';
 import 'package:silab/features/realtime/presentation/bloc/realtime_bloc.dart';
+import 'package:silab/features/registration/data/data_sources/registration_api_service.dart';
+import 'package:silab/features/registration/data/repository/registration_repository_impl.dart';
+import 'package:silab/features/registration/domain/repository/registration_repository.dart';
+import 'package:silab/features/registration/domain/usecases/register_usecase.dart';
+import 'package:silab/features/registration/domain/usecases/resend_registration_code_usecase.dart';
+import 'package:silab/features/registration/domain/usecases/verify_registration_usecase.dart';
+import 'package:silab/features/registration/presentation/bloc/registration/registration_bloc.dart';
+import 'package:silab/features/registration/presentation/bloc/registration_verification/registration_verification_bloc.dart';
 import 'package:http/http.dart' as http;
 
 final injector = GetIt.instance;
@@ -88,6 +96,8 @@ Future<void> initializeDependencies() async {
       .registerSingleton<ScheduleApiService>(ScheduleApiService(injector()));
   injector
       .registerSingleton<RealtimeApiService>(RealtimeApiService(injector()));
+  injector.registerSingleton<RegistrationApiService>(
+      RegistrationApiService(injector()));
 
   injector.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImpl(injector(), injector()));
@@ -103,6 +113,8 @@ Future<void> initializeDependencies() async {
       ScheduleRepositoryImpl(injector()));
   injector.registerSingleton<RealtimeRepository>(
       RealtimeRepositoryImpl(injector()));
+  injector.registerSingleton<RegistrationRepository>(
+      RegistrationRepositoryImpl(injector(), injector()));
 
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
   injector.registerSingleton<GetUserAccessTokenUsecase>(
@@ -139,6 +151,11 @@ Future<void> initializeDependencies() async {
       GetUserScheduleUsecase(injector()));
   injector.registerSingleton<WatchRealtimeEventsUsecase>(
       WatchRealtimeEventsUsecase(injector()));
+  injector.registerSingleton<RegisterUsecase>(RegisterUsecase(injector()));
+  injector.registerSingleton<VerifyRegistrationUsecase>(
+      VerifyRegistrationUsecase(injector()));
+  injector.registerSingleton<ResendRegistrationCodeUsecase>(
+      ResendRegistrationCodeUsecase(injector()));
 
   injector.registerFactory<AuthenticationBloc>(
       () => AuthenticationBloc(injector(), injector(), injector(), injector()));
@@ -169,4 +186,8 @@ Future<void> initializeDependencies() async {
   injector
       .registerFactory<UserScheduleBloc>(() => UserScheduleBloc(injector()));
   injector.registerFactory<RealtimeBloc>(() => RealtimeBloc(injector()));
+  injector
+      .registerFactory<RegistrationBloc>(() => RegistrationBloc(injector()));
+  injector.registerFactory<RegistrationVerificationBloc>(
+      () => RegistrationVerificationBloc(injector(), injector()));
 }

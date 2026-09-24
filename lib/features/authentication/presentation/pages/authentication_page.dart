@@ -6,6 +6,7 @@ import 'package:silab/core/common/widgets/custom_large_button.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/authentication/data/models/login_model.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:silab/features/registration/presentation/pages/registration_verification_page.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({super.key});
@@ -31,6 +32,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<AuthenticationBloc, AuthenticationState>(
+        listenWhen: (_, __) => ModalRoute.of(context)?.isCurrent ?? true,
         listener: (context, state) {
           if (state is AuthenticationSuccess) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -39,6 +41,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             );
 
             context.goNamed('home');
+          } else if (state is AuthenticationUnverified) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              snackBar(message: state.message, type: AlertType.info),
+            );
+
+            context.pushNamed(
+              'register-verify',
+              extra: RegistrationVerificationPageExtra(email: state.email),
+            );
           } else if (state is AuthenticationFailed) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -126,7 +138,28 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               ),
                       );
                     },
-                  )
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Belum punya akun?',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      TextButton(
+                        onPressed: () => context.pushNamed('register'),
+                        child: const Text(
+                          'Daftar',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xff3272CA),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
