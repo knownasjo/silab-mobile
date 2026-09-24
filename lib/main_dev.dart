@@ -51,6 +51,7 @@ class MainApp extends StatelessWidget {
             injector(),
             injector(),
             injector(),
+            injector(),
           ),
         ),
         BlocProvider<UserDetailsBloc>(

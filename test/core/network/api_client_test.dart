@@ -163,8 +163,8 @@ void main() {
     });
 
     test(
-        'refresh token ditolak: "jwt expired" diteruskan agar halaman '
-        'mengarahkan ke login', () async {
+        'refresh token ditolak server (mis. password diganti): token dihapus '
+        'dan sesi diumumkan berakhir', () async {
       final api =
           apiReturning((request) async => request.url.path == '/auth/refresh'
               ? http.Response(
@@ -174,18 +174,46 @@ void main() {
                   }),
                   401)
               : expired());
+      var sessionEnded = 0;
+      final subscription = api.sessionEnded.listen((_) => sessionEnded++);
 
-      await expectLater(
-          api.get('/class/me'), throwsRequestError('jwt expired'));
-      expect(prefs.getString('accessToken'), 'token-lama');
+      await Future.wait([
+        expectLater(api.get('/class/me'),
+            throwsRequestError('Sesi berakhir, silakan masuk kembali.')),
+        expectLater(api.get('/auth/me'),
+            throwsRequestError('Sesi berakhir, silakan masuk kembali.')),
+      ]);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(prefs.getString('accessToken'), isNull);
+      expect(prefs.getString('refreshToken'), isNull);
+      expect(sessionEnded, 1);
+      await subscription.cancel();
     });
 
-    test('tanpa refresh token: "jwt expired" diteruskan', () async {
+    test('tanpa refresh token: diminta masuk kembali', () async {
       await prefs.remove('refreshToken');
       final api = apiReturning((_) async => expired());
 
-      await expectLater(
-          api.get('/class/me'), throwsRequestError('jwt expired'));
+      await expectLater(api.get('/class/me'),
+          throwsRequestError('Sesi berakhir, silakan masuk kembali.'));
+    });
+
+    test('server error saat refresh: pengguna tidak dikeluarkan', () async {
+      final api = apiReturning((request) async =>
+          request.url.path == '/auth/refresh'
+              ? http.Response('{}', 500)
+              : expired());
+      var sessionEnded = 0;
+      final subscription = api.sessionEnded.listen((_) => sessionEnded++);
+
+      await expectLater(api.get('/class/me'),
+          throwsRequestError('Terjadi kesalahan (HTTP 500).'));
+      await Future<void>.delayed(Duration.zero);
+
+      expect(prefs.getString('refreshToken'), 'refresh-sah');
+      expect(sessionEnded, 0);
+      await subscription.cancel();
     });
 
     test(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:silab/core/failures/failures.dart';
@@ -7,6 +9,7 @@ import 'package:silab/features/authentication/domain/usecases/get_session_expiry
 import 'package:silab/features/authentication/domain/usecases/get_user_access_token_usecase.dart';
 import 'package:silab/features/authentication/domain/usecases/user_login_usecase.dart';
 import 'package:silab/features/authentication/domain/usecases/user_logout_usecase.dart';
+import 'package:silab/features/authentication/domain/usecases/watch_session_ended_usecase.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -17,17 +20,38 @@ class AuthenticationBloc
   final GetUserAccessTokenUsecase _getUserAccessTokenUsecase;
   final GetSessionExpiry _getSessionExpiry;
   final UserLogoutUsecase _userLogoutUsecase;
+  final WatchSessionEndedUsecase _watchSessionEndedUsecase;
+
+  late final StreamSubscription<void> _sessionEndedSubscription;
 
   AuthenticationBloc(
     this._userLoginUsecase,
     this._getUserAccessTokenUsecase,
     this._getSessionExpiry,
     this._userLogoutUsecase,
+    this._watchSessionEndedUsecase,
   ) : super(AuthenticationInitial()) {
     on<UserLogin>(onUserLogin);
     on<AppOpened>(onAppOpened);
     on<CheckSessionExpiry>(onCheckSessionExpiry);
     on<UserLogout>(onUserLogout);
+    on<SessionEndedByServer>(onSessionEndedByServer);
+
+    _sessionEndedSubscription = _watchSessionEndedUsecase()
+        .listen((_) => add(SessionEndedByServer()));
+  }
+
+  void onSessionEndedByServer(
+    AuthenticationEvent event,
+    Emitter<AuthenticationState> emit,
+  ) {
+    emit(SessionExpired());
+  }
+
+  @override
+  Future<void> close() async {
+    await _sessionEndedSubscription.cancel();
+    return super.close();
   }
 
   void onUserLogout(

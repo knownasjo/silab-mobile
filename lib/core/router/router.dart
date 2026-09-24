@@ -6,6 +6,10 @@ import 'package:silab/features/registration/presentation/bloc/registration/regis
 import 'package:silab/features/registration/presentation/bloc/registration_verification/registration_verification_bloc.dart';
 import 'package:silab/features/registration/presentation/pages/registration_page.dart';
 import 'package:silab/features/registration/presentation/pages/registration_verification_page.dart';
+import 'package:silab/features/password_reset/presentation/bloc/forgot_password/forgot_password_bloc.dart';
+import 'package:silab/features/password_reset/presentation/bloc/reset_password/reset_password_bloc.dart';
+import 'package:silab/features/password_reset/presentation/pages/forgot_password_page.dart';
+import 'package:silab/features/password_reset/presentation/pages/reset_password_page.dart';
 import 'package:silab/app_config.dart';
 import 'package:silab/features/classes/presentation/pages/qr_scan_page.dart';
 import 'package:silab/features/select_subjects/presentation/pages/daftar_praktikum_page.dart';
@@ -57,6 +61,26 @@ final GoRouter router = GoRouter(
         create: (_) => injector<RegistrationVerificationBloc>(),
         child: RegistrationVerificationPage(
           extra: state.extra as RegistrationVerificationPageExtra,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: '/forgot-password',
+      name: 'forgot-password',
+      parentNavigatorKey: _rootNavigator,
+      builder: (context, state) => BlocProvider(
+        create: (_) => injector<ForgotPasswordBloc>(),
+        child: const ForgotPasswordPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/forgot-password/reset',
+      name: 'reset-password',
+      parentNavigatorKey: _rootNavigator,
+      builder: (context, state) => BlocProvider(
+        create: (_) => injector<ResetPasswordBloc>(),
+        child: ResetPasswordPage(
+          extra: state.extra as ResetPasswordPageExtra,
         ),
       ),
     ),

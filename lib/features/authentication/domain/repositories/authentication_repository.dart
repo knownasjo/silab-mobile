@@ -22,4 +22,6 @@ abstract class AuthenticationRepository {
   Either<Failures, String> getUserRole();
 
   Either<Failures, int> getSessionExpiry();
+
+  Stream<void> watchSessionEnded();
 }

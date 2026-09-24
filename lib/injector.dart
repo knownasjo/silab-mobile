@@ -16,6 +16,7 @@ import 'package:silab/features/authentication/domain/usecases/get_session_expiry
 import 'package:silab/features/authentication/domain/usecases/get_user_access_token_usecase.dart';
 import 'package:silab/features/authentication/domain/usecases/user_login_usecase.dart';
 import 'package:silab/features/authentication/domain/usecases/user_logout_usecase.dart';
+import 'package:silab/features/authentication/domain/usecases/watch_session_ended_usecase.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:silab/features/classes/data/data_sources/classes_api_service.dart';
 import 'package:silab/features/classes/data/repository/class_repository_impl.dart';
@@ -71,6 +72,13 @@ import 'package:silab/features/registration/presentation/bloc/registration/regis
 import 'package:silab/features/registration/presentation/bloc/registration_verification/registration_verification_bloc.dart';
 import 'package:silab/features/user_details/domain/usecases/get_assisted_classes_usecase.dart';
 import 'package:silab/features/user_details/presentation/bloc/assisted_classes/assisted_classes_bloc.dart';
+import 'package:silab/features/password_reset/data/data_sources/password_reset_api_service.dart';
+import 'package:silab/features/password_reset/data/repository/password_reset_repository_impl.dart';
+import 'package:silab/features/password_reset/domain/repository/password_reset_repository.dart';
+import 'package:silab/features/password_reset/domain/usecases/request_password_reset_code_usecase.dart';
+import 'package:silab/features/password_reset/domain/usecases/reset_password_usecase.dart';
+import 'package:silab/features/password_reset/presentation/bloc/forgot_password/forgot_password_bloc.dart';
+import 'package:silab/features/password_reset/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:http/http.dart' as http;
 
 final injector = GetIt.instance;
@@ -100,6 +108,8 @@ Future<void> initializeDependencies() async {
       .registerSingleton<RealtimeApiService>(RealtimeApiService(injector()));
   injector.registerSingleton<RegistrationApiService>(
       RegistrationApiService(injector()));
+  injector.registerSingleton<PasswordResetApiService>(
+      PasswordResetApiService(injector()));
 
   injector.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImpl(injector(), injector()));
@@ -117,12 +127,16 @@ Future<void> initializeDependencies() async {
       RealtimeRepositoryImpl(injector()));
   injector.registerSingleton<RegistrationRepository>(
       RegistrationRepositoryImpl(injector(), injector()));
+  injector.registerSingleton<PasswordResetRepository>(
+      PasswordResetRepositoryImpl(injector()));
 
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
   injector.registerSingleton<GetUserAccessTokenUsecase>(
       GetUserAccessTokenUsecase(injector()));
   injector.registerSingleton<GetSessionExpiry>(GetSessionExpiry(injector()));
   injector.registerSingleton<UserLogoutUsecase>(UserLogoutUsecase(injector()));
+  injector.registerSingleton<WatchSessionEndedUsecase>(
+      WatchSessionEndedUsecase(injector()));
   injector.registerSingleton<GetUserDetailsUseCase>(
       GetUserDetailsUseCase(injector()));
   injector.registerSingleton<GetAssistedClassesUsecase>(
@@ -160,9 +174,13 @@ Future<void> initializeDependencies() async {
       VerifyRegistrationUsecase(injector()));
   injector.registerSingleton<ResendRegistrationCodeUsecase>(
       ResendRegistrationCodeUsecase(injector()));
+  injector.registerSingleton<RequestPasswordResetCodeUsecase>(
+      RequestPasswordResetCodeUsecase(injector()));
+  injector.registerSingleton<ResetPasswordUsecase>(
+      ResetPasswordUsecase(injector()));
 
-  injector.registerFactory<AuthenticationBloc>(
-      () => AuthenticationBloc(injector(), injector(), injector(), injector()));
+  injector.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
+      injector(), injector(), injector(), injector(), injector()));
   injector.registerFactory<UserDetailsBloc>(
       () => UserDetailsBloc(injector(), injector()));
   injector.registerFactory<AssistedClassesBloc>(
@@ -196,4 +214,8 @@ Future<void> initializeDependencies() async {
       .registerFactory<RegistrationBloc>(() => RegistrationBloc(injector()));
   injector.registerFactory<RegistrationVerificationBloc>(
       () => RegistrationVerificationBloc(injector(), injector()));
+  injector.registerFactory<ForgotPasswordBloc>(
+      () => ForgotPasswordBloc(injector()));
+  injector.registerFactory<ResetPasswordBloc>(
+      () => ResetPasswordBloc(injector(), injector()));
 }

@@ -7,6 +7,8 @@ class AuthenticationApiService {
 
   const AuthenticationApiService(this._apiClient);
 
+  Stream<void> get sessionEnded => _apiClient.sessionEnded;
+
   Future<LoginResponseEntity> userLogin(LoginModel loginData) async =>
       LoginResponseEntity.fromJson(
         await _apiClient.post('/auth/login', body: loginData.toJson()),

@@ -12,6 +12,7 @@ import 'package:silab/features/authentication/domain/usecases/get_session_expiry
 import 'package:silab/features/authentication/domain/usecases/get_user_access_token_usecase.dart';
 import 'package:silab/features/authentication/domain/usecases/user_login_usecase.dart';
 import 'package:silab/features/authentication/domain/usecases/user_logout_usecase.dart';
+import 'package:silab/features/authentication/domain/usecases/watch_session_ended_usecase.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 
 String jwtExpiringAt(DateTime exp) {
@@ -23,20 +24,27 @@ String jwtExpiringAt(DateTime exp) {
       '.tanda-tangan';
 }
 
-Future<AuthenticationState> checkSession(Map<String, Object> stored) async {
-  SharedPreferences.setMockInitialValues(stored);
-  final prefs = await SharedPreferences.getInstance();
+AuthenticationBloc blocWith(ApiClient api, SharedPreferences prefs) {
   final repository = AuthenticationRepositoryImpl(
-    AuthenticationApiService(
-      ApiClient(MockClient((_) async => http.Response('{}', 500)), prefs),
-    ),
+    AuthenticationApiService(api),
     AuthenticationLocalDataSource(prefs),
   );
-  final bloc = AuthenticationBloc(
+
+  return AuthenticationBloc(
     UserLoginUsecase(repository),
     GetUserAccessTokenUsecase(repository),
     GetSessionExpiry(repository),
     UserLogoutUsecase(repository),
+    WatchSessionEndedUsecase(repository),
+  );
+}
+
+Future<AuthenticationState> checkSession(Map<String, Object> stored) async {
+  SharedPreferences.setMockInitialValues(stored);
+  final prefs = await SharedPreferences.getInstance();
+  final bloc = blocWith(
+    ApiClient(MockClient((_) async => http.Response('{}', 500)), prefs),
+    prefs,
   );
 
   bloc.add(CheckSessionExpiry());
@@ -67,5 +75,38 @@ void main() {
     });
 
     expect(state, isA<SessionExpired>());
+  });
+
+  test(
+      'server menolak sesi saat aplikasi dipakai (password diganti di '
+      'perangkat lain): diarahkan ke login', () async {
+    SharedPreferences.setMockInitialValues({
+      'accessToken': jwtExpiringAt(now.add(const Duration(minutes: 10))),
+      'refreshToken': jwtExpiringAt(now.add(const Duration(hours: 12))),
+    });
+    final prefs = await SharedPreferences.getInstance();
+    final api = ApiClient(
+      MockClient((request) async => request.url.path == '/auth/refresh'
+          ? http.Response(
+              jsonEncode({
+                'status': false,
+                'message': 'Sesi berakhir, silakan login kembali!',
+              }),
+              401)
+          : http.Response(
+              jsonEncode({'status': false, 'message': 'jwt expired'}), 400)),
+      prefs,
+    );
+    final bloc = blocWith(api, prefs);
+    final states = <AuthenticationState>[];
+    final subscription = bloc.stream.listen(states.add);
+
+    await expectLater(api.get('/class/me'), throwsA(anything));
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+
+    expect(states, [isA<SessionExpired>()]);
+    expect(prefs.getString('refreshToken'), isNull);
+    await subscription.cancel();
+    await bloc.close();
   });
 }

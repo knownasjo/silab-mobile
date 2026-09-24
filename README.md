@@ -105,6 +105,30 @@ Login dengan akun yang belum diverifikasi (backend membalas 403 dengan
 daftar Classmates memakai inisial dua kata pertama nama lengkap
 (`lib/core/helpers/initials.dart`).
 
+## Lupa password
+
+Dari halaman login, "Lupa password?" membuka dua layar
+(`lib/features/password_reset`):
+
+1. **Lupa Password**: isi email akun (NIM tampil bila formatnya email kampus),
+   lalu "Kirim Kode". Email yang belum terdaftar dibalas "Email ini belum
+   terdaftar di SILAB."; email yang masih menunggu verifikasi membuka layar
+   Verifikasi pendaftaran.
+2. **Atur Password Baru**: kode 6 angka, password baru (min. 8), dan
+   konfirmasinya dalam satu layar, lalu "Simpan". Kode yang salah tidak
+   menghapus isian password. "Kirim ulang kode" aktif setelah hitung mundur 60
+   detik.
+3. Berhasil → kembali ke Login dengan pesan "Password berhasil diubah, silakan
+   masuk."
+
+Hanya untuk akun mahasiswa; laboran dan dosen meminta laboran lain mengganti
+password mereka. Bloc-nya `ForgotPasswordBloc` (minta kode) dan
+`ResetPasswordBloc` (simpan password dan kirim ulang kode).
+
+Mengganti password mencabut semua sesi lama akun itu. HP lain yang sedang
+login dengan akun tersebut kembali ke halaman login dalam 1–2 detik dengan
+pesan "Sesi Anda berakhir, silakan masuk kembali." (lihat "Struktur").
+
 ## Asisten praktikum
 
 Mahasiswa yang ditugaskan laboran sebagai asisten kelas tetap memakai aplikasi
@@ -163,10 +187,14 @@ JSON, dan pesan error. Pesan error backend diteruskan apa adanya.
 Access token berlaku 15 menit. Bila backend membalas `jwt expired`,
 `ApiClient` menukar refresh token di `POST /auth/refresh`, menyimpan token
 baru, lalu mengulang permintaan sekali. Beberapa permintaan yang gagal
-bersamaan hanya memicu satu refresh. `jwt expired` baru sampai ke halaman bila
-refresh token juga ditolak (sesi lewat 1 hari), dan halaman itu mengarahkan ke
-login. Saat aplikasi dibuka, yang diperiksa adalah masa berlaku refresh token
-(`getSessionExpiry`), bukan access token.
+bersamaan hanya memicu satu refresh. Bila refresh token ditolak server (4xx:
+sesi lewat 1 hari, password diganti, atau akun dihapus), `ApiClient` menghapus
+token lalu mengirim sinyal `sessionEnded`; `AuthenticationBloc` mendengarnya
+lewat `WatchSessionEndedUsecase` dan memancarkan `SessionExpired`, sehingga
+`ScaffoldPage` membuka halaman login. Permintaan yang gagal itu dibalas "Sesi
+berakhir, silakan masuk kembali.". Server error (5xx) saat refresh tidak
+mengeluarkan pengguna. Saat aplikasi dibuka, yang diperiksa adalah masa
+berlaku refresh token (`getSessionExpiry`), bukan access token.
 
 Pembaruan real-time ada di `lib/features/realtime`. `ApiClient.listen()`
 membuka stream SSE dengan token dan aturan refresh yang sama, lalu tersambung
@@ -200,7 +228,8 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 ```
 
 - `test/core/network/api_client_test.dart` — token, body, penanganan error,
-  refresh token, dan stream SSE (token, refresh, isi event, tersambung ulang,
+  refresh token (termasuk sesi berakhir: token dihapus, sinyal dikirim sekali),
+  dan stream SSE (token, refresh, isi event, tersambung ulang,
   berhenti saat dibatalkan)
 - `test/features/realtime/` — `RealtimeBloc` (koneksi pertama, tersambung
   ulang, logout) dan refresh diam-diam di bloc (tanpa loading, data lama tetap
@@ -212,8 +241,14 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/user_details/assisted_classes_test.dart` — kelas asisten
   dibaca dari `GET /class`, refresh diam-diam, dan bagian Profil hanya tampil
   bila memegang kelas
+- `test/features/password_reset/password_reset_test.dart` — format email,
+  repository (email belum terdaftar, akun belum diverifikasi membawa email),
+  urutan state kedua bloc, simpan tidak dikirim dua kali, dan kedua layar
+  (NIM dari email, validasi isian, kode salah tidak menghapus password,
+  hitung mundur)
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
-  dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login
+  dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login;
+  sesi yang dicabut server saat aplikasi dipakai juga diarahkan ke login
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
   respons asli backend
 - `test/live/` — alur mahasiswa terhadap backend yang sedang berjalan; hanya

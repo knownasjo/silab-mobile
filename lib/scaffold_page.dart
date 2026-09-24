@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/entities/bottom_navbar/bottom_navbar_entity.dart';
 import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
+import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:silab/features/realtime/presentation/widgets/realtime_sync.dart';
 import 'package:silab/features/user_details/presentation/widgets/user_welcome_widget.dart';
@@ -106,6 +107,16 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
+        if (state is SessionExpired) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            snackBar(
+              message: 'Sesi Anda berakhir, silakan masuk kembali.',
+              type: AlertType.info,
+            ),
+          );
+        }
+
         if (state is SessionExpired || state is UserLoggedOut) {
           context.goNamed('authentication');
         }

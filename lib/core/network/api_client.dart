@@ -16,10 +16,17 @@ class ApiClient {
   static const Duration _eventStreamIdleTimeout = Duration(seconds: 60);
   static const int _maxEventStreamRetrySeconds = 30;
   static const String _expiredTokenMessage = 'jwt expired';
+  static const String _sessionEndedMessage =
+      'Sesi berakhir, silakan masuk kembali.';
+
+  final StreamController<void> _sessionEnded =
+      StreamController<void>.broadcast();
 
   Future<String?>? _pendingRefresh;
 
   ApiClient(this._client, this._sharedPreferences);
+
+  Stream<void> get sessionEnded => _sessionEnded.stream;
 
   Future<Map<String, dynamic>> get(String path, {String? accessToken}) =>
       _send('GET', path, accessToken: accessToken);
@@ -111,12 +118,14 @@ class ApiClient {
     if (json['message'] == _expiredTokenMessage) {
       final newAccessToken = await _refreshAccessToken();
 
-      if (newAccessToken != null) {
-        response = await open(newAccessToken);
-        if (response.statusCode == 200) return response;
-
-        json = _decode(await http.Response.fromStream(response));
+      if (newAccessToken == null) {
+        throw RequestErrorException(_sessionEndedMessage);
       }
+
+      response = await open(newAccessToken);
+      if (response.statusCode == 200) return response;
+
+      json = _decode(await http.Response.fromStream(response));
     }
 
     throw RequestErrorException(
@@ -165,15 +174,17 @@ class ApiClient {
     if (json['message'] == _expiredTokenMessage) {
       final newAccessToken = await _refreshAccessToken();
 
-      if (newAccessToken != null) {
-        response = await _request(
-          method,
-          path,
-          body: body,
-          accessToken: newAccessToken,
-        );
-        json = _decode(response);
+      if (newAccessToken == null) {
+        throw RequestErrorException(_sessionEndedMessage);
       }
+
+      response = await _request(
+        method,
+        path,
+        body: body,
+        accessToken: newAccessToken,
+      );
+      json = _decode(response);
     }
 
     if (response.statusCode >= 200 && response.statusCode < 300) return json;
@@ -199,7 +210,17 @@ class ApiClient {
       '/auth/refresh',
       body: {'refreshToken': refreshToken},
     );
-    if (response.statusCode != 200) return null;
+
+    if (response.statusCode >= 400 && response.statusCode < 500) {
+      await _endSession();
+      return null;
+    }
+
+    if (response.statusCode != 200) {
+      throw RequestErrorException(
+        'Terjadi kesalahan (HTTP ${response.statusCode}).',
+      );
+    }
 
     final data = _decode(response)['data'];
     final accessToken = data is Map ? data['accessToken'] : null;
@@ -207,6 +228,12 @@ class ApiClient {
 
     await _sharedPreferences.setString('accessToken', accessToken);
     return accessToken;
+  }
+
+  Future<void> _endSession() async {
+    await _sharedPreferences.remove('accessToken');
+    await _sharedPreferences.remove('refreshToken');
+    _sessionEnded.add(null);
   }
 
   http.Request _buildRequest(

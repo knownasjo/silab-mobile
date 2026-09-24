@@ -102,7 +102,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 24),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => context.pushNamed('forgot-password'),
+                      child: const Text(
+                        'Lupa password?',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff3272CA),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   BlocBuilder<AuthenticationBloc, AuthenticationState>(
                     builder: (context, state) {
                       return CustomLargeButton(

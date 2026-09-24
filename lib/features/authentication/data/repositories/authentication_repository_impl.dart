@@ -129,6 +129,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
+  Stream<void> watchSessionEnded() => _authenticationApiService.sessionEnded;
+
+  @override
   Either<Failures, int> getSessionExpiry() {
     final int? sessionExpiry =
         _authenticationLocalDataSource.getSessionExpiry();
