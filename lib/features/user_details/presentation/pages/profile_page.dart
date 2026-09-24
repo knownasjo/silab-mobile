@@ -4,7 +4,9 @@ import 'package:silab/core/helpers/initials.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/features/user_details/presentation/bloc/assisted_classes/assisted_classes_bloc.dart';
 import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
+import 'package:silab/features/user_details/presentation/widgets/assisted_classes_section.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     context.read<UserDetailsBloc>().add(GetUserDetails());
+    context.read<AssistedClassesBloc>().add(const GetAssistedClasses());
     super.initState();
   }
 
@@ -50,8 +53,12 @@ class _ProfilePageState extends State<ProfilePage> {
           },
           builder: (context, state) {
             return RefreshIndicator(
-              onRefresh: () async =>
-                  context.read<UserDetailsBloc>().add(GetUserDetails()),
+              onRefresh: () async {
+                context.read<UserDetailsBloc>().add(GetUserDetails());
+                context
+                    .read<AssistedClassesBloc>()
+                    .add(const GetAssistedClasses());
+              },
               color: const Color(0xff3272CA),
               backgroundColor: Colors.white,
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
@@ -63,6 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     state,
                   ),
                   const SizedBox(height: 20),
+                  const AssistedClassesSection(),
                   Container(
                     width: double.maxFinite,
                     margin: const EdgeInsets.symmetric(horizontal: 15),

@@ -12,6 +12,7 @@ import 'package:silab/features/select_subjects/presentation/bloc/selected_subjec
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_event.dart';
 import 'package:silab/features/subjects/presentation/bloc/subject_list/subject_list_bloc.dart';
+import 'package:silab/features/user_details/presentation/bloc/assisted_classes/assisted_classes_bloc.dart';
 
 class RealtimeSync extends StatefulWidget {
   final Widget child;
@@ -71,6 +72,7 @@ class _RealtimeSyncState extends State<RealtimeSync> {
   }
 
   void _refreshEverything() {
+    context.read<AssistedClassesBloc>().add(const RefreshAssistedClasses());
     context.read<GetAllAnnouncementsBloc>().add(RefreshAllAnnouncements());
     context.read<SubjectListBloc>().add(const RefreshSubjectList());
     context.read<ClassmatesBloc>().add(const RefreshClassmates());
@@ -103,6 +105,7 @@ class _RealtimeSyncState extends State<RealtimeSync> {
     context
         .read<ClassmatesBloc>()
         .add(RefreshClassmates(classId: message.classId));
+    context.read<AssistedClassesBloc>().add(const RefreshAssistedClasses());
   }
 
   void _refreshRegistration() {

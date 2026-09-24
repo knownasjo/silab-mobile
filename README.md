@@ -105,6 +105,17 @@ Login dengan akun yang belum diverifikasi (backend membalas 403 dengan
 daftar Classmates memakai inisial dua kata pertama nama lengkap
 (`lib/core/helpers/initials.dart`).
 
+## Asisten praktikum
+
+Mahasiswa yang ditugaskan laboran sebagai asisten kelas tetap memakai aplikasi
+ini sebagai mahasiswa biasa (daftar praktikum lain, bayar, scan presensi). Di
+Profil muncul bagian "Asisten Praktikum" berisi kelas yang ia pegang beserta
+jadwalnya, dengan keterangan bahwa kelas dikelola lewat web SILAB. Datanya dari
+`GET /class` (untuk mahasiswa backend hanya mengembalikan kelas yang ia
+pegang), lewat `AssistedClassesBloc` di `lib/features/user_details`. Bagian ini
+tidak tampil bila ia tidak memegang kelas, dan ikut berubah tanpa refresh saat
+laboran menambah atau menghapusnya (event `class`).
+
 ## Alur yang tersambung ke web
 
 1. Laboran membuat pengumuman bertipe **Practicum** di web → di aplikasi,
@@ -198,6 +209,9 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   kampus, inisial nama, repository (token disimpan hanya bila kode benar),
   login akun belum terverifikasi membawa email, urutan state kedua bloc, form
   Daftar menolak isian kosong, dan layar kode (hitung mundur, kirim otomatis)
+- `test/features/user_details/assisted_classes_test.dart` — kelas asisten
+  dibaca dari `GET /class`, refresh diam-diam, dan bagian Profil hanya tampil
+  bila memegang kelas
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh

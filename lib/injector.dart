@@ -69,6 +69,8 @@ import 'package:silab/features/registration/domain/usecases/resend_registration_
 import 'package:silab/features/registration/domain/usecases/verify_registration_usecase.dart';
 import 'package:silab/features/registration/presentation/bloc/registration/registration_bloc.dart';
 import 'package:silab/features/registration/presentation/bloc/registration_verification/registration_verification_bloc.dart';
+import 'package:silab/features/user_details/domain/usecases/get_assisted_classes_usecase.dart';
+import 'package:silab/features/user_details/presentation/bloc/assisted_classes/assisted_classes_bloc.dart';
 import 'package:http/http.dart' as http;
 
 final injector = GetIt.instance;
@@ -123,6 +125,8 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<UserLogoutUsecase>(UserLogoutUsecase(injector()));
   injector.registerSingleton<GetUserDetailsUseCase>(
       GetUserDetailsUseCase(injector()));
+  injector.registerSingleton<GetAssistedClassesUsecase>(
+      GetAssistedClassesUsecase(injector()));
   injector.registerSingleton<GetSelectedSubjectByNimUsecase>(
       GetSelectedSubjectByNimUsecase(injector()));
   injector.registerSingleton<GetSubjectDetailsUseCase>(
@@ -161,6 +165,8 @@ Future<void> initializeDependencies() async {
       () => AuthenticationBloc(injector(), injector(), injector(), injector()));
   injector.registerFactory<UserDetailsBloc>(
       () => UserDetailsBloc(injector(), injector()));
+  injector.registerFactory<AssistedClassesBloc>(
+      () => AssistedClassesBloc(injector()));
   injector.registerFactory<SelectedSubjectByNimBloc>(
       () => SelectedSubjectByNimBloc(injector()));
   injector.registerFactory<SubjectDetailsBloc>(

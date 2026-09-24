@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:silab/app_config.dart';
 import 'package:silab/core/router/router.dart';
+import 'package:silab/features/user_details/presentation/bloc/assisted_classes/assisted_classes_bloc.dart';
 import 'package:silab/features/announcement/presentation/blocs/get_all_announcements/get_all_announcements_bloc.dart';
 import 'package:silab/features/announcement/presentation/blocs/get_announcement/get_announcement_bloc.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -96,6 +97,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<RealtimeBloc>(
           create: (_) => RealtimeBloc(injector()),
+        ),
+        BlocProvider<AssistedClassesBloc>(
+          create: (_) => AssistedClassesBloc(injector()),
         ),
       ],
       child: MaterialApp.router(
