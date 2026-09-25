@@ -5,6 +5,7 @@ import 'package:silab/features/classes/presentation/bloc/classmates/classmates_b
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
 import 'package:silab/features/classes/presentation/widgets/class_card.dart';
 import 'package:silab/features/classes/presentation/widgets/class_details_tabview.dart';
+import 'package:silab/features/classes/presentation/widgets/registered_class_guard.dart';
 
 class ClassDetailPageExtra {
   final ClassEntity classEntity;
@@ -43,20 +44,23 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: RefreshIndicator(
-            color: const Color(0xff3272CA),
-            backgroundColor: Colors.white,
-            triggerMode: RefreshIndicatorTriggerMode.anywhere,
-            onRefresh: () async => _loadClassData(),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                ClassCard(classEntity: widget.classDetailPageExtra.classEntity),
-                const SizedBox(height: 24),
-                ClassDetailTabView(
-                  classId: widget.classDetailPageExtra.classEntity.id,
-                )
-              ],
+          child: RegisteredClassGuard(
+            classEntity: widget.classDetailPageExtra.classEntity,
+            builder: (context, latest) => RefreshIndicator(
+              color: const Color(0xff3272CA),
+              backgroundColor: Colors.white,
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              onRefresh: () async => _loadClassData(),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  ClassCard(classEntity: latest),
+                  const SizedBox(height: 24),
+                  ClassDetailTabView(
+                    classId: widget.classDetailPageExtra.classEntity.id,
+                  )
+                ],
+              ),
             ),
           ),
         ),

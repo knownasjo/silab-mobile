@@ -191,10 +191,11 @@ laboran menambah atau menghapusnya (event `class`).
    | Pengumuman di Beranda | laboran membuat, mengubah, atau menghapus pengumuman |
    | Detail pengumuman | isinya diubah; bila dihapus, halaman tertutup dengan pesan "Pengumuman ini sudah dihapus." |
    | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran |
-   | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, atau mahasiswa memilih kelas |
+   | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, atau mahasiswa memilih kelas |
    | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
    | Pendaftaran Praktikum | mata kuliah baru |
    | Detail Kelas (Presensi, Classmates) | sesi dibuka/ditutup, presensi diubah laboran, peserta kelas berubah |
+   | Kartu kelas di Detail Kelas | laboran mengubah nama, hari, atau sesi kelas; bila kelas dihapus atau mahasiswa dipindah ke kelas lain, halaman berganti menjadi "Anda sudah tidak terdaftar di kelas ini." dengan tombol Kembali ke Beranda |
 
    Bila sesi ditutup saat kamera masih terbuka, halaman scan tertutup sendiri
    dengan pesan "Sesi presensi sudah ditutup oleh asisten."
@@ -236,6 +237,13 @@ yang memuat ulang tanpa state loading, jadi daftar tidak berkedip. Refresh
 diabaikan bila data belum pernah dibuka (state masih `Initial`), gagalnya
 tidak menghapus data yang sedang tampil, dan beberapa refresh berjalan
 berurutan (`sequential()` di `lib/core/helpers/event_transformers.dart`).
+
+Halaman Detail Kelas dibuka dengan data kelas dari kartu di Beranda. Supaya
+kartu di atasnya tidak memakai jadwal lama, `RegisteredClassGuard`
+(`lib/features/classes/presentation/widgets/registered_class_guard.dart`)
+mengambil kelas yang sama dari `UserRegisteredClassBloc`, yang dimuat ulang
+oleh event `activation`. Bila kelas itu sudah tidak ada di daftar, halaman
+menampilkan pemberitahuan alih-alih tab Presensi dan Classmates.
 
 Entity memakai `freezed`/`json_serializable`. Setelah mengubah entity:
 
@@ -283,6 +291,10 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login;
   sesi yang dicabut server saat aplikasi dipakai juga diarahkan ke login
+- `test/features/classes/registered_class_guard_test.dart` — Detail Kelas
+  memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
+  bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat
+  pemuatan ulang gagal
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
   respons asli backend
 - `test/live/` — alur mahasiswa terhadap backend yang sedang berjalan; hanya
