@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_form_field.dart';
 import 'package:silab/core/common/widgets/custom_large_button.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/core/helpers/login_number.dart';
 import 'package:silab/features/authentication/data/models/login_model.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:silab/features/registration/presentation/pages/registration_verification_page.dart';
@@ -78,14 +79,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     textInputAction: TextInputAction.next,
                     textInputType: TextInputType.number,
                     isObscure: false,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'NIM Anda Belum Diisi!';
-                      } else if (value.length < 10) {
-                        return 'Masukkan NIM yang Valid!';
-                      }
-                      return null;
-                    },
+                    validator: validateLoginNumber,
                   ),
                   const SizedBox(height: 16),
                   CustomFormField(

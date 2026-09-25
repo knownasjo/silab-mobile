@@ -6,8 +6,15 @@ dengan web admin (`silab-admin`), jadi presensi yang dipindai di aplikasi
 langsung muncul di rekap web, dan pembayaran yang dikonfirmasi laboran di web
 langsung terlihat di aplikasi.
 
-Akun laboran, asisten, dan dosen ditolak saat login: fitur aplikasi ini
-(presensi, pilih kelas) hanya untuk mahasiswa.
+Akun dosen dan laboran ditolak saat login dengan pesan "Akun dosen dan laboran
+memakai SILAB versi web.", karena fitur aplikasi ini (presensi, pilih kelas)
+hanya untuk mahasiswa. Asisten tetap masuk sebagai mahasiswa biasa. Penolakan
+terjadi di dua tempat (`lib/core/helpers/login_number.dart`):
+
+- Nomor 8 angka (format NIY dosen dan laboran) ditolak di form sebelum
+  permintaan dikirim ke server. NIM mahasiswa tetap 10 angka.
+- Bila login berhasil tetapi `GET /auth/me` menyebut role selain MAHASISWA,
+  token tidak disimpan dan pesan yang sama tampil di snackbar.
 
 ## Kebutuhan
 
@@ -270,6 +277,9 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   urutan state kedua bloc, simpan tidak dikirim dua kali, dan kedua layar
   (NIM dari email, validasi isian, kode salah tidak menghapus password,
   hitung mundur)
+- `test/features/authentication/staff_login_test.dart` — nomor 8 angka
+  ditolak di form tanpa menghubungi server, role DOSEN/LABORAN dari server
+  ditolak tanpa menyimpan token, dan mahasiswa tetap bisa masuk
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login;
   sesi yang dicabut server saat aplikasi dipakai juga diarahkan ke login

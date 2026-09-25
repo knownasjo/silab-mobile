@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:silab/core/exceptions/exceptions.dart';
 import 'package:silab/core/failures/failures.dart';
+import 'package:silab/core/helpers/login_number.dart';
 import 'package:silab/features/authentication/data/data_sources/local/authentication_local_datasource.dart';
 import 'package:silab/features/authentication/data/data_sources/remote/authentication_api_service.dart';
 import 'package:silab/features/authentication/data/models/login_model.dart';
@@ -30,8 +31,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
               .getUserRole(result.data!.accessToken!);
 
           if (role != 'MAHASISWA') {
-            return Left(RequestFailures(
-                'Aplikasi SILAB mobile khusus untuk mahasiswa.'));
+            return Left(RequestFailures(staffUseWebMessage));
           }
 
           await setUserTokens(
