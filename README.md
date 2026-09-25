@@ -191,7 +191,7 @@ laboran menambah atau menghapusnya (event `class`).
    | Pengumuman di Beranda | laboran membuat, mengubah, atau menghapus pengumuman |
    | Detail pengumuman | isinya diubah; bila dihapus, halaman tertutup dengan pesan "Pengumuman ini sudah dihapus." |
    | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran |
-   | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, atau mahasiswa memilih kelas |
+   | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, mengubah nama mata kuliah atau dosen pengampunya, atau mahasiswa memilih kelas |
    | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
    | Pendaftaran Praktikum | mata kuliah baru |
    | Detail Kelas (Presensi, Classmates) | sesi dibuka/ditutup, presensi diubah laboran, peserta kelas berubah |
