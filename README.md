@@ -196,7 +196,7 @@ laboran menambah atau menghapusnya (event `class`).
    | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, mengubah nama mata kuliah atau dosen pengampunya, atau mahasiswa memilih kelas |
    | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
    | Pendaftaran Praktikum | mata kuliah baru |
-   | Detail Kelas (Presensi, Classmates) | sesi dibuka/ditutup, presensi diubah laboran, peserta kelas berubah |
+   | Detail Kelas (Presensi, Classmates) | pertemuan ditambah, diubah judulnya, atau dihapus, sesi dibuka/ditutup, presensi diubah laboran, peserta kelas berubah |
    | Kartu kelas di Detail Kelas | laboran mengubah nama, hari, atau sesi kelas; bila kelas dihapus atau mahasiswa dipindah ke kelas lain, halaman berganti menjadi "Anda sudah tidak terdaftar di kelas ini." dengan tombol Kembali ke Beranda |
 
    Bila sesi ditutup saat kamera masih terbuka, halaman scan tertutup sendiri
