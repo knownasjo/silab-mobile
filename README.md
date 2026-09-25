@@ -181,7 +181,9 @@ laboran menambah atau menghapusnya (event `class`).
 5. Kelas muncul di Beranda dan Jadwal.
 6. Asisten membuka sesi presensi dan menampilkan QR di web; QR berganti setiap
    10 detik. Di Detail Kelas, mahasiswa menekan ikon scan pada pertemuan yang
-   sesinya dibuka. Tombol scan tidak membuka kamera bila sesi belum dibuka
+   sesinya dibuka. Daftar pertemuan di sana adalah urutan dari server
+   (menurut judul, Pertemuan 2 sebelum Pertemuan 10) yang dibalik, jadi nomor
+   terbesar ada di atas. Tombol scan tidak membuka kamera bila sesi belum dibuka
    atau presensi sudah tercatat.
 7. Semua tampilan diperbarui real-time lewat `GET /events`, tanpa menarik
    layar untuk refresh:
