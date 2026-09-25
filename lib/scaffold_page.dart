@@ -100,6 +100,16 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
             appBarTitle = 'Pilih Kelas';
           });
           break;
+        case '/home/edit-profil':
+          setState(() {
+            appBarTitle = 'Edit Profil';
+          });
+          break;
+        case '/home/ganti-password':
+          setState(() {
+            appBarTitle = 'Ganti Password';
+          });
+          break;
         default:
           break;
       }

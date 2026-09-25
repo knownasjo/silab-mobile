@@ -8,3 +8,5 @@ class UserDetailsEvent extends Equatable {
 }
 
 final class GetUserDetails extends UserDetailsEvent {}
+
+final class RefreshUserDetails extends UserDetailsEvent {}

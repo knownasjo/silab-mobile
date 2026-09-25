@@ -129,6 +129,25 @@ Mengganti password mencabut semua sesi lama akun itu. HP lain yang sedang
 login dengan akun tersebut kembali ke halaman login dalam 1–2 detik dengan
 pesan "Sesi Anda berakhir, silakan masuk kembali." (lihat "Struktur").
 
+## Edit profil dan ganti password
+
+Halaman Profil punya dua menu baru (`lib/features/account`):
+
+- **Edit Profil** (`/home/edit-profil`): nama lengkap terisi nama sekarang,
+  3–100 karakter, lalu `PUT /auth/me`. NIM dan email tidak bisa diubah.
+  Sekembalinya ke Profil, `UserDetailsBloc` dimuat ulang diam-diam
+  (`RefreshUserDetails`), jadi Profil dan sapaan di Beranda langsung memakai
+  nama baru.
+- **Ganti Password** (`/home/ganti-password`): password lama, password baru
+  (min. 8, harus berbeda dari yang lama), dan konfirmasi, lalu
+  `PUT /auth/me/password`. Token baru dari server disimpan
+  (`AccountRepositoryImpl`), jadi HP ini tetap masuk dan stream real-time
+  tersambung lagi dengan token baru; HP lain dengan akun yang sama kembali ke
+  halaman login.
+
+Bloc-nya `EditProfileBloc` dan `ChangePasswordBloc`; keduanya mengabaikan
+tombol Simpan yang ditekan lagi saat permintaan masih berjalan.
+
 ## Asisten praktikum
 
 Mahasiswa yang ditugaskan laboran sebagai asisten kelas tetap memakai aplikasi
@@ -241,6 +260,11 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/user_details/assisted_classes_test.dart` — kelas asisten
   dibaca dari `GET /class`, refresh diam-diam, dan bagian Profil hanya tampil
   bila memegang kelas
+- `test/features/account/account_test.dart` — `PUT /auth/me` dengan token
+  login, token baru disimpan hanya bila ganti password berhasil, urutan state
+  kedua bloc, profil dimuat ulang diam-diam, dan validasi kedua layar (nama
+  kosong/pendek, password kosong, pendek, sama dengan yang lama, konfirmasi
+  beda)
 - `test/features/password_reset/password_reset_test.dart` — format email,
   repository (email belum terdaftar, akun belum diverifikasi membawa email),
   urutan state kedua bloc, simpan tidak dikirim dua kali, dan kedua layar

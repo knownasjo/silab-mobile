@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silab/core/helpers/event_transformers.dart';
 import 'package:silab/features/user_details/domain/entities/user_detail/user_detail_entity.dart';
 import 'package:silab/features/user_details/domain/usecases/get_user_details_usecase.dart';
 
@@ -16,6 +17,21 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
     this._sharedPreferences,
   ) : super(UserDetailInitial()) {
     on<GetUserDetails>(onProfilePageOpened);
+    on<RefreshUserDetails>(onRefreshUserDetails, transformer: sequential());
+  }
+
+  Future<void> onRefreshUserDetails(
+    RefreshUserDetails event,
+    Emitter<UserDetailsState> emit,
+  ) async {
+    if (state is! UserDetailLoaded) return;
+
+    final data = await _getUserDetailsUseCase.userRepository.getUserDetails();
+
+    data.fold(
+      (_) {},
+      (right) => emit(UserDetailLoaded(userDetailEntity: right.data)),
+    );
   }
 
   void onProfilePageOpened(

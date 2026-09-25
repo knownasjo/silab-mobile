@@ -79,6 +79,13 @@ import 'package:silab/features/password_reset/domain/usecases/request_password_r
 import 'package:silab/features/password_reset/domain/usecases/reset_password_usecase.dart';
 import 'package:silab/features/password_reset/presentation/bloc/forgot_password/forgot_password_bloc.dart';
 import 'package:silab/features/password_reset/presentation/bloc/reset_password/reset_password_bloc.dart';
+import 'package:silab/features/account/data/data_sources/account_api_service.dart';
+import 'package:silab/features/account/data/repository/account_repository_impl.dart';
+import 'package:silab/features/account/domain/repository/account_repository.dart';
+import 'package:silab/features/account/domain/usecases/change_password_usecase.dart';
+import 'package:silab/features/account/domain/usecases/update_profile_usecase.dart';
+import 'package:silab/features/account/presentation/bloc/change_password/change_password_bloc.dart';
+import 'package:silab/features/account/presentation/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:http/http.dart' as http;
 
 final injector = GetIt.instance;
@@ -110,6 +117,7 @@ Future<void> initializeDependencies() async {
       RegistrationApiService(injector()));
   injector.registerSingleton<PasswordResetApiService>(
       PasswordResetApiService(injector()));
+  injector.registerSingleton<AccountApiService>(AccountApiService(injector()));
 
   injector.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImpl(injector(), injector()));
@@ -129,6 +137,8 @@ Future<void> initializeDependencies() async {
       RegistrationRepositoryImpl(injector(), injector()));
   injector.registerSingleton<PasswordResetRepository>(
       PasswordResetRepositoryImpl(injector()));
+  injector.registerSingleton<AccountRepository>(
+      AccountRepositoryImpl(injector(), injector()));
 
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
   injector.registerSingleton<GetUserAccessTokenUsecase>(
@@ -178,6 +188,10 @@ Future<void> initializeDependencies() async {
       RequestPasswordResetCodeUsecase(injector()));
   injector.registerSingleton<ResetPasswordUsecase>(
       ResetPasswordUsecase(injector()));
+  injector
+      .registerSingleton<UpdateProfileUsecase>(UpdateProfileUsecase(injector()));
+  injector.registerSingleton<ChangePasswordUsecase>(
+      ChangePasswordUsecase(injector()));
 
   injector.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
       injector(), injector(), injector(), injector(), injector()));
@@ -218,4 +232,7 @@ Future<void> initializeDependencies() async {
       () => ForgotPasswordBloc(injector()));
   injector.registerFactory<ResetPasswordBloc>(
       () => ResetPasswordBloc(injector(), injector()));
+  injector.registerFactory<EditProfileBloc>(() => EditProfileBloc(injector()));
+  injector.registerFactory<ChangePasswordBloc>(
+      () => ChangePasswordBloc(injector()));
 }

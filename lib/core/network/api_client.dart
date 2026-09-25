@@ -34,6 +34,9 @@ class ApiClient {
   Future<Map<String, dynamic>> post(String path, {Object? body}) =>
       _send('POST', path, body: body);
 
+  Future<Map<String, dynamic>> put(String path, {Object? body}) =>
+      _send('PUT', path, body: body);
+
   Stream<ServerEvent> listen(String path) {
     final abort = Completer<void>();
     late final StreamController<ServerEvent> controller;

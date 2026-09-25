@@ -7,6 +7,10 @@ import 'package:silab/features/registration/presentation/bloc/registration_verif
 import 'package:silab/features/registration/presentation/pages/registration_page.dart';
 import 'package:silab/features/registration/presentation/pages/registration_verification_page.dart';
 import 'package:silab/features/password_reset/presentation/bloc/forgot_password/forgot_password_bloc.dart';
+import 'package:silab/features/account/presentation/bloc/change_password/change_password_bloc.dart';
+import 'package:silab/features/account/presentation/bloc/edit_profile/edit_profile_bloc.dart';
+import 'package:silab/features/account/presentation/pages/change_password_page.dart';
+import 'package:silab/features/account/presentation/pages/edit_profile_page.dart';
 import 'package:silab/features/password_reset/presentation/bloc/reset_password/reset_password_bloc.dart';
 import 'package:silab/features/password_reset/presentation/pages/forgot_password_page.dart';
 import 'package:silab/features/password_reset/presentation/pages/reset_password_page.dart';
@@ -126,6 +130,24 @@ final GoRouter router = GoRouter(
                   path: 'payment-status',
                   name: 'payment-status',
                   builder: (context, state) => const PaymentStatusPage(),
+                ),
+                GoRoute(
+                  path: 'edit-profil',
+                  name: 'edit-profile',
+                  builder: (context, state) => BlocProvider(
+                    create: (_) => injector<EditProfileBloc>(),
+                    child: EditProfilePage(
+                      initialName: state.extra as String? ?? '',
+                    ),
+                  ),
+                ),
+                GoRoute(
+                  path: 'ganti-password',
+                  name: 'change-password',
+                  builder: (context, state) => BlocProvider(
+                    create: (_) => injector<ChangePasswordBloc>(),
+                    child: const ChangePasswordPage(),
+                  ),
                 ),
                 GoRoute(
                     path: 'pengumuman/:id',
