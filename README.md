@@ -182,7 +182,9 @@ laboran menambah atau menghapusnya (event `class`).
    lain yang ia ikuti atau pegang sebagai asisten. Penolakan server, misalnya
    "Jadwal bentrok: ... yang Anda ikuti." atau kelas yang baru saja penuh
    karena direbut mahasiswa lain, tampil sebagai pesan merah setelah menekan
-   Simpan; aplikasi tidak perlu diubah untuk itu.
+   Simpan; aplikasi tidak perlu diubah untuk itu. Bila laboran membatalkan
+   pembayarannya sebelum ada presensi, kelas itu hilang dari Beranda dan
+   Jadwal lewat event `class` dan `activation`.
 5. Kelas muncul di Beranda dan Jadwal.
 6. Asisten membuka sesi presensi dan menampilkan QR di web; QR berganti setiap
    10 detik. Di Detail Kelas, mahasiswa menekan ikon scan pada pertemuan yang
