@@ -40,6 +40,12 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
           fontWeight: FontWeight.normal,
         ),
       ),
+      subtitle: state.subjectList?[index].subject_code != null
+          ? Text(
+              state.subjectList![index].subject_code!,
+              style: const TextStyle(fontSize: 12, color: Color(0x991D1D1D)),
+            )
+          : null,
     );
   }
 }

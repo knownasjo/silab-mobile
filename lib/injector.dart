@@ -195,8 +195,7 @@ Future<void> initializeDependencies() async {
 
   injector.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
       injector(), injector(), injector(), injector(), injector()));
-  injector.registerFactory<UserDetailsBloc>(
-      () => UserDetailsBloc(injector(), injector()));
+  injector.registerFactory<UserDetailsBloc>(() => UserDetailsBloc(injector()));
   injector.registerFactory<AssistedClassesBloc>(
       () => AssistedClassesBloc(injector()));
   injector.registerFactory<SelectedSubjectByNimBloc>(

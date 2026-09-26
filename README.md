@@ -172,7 +172,8 @@ laboran menambah atau menghapusnya (event `class`).
    tombol "Pelajari lebih lanjut" pada pengumuman itu membuka pendaftaran
    praktikum. Pengumuman tipe lain membuka halaman detail.
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
-   di Profil → Status Pembayaran.
+   di Profil → Status Pembayaran. Di daftar pilihan, kode mata kuliah (9 angka)
+   tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS.
 3. Laboran mengonfirmasi pembayaran di web (boleh sekaligus menetapkan kelas)
    → status menjadi "Lunas".
 4. Bila kelas belum ditetapkan, mahasiswa memilih kelas sendiri (tombol

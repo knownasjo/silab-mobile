@@ -32,7 +32,7 @@ const myClassesJson = '''
 void main() {
   test('login: token dibaca dari status boolean', () {
     final login = LoginResponseEntity.fromJson(json(
-        '{"status":true,"message":"Login Successful","data":{"accessToken":"a","refreshToken":"r"}}'));
+        '{"status":true,"message":"Login berhasil","data":{"accessToken":"a","refreshToken":"r"}}'));
 
     expect(login.status, true);
     expect(login.data?.accessToken, 'a');
@@ -40,7 +40,7 @@ void main() {
 
   test('profil: "name" dari /auth/me dibaca sebagai fullname', () {
     final me = UserDetailResponseEntity.fromJson(json(
-        '{"status":true,"message":"Success get user data!","data":{"id":"u1","nim":"2000016099","name":"Mahasiswa001","email":"m@webmail.uad.ac.id","role":"MAHASISWA"}}'));
+        '{"status":true,"message":"Berhasil","data":{"id":"u1","nim":"2000016099","name":"Mahasiswa001","email":"m@webmail.uad.ac.id","role":"MAHASISWA"}}'));
 
     expect(me.data?.fullname, 'Mahasiswa001');
     expect(me.data?.nim, '2000016099');
@@ -108,7 +108,7 @@ void main() {
 
   test('pilihan kelas dari /class/registration: kuota berupa angka', () {
     final options = UserClassOptionByPaidSubjectResponseEntity.fromJson(json('''
-{"status":true,"message":"Success","data":[{"id":"c-b","subject_name":"Algoritma dan Pemrograman","subject_class":"B","semester":"1","quota":25,"day":"TUESDAY","registered_students":24,"session_time":"09.00 - 10.30"}]}'''))
+{"status":true,"message":"Berhasil","data":[{"id":"c-b","subject_name":"Algoritma dan Pemrograman","subject_class":"B","semester":"1","quota":25,"day":"TUESDAY","registered_students":24,"session_time":"09.00 - 10.30"}]}'''))
         .data!;
 
     expect(options.single.class_id, 'c-b');
@@ -118,16 +118,17 @@ void main() {
 
   test('daftar mata kuliah dari /subject', () {
     final subjects = SubjectListResponseEntity.fromJson(json('''
-{"status":true,"message":"Success","data":[{"id":"23b860ef","subject_code":"002","subject_name":"Rekayasa Perangkat Lunak","semester":"4","lecturer":"Dosen001"}]}'''))
+{"status":true,"message":"Berhasil","data":[{"id":"23b860ef","subject_code":"553310002","subject_name":"Rekayasa Perangkat Lunak","semester":"4","lecturer":"Dosen001"}]}'''))
         .data!;
 
+    expect(subjects.single.subject_code, '553310002');
     expect(subjects.single.subject_name, 'Rekayasa Perangkat Lunak');
     expect(subjects.single.semester, '4');
   });
 
   test('pengumuman dari /announcement', () {
     final announcements = AnnouncementListResponseEntity.fromJson(json('''
-{"status":true,"message":"Success","data":[{"id":"a1","title":"Jadwal Inhall","body":"Isi","author":"Laboran002","created_at":"2026-09-01T00:00:00.000Z","type":"INHALL"}]}'''))
+{"status":true,"message":"Berhasil","data":[{"id":"a1","title":"Jadwal Inhall","body":"Isi","author":"Laboran002","created_at":"2026-09-01T00:00:00.000Z","type":"INHALL"}]}'''))
         .data!;
 
     expect(announcements.single.author, 'Laboran002');

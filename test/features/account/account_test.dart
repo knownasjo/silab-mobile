@@ -188,7 +188,6 @@ void main() {
       final api = apiWith(backend);
       final bloc = UserDetailsBloc(
         GetUserDetailsUseCase(UserRepositoryImpl(UserApiService(api))),
-        prefs,
       );
       final states = <UserDetailsState>[];
       final subscription = bloc.stream.listen(states.add);
