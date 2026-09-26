@@ -174,11 +174,15 @@ laboran menambah atau menghapusnya (event `class`).
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
    di Profil → Status Pembayaran. Di daftar pilihan, kode mata kuliah (9 angka)
    tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS.
-3. Laboran mengonfirmasi pembayaran di web (boleh sekaligus menetapkan kelas)
-   → status menjadi "Lunas".
-4. Bila kelas belum ditetapkan, mahasiswa memilih kelas sendiri (tombol
-   "Pilih Kelas"). Mata kuliah harus lunas, satu kelas per mata kuliah, kuota
-   belum penuh.
+3. Laboran mengonfirmasi pembayaran di web (boleh sekaligus menetapkan kelas,
+   boleh juga dikosongkan) → status menjadi "Lunas".
+4. Bila kelas belum ditetapkan, banner di Beranda mengajak mahasiswa memilih
+   kelas sendiri (tombol "Pilih Kelas"). Mata kuliah harus lunas, satu kelas
+   per mata kuliah, kuota belum penuh, dan jadwalnya tidak bentrok dengan kelas
+   lain yang ia ikuti atau pegang sebagai asisten. Penolakan server, misalnya
+   "Jadwal bentrok: ... yang Anda ikuti." atau kelas yang baru saja penuh
+   karena direbut mahasiswa lain, tampil sebagai pesan merah setelah menekan
+   Simpan; aplikasi tidak perlu diubah untuk itu.
 5. Kelas muncul di Beranda dan Jadwal.
 6. Asisten membuka sesi presensi dan menampilkan QR di web; QR berganti setiap
    10 detik. Di Detail Kelas, mahasiswa menekan ikon scan pada pertemuan yang
