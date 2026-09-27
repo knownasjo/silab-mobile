@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -89,6 +90,17 @@ void main() {
       api.get('/class/me'),
       throwsRequestError(
           'Tidak dapat terhubung ke server. Periksa koneksi internet.'),
+    );
+  });
+
+  test('sertifikat HTTPS server bermasalah', () async {
+    final api = apiReturning((_) async =>
+        throw const HandshakeException('CERTIFICATE_VERIFY_FAILED'));
+
+    await expectLater(
+      api.get('/class/me'),
+      throwsRequestError(
+          'Koneksi aman ke server gagal (sertifikat HTTPS). Hubungi laboran.'),
     );
   });
 

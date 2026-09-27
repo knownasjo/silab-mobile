@@ -218,7 +218,11 @@ atau **tidak hadir**.
 Clean architecture per fitur (`lib/features/<fitur>/{data,domain,presentation}`)
 dengan BLoC. Semua permintaan ke backend lewat satu kelas,
 `lib/core/network/api_client.dart`, yang mengurus alamat server, token,
-JSON, dan pesan error. Pesan error backend diteruskan apa adanya.
+JSON, dan pesan error. Pesan error backend diteruskan apa adanya. Gangguan
+koneksi diubah menjadi pesan yang bisa dibaca: server tidak merespons dalam 20
+detik, tidak dapat terhubung, dan sertifikat HTTPS server bermasalah ("Koneksi
+aman ke server gagal (sertifikat HTTPS). Hubungi laboran."). Yang terakhir
+dulu tidak tertangkap, jadi layar bisa tertahan di loading.
 
 Access token berlaku 15 menit. Bila backend membalas `jwt expired`,
 `ApiClient` menukar refresh token di `POST /auth/refresh`, menyimpan token
@@ -278,8 +282,8 @@ flutter test                                          # tanpa server
 flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 ```
 
-- `test/core/network/api_client_test.dart` — token, body, penanganan error,
-  refresh token (termasuk sesi berakhir: token dihapus, sinyal dikirim sekali),
+- `test/core/network/api_client_test.dart` — token, body, penanganan error
+  (termasuk sertifikat HTTPS bermasalah), refresh token (termasuk sesi berakhir: token dihapus, sinyal dikirim sekali),
   dan stream SSE (token, refresh, isi event, tersambung ulang,
   berhenti saat dibatalkan)
 - `test/features/realtime/` — `RealtimeBloc` (koneksi pertama, tersambung
@@ -312,6 +316,9 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login;
   sesi yang dicabut server saat aplikasi dipakai juga diarahkan ke login
+- `test/features/classes/meetings_tab_test.dart` — tab Presensi menampilkan
+  loading saat memuat, pesan dari server saat gagal, dan "Belum ada pertemuan
+  di kelas ini." saat kosong; dulu ketiganya tampil kosong
 - `test/features/classes/registered_class_guard_test.dart` — Detail Kelas
   memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat

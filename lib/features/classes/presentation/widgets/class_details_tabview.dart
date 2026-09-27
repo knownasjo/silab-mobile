@@ -125,14 +125,22 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   Widget _buildMeetings() {
     return BlocBuilder<UserMeetingsBloc, UserMeetingsState>(
       builder: (context, state) {
-        List<MeetingsEntity> meetingList;
-        if (state is UserMeetingsLoaded && state.meetingsData != null) {
-          meetingList = state.meetingsData!.reversed.toList();
-
-          return _buildMeetingList(meetingList);
-        } else {
-          return const SizedBox();
+        if (state is UserMeetingsLoading) {
+          return const Center(child: CustomLoadingIndicator());
         }
+
+        if (state is UserMeetingsFailed) {
+          return _buildTabMessage(
+              state.message ?? 'Gagal memuat daftar pertemuan.');
+        }
+
+        final meetings = state.meetingsData ?? const <MeetingsEntity>[];
+
+        if (state is UserMeetingsLoaded && meetings.isEmpty) {
+          return _buildTabMessage('Belum ada pertemuan di kelas ini.');
+        }
+
+        return _buildMeetingList(meetings.reversed.toList());
       },
     );
   }

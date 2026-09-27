@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
@@ -280,6 +281,9 @@ class ApiClient {
     } on TimeoutException {
       throw RequestErrorException(
           'Server tidak merespons. Periksa koneksi dan alamat server.');
+    } on TlsException {
+      throw RequestErrorException(
+          'Koneksi aman ke server gagal (sertifikat HTTPS). Hubungi laboran.');
     } on http.ClientException {
       throw RequestErrorException(
           'Tidak dapat terhubung ke server. Periksa koneksi internet.');
