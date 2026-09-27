@@ -14,7 +14,7 @@ class GetAnnouncementBloc
   GetAnnouncementBloc(this._getAnnouncementUseCase)
       : super(GetAnnouncementInitial()) {
     on<GetAnnouncement>(onGetAnnouncement);
-    on<RefreshAnnouncement>(onRefreshAnnouncement, transformer: sequential());
+    on<RefreshAnnouncement>(onRefreshAnnouncement, transformer: coalesced());
   }
 
   void onGetAnnouncement(

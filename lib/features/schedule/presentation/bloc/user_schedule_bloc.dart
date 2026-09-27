@@ -13,7 +13,7 @@ class UserScheduleBloc extends Bloc<UserScheduleEvent, UserScheduleState> {
   UserScheduleBloc(this._getUserScheduleUsecase)
       : super(UserScheduleInitial()) {
     on<GetUserSchedule>(onGetUserSchedule);
-    on<RefreshUserSchedule>(onRefreshUserSchedule, transformer: sequential());
+    on<RefreshUserSchedule>(onRefreshUserSchedule, transformer: coalesced());
   }
 
   void onGetUserSchedule(

@@ -15,7 +15,7 @@ class UserMeetingsBloc extends Bloc<UserMeetingsEvent, UserMeetingsState> {
   UserMeetingsBloc(this._getUserMeetingsDataUsecase)
       : super(UserMeetingsInitial()) {
     on<GetUserMeetings>(onGetUserMeetingsData);
-    on<RefreshUserMeetings>(onRefreshUserMeetings, transformer: sequential());
+    on<RefreshUserMeetings>(onRefreshUserMeetings, transformer: coalesced());
   }
 
   void onGetUserMeetingsData(

@@ -16,7 +16,7 @@ class AssistedClassesBloc
     on<GetAssistedClasses>(_onGetAssistedClasses);
     on<RefreshAssistedClasses>(
       _onRefreshAssistedClasses,
-      transformer: sequential(),
+      transformer: coalesced(),
     );
   }
 
@@ -38,7 +38,15 @@ class AssistedClassesBloc
     RefreshAssistedClasses event,
     Emitter<AssistedClassesState> emit,
   ) async {
-    if (state is AssistedClassesInitial) return;
+    final current = state;
+    final classId = event.classId;
+
+    if (current is AssistedClassesInitial) return;
+    if (classId != null &&
+        !(current is AssistedClassesLoaded &&
+            current.classes.any((assisted) => assisted.id == classId))) {
+      return;
+    }
 
     final result = await _getAssistedClassesUsecase();
 

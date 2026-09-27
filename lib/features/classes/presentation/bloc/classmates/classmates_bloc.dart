@@ -14,7 +14,7 @@ class ClassmatesBloc extends Bloc<ClassmatesEvent, ClassmatesState> {
 
   ClassmatesBloc(this._getClassmatesUsecase) : super(ClassmatesInitial()) {
     on<GetClassmates>(onGetClassmates);
-    on<RefreshClassmates>(onRefreshClassmates, transformer: sequential());
+    on<RefreshClassmates>(onRefreshClassmates, transformer: coalesced());
   }
 
   void onGetClassmates(

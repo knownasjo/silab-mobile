@@ -244,8 +244,16 @@ diputus sistem.
 Setiap bloc data punya event `Refresh…` (misalnya `RefreshUserRegisteredClass`)
 yang memuat ulang tanpa state loading, jadi daftar tidak berkedip. Refresh
 diabaikan bila data belum pernah dibuka (state masih `Initial`), gagalnya
-tidak menghapus data yang sedang tampil, dan beberapa refresh berjalan
-berurutan (`sequential()` di `lib/core/helpers/event_transformers.dart`).
+tidak menghapus data yang sedang tampil, dan refresh berjalan satu per satu
+tanpa menumpuk (`coalesced()` di `lib/core/helpers/event_transformers.dart`):
+refresh yang sama yang datang selagi satu masih berjalan digabung menjadi
+satu susulan. Saat pendaftaran kelas ramai, puluhan event `class` datang
+beruntun; tanpa penggabungan ini setiap HP mengirim satu permintaan per event.
+
+Kelas asisten (Profil) hanya dimuat ulang bila event `class` menyangkut kelas
+yang dipegang, atau bila daftar asisten berubah (`action: "assistants"` dari
+backend). Pendaftaran mahasiswa lain di kelas yang tidak dipegang tidak memicu
+permintaan apa pun.
 
 Halaman Detail Kelas dibuka dengan data kelas dari kartu di Beranda. Supaya
 kartu di atasnya tidak memakai jadwal lama, `RegisteredClassGuard`
@@ -281,9 +289,13 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   kampus, inisial nama, repository (token disimpan hanya bila kode benar),
   login akun belum terverifikasi membawa email, urutan state kedua bloc, form
   Daftar menolak isian kosong, dan layar kode (hitung mundur, kirim otomatis)
+- `test/core/helpers/event_transformers_test.dart` — refresh yang sama
+  digabung jadi satu susulan, refresh berbeda tetap berurutan, dan bloc yang
+  ditutup membuang antrean tanpa error
 - `test/features/user_details/assisted_classes_test.dart` — kelas asisten
-  dibaca dari `GET /class`, refresh diam-diam, dan bagian Profil hanya tampil
-  bila memegang kelas
+  dibaca dari `GET /class`, refresh diam-diam, event dari kelas yang tidak
+  dipegang diabaikan, perubahan daftar asisten selalu dimuat ulang, dan bagian
+  Profil hanya tampil bila memegang kelas
 - `test/features/account/account_test.dart` — `PUT /auth/me` dengan token
   login, token baru disimpan hanya bila ganti password berhasil, urutan state
   kedua bloc, profil dimuat ulang diam-diam, dan validasi kedua layar (nama

@@ -12,5 +12,10 @@ final class GetAssistedClasses extends AssistedClassesEvent {
 }
 
 final class RefreshAssistedClasses extends AssistedClassesEvent {
-  const RefreshAssistedClasses();
+  final String? classId;
+
+  const RefreshAssistedClasses({this.classId});
+
+  @override
+  List<Object?> get props => [classId];
 }

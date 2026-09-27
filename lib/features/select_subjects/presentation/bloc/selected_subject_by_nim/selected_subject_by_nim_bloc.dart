@@ -15,7 +15,7 @@ class SelectedSubjectByNimBloc
       : super(SelectedSubjectByNimInitial()) {
     on<GetUserSelectedSubjects>(onAppOpened);
     on<RefreshUserSelectedSubjects>(onRefreshUserSelectedSubjects,
-        transformer: sequential());
+        transformer: coalesced());
   }
 
   void onAppOpened(

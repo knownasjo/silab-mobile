@@ -151,6 +151,66 @@ void main() {
     await bloc.close();
   });
 
+  test('event real-time dari kelas yang tidak dipegang tidak memicu permintaan',
+      () async {
+    final bloc = createBloc();
+    bloc.add(const GetAssistedClasses());
+    await settle();
+
+    bloc.add(const RefreshAssistedClasses(classId: 'kelas-lain'));
+    await settle();
+
+    expect(requestCount, 1);
+    await bloc.close();
+  });
+
+  test('event real-time dari kelas yang dipegang memicu refresh', () async {
+    final bloc = createBloc();
+    bloc.add(const GetAssistedClasses());
+    await settle();
+
+    bloc.add(const RefreshAssistedClasses(classId: 'b8dca325'));
+    await settle();
+
+    expect(requestCount, 2);
+    await bloc.close();
+  });
+
+  test('daftar asisten berubah: selalu dimuat ulang walau kelasnya belum ada',
+      () async {
+    final bloc = createBloc();
+    bloc.add(const GetAssistedClasses());
+    await settle();
+
+    classes = [alproB, rplA];
+    bloc.add(const RefreshAssistedClasses());
+    await settle();
+
+    expect(requestCount, 2);
+    expect(
+      bloc.state,
+      AssistedClassesLoaded([
+        AssistedClassEntity.fromJson(alproB),
+        AssistedClassEntity.fromJson(rplA),
+      ]),
+    );
+    await bloc.close();
+  });
+
+  test('gagal memuat: event kelas tidak memicu permintaan beruntun', () async {
+    statusCode = 500;
+    final bloc = createBloc();
+    bloc.add(const GetAssistedClasses());
+    await settle();
+
+    bloc.add(const RefreshAssistedClasses(classId: 'b8dca325'));
+    await settle();
+
+    expect(requestCount, 1);
+    expect(bloc.state, isA<AssistedClassesFailed>());
+    await bloc.close();
+  });
+
   testWidgets('bagian Asisten Praktikum hanya tampil bila memegang kelas',
       (tester) async {
     late AssistedClassesBloc bloc;

@@ -15,7 +15,7 @@ class UserRegisteredClassBloc
       : super(UserRegisteredClassInitial()) {
     on<GetUserRegisteredClass>(onGetUserRegisteredClass);
     on<RefreshUserRegisteredClass>(onRefreshUserRegisteredClass,
-        transformer: sequential());
+        transformer: coalesced());
   }
 
   void onGetUserRegisteredClass(UserRegisteredClassEvent event,

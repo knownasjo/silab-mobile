@@ -105,7 +105,9 @@ class _RealtimeSyncState extends State<RealtimeSync> {
     context
         .read<ClassmatesBloc>()
         .add(RefreshClassmates(classId: message.classId));
-    context.read<AssistedClassesBloc>().add(const RefreshAssistedClasses());
+    context.read<AssistedClassesBloc>().add(RefreshAssistedClasses(
+          classId: message.action == 'assistants' ? null : message.classId,
+        ));
   }
 
   void _refreshRegistration() {

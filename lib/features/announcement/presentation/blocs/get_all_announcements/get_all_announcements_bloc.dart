@@ -15,7 +15,7 @@ class GetAllAnnouncementsBloc
       : super(GetAllAnnouncementsInitial()) {
     on<GetAllAnnouncements>(onGetAllAnnouncements);
     on<RefreshAllAnnouncements>(onRefreshAllAnnouncements,
-        transformer: sequential());
+        transformer: coalesced());
   }
 
   void onGetAllAnnouncements(GetAllAnnouncementsEvent event,

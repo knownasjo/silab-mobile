@@ -12,7 +12,7 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
 
   UserDetailsBloc(this._getUserDetailsUseCase) : super(UserDetailInitial()) {
     on<GetUserDetails>(onProfilePageOpened);
-    on<RefreshUserDetails>(onRefreshUserDetails, transformer: sequential());
+    on<RefreshUserDetails>(onRefreshUserDetails, transformer: coalesced());
   }
 
   Future<void> onRefreshUserDetails(

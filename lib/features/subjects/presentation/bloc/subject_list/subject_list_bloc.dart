@@ -12,7 +12,7 @@ class SubjectListBloc extends Bloc<SubjectListEvent, SubjectListState> {
 
   SubjectListBloc(this._getSubjectListUseCase) : super(SubjectListInitial()) {
     on<GetSubjectList>(onGetSubjectList);
-    on<RefreshSubjectList>(onRefreshSubjectList, transformer: sequential());
+    on<RefreshSubjectList>(onRefreshSubjectList, transformer: coalesced());
   }
 
   final List<SubjectEntity> subjectList = [];

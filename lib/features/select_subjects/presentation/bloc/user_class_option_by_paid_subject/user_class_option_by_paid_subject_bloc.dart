@@ -14,7 +14,7 @@ class UserClassOptionByPaidSubjectBloc extends Bloc<
     on<GetUserClassOptionByPaidSubject>(onGetUserClassOptionByPaidSubject);
     on<RefreshUserClassOptionByPaidSubject>(
       onRefreshUserClassOptionByPaidSubject,
-      transformer: sequential(),
+      transformer: coalesced(),
     );
   }
 
