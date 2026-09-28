@@ -51,7 +51,7 @@ class _LeftClassNotice extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Kelasnya dihapus atau Anda dipindah ke kelas lain oleh laboran. Lihat kelas terbaru di Beranda.',
+              'Kelasnya dihapus, Anda dipindah ke kelas lain, atau semesternya sudah selesai. Lihat kelas terbaru di Beranda.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13,

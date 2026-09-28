@@ -204,10 +204,19 @@ laboran menambah atau menghapusnya (event `class`).
    | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
    | Pendaftaran Praktikum | mata kuliah baru |
    | Detail Kelas (Presensi, Classmates) | pertemuan ditambah, diubah judulnya, atau dihapus, sesi dibuka/ditutup, presensi diubah laboran, peserta kelas berubah |
-   | Kartu kelas di Detail Kelas | laboran mengubah nama, hari, atau sesi kelas; bila kelas dihapus atau mahasiswa dipindah ke kelas lain, halaman berganti menjadi "Anda sudah tidak terdaftar di kelas ini." dengan tombol Kembali ke Beranda |
+   | Kartu kelas di Detail Kelas | laboran mengubah nama, hari, atau sesi kelas; bila kelas dihapus, mahasiswa dipindah ke kelas lain, atau semesternya selesai, halaman berganti menjadi "Anda sudah tidak terdaftar di kelas ini." dengan tombol Kembali ke Beranda |
+   | Semua tampilan di atas | laboran memulai semester baru |
 
    Bila sesi ditutup saat kamera masih terbuka, halaman scan tertutup sendiri
    dengan pesan "Sesi presensi sudah ditutup oleh asisten."
+8. Aplikasi hanya menampilkan semester (periode akademik) yang sedang aktif;
+   backend yang menyaring kelas, pendaftaran mata kuliah, dan kelas asisten.
+   Saat laboran memulai semester baru di web, backend menutup sesi presensi
+   yang masih terbuka lalu mengirim event `period`, dan semua tampilan dimuat
+   ulang: kelas dan jadwal semester lama hilang dari Beranda dan Jadwal, Status
+   Pembayaran kosong, dan mahasiswa mendaftar ulang mata kuliah untuk semester
+   baru. Mengulang mata kuliah yang pernah diambil diperbolehkan. Data semester
+   lama tetap tersimpan dan hanya bisa dilihat di web.
 
 Status presensi mengikuti aturan yang sama dengan web: `submitted_at` kosong
 berarti **belum presensi**; bila terisi, `is_attended` menentukan **hadir**
@@ -243,7 +252,8 @@ ulang sendiri bila koneksi putus atau tidak ada data selama 60 detik.
 widget `RealtimeSync`, yang membungkus isi `ScaffoldPage`, meneruskan setiap
 event ke bloc yang datanya terpengaruh. Stream ditutup saat logout dan dibuka
 ulang saat aplikasi kembali dari background, karena koneksi lama bisa sudah
-diputus sistem.
+diputus sistem. Event `ready` setelah tersambung ulang dan event `period`
+(semester baru dimulai) memuat ulang semua data sekaligus.
 
 Setiap bloc data punya event `Refresh…` (misalnya `RefreshUserRegisteredClass`)
 yang memuat ulang tanpa state loading, jadi daftar tidak berkedip. Refresh
@@ -287,8 +297,10 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   dan stream SSE (token, refresh, isi event, tersambung ulang,
   berhenti saat dibatalkan)
 - `test/features/realtime/` — `RealtimeBloc` (koneksi pertama, tersambung
-  ulang, logout) dan refresh diam-diam di bloc (tanpa loading, data lama tetap
-  tampil bila gagal, event kelas lain diabaikan, pengumuman dihapus)
+  ulang, logout), refresh diam-diam di bloc (tanpa loading, data lama tetap
+  tampil bila gagal, event kelas lain diabaikan, pengumuman dihapus), dan
+  `RealtimeSync` (event `period` dan `ready` setelah tersambung ulang memuat
+  ulang semua tampilan, event `subject` hanya daftar mata kuliah)
 - `test/features/registration/registration_test.dart` — NIM dari email
   kampus, inisial nama, repository (token disimpan hanya bila kode benar),
   login akun belum terverifikasi membawa email, urutan state kedua bloc, form

@@ -164,6 +164,10 @@ void main() {
 
     expect(find.text('Kelas C · TUESDAY · 16.10 - 17.10'), findsNothing);
     expect(find.text('Anda sudah tidak terdaftar di kelas ini.'), findsOne);
+    expect(
+      find.textContaining('atau semesternya sudah selesai'),
+      findsOne,
+    );
 
     await tester.tap(find.text('Kembali ke Beranda'));
     await tester.pumpAndSettle();

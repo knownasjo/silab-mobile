@@ -54,7 +54,7 @@ class _RealtimeSyncState extends State<RealtimeSync> {
 
   void _onMessage(RealtimeEventEntity message) {
     switch (message.type) {
-      case 'ready':
+      case 'ready' || 'period':
         _refreshEverything();
       case 'announcement':
         _refreshAnnouncements(message);
