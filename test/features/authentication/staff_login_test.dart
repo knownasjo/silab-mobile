@@ -22,6 +22,8 @@ import 'package:silab/features/authentication/domain/usecases/watch_session_ende
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:silab/features/authentication/presentation/pages/authentication_page.dart';
 
+import '../../helpers/fixed_device_id.dart';
+
 void main() {
   late SharedPreferences prefs;
   late List<String> requests;
@@ -63,7 +65,7 @@ void main() {
       );
 
   AuthenticationRepositoryImpl repository() => AuthenticationRepositoryImpl(
-        AuthenticationApiService(api()),
+        AuthenticationApiService(api(), FixedDeviceIdSource('a' * 64)),
         AuthenticationLocalDataSource(prefs),
       );
 

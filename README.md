@@ -218,6 +218,30 @@ laboran menambah atau menghapusnya (event `class`).
    baru. Mengulang mata kuliah yang pernah diambil diperbolehkan. Data semester
    lama tetap tersimpan dan hanya bisa dilihat di web.
 
+### Satu HP satu akun per pertemuan
+
+Supaya tidak ada titip akun (teman yang hadir login dengan akun mahasiswa yang
+absen lalu memindai untuknya), aplikasi mengirim **kode HP** saat login dan
+saat scan QR. Satu kode HP hanya bisa dipakai satu akun per pertemuan; scan
+kedua dari HP yang sama untuk akun lain dibalas "HP ini sudah dipakai presensi
+akun lain di pertemuan ini." dan pesan itu tampil seperti penolakan lain.
+
+- Kode HP diambil dari paket `flutter_udid` (`lib/core/device/device_id.dart`):
+  SHA-256 dari Android ID, 64 karakter. Di iPhone nanti paket yang sama
+  menyimpan kodenya di Keychain. Kode ini tetap sama walaupun aplikasi dihapus
+  lalu dipasang ulang, dan berubah setelah reset pabrik.
+- Kode HP juga bergantung pada **kunci tanda tangan APK**. APK rilis sekarang
+  ditandatangani dengan kunci debug di laptop pembuatnya
+  (`~/.android/debug.keystore`), jadi selalu build dari laptop yang sama dan
+  simpan cadangan file kunci itu. Kunci berbeda membuat kode HP semua
+  mahasiswa berubah, dan APK baru tidak bisa dipasang di atas APK lama.
+- `flutter_udid` dikunci di versi 4.0.0 karena versi 4.1 ke atas butuh Flutter
+  yang lebih baru dari 3.24. Kode yang dihasilkan sama, jadi paketnya bisa
+  ikut dinaikkan saat Flutter dinaikkan.
+- Bila kode HP tidak terbaca, login tetap berjalan tanpa kode, sedangkan scan
+  dibalas server "Perbarui aplikasi SILAB ke versi terbaru untuk melakukan
+  presensi."
+
 Status presensi mengikuti aturan yang sama dengan web: `submitted_at` kosong
 berarti **belum presensi**; bila terisi, `is_attended` menentukan **hadir**
 atau **tidak hadir**.
@@ -331,6 +355,10 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/classes/meetings_tab_test.dart` — tab Presensi menampilkan
   loading saat memuat, pesan dari server saat gagal, dan "Belum ada pertemuan
   di kelas ini." saat kosong; dulu ketiganya tampil kosong
+- `test/features/classes/device_id_test.dart` — kode HP ikut dikirim saat
+  login dan scan, login tetap berjalan bila kode tidak terbaca, pesan "HP ini
+  sudah dipakai presensi akun lain di pertemuan ini." diteruskan dari server,
+  dan paket kode HP yang tidak tersedia (tes di laptop) dibalas kosong
 - `test/features/classes/registered_class_guard_test.dart` — Detail Kelas
   memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat
