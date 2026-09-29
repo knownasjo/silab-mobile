@@ -352,9 +352,9 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   `AndroidManifest.xml`. Bila notifikasi tidak direncanakan, hapus
   keduanya; desugaring di `android/app/build.gradle` lalu bisa ikut dihapus.
 - Detail Kelas: tab "Classmates" menampilkan nama teman sekelas
-  (`GET /class/:id/classmates`, diri sendiri ditandai "Anda"). Tab "Modul"
-  menampilkan "Segera Hadir" (`core/common/widgets/coming_soon.dart`) karena
-  backend belum menyimpan modul.
+  (`GET /class/:id/classmates`, diri sendiri ditandai "Anda"). Fitur modul
+  praktikum tidak dikerjakan, jadi tab "Modul" dan widget "Segera Hadir"-nya
+  sudah dihapus.
 - Sengaja dibiarkan: menu "Riwayat Pembayaran" belum punya halaman, dan total
   harga di ringkasan pendaftaran adalah tarif tetap Rp5.000 per mata kuliah
   yang ditulis di UI.

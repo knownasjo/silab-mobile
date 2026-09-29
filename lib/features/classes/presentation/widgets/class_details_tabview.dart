@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:silab/core/helpers/initials.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:silab/core/common/widgets/coming_soon.dart';
 import 'package:silab/core/common/widgets/custom_loading_indicator.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/classes/domain/entities/classmate/classmate_entity.dart';
@@ -27,7 +26,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   int pageLocation = 0;
   PageController controller = PageController();
 
-  List<String> pageItems = ['Presensi', 'Modul', 'Classmates'];
+  List<String> pageItems = ['Presensi', 'Classmates'];
 
   @override
   void initState() {
@@ -117,7 +116,6 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   }
 
   Widget _buildPageContent(int index) => switch (pageItems[index]) {
-        'Modul' => const ComingSoon(feature: 'Modul'),
         'Classmates' => _buildClassmates(),
         _ => _buildMeetings(),
       };
