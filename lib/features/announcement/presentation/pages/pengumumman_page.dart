@@ -74,11 +74,12 @@ class _PengumumanPageState extends State<PengumumanPage> {
             height: MediaQuery.of(context).size.height,
             child: Material(
               color: Colors.white,
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.only(
                   right: 15,
                   left: 15,
                   top: 24,
+                  bottom: 24,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

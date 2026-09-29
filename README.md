@@ -359,6 +359,10 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   login dan scan, login tetap berjalan bila kode tidak terbaca, pesan "HP ini
   sudah dipakai presensi akun lain di pertemuan ini." diteruskan dari server,
   dan paket kode HP yang tidak tersedia (tes di laptop) dibalas kosong
+- `test/features/announcement/announcement_page_test.dart` — detail
+  pengumuman sepanjang 1000 karakter bisa digulir sampai akhir di layar HP
+  kecil (360×640) tanpa terpotong; sebelum 30 September 2026 halaman ini
+  tidak bisa digulir, karena batas deskripsi masih 200 karakter
 - `test/features/classes/registered_class_guard_test.dart` — Detail Kelas
   memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat
