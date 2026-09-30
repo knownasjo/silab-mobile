@@ -101,6 +101,9 @@ class _RealtimeSyncState extends State<RealtimeSync> {
       context
           .read<UserClassOptionByPaidSubjectBloc>()
           .add(RefreshUserClassOptionByPaidSubject());
+      context
+          .read<SelectedSubjectByNimBloc>()
+          .add(RefreshUserSelectedSubjects());
     }
 
     context

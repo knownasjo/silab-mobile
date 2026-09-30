@@ -190,13 +190,15 @@ laboran menambah atau menghapusnya (event `class`).
    3 baris dengan "…"; isi lengkap ada di halaman detail. Pemetaannya di
    `announcement/presentation/widgets/announcement_type_style.dart`.
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
-   di Profil → Status Pembayaran. Di daftar pilihan, kode mata kuliah (9 angka)
+   di Profil → Pembayaran & Kelas. Di daftar pilihan, kode mata kuliah (9 angka)
    tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS. Selama masih
    Belum Lunas, pendaftaran bisa dibatalkan (lihat "Batalkan pendaftaran").
 3. Laboran mengonfirmasi pembayaran di web (boleh sekaligus menetapkan kelas,
    boleh juga dikosongkan) → status menjadi "Lunas".
-4. Bila kelas belum ditetapkan, banner di Beranda mengajak mahasiswa memilih
-   kelas sendiri (tombol "Pilih Kelas"). Mata kuliah harus lunas, satu kelas
+4. Bila kelas belum ditetapkan, banner di Beranda dan tombol "Pilih Kelas" di
+   Pembayaran & Kelas mengajak mahasiswa memilih kelas sendiri. Setelah
+   disimpan, aplikasi kembali ke halaman asalnya (Beranda atau Pembayaran &
+   Kelas). Mata kuliah harus lunas, satu kelas
    per mata kuliah, kuota belum penuh, dan jadwalnya tidak bentrok dengan kelas
    lain yang ia ikuti atau pegang sebagai asisten. Penolakan server, misalnya
    "Jadwal bentrok: ... yang Anda ikuti." atau kelas yang baru saja penuh
@@ -218,7 +220,7 @@ laboran menambah atau menghapusnya (event `class`).
    |---|---|
    | Pengumuman di Beranda | laboran membuat, mengubah, atau menghapus pengumuman; mahasiswa mendaftar atau membatalkan mata kuliah, pembayarannya berubah, atau ia diangkat/dilepas sebagai asisten (karena ada pengumuman untuk mata kuliah tertentu) |
    | Detail pengumuman | isinya diubah; bila dihapus, halaman tertutup dengan pesan "Pengumuman ini sudah dihapus." |
-   | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran, atau menghapus pendaftaran yang belum bayar |
+   | Pembayaran & Kelas | laboran mengonfirmasi atau membatalkan pembayaran, menghapus pendaftaran yang belum bayar, menetapkan atau memindah kelas, mengubah atau menghapus kelas, atau membuat kelas baru; mahasiswa memilih kelas |
    | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, mengubah nama mata kuliah atau dosen pengampunya, atau mahasiswa memilih kelas |
    | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
    | Pendaftaran Praktikum | mata kuliah baru, diubah, atau dihapus laboran |
@@ -232,14 +234,37 @@ laboran menambah atau menghapusnya (event `class`).
    backend yang menyaring kelas, pendaftaran mata kuliah, dan kelas asisten.
    Saat laboran memulai semester baru di web, backend menutup sesi presensi
    yang masih terbuka lalu mengirim event `period`, dan semua tampilan dimuat
-   ulang: kelas dan jadwal semester lama hilang dari Beranda dan Jadwal, Status
-   Pembayaran kosong, dan mahasiswa mendaftar ulang mata kuliah untuk semester
+   ulang: kelas dan jadwal semester lama hilang dari Beranda dan Jadwal,
+   Pembayaran & Kelas kosong, dan mahasiswa mendaftar ulang mata kuliah untuk semester
    baru. Mengulang mata kuliah yang pernah diambil diperbolehkan. Data semester
    lama tetap tersimpan dan hanya bisa dilihat di web.
 
+### Pembayaran & Kelas
+
+Menu Profil berisi Edit Profil, Ganti Password, **Pembayaran & Kelas**, dan
+Keluar. Menu "Riwayat Pembayaran" dihapus pada 1 Oktober 2026 karena belum
+punya halaman. Halaman Pembayaran & Kelas (route `payment-status`) memuat
+pendaftaran semester aktif dari `GET /activation`. Tiap kotak mata kuliah
+punya baris **Kelas** yang dibaca dari `registered_class` dan
+`available_classes` di respons yang sama, jadi server tidak diubah:
+
+| Keadaan | Baris Kelas |
+|---|---|
+| sudah punya kelas (dipilih sendiri atau ditetapkan laboran, walau belum lunas) | `Kelas: A · Senin, 08:00 - 10:00` (biru) |
+| lunas, belum punya kelas, mata kuliah sudah punya kelas | `Kelas: belum dipilih` |
+| lunas, mata kuliah belum punya kelas sama sekali | `Kelas: belum tersedia` |
+| belum lunas | `Kelas: bisa dipilih setelah lunas` |
+
+Tombol "Pilih Kelas" di bawah daftar membuka halaman Pilih Kelas dengan
+`pushNamed`, jadi setelah kelas disimpan dan OK ditekan, aplikasi kembali ke
+Pembayaran & Kelas dengan baris Kelas yang sudah diperbarui. Bila Pilih Kelas
+dibuka dari banner Beranda, aplikasi kembali ke Beranda seperti sebelumnya.
+Kode: `widgets/build_payment_status_page_class_info.dart` dan
+`BuildPickClassPageConfirmationDialog`.
+
 ### Batalkan pendaftaran
 
-Di Profil → Status Pembayaran, setiap pendaftaran berstatus **Belum Lunas**
+Di Profil → Pembayaran & Kelas, setiap pendaftaran berstatus **Belum Lunas**
 punya tombol merah "Batalkan pendaftaran" di bawah kotak mata kuliahnya.
 
 ```
@@ -247,6 +272,8 @@ punya tombol merah "Batalkan pendaftaran" di bawah kotak mata kuliahnya.
 │ 30 menit lalu       Belum Lunas  │
 │ ┌──────────────────────────────┐ │
 │ │ Basis Data        Semester 3 │ │
+│ │ Kelas: bisa dipilih setelah  │ │
+│ │ lunas                        │ │
 │ └──────────────────────────────┘ │
 │            Batalkan pendaftaran  │
 └──────────────────────────────────┘
@@ -375,7 +402,8 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   ulang, logout), refresh diam-diam di bloc (tanpa loading, data lama tetap
   tampil bila gagal, event kelas lain diabaikan, pengumuman dihapus), dan
   `RealtimeSync` (event `period` dan `ready` setelah tersambung ulang memuat
-  ulang semua tampilan, event `subject` hanya daftar mata kuliah)
+  ulang semua tampilan, event `subject` hanya daftar mata kuliah, dan kelas
+  baru ikut memuat ulang baris Kelas di Pembayaran & Kelas)
 - `test/features/registration/registration_test.dart` — NIM dari email
   kampus, inisial nama, repository (token disimpan hanya bila kode benar),
   login akun belum terverifikasi membawa email, urutan state kedua bloc, form
@@ -429,6 +457,11 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   menampilkan "Membatalkan..." dengan tombol nonaktif selama menunggu, lalu
   pesan server dan daftar yang diperbarui; penolakan server tampil merah dan
   tombol bisa ditekan lagi
+- `test/features/select_subjects/payment_and_class_test.dart` — keempat
+  keadaan baris Kelas beserta urutannya di kartu; menu Profil berisi
+  "Pembayaran & Kelas" tanpa "Riwayat Pembayaran"; setelah kelas disimpan,
+  aplikasi kembali ke Pembayaran & Kelas bila dibuka dari Profil dan ke
+  Beranda bila dibuka dari banner, dan baris Kelas langsung berganti
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
   respons asli backend
 - `test/live/` — alur mahasiswa terhadap backend yang sedang berjalan; hanya
@@ -449,8 +482,7 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   (`GET /class/:id/classmates`, diri sendiri ditandai "Anda"). Fitur modul
   praktikum tidak dikerjakan, jadi tab "Modul" dan widget "Segera Hadir"-nya
   sudah dihapus.
-- Sengaja dibiarkan: menu "Riwayat Pembayaran" belum punya halaman, dan total
-  harga di ringkasan pendaftaran adalah tarif tetap Rp5.000 per mata kuliah
-  yang ditulis di UI.
+- Sengaja dibiarkan: total harga di ringkasan pendaftaran adalah tarif tetap
+  Rp5.000 per mata kuliah yang ditulis di UI.
 - Beberapa entity lama tidak dipakai lagi (misalnya `ClassEntity`,
   `ClassResponseEntity`, dan `RegisteredClassEntity` di `features/`).

@@ -27,6 +27,10 @@ mixin _$SelectedSubjectEntity {
   String? get created_at => throw _privateConstructorUsedError;
   List<SelectedSubjectSubjectsEntity>? get subjects =>
       throw _privateConstructorUsedError;
+  ActivationClassEntity? get registered_class =>
+      throw _privateConstructorUsedError;
+  List<ActivationClassEntity>? get available_classes =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this SelectedSubjectEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,7 +52,11 @@ abstract class $SelectedSubjectEntityCopyWith<$Res> {
       {@JsonKey(name: 'id') String? activation_id,
       bool? status,
       String? created_at,
-      List<SelectedSubjectSubjectsEntity>? subjects});
+      List<SelectedSubjectSubjectsEntity>? subjects,
+      ActivationClassEntity? registered_class,
+      List<ActivationClassEntity>? available_classes});
+
+  $ActivationClassEntityCopyWith<$Res>? get registered_class;
 }
 
 /// @nodoc
@@ -71,6 +79,8 @@ class _$SelectedSubjectEntityCopyWithImpl<$Res,
     Object? status = freezed,
     Object? created_at = freezed,
     Object? subjects = freezed,
+    Object? registered_class = freezed,
+    Object? available_classes = freezed,
   }) {
     return _then(_value.copyWith(
       activation_id: freezed == activation_id
@@ -89,7 +99,30 @@ class _$SelectedSubjectEntityCopyWithImpl<$Res,
           ? _value.subjects
           : subjects // ignore: cast_nullable_to_non_nullable
               as List<SelectedSubjectSubjectsEntity>?,
+      registered_class: freezed == registered_class
+          ? _value.registered_class
+          : registered_class // ignore: cast_nullable_to_non_nullable
+              as ActivationClassEntity?,
+      available_classes: freezed == available_classes
+          ? _value.available_classes
+          : available_classes // ignore: cast_nullable_to_non_nullable
+              as List<ActivationClassEntity>?,
     ) as $Val);
+  }
+
+  /// Create a copy of SelectedSubjectEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ActivationClassEntityCopyWith<$Res>? get registered_class {
+    if (_value.registered_class == null) {
+      return null;
+    }
+
+    return $ActivationClassEntityCopyWith<$Res>(_value.registered_class!,
+        (value) {
+      return _then(_value.copyWith(registered_class: value) as $Val);
+    });
   }
 }
 
@@ -106,7 +139,12 @@ abstract class _$$SelectedSubjectEntityImplCopyWith<$Res>
       {@JsonKey(name: 'id') String? activation_id,
       bool? status,
       String? created_at,
-      List<SelectedSubjectSubjectsEntity>? subjects});
+      List<SelectedSubjectSubjectsEntity>? subjects,
+      ActivationClassEntity? registered_class,
+      List<ActivationClassEntity>? available_classes});
+
+  @override
+  $ActivationClassEntityCopyWith<$Res>? get registered_class;
 }
 
 /// @nodoc
@@ -127,6 +165,8 @@ class __$$SelectedSubjectEntityImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? created_at = freezed,
     Object? subjects = freezed,
+    Object? registered_class = freezed,
+    Object? available_classes = freezed,
   }) {
     return _then(_$SelectedSubjectEntityImpl(
       activation_id: freezed == activation_id
@@ -145,6 +185,14 @@ class __$$SelectedSubjectEntityImplCopyWithImpl<$Res>
           ? _value._subjects
           : subjects // ignore: cast_nullable_to_non_nullable
               as List<SelectedSubjectSubjectsEntity>?,
+      registered_class: freezed == registered_class
+          ? _value.registered_class
+          : registered_class // ignore: cast_nullable_to_non_nullable
+              as ActivationClassEntity?,
+      available_classes: freezed == available_classes
+          ? _value._available_classes
+          : available_classes // ignore: cast_nullable_to_non_nullable
+              as List<ActivationClassEntity>?,
     ));
   }
 }
@@ -156,8 +204,11 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
       {@JsonKey(name: 'id') this.activation_id,
       this.status,
       this.created_at,
-      final List<SelectedSubjectSubjectsEntity>? subjects})
-      : _subjects = subjects;
+      final List<SelectedSubjectSubjectsEntity>? subjects,
+      this.registered_class,
+      final List<ActivationClassEntity>? available_classes})
+      : _subjects = subjects,
+        _available_classes = available_classes;
 
   factory _$SelectedSubjectEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$SelectedSubjectEntityImplFromJson(json);
@@ -180,8 +231,21 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
   }
 
   @override
+  final ActivationClassEntity? registered_class;
+  final List<ActivationClassEntity>? _available_classes;
+  @override
+  List<ActivationClassEntity>? get available_classes {
+    final value = _available_classes;
+    if (value == null) return null;
+    if (_available_classes is EqualUnmodifiableListView)
+      return _available_classes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
   String toString() {
-    return 'SelectedSubjectEntity(activation_id: $activation_id, status: $status, created_at: $created_at, subjects: $subjects)';
+    return 'SelectedSubjectEntity(activation_id: $activation_id, status: $status, created_at: $created_at, subjects: $subjects, registered_class: $registered_class, available_classes: $available_classes)';
   }
 
   @override
@@ -194,13 +258,23 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
-            const DeepCollectionEquality().equals(other._subjects, _subjects));
+            const DeepCollectionEquality().equals(other._subjects, _subjects) &&
+            (identical(other.registered_class, registered_class) ||
+                other.registered_class == registered_class) &&
+            const DeepCollectionEquality()
+                .equals(other._available_classes, _available_classes));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, activation_id, status,
-      created_at, const DeepCollectionEquality().hash(_subjects));
+  int get hashCode => Object.hash(
+      runtimeType,
+      activation_id,
+      status,
+      created_at,
+      const DeepCollectionEquality().hash(_subjects),
+      registered_class,
+      const DeepCollectionEquality().hash(_available_classes));
 
   /// Create a copy of SelectedSubjectEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -224,7 +298,9 @@ abstract class _SelectedSubjectEntity implements SelectedSubjectEntity {
           {@JsonKey(name: 'id') final String? activation_id,
           final bool? status,
           final String? created_at,
-          final List<SelectedSubjectSubjectsEntity>? subjects}) =
+          final List<SelectedSubjectSubjectsEntity>? subjects,
+          final ActivationClassEntity? registered_class,
+          final List<ActivationClassEntity>? available_classes}) =
       _$SelectedSubjectEntityImpl;
 
   factory _SelectedSubjectEntity.fromJson(Map<String, dynamic> json) =
@@ -239,6 +315,10 @@ abstract class _SelectedSubjectEntity implements SelectedSubjectEntity {
   String? get created_at;
   @override
   List<SelectedSubjectSubjectsEntity>? get subjects;
+  @override
+  ActivationClassEntity? get registered_class;
+  @override
+  List<ActivationClassEntity>? get available_classes;
 
   /// Create a copy of SelectedSubjectEntity
   /// with the given fields replaced by the non-null parameter values.

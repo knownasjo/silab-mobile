@@ -92,7 +92,7 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
           break;
         case '/home/payment-status':
           setState(() {
-            appBarTitle = 'Status Pembayaran';
+            appBarTitle = 'Pembayaran & Kelas';
           });
           break;
         case '/home/pilih-kelas':

@@ -23,7 +23,7 @@ class BuildPaymentStatusPagePickClassButton extends StatelessWidget {
           ),
           onPressed: state.userClassOptionByPaidSubjectEntity != null &&
                   state.userClassOptionByPaidSubjectEntity!.isNotEmpty
-              ? () => context.goNamed('pilih-kelas')
+              ? () => context.pushNamed('pilih-kelas')
               : null,
         );
       },

@@ -225,5 +225,27 @@ void main() {
     );
 
     expect(recorder.events, isNot(contains(isA<RefreshAllAnnouncements>())));
+    expect(
+        recorder.events, isNot(contains(isA<RefreshUserSelectedSubjects>())));
+  });
+
+  testWidgets(
+      'kelas baru dibuat: baris Kelas di Pembayaran & Kelas ikut dimuat ulang',
+      (tester) async {
+    await connect(tester);
+
+    await send(
+      tester,
+      const RealtimeEventEntity(
+          type: 'class', action: 'created', classId: 'c2'),
+    );
+
+    expect(
+      recorder.events,
+      containsAll([
+        isA<RefreshUserClassOptionByPaidSubject>(),
+        isA<RefreshUserSelectedSubjects>(),
+      ]),
+    );
   });
 }

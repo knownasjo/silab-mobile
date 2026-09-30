@@ -115,16 +115,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             'assets/image/notepad.png',
                             scale: 2,
                           ),
-                          label: 'Status Pembayaran',
+                          label: 'Pembayaran & Kelas',
                           onTap: () => context.pushNamed('payment-status'),
-                        ),
-                        _buildMenuDivider(),
-                        _buildMenuItem(
-                          icon: Image.asset(
-                            'assets/image/tab-tablet.png',
-                            scale: 2,
-                          ),
-                          label: 'Riwayat Pembayaran',
                         ),
                         _buildMenuDivider(),
                         const LogOutButton(),

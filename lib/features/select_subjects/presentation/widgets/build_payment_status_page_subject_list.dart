@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_payment_status_page_cancel_button.dart';
+import 'package:silab/features/select_subjects/presentation/widgets/build_payment_status_page_class_info.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_payment_status_page_subject_item.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -53,10 +54,9 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          isPaid
-                              ? const Color(0xffE8FFF3)
-                              : const Color(0xffFBFBEF),
+                      color: isPaid
+                          ? const Color(0xffE8FFF3)
+                          : const Color(0xffFBFBEF),
                       border: Border.all(
                         color: isPaid
                             ? const Color(0xff50CD89)
@@ -87,17 +87,25 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount:
-                      state.selectedSubjectEntity![index].subjects!.length,
-                  itemBuilder: (context, idx) {
-                    return BuildPaymentStatusPageSubjectItem(
-                      state: state,
-                      index: index,
-                      idx: idx,
-                    );
-                  },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          state.selectedSubjectEntity![index].subjects!.length,
+                      itemBuilder: (context, idx) {
+                        return BuildPaymentStatusPageSubjectItem(
+                          state: state,
+                          index: index,
+                          idx: idx,
+                        );
+                      },
+                    ),
+                    BuildPaymentStatusPageClassInfo(
+                      activation: state.selectedSubjectEntity![index],
+                    ),
+                  ],
                 ),
               ),
               if (!isPaid)

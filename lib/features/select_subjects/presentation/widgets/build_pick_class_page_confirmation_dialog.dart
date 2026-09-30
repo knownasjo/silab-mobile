@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/classes/presentation/bloc/user_registered_class/user_registered_class_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/add_selected_class/add_selected_class_bloc.dart';
+import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_event.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -158,8 +159,12 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
             context
                 .read<UserClassOptionByPaidSubjectBloc>()
                 .add(GetUserClassOptionByPaidSubject());
-            context.goNamed('home');
+            context
+                .read<SelectedSubjectByNimBloc>()
+                .add(RefreshUserSelectedSubjects());
+            final router = GoRouter.of(context);
             Navigator.of(context, rootNavigator: true).pop();
+            router.canPop() ? router.pop() : router.goNamed('home');
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(
