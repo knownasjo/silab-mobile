@@ -64,6 +64,7 @@ class _RealtimeSyncState extends State<RealtimeSync> {
         _refreshClass(message);
       case 'activation':
         _refreshRegistration();
+        context.read<GetAllAnnouncementsBloc>().add(RefreshAllAnnouncements());
       case 'meeting' || 'attendance':
         context
             .read<UserMeetingsBloc>()
@@ -108,6 +109,10 @@ class _RealtimeSyncState extends State<RealtimeSync> {
     context.read<AssistedClassesBloc>().add(RefreshAssistedClasses(
           classId: message.action == 'assistants' ? null : message.classId,
         ));
+
+    if (message.action == 'assistants') {
+      context.read<GetAllAnnouncementsBloc>().add(RefreshAllAnnouncements());
+    }
   }
 
   void _refreshRegistration() {

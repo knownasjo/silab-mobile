@@ -181,4 +181,49 @@ void main() {
 
     expect(recorder.events, [isA<RefreshSubjectList>()]);
   });
+
+  testWidgets(
+      'pendaftaran berubah: pengumuman ikut dimuat ulang, karena ada pengumuman untuk mata kuliah tertentu',
+      (tester) async {
+    await connect(tester);
+
+    await send(tester, const RealtimeEventEntity(type: 'activation'));
+
+    expect(
+      recorder.events,
+      unorderedMatches([
+        isA<RefreshUserSelectedSubjects>(),
+        isA<RefreshUserClassOptionByPaidSubject>(),
+        isA<RefreshUserRegisteredClass>(),
+        isA<RefreshUserSchedule>(),
+        isA<RefreshAllAnnouncements>(),
+      ]),
+    );
+  });
+
+  testWidgets('asisten kelas berubah: pengumuman ikut dimuat ulang',
+      (tester) async {
+    await connect(tester);
+
+    await send(
+      tester,
+      const RealtimeEventEntity(
+          type: 'class', action: 'assistants', classId: 'c1'),
+    );
+
+    expect(recorder.events, contains(isA<RefreshAllAnnouncements>()));
+  });
+
+  testWidgets('kelas biasa berubah: pengumuman tidak dimuat ulang',
+      (tester) async {
+    await connect(tester);
+
+    await send(
+      tester,
+      const RealtimeEventEntity(
+          type: 'class', action: 'updated', classId: 'c1'),
+    );
+
+    expect(recorder.events, isNot(contains(isA<RefreshAllAnnouncements>())));
+  });
 }

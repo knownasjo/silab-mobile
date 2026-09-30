@@ -181,6 +181,11 @@ laboran menambah atau menghapusnya (event `class`).
    | Pendaftaran Inhal (`INHALL`) | ungu `#7239EA` |
    | Pendaftaran Asisten Praktikum (`ASSISTANT`) | hijau `#27A149` |
 
+   Pengumuman jenis Pengumuman bisa ditujukan laboran ke mata kuliah tertentu.
+   Server hanya mengirimkannya ke mahasiswa yang mendaftar mata kuliah itu di
+   semester aktif dan asisten kelasnya, jadi aplikasi tidak perlu menyaring
+   sendiri.
+
    Kartu setinggi 170 px, jadi judul dipotong setelah 2 baris dan isi setelah
    3 baris dengan "…"; isi lengkap ada di halaman detail. Pemetaannya di
    `announcement/presentation/widgets/announcement_type_style.dart`.
@@ -211,7 +216,7 @@ laboran menambah atau menghapusnya (event `class`).
 
    | Tampilan | Berubah saat |
    |---|---|
-   | Pengumuman di Beranda | laboran membuat, mengubah, atau menghapus pengumuman |
+   | Pengumuman di Beranda | laboran membuat, mengubah, atau menghapus pengumuman; mahasiswa mendaftar atau membatalkan mata kuliah, pembayarannya berubah, atau ia diangkat/dilepas sebagai asisten (karena ada pengumuman untuk mata kuliah tertentu) |
    | Detail pengumuman | isinya diubah; bila dihapus, halaman tertutup dengan pesan "Pengumuman ini sudah dihapus." |
    | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran, atau menghapus pendaftaran yang belum bayar |
    | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, mengubah nama mata kuliah atau dosen pengampunya, atau mahasiswa memilih kelas |
