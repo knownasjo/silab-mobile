@@ -8,27 +8,25 @@ class BuildRegisteredClassFailed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height / 2;
-
-    return SizedBox(
-      height: screenHeight,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Oops sebuah kesalahan terjadi!',
-            style: TextStyle(
-              fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Gagal memuat kelas.'),
+            TextButton.icon(
+              onPressed: () => context
+                  .read<UserRegisteredClassBloc>()
+                  .add(GetUserRegisteredClass()),
+              style: TextButton.styleFrom(
+                foregroundColor: const Color(0xff3272CA),
+              ),
+              icon: const Icon(Boxicons.bx_refresh),
+              label: const Text('Coba lagi'),
             ),
-          ),
-          IconButton(
-            onPressed: () => context
-                .read<UserRegisteredClassBloc>()
-                .add(GetUserRegisteredClass()),
-            icon: const Icon(Boxicons.bx_refresh),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

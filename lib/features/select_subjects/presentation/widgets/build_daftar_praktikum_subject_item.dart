@@ -7,6 +7,7 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
   final int index;
   final List<SubjectEntity> userSelectedSubjectsId;
   final Function(bool?)? onChanged;
+  final bool isRegistered;
 
   const BuildDaftarPraktikumSubjectItem({
     super.key,
@@ -14,10 +15,17 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
     required this.state,
     required this.index,
     required this.userSelectedSubjectsId,
+    this.isRegistered = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final code = state.subjectList?[index].subject_code;
+    final subtitle = [
+      if (code != null) code,
+      if (isRegistered) 'Sudah didaftarkan',
+    ].join(' · ');
+
     return CheckboxListTile.adaptive(
       activeColor: const Color(0xff3272CA),
       checkboxShape: RoundedRectangleBorder(
@@ -27,9 +35,10 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
         color: Color(0xff1d1d1d),
         width: 1,
       ),
-      value: userSelectedSubjectsId
-          .contains(state.subjectList != null ? state.subjectList![index] : ''),
-      onChanged: onChanged,
+      value: isRegistered ||
+          userSelectedSubjectsId.contains(
+              state.subjectList != null ? state.subjectList![index] : ''),
+      onChanged: isRegistered ? null : onChanged,
       dense: true,
       title: Text(
         state.subjectList != null
@@ -40,9 +49,9 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
           fontWeight: FontWeight.normal,
         ),
       ),
-      subtitle: state.subjectList?[index].subject_code != null
+      subtitle: subtitle.isNotEmpty
           ? Text(
-              state.subjectList![index].subject_code!,
+              subtitle,
               style: const TextStyle(fontSize: 12, color: Color(0x991D1D1D)),
             )
           : null,

@@ -17,6 +17,8 @@ class AddSelectedSubjectBloc
 
   void onAddSelectedSubjectButtonTapped(AddSelectedSubjectEvent event,
       Emitter<AddSelectedSubjectState> emit) async {
+    if (state is AddSelectedSubjectLoading) return;
+
     emit(AddSelectedSubjectLoading());
 
     if (event.subjects != null) {

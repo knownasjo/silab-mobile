@@ -40,66 +40,61 @@ class RegisteredClassCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xffFBFBEF),
-                        border: Border.all(
-                          color: const Color(0xffFFBF01),
-                          width: 1.5,
-                          strokeAlign: BorderSide.strokeAlignInside,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          classEntity != null
-                              ? classEntity!.subject_class!
-                              : 'A',
-                          style: const TextStyle(
-                            color: Color(0xffFFBF01),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: const Color(0xffFBFBEF),
+                    border: Border.all(
+                      color: const Color(0xffFFBF01),
+                      width: 1.5,
+                      strokeAlign: BorderSide.strokeAlignInside,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      classEntity != null ? classEntity!.subject_class! : 'A',
+                      style: const TextStyle(
+                        color: Color(0xffFFBF01),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: Text(
-                            classEntity != null
-                                ? classEntity!.subject_name!
-                                : 'Subject Name',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Text(
-                          classEntity != null
-                              ? classEntity!.lecturer!
-                              : 'Lecturer Name',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        classEntity != null
+                            ? classEntity!.subject_name!
+                            : 'Subject Name',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        classEntity != null
+                            ? classEntity!.lecturer!
+                            : 'Lecturer Name',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w300,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Container(
                   width: 40,
                   height: 40,
@@ -111,7 +106,7 @@ class RegisteredClassCard extends StatelessWidget {
                     'assets/image/arrow-up-right.png',
                     scale: 2,
                   ),
-                )
+                ),
               ],
             ),
             IntrinsicHeight(

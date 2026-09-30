@@ -11,6 +11,7 @@ class SelectedSubjectEntity with _$SelectedSubjectEntity {
     @JsonKey(name: 'id') final String? activation_id,
     final bool? status,
     final String? created_at,
+    final String? subject_id,
     final List<SelectedSubjectSubjectsEntity>? subjects,
     final ActivationClassEntity? registered_class,
     final List<ActivationClassEntity>? available_classes,

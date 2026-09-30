@@ -6,7 +6,7 @@ class BuildRegisteredClassEmpty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 120),
+      margin: const EdgeInsets.only(top: 16),
       child: Center(
         child: SizedBox(
           width: 240,
@@ -14,11 +14,11 @@ class BuildRegisteredClassEmpty extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/image/empty-assets.png',
-                scale: 2,
+                scale: 3,
               ),
               const SizedBox(height: 16),
               const Text(
-                'Oops! Tidak ada kelas. Anda belum terdaftar di kelas apapun',
+                'Belum ada kelas. Kelas muncul di sini setelah pembayaran dikonfirmasi dan kelas dipilih.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,

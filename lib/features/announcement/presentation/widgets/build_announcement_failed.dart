@@ -15,12 +15,16 @@ class BuildAnnouncementFailed extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Oops, terjadi suatu kesalahan!'),
-            IconButton(
+            const Text('Gagal memuat pengumuman.'),
+            TextButton.icon(
               onPressed: () => context
                   .read<GetAllAnnouncementsBloc>()
                   .add(GetAllAnnouncements()),
+              style: TextButton.styleFrom(
+                foregroundColor: const Color(0xff3272CA),
+              ),
               icon: const Icon(Boxicons.bx_refresh),
+              label: const Text('Coba lagi'),
             ),
           ],
         ),

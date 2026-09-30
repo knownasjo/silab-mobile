@@ -24,9 +24,9 @@ class _UserWelcomeState extends State<UserWelcomeWidget> {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
               snackBar(
-                message: 'An Error Occurred!',
+                message: state.message ?? 'Gagal memuat data akun.',
                 type: AlertType.error,
-                actionLabel: 'Retry',
+                actionLabel: 'Ulangi',
                 action: () =>
                     context.read<UserDetailsBloc>().add(GetUserDetails()),
               ),

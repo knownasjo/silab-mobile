@@ -25,6 +25,7 @@ mixin _$SelectedSubjectEntity {
   String? get activation_id => throw _privateConstructorUsedError;
   bool? get status => throw _privateConstructorUsedError;
   String? get created_at => throw _privateConstructorUsedError;
+  String? get subject_id => throw _privateConstructorUsedError;
   List<SelectedSubjectSubjectsEntity>? get subjects =>
       throw _privateConstructorUsedError;
   ActivationClassEntity? get registered_class =>
@@ -52,6 +53,7 @@ abstract class $SelectedSubjectEntityCopyWith<$Res> {
       {@JsonKey(name: 'id') String? activation_id,
       bool? status,
       String? created_at,
+      String? subject_id,
       List<SelectedSubjectSubjectsEntity>? subjects,
       ActivationClassEntity? registered_class,
       List<ActivationClassEntity>? available_classes});
@@ -78,6 +80,7 @@ class _$SelectedSubjectEntityCopyWithImpl<$Res,
     Object? activation_id = freezed,
     Object? status = freezed,
     Object? created_at = freezed,
+    Object? subject_id = freezed,
     Object? subjects = freezed,
     Object? registered_class = freezed,
     Object? available_classes = freezed,
@@ -94,6 +97,10 @@ class _$SelectedSubjectEntityCopyWithImpl<$Res,
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      subject_id: freezed == subject_id
+          ? _value.subject_id
+          : subject_id // ignore: cast_nullable_to_non_nullable
               as String?,
       subjects: freezed == subjects
           ? _value.subjects
@@ -139,6 +146,7 @@ abstract class _$$SelectedSubjectEntityImplCopyWith<$Res>
       {@JsonKey(name: 'id') String? activation_id,
       bool? status,
       String? created_at,
+      String? subject_id,
       List<SelectedSubjectSubjectsEntity>? subjects,
       ActivationClassEntity? registered_class,
       List<ActivationClassEntity>? available_classes});
@@ -164,6 +172,7 @@ class __$$SelectedSubjectEntityImplCopyWithImpl<$Res>
     Object? activation_id = freezed,
     Object? status = freezed,
     Object? created_at = freezed,
+    Object? subject_id = freezed,
     Object? subjects = freezed,
     Object? registered_class = freezed,
     Object? available_classes = freezed,
@@ -180,6 +189,10 @@ class __$$SelectedSubjectEntityImplCopyWithImpl<$Res>
       created_at: freezed == created_at
           ? _value.created_at
           : created_at // ignore: cast_nullable_to_non_nullable
+              as String?,
+      subject_id: freezed == subject_id
+          ? _value.subject_id
+          : subject_id // ignore: cast_nullable_to_non_nullable
               as String?,
       subjects: freezed == subjects
           ? _value._subjects
@@ -204,6 +217,7 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
       {@JsonKey(name: 'id') this.activation_id,
       this.status,
       this.created_at,
+      this.subject_id,
       final List<SelectedSubjectSubjectsEntity>? subjects,
       this.registered_class,
       final List<ActivationClassEntity>? available_classes})
@@ -220,6 +234,8 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
   final bool? status;
   @override
   final String? created_at;
+  @override
+  final String? subject_id;
   final List<SelectedSubjectSubjectsEntity>? _subjects;
   @override
   List<SelectedSubjectSubjectsEntity>? get subjects {
@@ -245,7 +261,7 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
 
   @override
   String toString() {
-    return 'SelectedSubjectEntity(activation_id: $activation_id, status: $status, created_at: $created_at, subjects: $subjects, registered_class: $registered_class, available_classes: $available_classes)';
+    return 'SelectedSubjectEntity(activation_id: $activation_id, status: $status, created_at: $created_at, subject_id: $subject_id, subjects: $subjects, registered_class: $registered_class, available_classes: $available_classes)';
   }
 
   @override
@@ -258,6 +274,8 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.created_at, created_at) ||
                 other.created_at == created_at) &&
+            (identical(other.subject_id, subject_id) ||
+                other.subject_id == subject_id) &&
             const DeepCollectionEquality().equals(other._subjects, _subjects) &&
             (identical(other.registered_class, registered_class) ||
                 other.registered_class == registered_class) &&
@@ -272,6 +290,7 @@ class _$SelectedSubjectEntityImpl implements _SelectedSubjectEntity {
       activation_id,
       status,
       created_at,
+      subject_id,
       const DeepCollectionEquality().hash(_subjects),
       registered_class,
       const DeepCollectionEquality().hash(_available_classes));
@@ -298,6 +317,7 @@ abstract class _SelectedSubjectEntity implements SelectedSubjectEntity {
           {@JsonKey(name: 'id') final String? activation_id,
           final bool? status,
           final String? created_at,
+          final String? subject_id,
           final List<SelectedSubjectSubjectsEntity>? subjects,
           final ActivationClassEntity? registered_class,
           final List<ActivationClassEntity>? available_classes}) =
@@ -313,6 +333,8 @@ abstract class _SelectedSubjectEntity implements SelectedSubjectEntity {
   bool? get status;
   @override
   String? get created_at;
+  @override
+  String? get subject_id;
   @override
   List<SelectedSubjectSubjectsEntity>? get subjects;
   @override

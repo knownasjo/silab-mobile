@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_small_button.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/pages/ringkasan_daftar_page.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_daftar_praktikum_page_dropdown.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_daftar_praktikum_page_subject_empty.dart';
+import 'package:silab/features/select_subjects/presentation/widgets/build_daftar_praktikum_page_subject_failed.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_daftar_praktikum_subject_item.dart';
 import 'package:silab/features/subjects/data/models/user_selected_subjects/user_selected_subjects_model.dart';
 import 'package:silab/features/subjects/domain/entities/subject/subject_entity.dart';
@@ -26,8 +28,14 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
   @override
   void initState() {
     context.read<SubjectListBloc>().add(GetSubjectList(semester: currentValue));
+    context.read<SelectedSubjectByNimBloc>().add(GetUserSelectedSubjects());
     super.initState();
   }
+
+  Set<String> _registeredSubjectIds(SelectedSubjectByNimState state) => {
+        for (final activation in state.selectedSubjectEntity ?? const [])
+          if (activation.subject_id != null) activation.subject_id!,
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +49,7 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
           padding: const EdgeInsets.only(right: 15, left: 15, top: 24),
           child: ListView(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 24),
             children: [
               const Text(
                 'Pilihlah praktikum sesuai dengan Mata Kuliah yang anda ambil di KRS.',
@@ -136,58 +144,69 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
             }
           }
         },
-        builder: (context, state) => Skeletonizer(
-          enabled: state is SubjectListLoading ? true : false,
-          enableSwitchAnimation: true,
-          child: Container(
-            margin: const EdgeInsets.only(top: 16),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(12),
-              border: state is SubjectListLoading ||
-                      (state.subjectList != null && state.subjectList!.isEmpty)
-                  ? null
-                  : Border.all(
-                      color: const Color(0xffBFD9EF),
-                      width: 2,
-                    ),
-            ),
-            child: ListView.builder(
-              itemCount:
-                  state.subjectList != null && state.subjectList!.isNotEmpty
-                      ? state.subjectList!.length
-                      : 1,
-              shrinkWrap: true,
-              padding: EdgeInsets.only(
-                bottom:
-                    state.subjectList != null && state.subjectList!.isNotEmpty
-                        ? 0
-                        : 36,
-                top: state.subjectList != null && state.subjectList!.isNotEmpty
-                    ? 0
-                    : 36,
-              ),
-              itemBuilder: (context, index) =>
-                  state.subjectList != null && state.subjectList!.isNotEmpty
-                      ? BuildDaftarPraktikumSubjectItem(
-                          onChanged: (value) {
-                            setState(() {
-                              if (value!) {
-                                userSelectedSubjectsId
-                                    .add(state.subjectList![index]);
-                              } else {
-                                userSelectedSubjectsId
-                                    .remove(state.subjectList![index]);
-                              }
-                            });
-                          },
-                          index: index,
-                          state: state,
-                          userSelectedSubjectsId: userSelectedSubjectsId,
+        builder: (context, state) =>
+            BlocBuilder<SelectedSubjectByNimBloc, SelectedSubjectByNimState>(
+          builder: (context, registrations) {
+            final registeredIds = _registeredSubjectIds(registrations);
+            final hasSubjects = state is! SubjectListLoading &&
+                state.subjectList != null &&
+                state.subjectList!.isNotEmpty;
+
+            return Skeletonizer(
+              enabled: state is SubjectListLoading ? true : false,
+              enableSwitchAnimation: true,
+              child: Container(
+                margin: const EdgeInsets.only(top: 16),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(12),
+                  border: hasSubjects
+                      ? Border.all(
+                          color: const Color(0xffBFD9EF),
+                          width: 2,
                         )
-                      : const BuildDaftarPraktikumPageSubjectEmpty(),
-            ),
-          ),
+                      : null,
+                ),
+                child: ListView.builder(
+                  itemCount: hasSubjects ? state.subjectList!.length : 1,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(vertical: hasSubjects ? 0 : 36),
+                  itemBuilder: (context, index) {
+                    if (state is SubjectListFailed) {
+                      return BuildDaftarPraktikumPageSubjectFailed(
+                        onRetry: () => context
+                            .read<SubjectListBloc>()
+                            .add(GetSubjectList(semester: currentValue)),
+                      );
+                    }
+
+                    if (!hasSubjects) {
+                      return const BuildDaftarPraktikumPageSubjectEmpty();
+                    }
+
+                    final subject = state.subjectList![index];
+
+                    return BuildDaftarPraktikumSubjectItem(
+                      onChanged: (value) {
+                        setState(() {
+                          if (value!) {
+                            userSelectedSubjectsId.add(subject);
+                          } else {
+                            userSelectedSubjectsId.remove(subject);
+                          }
+                        });
+                      },
+                      index: index,
+                      state: state,
+                      userSelectedSubjectsId: userSelectedSubjectsId,
+                      isRegistered: registeredIds.contains(subject.id),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

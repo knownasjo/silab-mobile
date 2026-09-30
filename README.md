@@ -178,8 +178,11 @@ laboran menambah atau menghapusnya (event `class`).
 ## Alur yang tersambung ke web
 
 1. Laboran membuat pengumuman bertipe **Practicum** di web → di aplikasi,
-   tombol "Pelajari lebih lanjut" pada pengumuman itu membuka pendaftaran
-   praktikum. Pengumuman tipe lain membuka halaman detail. Warna kartu di
+   tombol **Daftar** pada pengumuman itu membuka pendaftaran praktikum. Ini
+   satu-satunya jalan ke Pendaftaran Praktikum, jadi pendaftaran "dibuka"
+   laboran lewat pengumuman ini (disengaja). Pengumuman tipe lain punya tombol
+   "Pelajari lebih lanjut" yang membuka halaman detail. Seluruh tombol kuning
+   bisa ditekan, bukan hanya tulisannya. Warna kartu di
    Beranda mengikuti jenisnya, dengan label jenis di pojok kiri atas (nama
    jenis sama dengan di web):
 
@@ -195,13 +198,43 @@ laboran menambah atau menghapusnya (event `class`).
    semester aktif dan asisten kelasnya, jadi aplikasi tidak perlu menyaring
    sendiri.
 
-   Kartu setinggi 170 px, jadi judul dipotong setelah 2 baris dan isi setelah
-   3 baris dengan "…"; isi lengkap ada di halaman detail. Pemetaannya di
-   `announcement/presentation/widgets/announcement_type_style.dart`.
+   Kartu setinggi 170 px, jadi judul dipotong setelah 2 baris dengan "…". Isi
+   memakai sisa ruangnya: jumlah barisnya dihitung dari tinggi yang tersisa
+   (paling banyak 3) dan baris terakhir diakhiri "…", jadi tidak ada baris
+   yang terpotong setengah. Karena jarak antarbaris lega, biasanya isi dapat 1
+   baris bila judulnya 2 baris dan 2 baris bila judulnya pendek. Isi lengkap ada
+   di halaman detail. Pemetaannya di
+   `announcement/presentation/widgets/announcement_type_style.dart`. Bila
+   pengumuman yang sedang dilihat dihapus, titik penanda ikut pindah ke
+   halaman yang tampil.
+
+   Di kartu Kelas Terdaftar, nama mata kuliah dan nama dosen masing-masing
+   satu baris dan dipotong "…", jadi nama dosen bergelar panjang tidak
+   mendorong tombol panah keluar kartu. Bila belum punya kelas, Beranda
+   menulis "Belum ada kelas. Kelas muncul di sini setelah pembayaran
+   dikonfirmasi dan kelas dipilih." di atas menu bawah. Bila gagal dimuat
+   (misalnya server mati), bagian pengumuman dan kelas menulis "Gagal memuat
+   pengumuman." / "Gagal memuat kelas." dengan tombol "Coba lagi", dan pesan
+   di bawah layar memakai pesan aslinya (misalnya "Tidak dapat terhubung ke
+   server. Periksa koneksi internet.") dengan tombol "Ulangi".
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
    di Profil → Pembayaran & Kelas. Di daftar pilihan, kode mata kuliah (9 angka)
    tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS. Selama masih
    Belum Lunas, pendaftaran bisa dibatalkan (lihat "Batalkan pendaftaran").
+
+   Halaman Pendaftaran Praktikum bisa digeser, jadi tombol Selanjutnya tetap
+   terjangkau walau satu semester punya banyak mata kuliah. Mata kuliah yang
+   sudah didaftarkan di semester aktif tampil tercentang abu-abu dengan
+   tulisan "Sudah didaftarkan" dan tidak bisa dipilih lagi; datanya dari
+   `subject_id` di `GET /activation`, yang dimuat saat halaman dibuka dan ikut
+   diperbarui lewat event `activation`. Bila daftar mata kuliah gagal dimuat,
+   halaman menulis "Gagal memuat mata kuliah." dengan tombol "Coba lagi", bukan
+   "Tidak ada praktikum yang ditawarkan". Di dialog "Simpan Pendaftaran",
+   tombol Simpan berubah menjadi "Menyimpan..." dan terkunci bersama tombol
+   Kembali selama menunggu, dialog tidak bisa ditutup, dan
+   `AddSelectedSubjectBloc` mengabaikan tekanan kedua, jadi pendaftaran hanya
+   terkirim sekali. Sebelumnya tekan ganda mengirim dua permintaan, lalu pesan
+   merah "sudah pernah didaftarkan" muncul padahal pendaftaran berhasil.
 3. Laboran mengonfirmasi pembayaran di web (boleh sekaligus menetapkan kelas,
    boleh juga dikosongkan) → status menjadi "Lunas".
 4. Bila kelas belum ditetapkan, banner di Beranda dan tombol "Pilih Kelas" di
@@ -462,10 +495,20 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat
   pemuatan ulang gagal
 - `test/features/announcement/announcement_banner_test.dart` — kartu
-  pengumuman di Beranda (layar 360×640, tinggi carousel asli): warna kartu
-  dan label untuk keempat jenis serta jenis yang tidak dikenal; judul dan isi
-  sangat panjang dipotong tanpa meluap dan tombol "Pelajari lebih lanjut"
-  tetap di dalam kartu
+  pengumuman di Beranda (layar 360×640 dan 393×851, tinggi carousel asli):
+  warna kartu, label, dan tombol ("Daftar" untuk Pendaftaran Praktikum,
+  "Pelajari lebih lanjut" untuk lainnya) untuk keempat jenis serta jenis yang
+  tidak dikenal; judul panjang dipotong 2 baris dan isi berhenti di baris utuh
+  terakhir tanpa terpotong setengah; judul pendek memberi isi lebih banyak
+  baris; tepi tombol kuning ikut membuka halaman tujuan
+- `test/features/home/beranda_test.dart` — memakai huruf Roboto dari Flutter
+  (`test/helpers/real_font.dart`, lebarnya hampir sama dengan Manrope) supaya
+  letak teks sama dengan di HP: nama dosen bergelar panjang dipotong "…"
+  tanpa meluap; server mati menampilkan pesan asli tanpa bahasa Inggris dan
+  tombol "Coba lagi" yang terlihat di atas menu bawah dan bisa memuat ulang;
+  data akun gagal dimuat menampilkan "Ulangi"; pesan belum punya kelas terbaca
+  utuh di layar 360×640; titik penanda pengumuman pindah setelah pengumuman
+  yang dilihat dihapus
 - `test/features/select_subjects/cancel_activation_test.dart` — tombol
   "Batalkan pendaftaran" hanya di pendaftaran Belum Lunas; Kembali tidak
   mengirim apa pun; "Ya, batalkan" mengirim `DELETE /activation/:id`,
@@ -477,6 +520,13 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   "Pembayaran & Kelas" tanpa "Riwayat Pembayaran"; setelah kelas disimpan,
   aplikasi kembali ke Pembayaran & Kelas bila dibuka dari Profil dan ke
   Beranda bila dibuka dari banner, dan baris Kelas langsung berganti
+- `test/features/select_subjects/daftar_praktikum_test.dart` — 9 mata
+  kuliah di layar 360×640: halaman bisa digeser jari sampai Selanjutnya;
+  server mati menampilkan "Gagal memuat mata kuliah." dan Coba lagi memuat
+  ulang; mata kuliah yang sudah didaftarkan tercentang, terkunci, dan
+  bertanda; Simpan yang ditekan berkali-kali (juga Kembali dan ketukan di luar
+  dialog) hanya mengirim satu `POST /activation` lalu membuka Pembayaran
+  tanpa pesan merah; penolakan server menutup dialog dan tetap di Ringkasan
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
   respons asli backend
 - `test/live/` — alur mahasiswa terhadap backend yang sedang berjalan; hanya

@@ -26,6 +26,51 @@ class AnnouncementBanner extends StatefulWidget {
 }
 
 class _AnnouncementBannerState extends State<AnnouncementBanner> {
+  static const int _maxBodyLines = 3;
+  static const TextStyle _bodyStyle = TextStyle(
+    fontWeight: FontWeight.w300,
+    fontSize: 14,
+    color: Colors.white,
+  );
+
+  bool get _isPracticum => widget.type == 'PRACTICUM';
+
+  int _bodyLinesThatFit(BuildContext context, double height) {
+    if (!height.isFinite) return _maxBodyLines;
+
+    final painter = TextPainter(
+      text: TextSpan(
+        text: widget.body,
+        style: DefaultTextStyle.of(context).style.merge(_bodyStyle),
+      ),
+      textDirection: TextDirection.ltr,
+      textScaler: MediaQuery.textScalerOf(context),
+    );
+    final lineHeight = painter.preferredLineHeight;
+    painter.dispose();
+
+    return ((height + 0.5) / lineHeight).floor().clamp(0, _maxBodyLines);
+  }
+
+  void _open() {
+    if (_isPracticum) {
+      context.goNamed('daftar-praktikum');
+      return;
+    }
+
+    context.goNamed(
+      'pengumuman',
+      extra: PengumumanPageExtra(
+        author: widget.author,
+        body: widget.body,
+        title: widget.title,
+        type: widget.type,
+        createdAt: widget.createdAt,
+      ),
+      pathParameters: {'id': widget.id},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final typeStyle = AnnouncementTypeStyle.of(widget.type);
@@ -78,57 +123,46 @@ class _AnnouncementBannerState extends State<AnnouncementBanner> {
                 ),
                 const SizedBox(height: 4),
                 Flexible(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 24,
-                    child: Text(
-                      widget.body,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                    ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final lines =
+                          _bodyLinesThatFit(context, constraints.maxHeight);
+
+                      if (lines == 0) return const SizedBox.shrink();
+
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.width - 24,
+                        child: Text(
+                          widget.body,
+                          style: _bodyStyle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: lines,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 8),
-          Container(
-            width: 142,
-            height: 32,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xffFFBF01),
-              borderRadius: BorderRadius.circular(30),
-            ),
+          Material(
+            color: const Color(0xffFFBF01),
+            borderRadius: BorderRadius.circular(30),
             child: InkWell(
-              onTap: () {
-                if (widget.type == 'PRACTICUM') {
-                  context.goNamed('daftar-praktikum');
-                  return;
-                }
-
-                context.goNamed(
-                  'pengumuman',
-                  extra: PengumumanPageExtra(
-                    author: widget.author,
-                    body: widget.body,
-                    title: widget.title,
-                    type: widget.type,
-                    createdAt: widget.createdAt,
+              onTap: _open,
+              borderRadius: BorderRadius.circular(30),
+              child: Container(
+                height: 32,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Text(
+                  _isPracticum ? 'Daftar' : 'Pelajari lebih lanjut',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: Color(0xff1d1d1d),
                   ),
-                  pathParameters: {'id': widget.id},
-                );
-              },
-              child: const Text(
-                'Pelajari lebih lanjut',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                  color: Color(0xff1d1d1d),
                 ),
               ),
             ),

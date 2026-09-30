@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +23,16 @@ class _AnnouncementCarouselState extends State<AnnouncementCarousel> {
   Widget build(BuildContext context) {
     return BlocConsumer<GetAllAnnouncementsBloc, GetAllAnnouncementsState>(
       listener: (context, state) {
+        if (state is GetAllAnnouncementsLoaded) {
+          final lastPage = max(0, (state.announcements?.length ?? 0) - 1);
+
+          if (currentPage > lastPage) {
+            setState(() {
+              currentPage = lastPage;
+            });
+          }
+        }
+
         if (state is GetAllAnnouncementsFailed) {
           if (state.message == 'jwt expired') {
             context.goNamed('authentication');
