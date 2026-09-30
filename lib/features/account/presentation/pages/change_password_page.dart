@@ -111,6 +111,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       if (value.length < 8) {
                         return 'Password minimal 8 karakter';
                       }
+                      if (value.contains(RegExp(r'\s'))) {
+                        return 'Password tidak boleh mengandung spasi';
+                      }
                       if (value == _oldPasswordController.text) {
                         return 'Password baru harus berbeda dari password lama';
                       }

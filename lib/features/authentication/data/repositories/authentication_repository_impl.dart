@@ -41,10 +41,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
           return Right(result);
         } else {
-          return Left(RequestFailures('An Error Occurred!'));
+          return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
         }
       } else {
-        return Left(RequestFailures('An Error Occurred!'));
+        return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
       }
     } on RequestErrorException catch (e) {
       final data = e.data;
@@ -66,7 +66,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     if (userAccessToken != null) {
       return Right(userAccessToken);
     } else {
-      return Left(RequestFailures('An Error Occurred!'));
+      return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
     }
   }
 
@@ -85,10 +85,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       if (userId != null) {
         return Right(userId);
       } else {
-        return Left(RequestFailures('An Error Occurred!'));
+        return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
       }
     } catch (e) {
-      return Left(RequestFailures('An Error Occurred!'));
+      return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
     }
   }
 
@@ -100,10 +100,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       if (userRole != null) {
         return Right(userRole);
       } else {
-        return Left(RequestFailures('An Error Occurred!'));
+        return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
       }
     } catch (e) {
-      return Left(RequestFailures('An Error Occurred!'));
+      return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
     }
   }
 
@@ -121,10 +121,10 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
         return const Right('success');
       } else {
-        return Left(RequestFailures('An Error Occurred!'));
+        return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
       }
     } catch (e) {
-      return Left(RequestFailures('An Error Occurred!'));
+      return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
     }
   }
 
@@ -139,7 +139,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     if (sessionExpiry != null) {
       return Right(sessionExpiry);
     } else {
-      return Left(RequestFailures('An Error Occurred!'));
+      return Left(RequestFailures('Terjadi kesalahan, coba lagi.'));
     }
   }
 }

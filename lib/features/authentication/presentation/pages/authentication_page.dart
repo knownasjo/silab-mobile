@@ -28,6 +28,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     _passwordController.dispose();
   }
 
+  void _submit() {
+    if (context.read<AuthenticationBloc>().state is AuthenticationLoading) {
+      return;
+    }
+
+    if (!formKey.currentState!.validate()) return;
+
+    context.read<AuthenticationBloc>().add(UserLogin(
+          loginData: LoginModel(
+            nim: _nimController.text.trim(),
+            password: _passwordController.text.trim(),
+          ),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +53,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           if (state is AuthenticationSuccess) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
-              snackBar(message: 'Sign In Success', type: AlertType.success),
+              snackBar(message: 'Berhasil masuk', type: AlertType.success),
             );
 
             context.goNamed('home');
@@ -60,7 +75,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           }
         },
         child: Center(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Form(
               key: formKey,
@@ -86,7 +101,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     controller: _passwordController,
                     hintText: 'Password',
                     suffixIcon: 'assets/image/password.png',
-                    textInputAction: TextInputAction.next,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => _submit(),
                     textInputType: TextInputType.text,
                     isObscure: true,
                     validator: (value) {
@@ -114,24 +130,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   BlocBuilder<AuthenticationBloc, AuthenticationState>(
                     builder: (context, state) {
                       return CustomLargeButton(
-                        action: state is! AuthenticationLoading
-                            ? () {
-                                if (formKey.currentState!.validate()) {
-                                  final String nim = _nimController.text.trim();
-                                  final String password =
-                                      _passwordController.text.trim();
-                                  final LoginModel loginData =
-                                      LoginModel(nim: nim, password: password);
-
-                                  context
-                                      .read<AuthenticationBloc>()
-                                      .add(UserLogin(loginData: loginData));
-                                }
-                              }
-                            : null,
+                        action:
+                            state is! AuthenticationLoading ? _submit : null,
                         label: state is! AuthenticationLoading
                             ? const Text(
-                                'Sign In',
+                                'Masuk',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,

@@ -285,6 +285,14 @@ void main() {
       expect(find.text('Konfirmasi password tidak sama'), findsOne);
       expect(requests, isEmpty);
 
+      await tester.enterText(fields.at(1), 'rahasia 123');
+      await tester.enterText(fields.at(2), 'rahasia 123');
+      await tester.ensureVisible(find.text('Simpan'));
+      await tester.tap(find.text('Simpan'));
+      await tester.pump();
+      expect(find.text('Password tidak boleh mengandung spasi'), findsOne);
+      expect(requests, isEmpty);
+
       await tester.enterText(fields.at(0), '000000');
       await tester.enterText(fields.at(1), 'passwordbaru1');
       await tester.enterText(fields.at(2), 'passwordbaru1');

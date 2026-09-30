@@ -8,6 +8,7 @@ class CustomFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final String? suffixIcon;
   final TextEditingController controller;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const CustomFormField({
     super.key,
@@ -18,6 +19,7 @@ class CustomFormField extends StatefulWidget {
     required this.validator,
     required this.suffixIcon,
     required this.controller,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -45,6 +47,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
       keyboardType: widget.textInputType,
       obscureText: isObscure,
       validator: widget.validator,
+      onFieldSubmitted: widget.onFieldSubmitted,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: TextStyle(

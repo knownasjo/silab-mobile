@@ -242,7 +242,8 @@ void main() {
       expect(requests, isEmpty);
     });
 
-    testWidgets('ganti password: isian kosong, pendek, sama, dan beda ditolak',
+    testWidgets(
+        'ganti password: isian kosong, pendek, berspasi, sama, dan beda ditolak',
         (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -268,6 +269,11 @@ void main() {
       await tester.tap(find.text('Simpan'));
       await tester.pump();
       expect(find.text('Password minimal 8 karakter'), findsOne);
+
+      await tester.enterText(fields.at(1), 'rahasia 123');
+      await tester.tap(find.text('Simpan'));
+      await tester.pump();
+      expect(find.text('Password tidak boleh mengandung spasi'), findsOne);
 
       await tester.enterText(fields.at(1), 'passwordlama1');
       await tester.enterText(fields.at(2), 'passwordlama1');

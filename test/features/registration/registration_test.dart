@@ -301,6 +301,33 @@ void main() {
       expect(requests, isEmpty);
     });
 
+    testWidgets('form daftar: password berspasi ditolak sebelum dikirim',
+        (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: BlocProvider(
+            create: (_) =>
+                RegistrationBloc(RegisterUsecase(repositoryWith(backend))),
+            child: const RegistrationPage(),
+          ),
+        ),
+      );
+
+      final fields = find.byType(TextFormField);
+      await tester.enterText(fields.at(0), email);
+      await tester.enterText(fields.at(1), 'Budi Santoso');
+      for (final password in ['rahasia 123', ' rahasia123', 'rahasia123 ']) {
+        await tester.enterText(fields.at(2), password);
+        await tester.enterText(fields.at(3), password);
+        await tester.tap(find.text('Daftar'));
+        await tester.pump();
+
+        expect(find.text('Password tidak boleh mengandung spasi'), findsOne,
+            reason: '"$password"');
+      }
+      expect(requests, isEmpty);
+    });
+
     testWidgets(
         'layar kode: hitung mundur kirim ulang, 6 angka langsung dikirim',
         (tester) async {

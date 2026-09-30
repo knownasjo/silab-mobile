@@ -215,6 +215,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         if (value.length < 8) {
                           return 'Password minimal 8 karakter';
                         }
+                        if (value.contains(RegExp(r'\s'))) {
+                          return 'Password tidak boleh mengandung spasi';
+                        }
                         return null;
                       },
                     ),

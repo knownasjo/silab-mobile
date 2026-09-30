@@ -98,7 +98,7 @@ Mahasiswa membuat akun sendiri dari halaman login ("Belum punya akun?
 Daftar"):
 
 1. Isi email kampus `namadepanNIM@webmail.uad.ac.id`, nama lengkap, password
-   (min. 8 karakter), dan konfirmasinya. NIM tampil otomatis dari email
+   (min. 8 karakter, tanpa spasi), dan konfirmasinya. NIM tampil otomatis dari email
    (`lib/core/helpers/campus_email.dart`) dan tidak bisa diubah.
 2. Backend mengirim kode 6 angka ke email itu. Layar Verifikasi mengirim kode
    begitu 6 angka terisi; tombol "Kirim ulang kode" aktif setelah hitung mundur
@@ -121,7 +121,7 @@ Dari halaman login, "Lupa password?" membuka dua layar
    lalu "Kirim Kode". Email yang belum terdaftar dibalas "Email ini belum
    terdaftar di SILAB."; email yang masih menunggu verifikasi membuka layar
    Verifikasi pendaftaran.
-2. **Atur Password Baru**: kode 6 angka, password baru (min. 8), dan
+2. **Atur Password Baru**: kode 6 angka, password baru (min. 8, tanpa spasi), dan
    konfirmasinya dalam satu layar, lalu "Simpan". Kode yang salah tidak
    menghapus isian password. "Kirim ulang kode" aktif setelah hitung mundur 60
    detik.
@@ -146,7 +146,7 @@ Halaman Profil punya dua menu baru (`lib/features/account`):
   (`RefreshUserDetails`), jadi Profil dan sapaan di Beranda langsung memakai
   nama baru.
 - **Ganti Password** (`/home/ganti-password`): password lama, password baru
-  (min. 8, harus berbeda dari yang lama), dan konfirmasi, lalu
+  (min. 8, tanpa spasi, harus berbeda dari yang lama), dan konfirmasi, lalu
   `PUT /auth/me/password`. Token baru dari server disimpan
   (`AccountRepositoryImpl`), jadi HP ini tetap masuk dan stream real-time
   tersambung lagi dengan token baru; HP lain dengan akun yang sama kembali ke
@@ -154,6 +154,15 @@ Halaman Profil punya dua menu baru (`lib/features/account`):
 
 Bloc-nya `EditProfileBloc` dan `ChangePasswordBloc`; keduanya mengabaikan
 tombol Simpan yang ditekan lagi saat permintaan masih berjalan.
+
+Sejak 1 Oktober 2026, password baru di Daftar, Atur Password Baru, dan Ganti
+Password tidak boleh mengandung spasi di mana pun: form menampilkan "Password
+tidak boleh mengandung spasi" sebelum mengirim, dan server menolaknya dengan
+400. Halaman Login tidak memeriksa spasi; password dikirim setelah spasi di
+awal dan akhir dibuang, dan karena password baru tidak mungkin berspasi, hal
+itu tidak lagi membuat login gagal. Tombol login bertuliskan "Masuk", pesan
+berhasilnya "Berhasil masuk", dan pesan jarang saat server tidak mengirim
+token "Terjadi kesalahan, coba lagi."
 
 ## Asisten praktikum
 
@@ -407,7 +416,7 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/registration/registration_test.dart` — NIM dari email
   kampus, inisial nama, repository (token disimpan hanya bila kode benar),
   login akun belum terverifikasi membawa email, urutan state kedua bloc, form
-  Daftar menolak isian kosong, dan layar kode (hitung mundur, kirim otomatis)
+  Daftar menolak isian kosong dan password berspasi, dan layar kode (hitung mundur, kirim otomatis)
 - `test/core/helpers/event_transformers_test.dart` — refresh yang sama
   digabung jadi satu susulan, refresh berbeda tetap berurutan, dan bloc yang
   ditutup membuang antrean tanpa error
@@ -418,16 +427,22 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/account/account_test.dart` — `PUT /auth/me` dengan token
   login, token baru disimpan hanya bila ganti password berhasil, urutan state
   kedua bloc, profil dimuat ulang diam-diam, dan validasi kedua layar (nama
-  kosong/pendek, password kosong, pendek, sama dengan yang lama, konfirmasi
-  beda)
+  kosong/pendek, password kosong, pendek, berspasi, sama dengan yang lama,
+  konfirmasi beda)
 - `test/features/password_reset/password_reset_test.dart` — format email,
   repository (email belum terdaftar, akun belum diverifikasi membawa email),
   urutan state kedua bloc, simpan tidak dikirim dua kali, dan kedua layar
-  (NIM dari email, validasi isian, kode salah tidak menghapus password,
+  (NIM dari email, validasi isian termasuk password berspasi, kode salah
+  tidak menghapus password,
   hitung mundur)
 - `test/features/authentication/staff_login_test.dart` — nomor 8 angka
   ditolak di form tanpa menghubungi server, role DOSEN/LABORAN dari server
   ditolak tanpa menyimpan token, dan mahasiswa tetap bisa masuk
+- `test/features/authentication/login_page_test.dart` — di layar kecil
+  dengan keyboard terbuka, halaman Login bisa digeser sampai Masuk dan
+  Daftar tanpa meluap; tanpa keyboard isinya tetap di tengah; Enter di kolom
+  password langsung login, hanya menampilkan pesan bila ada kolom kosong, dan
+  tidak mengirim dua kali saat masih menunggu server
 - `test/features/authentication/session_expiry_test.dart` — aplikasi yang
   dibuka setelah 15 menit tetap masuk; setelah 1 hari diarahkan ke login;
   sesi yang dicabut server saat aplikasi dipakai juga diarahkan ke login

@@ -137,7 +137,7 @@ void main() {
     Future<void> signIn(WidgetTester tester, String number) async {
       await tester.enterText(find.byType(TextFormField).at(0), number);
       await tester.enterText(find.byType(TextFormField).at(1), 'rahasia123');
-      await tester.tap(find.text('Sign In'));
+      await tester.tap(find.text('Masuk'));
       await tester.pumpAndSettle();
     }
 
