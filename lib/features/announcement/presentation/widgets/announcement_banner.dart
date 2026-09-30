@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/features/announcement/presentation/pages/pengumumman_page.dart';
+import 'package:silab/features/announcement/presentation/widgets/announcement_type_style.dart';
 
 class AnnouncementBanner extends StatefulWidget {
   final String title;
@@ -27,11 +28,13 @@ class AnnouncementBanner extends StatefulWidget {
 class _AnnouncementBannerState extends State<AnnouncementBanner> {
   @override
   Widget build(BuildContext context) {
+    final typeStyle = AnnouncementTypeStyle.of(widget.type);
+
     return Container(
       width: double.infinity,
       height: double.maxFinite,
       decoration: BoxDecoration(
-        color: const Color(0xffFE2F60),
+        color: typeStyle.color,
         borderRadius: BorderRadius.circular(15),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -39,33 +42,60 @@ class _AnnouncementBannerState extends State<AnnouncementBanner> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.white,
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    typeStyle.title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
+                      color: typeStyle.color,
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 24,
-                child: Text(
-                  widget.body,
+                const SizedBox(height: 6),
+                Text(
+                  widget.title,
                   style: const TextStyle(
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: Colors.white,
                   ),
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 4,
+                  maxLines: 2,
                 ),
-              ),
-            ],
+                const SizedBox(height: 4),
+                Flexible(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width - 24,
+                    child: Text(
+                      widget.body,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(height: 8),
           Container(
             width: 142,
             height: 32,

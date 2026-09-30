@@ -170,7 +170,20 @@ laboran menambah atau menghapusnya (event `class`).
 
 1. Laboran membuat pengumuman bertipe **Practicum** di web → di aplikasi,
    tombol "Pelajari lebih lanjut" pada pengumuman itu membuka pendaftaran
-   praktikum. Pengumuman tipe lain membuka halaman detail.
+   praktikum. Pengumuman tipe lain membuka halaman detail. Warna kartu di
+   Beranda mengikuti jenisnya, dengan label jenis di pojok kiri atas (nama
+   jenis sama dengan di web):
+
+   | Jenis | Warna kartu |
+   |---|---|
+   | Pengumuman (`BASIC`, juga jenis yang tidak dikenal) | merah `#FE2F60` |
+   | Pendaftaran Praktikum (`PRACTICUM`) | biru `#3272CA` |
+   | Pendaftaran Inhal (`INHALL`) | ungu `#7239EA` |
+   | Pendaftaran Asisten Praktikum (`ASSISTANT`) | hijau `#27A149` |
+
+   Kartu setinggi 170 px, jadi judul dipotong setelah 2 baris dan isi setelah
+   3 baris dengan "…"; isi lengkap ada di halaman detail. Pemetaannya di
+   `announcement/presentation/widgets/announcement_type_style.dart`.
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
    di Profil → Status Pembayaran. Di daftar pilihan, kode mata kuliah (9 angka)
    tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS. Selama masih
@@ -203,7 +216,7 @@ laboran menambah atau menghapusnya (event `class`).
    | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran, atau menghapus pendaftaran yang belum bayar |
    | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, mengubah nama mata kuliah atau dosen pengampunya, atau mahasiswa memilih kelas |
    | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
-   | Pendaftaran Praktikum | mata kuliah baru |
+   | Pendaftaran Praktikum | mata kuliah baru, diubah, atau dihapus laboran |
    | Detail Kelas (Presensi, Classmates) | pertemuan ditambah, diubah judulnya, atau dihapus, sesi dibuka/ditutup, presensi diubah laboran, peserta kelas berubah |
    | Kartu kelas di Detail Kelas | laboran mengubah nama, hari, atau sesi kelas; bila kelas dihapus, mahasiswa dipindah ke kelas lain, atau semesternya selesai, halaman berganti menjadi "Anda sudah tidak terdaftar di kelas ini." dengan tombol Kembali ke Beranda |
    | Semua tampilan di atas | laboran memulai semester baru |
@@ -400,6 +413,11 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat
   pemuatan ulang gagal
+- `test/features/announcement/announcement_banner_test.dart` — kartu
+  pengumuman di Beranda (layar 360×640, tinggi carousel asli): warna kartu
+  dan label untuk keempat jenis serta jenis yang tidak dikenal; judul dan isi
+  sangat panjang dipotong tanpa meluap dan tombol "Pelajari lebih lanjut"
+  tetap di dalam kartu
 - `test/features/select_subjects/cancel_activation_test.dart` — tombol
   "Batalkan pendaftaran" hanya di pendaftaran Belum Lunas; Kembali tidak
   mengirim apa pun; "Ya, batalkan" mengirim `DELETE /activation/:id`,
