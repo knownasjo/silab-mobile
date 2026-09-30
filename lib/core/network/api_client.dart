@@ -38,6 +38,8 @@ class ApiClient {
   Future<Map<String, dynamic>> put(String path, {Object? body}) =>
       _send('PUT', path, body: body);
 
+  Future<Map<String, dynamic>> delete(String path) => _send('DELETE', path);
+
   Stream<ServerEvent> listen(String path) {
     final abort = Completer<void>();
     late final StreamController<ServerEvent> controller;

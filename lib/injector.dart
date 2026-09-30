@@ -39,10 +39,12 @@ import 'package:silab/features/select_subjects/data/repository/selected_subject_
 import 'package:silab/features/select_subjects/domain/repository/selected_subject_repository.dart';
 import 'package:silab/features/select_subjects/domain/usecases/add_selected_class_usecase.dart';
 import 'package:silab/features/select_subjects/domain/usecases/add_user_selected_subject_usecase.dart';
+import 'package:silab/features/select_subjects/domain/usecases/cancel_activation_usecase.dart';
 import 'package:silab/features/select_subjects/domain/usecases/get_user_class_option_by_paid_subject_usecase.dart';
 import 'package:silab/features/select_subjects/domain/usecases/get_user_selected_subject_usecase.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/add_selected_class/add_selected_class_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/add_selected_subject/add_selected_subject_bloc.dart';
+import 'package:silab/features/select_subjects/presentation/bloc/cancel_activation/cancel_activation_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_bloc.dart';
 import 'package:silab/features/subjects/data/data_sources/subject_api_service.dart';
@@ -192,6 +194,8 @@ Future<void> initializeDependencies() async {
       .registerSingleton<UpdateProfileUsecase>(UpdateProfileUsecase(injector()));
   injector.registerSingleton<ChangePasswordUsecase>(
       ChangePasswordUsecase(injector()));
+  injector.registerSingleton<CancelActivationUsecase>(
+      CancelActivationUsecase(injector()));
 
   injector.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
       injector(), injector(), injector(), injector(), injector()));
@@ -234,4 +238,6 @@ Future<void> initializeDependencies() async {
   injector.registerFactory<EditProfileBloc>(() => EditProfileBloc(injector()));
   injector.registerFactory<ChangePasswordBloc>(
       () => ChangePasswordBloc(injector()));
+  injector.registerFactory<CancelActivationBloc>(
+      () => CancelActivationBloc(injector()));
 }

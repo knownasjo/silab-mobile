@@ -18,6 +18,7 @@ import 'package:silab/app_config.dart';
 import 'package:silab/features/classes/presentation/pages/qr_scan_page.dart';
 import 'package:silab/features/select_subjects/presentation/pages/daftar_praktikum_page.dart';
 import 'package:silab/features/announcement/presentation/pages/pengumumman_page.dart';
+import 'package:silab/features/select_subjects/presentation/bloc/cancel_activation/cancel_activation_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/pages/payment_status_page.dart';
 import 'package:silab/features/select_subjects/presentation/pages/pilih_kelas_page.dart';
 import 'package:silab/features/select_subjects/presentation/pages/ringkasan_daftar_page.dart';
@@ -129,7 +130,10 @@ final GoRouter router = GoRouter(
                 GoRoute(
                   path: 'payment-status',
                   name: 'payment-status',
-                  builder: (context, state) => const PaymentStatusPage(),
+                  builder: (context, state) => BlocProvider(
+                    create: (_) => injector<CancelActivationBloc>(),
+                    child: const PaymentStatusPage(),
+                  ),
                 ),
                 GoRoute(
                   path: 'edit-profil',

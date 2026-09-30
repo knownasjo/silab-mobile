@@ -17,4 +17,6 @@ abstract class SelectedSubjectRepository {
 
   Future<Either<Failures, AddSelectedClassResponseEntity>> addSelectedClass(
       {List<String>? selectedClass});
+
+  Future<Either<Failures, String>> cancelActivation(String activationId);
 }

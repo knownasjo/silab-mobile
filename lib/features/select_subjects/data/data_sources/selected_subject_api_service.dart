@@ -27,6 +27,12 @@ class SelectedSubjectApiService {
             await _apiClient.get('/class/registration'),
           );
 
+  Future<String> cancelActivation(String activationId) async {
+    final json = await _apiClient.delete('/activation/$activationId');
+
+    return json['message'] as String? ?? 'Pendaftaran dibatalkan.';
+  }
+
   Future<AddSelectedClassResponseEntity> addSelectedClass({
     List<String>? selectedClass,
   }) async =>

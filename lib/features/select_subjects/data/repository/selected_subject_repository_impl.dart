@@ -74,4 +74,16 @@ class SelectedSubjectRepositoryImpl implements SelectedSubjectRepository {
       return Left(RequestFailures(e.message));
     }
   }
+
+  @override
+  Future<Either<Failures, String>> cancelActivation(String activationId) async {
+    try {
+      final result =
+          await _selectedSubjectApiService.cancelActivation(activationId);
+
+      return Right(result);
+    } on RequestErrorException catch (e) {
+      return Left(RequestFailures(e.message));
+    }
+  }
 }

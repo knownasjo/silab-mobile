@@ -173,7 +173,8 @@ laboran menambah atau menghapusnya (event `class`).
    praktikum. Pengumuman tipe lain membuka halaman detail.
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
    di Profil → Status Pembayaran. Di daftar pilihan, kode mata kuliah (9 angka)
-   tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS.
+   tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS. Selama masih
+   Belum Lunas, pendaftaran bisa dibatalkan (lihat "Batalkan pendaftaran").
 3. Laboran mengonfirmasi pembayaran di web (boleh sekaligus menetapkan kelas,
    boleh juga dikosongkan) → status menjadi "Lunas".
 4. Bila kelas belum ditetapkan, banner di Beranda mengajak mahasiswa memilih
@@ -199,7 +200,7 @@ laboran menambah atau menghapusnya (event `class`).
    |---|---|
    | Pengumuman di Beranda | laboran membuat, mengubah, atau menghapus pengumuman |
    | Detail pengumuman | isinya diubah; bila dihapus, halaman tertutup dengan pesan "Pengumuman ini sudah dihapus." |
-   | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran |
+   | Status Pembayaran | laboran mengonfirmasi atau membatalkan pembayaran, atau menghapus pendaftaran yang belum bayar |
    | Kelas Terdaftar, Jadwal | laboran menetapkan atau memindah kelas, mengubah atau menghapus kelas, mengubah nama mata kuliah atau dosen pengampunya, atau mahasiswa memilih kelas |
    | Banner & halaman Pilih Kelas | pembayaran dikonfirmasi, kuota kelas yang bisa dipilih berubah, kelas baru |
    | Pendaftaran Praktikum | mata kuliah baru |
@@ -217,6 +218,38 @@ laboran menambah atau menghapusnya (event `class`).
    Pembayaran kosong, dan mahasiswa mendaftar ulang mata kuliah untuk semester
    baru. Mengulang mata kuliah yang pernah diambil diperbolehkan. Data semester
    lama tetap tersimpan dan hanya bisa dilihat di web.
+
+### Batalkan pendaftaran
+
+Di Profil → Status Pembayaran, setiap pendaftaran berstatus **Belum Lunas**
+punya tombol merah "Batalkan pendaftaran" di bawah kotak mata kuliahnya.
+
+```
+┌──────────────────────────────────┐
+│ 30 menit lalu       Belum Lunas  │
+│ ┌──────────────────────────────┐ │
+│ │ Basis Data        Semester 3 │ │
+│ └──────────────────────────────┘ │
+│            Batalkan pendaftaran  │
+└──────────────────────────────────┘
+```
+
+1. Tombol membuka konfirmasi "Batalkan Pendaftaran": "Pendaftaran Basis Data
+   akan dibatalkan. Anda bisa mendaftarkannya lagi nanti." dengan tombol
+   Kembali dan **Ya, batalkan** (merah).
+2. Ya, batalkan → `DELETE /activation/:id`. Selama menunggu, tombol berubah
+   menjadi "Membatalkan..." dan tidak bisa ditekan.
+3. Berhasil: snackbar hijau "Pendaftaran Basis Data dibatalkan." dan daftar
+   dimuat ulang. Mata kuliah itu bisa didaftarkan lagi dari Pendaftaran
+   Praktikum.
+4. Ditolak: pesan server tampil di snackbar merah, misalnya "Pendaftaran yang
+   sudah lunas tidak bisa dibatalkan. Hubungi laboran bila perlu dibatalkan."
+   bila laboran baru saja mengonfirmasi pembayarannya.
+
+Pendaftaran yang sudah Lunas tidak punya tombol ini; laboran yang
+membatalkannya dari web. Kode: `CancelActivationBloc` (disediakan di route
+`payment-status`) dan
+`widgets/build_payment_status_page_cancel_button.dart`.
 
 ### Satu HP satu akun per pertemuan
 
@@ -367,6 +400,12 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat
   pemuatan ulang gagal
+- `test/features/select_subjects/cancel_activation_test.dart` — tombol
+  "Batalkan pendaftaran" hanya di pendaftaran Belum Lunas; Kembali tidak
+  mengirim apa pun; "Ya, batalkan" mengirim `DELETE /activation/:id`,
+  menampilkan "Membatalkan..." dengan tombol nonaktif selama menunggu, lalu
+  pesan server dan daftar yang diperbarui; penolakan server tampil merah dan
+  tombol bisa ditekan lagi
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
   respons asli backend
 - `test/live/` — alur mahasiswa terhadap backend yang sedang berjalan; hanya
