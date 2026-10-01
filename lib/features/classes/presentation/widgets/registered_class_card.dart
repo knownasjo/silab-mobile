@@ -26,7 +26,7 @@ class RegisteredClassCard extends StatelessWidget {
       hoverColor: const Color(0xffBFD9EF).withOpacity(0.5),
       child: Container(
         width: double.infinity,
-        height: 120,
+        constraints: const BoxConstraints(minHeight: 120),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         decoration: BoxDecoration(
           color: Colors.transparent,

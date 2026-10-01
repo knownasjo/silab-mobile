@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:silab/core/helpers/initials.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,46 +25,18 @@ class ClassDetailTabView extends StatefulWidget {
 
 class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   int pageLocation = 0;
-  PageController controller = PageController();
 
   List<String> pageItems = ['Presensi', 'Classmates'];
 
   @override
-  void initState() {
-    controller = PageController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.shortestSide,
-      width: double.maxFinite,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildPageSelector(),
-          const SizedBox(height: 24),
-          Flexible(
-            fit: FlexFit.loose,
-            child: PageView.builder(
-              controller: controller,
-              physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (value) => setState(() {
-                pageLocation = value;
-              }),
-              itemCount: pageItems.length,
-              itemBuilder: (context, index) => _buildPageContent(index),
-            ),
-          )
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildPageSelector(),
+        const SizedBox(height: 24),
+        _buildPageContent(pageLocation),
+      ],
     );
   }
 
@@ -78,7 +51,9 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
         itemBuilder: (context, index) => InkWell(
           borderRadius: BorderRadius.circular(90),
           splashColor: Colors.transparent,
-          onTap: () => controller.jumpToPage(index),
+          onTap: () => setState(() {
+            pageLocation = index;
+          }),
           child: _buildPageSelectorItem(index),
         ),
       ),
@@ -124,12 +99,16 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
     return BlocBuilder<UserMeetingsBloc, UserMeetingsState>(
       builder: (context, state) {
         if (state is UserMeetingsLoading) {
-          return const Center(child: CustomLoadingIndicator());
+          return _buildTabLoading();
         }
 
         if (state is UserMeetingsFailed) {
           return _buildTabMessage(
-              state.message ?? 'Gagal memuat daftar pertemuan.');
+            state.message ?? 'Gagal memuat daftar pertemuan.',
+            onRetry: () => context
+                .read<UserMeetingsBloc>()
+                .add(GetUserMeetings(classId: widget.classId)),
+          );
         }
 
         final meetings = state.meetingsData ?? const <MeetingsEntity>[];
@@ -152,12 +131,16 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
       },
       builder: (context, state) {
         if (state is ClassmatesLoading) {
-          return const Center(child: CustomLoadingIndicator());
+          return _buildTabLoading();
         }
 
         if (state is ClassmatesFailed) {
           return _buildTabMessage(
-              state.message ?? 'Gagal memuat daftar teman sekelas.');
+            state.message ?? 'Gagal memuat daftar teman sekelas.',
+            onRetry: () => context
+                .read<ClassmatesBloc>()
+                .add(GetClassmates(classId: widget.classId)),
+          );
         }
 
         final classmates = state.classmates ?? const <ClassmateEntity>[];
@@ -168,6 +151,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (classmates.isNotEmpty)
               Padding(
@@ -180,14 +164,13 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
                   ),
                 ),
               ),
-            Flexible(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: classmates.length,
-                physics: const ClampingScrollPhysics(),
-                itemBuilder: (context, idx) =>
-                    _buildClassmateItem(classmates[idx]),
-              ),
+            ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: classmates.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, idx) =>
+                  _buildClassmateItem(classmates[idx]),
             ),
           ],
         );
@@ -241,17 +224,38 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
     );
   }
 
-  Widget _buildTabMessage(String message) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 14,
-            color: const Color(0xff1D1D1D).withOpacity(0.7),
-          ),
+  Widget _buildTabLoading() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 32),
+      child: Center(child: CustomLoadingIndicator()),
+    );
+  }
+
+  Widget _buildTabMessage(String message, {VoidCallback? onRetry}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: const Color(0xff1D1D1D).withOpacity(0.7),
+              ),
+            ),
+            if (onRetry != null)
+              TextButton.icon(
+                onPressed: onRetry,
+                style: TextButton.styleFrom(
+                  foregroundColor: const Color(0xff3272CA),
+                ),
+                icon: const Icon(Boxicons.bx_refresh),
+                label: const Text('Coba lagi'),
+              ),
+          ],
         ),
       ),
     );
@@ -260,11 +264,11 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   Widget _buildMeetingList(List<MeetingsEntity> meetingList) {
     return ListView.builder(
       shrinkWrap: true,
+      padding: EdgeInsets.zero,
       itemCount: meetingList.length,
-      physics: const ClampingScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, idx) {
         final meeting = meetingList[idx];
-        final style = _statusStyles[meeting.attendanceStatus]!;
 
         return Container(
           width: double.infinity,
@@ -276,37 +280,85 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
             color: const Color(0xffF4F4F9),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 16),
-                child: Text(meeting.meeting_name!),
-              ),
-              InkWell(
-                onTap: () => _onMeetingTapped(meeting),
-                borderRadius: BorderRadius.circular(50),
-                splashColor: const Color(0xffBFD9EF),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: style.border == null
-                        ? null
-                        : Border.all(color: style.border!, width: 2),
-                    color: style.background,
-                  ),
-                  child: Image.asset(
-                    'assets/image/${style.icon}',
-                    scale: 2,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 8),
+                  child: Text(
+                    meeting.meeting_name ?? '-',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              )
+              ),
+              _canScan(meeting)
+                  ? _buildScanButton(meeting)
+                  : _buildStatusIcon(meeting),
             ],
           ),
         );
       },
+    );
+  }
+
+  bool _canScan(MeetingsEntity meeting) =>
+      meeting.is_open == true &&
+      meeting.attendanceStatus == AttendanceStatus.belumPresensi;
+
+  Widget _buildScanButton(MeetingsEntity meeting) {
+    return Material(
+      color: const Color(0xff3272CA),
+      shape: const StadiumBorder(),
+      child: InkWell(
+        onTap: () => _onMeetingTapped(meeting),
+        customBorder: const StadiumBorder(),
+        child: const SizedBox(
+          height: 40,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Boxicons.bx_qr_scan, color: Colors.white, size: 18),
+                SizedBox(width: 6),
+                Text(
+                  'Scan QR',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatusIcon(MeetingsEntity meeting) {
+    final style = _statusStyles[meeting.attendanceStatus]!;
+
+    return InkWell(
+      onTap: () => _onMeetingTapped(meeting),
+      borderRadius: BorderRadius.circular(50),
+      splashColor: const Color(0xffBFD9EF),
+      child: Container(
+        width: 40,
+        height: 40,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: style.border == null
+              ? null
+              : Border.all(color: style.border!, width: 2),
+          color: style.background,
+        ),
+        child: Image.asset(
+          'assets/image/${style.icon}',
+          scale: 2,
+        ),
+      ),
     );
   }
 
@@ -315,7 +367,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
     if (meeting.attendanceStatus != AttendanceStatus.belumPresensi) {
       reason = 'Presensi pertemuan ini sudah tercatat.';
     } else if (meeting.is_open != true) {
-      reason = 'Sesi presensi belum dibuka oleh asisten.';
+      reason = 'Sesi presensi sedang tidak dibuka.';
     } else {
       reason = null;
     }

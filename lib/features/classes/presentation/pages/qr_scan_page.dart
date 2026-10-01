@@ -113,6 +113,49 @@ class _QrScanPageState extends State<QrScanPage> {
     );
   }
 
+  Widget _buildCameraError(MobileScannerException error) {
+    final message = error.errorCode == MobileScannerErrorCode.permissionDenied
+        ? 'Izin kamera ditolak. Izinkan Kamera untuk SILAB di Pengaturan HP, lalu tekan Coba lagi.'
+        : 'Kamera tidak bisa dibuka. Tekan Coba lagi.';
+
+    return ColoredBox(
+      color: Colors.black,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Boxicons.bx_camera_off,
+                color: Colors.white,
+                size: 48,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextButton.icon(
+                onPressed: () => _controller.start(),
+                style: TextButton.styleFrom(
+                  foregroundColor: const Color(0xffFFBF01),
+                ),
+                icon: const Icon(Boxicons.bx_refresh),
+                label: const Text('Coba lagi'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildScanner(BuildContext context) {
     return BlocConsumer<UserAttendancesBloc, UserAttendancesState>(
       listener: (context, state) {
@@ -122,7 +165,11 @@ class _QrScanPageState extends State<QrScanPage> {
           showDialog(
             context: context,
             useRootNavigator: false,
-            builder: (context) => const CustomLoadingIndicator(),
+            barrierDismissible: false,
+            builder: (context) => const PopScope(
+              canPop: false,
+              child: CustomLoadingIndicator(),
+            ),
           );
         } else if (state is UserAttendancesSuccess) {
           Navigator.of(context, rootNavigator: true).pop();
@@ -158,6 +205,7 @@ class _QrScanPageState extends State<QrScanPage> {
               MobileScanner(
                 controller: _controller,
                 onDetect: _handleBarcode,
+                errorBuilder: (context, error, _) => _buildCameraError(error),
                 scanWindow: Rect.fromCenter(
                   center: Offset(
                     MediaQuery.of(context).size.width / 2,
@@ -167,16 +215,42 @@ class _QrScanPageState extends State<QrScanPage> {
                   height: 300,
                 ),
               ),
-              Center(
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color(0xffFFBF01),
-                      width: 1,
+              ValueListenableBuilder<MobileScannerState>(
+                valueListenable: _controller,
+                builder: (context, scanner, _) => scanner.error != null
+                    ? const SizedBox.shrink()
+                    : Center(
+                        child: Container(
+                          width: 300,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: const Color(0xffFFBF01),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+              ),
+              Positioned(
+                top: MediaQuery.paddingOf(context).top + 16,
+                left: 15,
+                child: InkWell(
+                  onTap: () => context.pop(),
+                  customBorder: const CircleBorder(),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(
+                        0xffF4F4F9,
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(12),
+                    child: const Icon(
+                      Boxicons.bx_chevron_left,
+                      size: 36,
+                    ),
                   ),
                 ),
               ),
@@ -184,55 +258,24 @@ class _QrScanPageState extends State<QrScanPage> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 15,
-                        left: 15,
-                        bottom: 24,
-                      ),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () => context.pop(),
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(
-                                  0xffF4F4F9,
-                                ),
-                              ),
-                              child: const Icon(
-                                Boxicons.bx_chevron_left,
-                                size: 36,
-                              ),
-                            ),
-                          ),
-                        ],
+                child: Container(
+                  height: 120,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    color: Color(0xffF4F4F9),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Arahkan Kamera ke Kode QR untuk Presensi',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Container(
-                      height: 120,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          topRight: Radius.circular(16),
-                        ),
-                        color: Color(0xffF4F4F9),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Arahkan Kamera ke Kode QR untuk Presensi',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],

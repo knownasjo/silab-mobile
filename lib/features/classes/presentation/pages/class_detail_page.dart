@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:silab/core/common/entities/class/class_entity.dart';
+import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/features/classes/presentation/bloc/classmates/classmates_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
 import 'package:silab/features/classes/presentation/widgets/class_card.dart';
@@ -58,7 +59,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                   const SizedBox(height: 24),
                   ClassDetailTabView(
                     classId: widget.classDetailPageExtra.classEntity.id,
-                  )
+                  ),
+                  const SizedBox(height: bottomNavbarSpace),
                 ],
               ),
             ),

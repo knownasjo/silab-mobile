@@ -222,6 +222,39 @@ void main() {
     expect(arrow.right, lessThanOrEqualTo(card.right));
   });
 
+  testWidgets('huruf HP 1,3×: kartu kelas memanjang, tidak terpotong',
+      (tester) async {
+    tester.view.physicalSize = const Size(360, 640) * 3;
+    tester.view.devicePixelRatio = 3;
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.view.reset);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    await tester.pumpWidget(MaterialApp(
+      theme: ThemeData(fontFamily: realFontFamily),
+      home: const Scaffold(
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: RegisteredClassCard(
+            classEntity: ClassEntity(
+              id: 'k1',
+              subject_name: 'Basis Data',
+              subject_class: 'A',
+              lecturer: 'Dosen001',
+              day: 'MONDAY',
+              session_time: '07.00 - 08.40',
+            ),
+          ),
+        ),
+      ),
+    ));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(tester.getRect(find.byType(RegisteredClassCard)).height,
+        greaterThan(120));
+  });
+
   testWidgets(
       'server mati: pesan asli tanpa bahasa Inggris, tiap bagian punya "Coba lagi" yang terlihat',
       (tester) async {

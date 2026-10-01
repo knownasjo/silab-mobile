@@ -11,7 +11,7 @@ class ClassCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 120,
+      constraints: const BoxConstraints(minHeight: 120),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
       decoration: BoxDecoration(
         color: Colors.transparent,
@@ -50,28 +50,30 @@ class ClassCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    child: Text(
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       classEntity.subject_name!,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  Text(
-                    classEntity.lecturer!,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
+                    Text(
+                      classEntity.lecturer!,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

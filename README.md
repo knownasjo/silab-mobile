@@ -250,11 +250,15 @@ laboran menambah atau menghapusnya (event `class`).
    Jadwal lewat event `class` dan `activation`.
 5. Kelas muncul di Beranda dan Jadwal.
 6. Asisten membuka sesi presensi dan menampilkan QR di web; QR berganti setiap
-   10 detik. Di Detail Kelas, mahasiswa menekan ikon scan pada pertemuan yang
-   sesinya dibuka. Daftar pertemuan di sana adalah urutan dari server
+   10 detik. Di Detail Kelas, pertemuan yang sesinya sedang dibuka dan belum
+   dipresensi punya tombol biru "Scan QR"; mahasiswa menekannya untuk membuka
+   kamera. Daftar pertemuan di sana adalah urutan dari server
    (menurut judul, Pertemuan 2 sebelum Pertemuan 10) yang dibalik, jadi nomor
-   terbesar ada di atas. Tombol scan tidak membuka kamera bila sesi belum dibuka
-   atau presensi sudah tercatat.
+   terbesar ada di atas. Ikon pertemuan lain tidak membuka kamera: bila
+   presensi sudah tercatat muncul "Presensi pertemuan ini sudah tercatat.",
+   bila sesinya tidak dibuka muncul "Sesi presensi sedang tidak dibuka." (dulu
+   "belum dibuka oleh asisten", keliru untuk pertemuan yang sesinya sudah
+   ditutup). Lihat "Detail Kelas dan Scan QR" di bawah.
 7. Semua tampilan diperbarui real-time lewat `GET /events`, tanpa menarik
    layar untuk refresh:
 
@@ -477,6 +481,33 @@ mengambil kelas yang sama dari `UserRegisteredClassBloc`, yang dimuat ulang
 oleh event `activation`. Bila kelas itu sudah tidak ada di daftar, halaman
 menampilkan pemberitahuan alih-alih tab Presensi dan Classmates.
 
+### Detail Kelas dan Scan QR
+
+- Seluruh halaman Detail Kelas yang digeser, dan di bawahnya ada ruang
+  `bottomNavbarSpace` supaya pertemuan terakhir bisa sampai di atas menu
+  bawah. Dulu tab Presensi/Classmates berada di kotak setinggi lebar layar
+  dengan geseran sendiri: di HP 360×640 hanya 4 pertemuan terlihat dan bagian
+  bawah kotak tertutup menu, di HP 411×891 hanya 5 pertemuan sementara layar
+  di bawahnya kosong.
+- Kartu kelas (Detail Kelas dan Beranda) memakai tinggi minimal 120, jadi
+  memanjang bila ukuran huruf HP diperbesar (dulu terpotong di 1,3×). Nama
+  dosen dan judul pertemuan yang panjang (server membolehkan 50 huruf)
+  dipotong "…" dalam satu baris.
+- Bila tab Presensi atau Classmates gagal dimuat, pesannya disertai tombol
+  "Coba lagi".
+- Halaman scan: dialog memuat setelah QR terbaca tidak bisa ditutup dengan
+  ketukan di luar atau tombol kembali HP, jadi setelah presensi tercatat
+  aplikasi selalu kembali ke Detail Kelas. Dulu dialog itu bisa tertutup, lalu
+  aplikasi menutup halaman scan sekaligus Detail Kelas dan mahasiswa sampai di
+  Beranda.
+- Bila izin kamera ditolak, tampil "Izin kamera ditolak. Izinkan Kamera untuk
+  SILAB di Pengaturan HP, lalu tekan Coba lagi." dengan tombol "Coba lagi"
+  yang menyalakan kamera lagi (galat kamera lain: "Kamera tidak bisa dibuka.
+  Tekan Coba lagi."). Dulu tampil layar hitam "Camera permission denied.".
+  Bingkai kuning disembunyikan selama kamera bermasalah.
+- Tombol kembali di halaman scan dipindah ke kiri atas; di HP 360×640 dulu
+  tombol itu menimpa sudut kiri bawah bingkai.
+
 Entity memakai `freezed`/`json_serializable`. Setelah mengubah entity:
 
 ```bash
@@ -547,6 +578,16 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   pengumuman sepanjang 1000 karakter bisa digulir sampai akhir di layar HP
   kecil (360×640) tanpa terpotong; sebelum 30 September 2026 halaman ini
   tidak bisa digulir, karena batas deskripsi masih 200 karakter
+- `test/features/classes/class_detail_test.dart` — 14 pertemuan di HP
+  360×640 digeser bersama halaman sampai di atas menu bawah dan mengisi layar
+  HP 411×891 (minimal 7 baris); nama dosen panjang dan huruf HP 1,3× tidak
+  merusak kartu; judul pertemuan 50 huruf dipotong; tombol "Scan QR" hanya di
+  pertemuan terbuka yang belum dipresensi dan membuka kamera; pesan "Sesi
+  presensi sedang tidak dibuka."; Coba lagi di kedua tab; saat presensi
+  dicatat, ketukan di luar dan tombol kembali HP diabaikan lalu aplikasi
+  kembali ke Detail Kelas; izin kamera ditolak tampil berbahasa Indonesia dan
+  Coba lagi menyalakan kamera; tombol kembali scan tidak menimpa bingkai.
+  Kamera ditiru lewat `MethodChannel` paket `mobile_scanner`.
 - `test/features/classes/registered_class_guard_test.dart` — Detail Kelas
   memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat
@@ -561,7 +602,8 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/home/beranda_test.dart` — memakai huruf Roboto dari Flutter
   (`test/helpers/real_font.dart`, lebarnya hampir sama dengan Manrope) supaya
   letak teks sama dengan di HP: nama dosen bergelar panjang dipotong "…"
-  tanpa meluap; server mati menampilkan pesan asli tanpa bahasa Inggris dan
+  tanpa meluap; dengan huruf HP 1,3× kartu kelas memanjang tanpa terpotong;
+  server mati menampilkan pesan asli tanpa bahasa Inggris dan
   tombol "Coba lagi" yang terlihat di atas menu bawah dan bisa memuat ulang;
   data akun gagal dimuat menampilkan "Ulangi"; pesan belum punya kelas terbaca
   utuh di layar 360×640; titik penanda pengumuman pindah setelah pengumuman
