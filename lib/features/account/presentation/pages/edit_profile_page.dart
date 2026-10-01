@@ -85,6 +85,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     textInputAction: TextInputAction.done,
                     textInputType: TextInputType.name,
                     isObscure: false,
+                    onFieldSubmitted: (_) => _submit(),
                     validator: (value) {
                       final name = value?.trim() ?? '';
                       if (name.isEmpty) return 'Nama Lengkap Belum Diisi!';

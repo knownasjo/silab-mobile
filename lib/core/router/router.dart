@@ -160,7 +160,6 @@ final GoRouter router = GoRouter(
                       final id = state.pathParameters['id'];
                       return PengumumanPage(
                         id: id,
-                        // pengumumanPageExtra: state.extra as PengumumanPageExtra,
                       );
                     }),
                 GoRoute(

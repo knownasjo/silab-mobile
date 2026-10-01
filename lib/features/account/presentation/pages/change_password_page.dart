@@ -128,6 +128,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     textInputAction: TextInputAction.done,
                     textInputType: TextInputType.text,
                     isObscure: true,
+                    onFieldSubmitted: (_) => _submit(),
                     validator: (value) => value != _passwordController.text
                         ? 'Konfirmasi password tidak sama'
                         : null,

@@ -153,7 +153,30 @@ Halaman Profil punya dua menu baru (`lib/features/account`):
   halaman login.
 
 Bloc-nya `EditProfileBloc` dan `ChangePasswordBloc`; keduanya mengabaikan
-tombol Simpan yang ditekan lagi saat permintaan masih berjalan.
+tombol Simpan yang ditekan lagi saat permintaan masih berjalan. Tombol Enter di
+keyboard pada kolom terakhir (nama lengkap, konfirmasi password) langsung
+menyimpan, sama seperti di halaman Masuk.
+
+### Profil dan menu bawah
+
+- Bila data akun (`GET /auth/me`) gagal dimuat, Profil menulis "Gagal memuat
+  data akun." dengan tombol "Coba lagi" dan inisial "?"; dulu tampil isian
+  contoh "XX / Nama Lengkap / email / NIM" seolah-olah data asli. Menu di
+  bawahnya tetap bisa dipakai.
+- Daftar Profil diberi ruang `bottomNavbarSpace` di bawah. Di HP kecil
+  halamannya jadi bisa digeser sampai tombol Keluar berada di atas menu bawah;
+  di HP besar yang isinya muat, ruang itu tidak terlihat dan halaman tetap tidak
+  bisa digeser.
+- `CustomBottomNavbar` turun (animasi yang sama dengan saat layar digeser)
+  selama keyboard terbuka. Dulu menu bawah mengambang tepat di atas keyboard dan
+  menutupi kolom yang sedang diketik (misalnya konfirmasi password) atau tombol
+  Simpan di Edit Profil.
+- `ScaffoldPage` menyalakan menu sesuai halaman utama yang sedang tampil
+  (`/home`, `/schedule`, `/profile`), bukan hanya saat menu diketuk. Dulu
+  setelah Detail Kelas dibuka dari Jadwal lalu "Kembali ke Beranda" ditekan,
+  Beranda tampil berjudul "Jadwal Praktikum" dengan menu Jadwal menyala.
+- Widget lama yang tidak dipakai (`user_profile_card.dart`,
+  `payment_status_pill.dart`) dihapus.
 
 Sejak 1 Oktober 2026, password baru di Daftar, Atur Password Baru, dan Ganti
 Password tidak boleh mengandung spasi di mana pun: form menampilkan "Password
@@ -482,6 +505,24 @@ mengambil kelas yang sama dari `UserRegisteredClassBloc`, yang dimuat ulang
 oleh event `activation`. Bila kelas itu sudah tidak ada di daftar, halaman
 menampilkan pemberitahuan alih-alih tab Presensi dan Classmates.
 
+### Detail pengumuman
+
+- `GetAnnouncementBloc` masuk keadaan memuat setiap kali pengumuman dibuka,
+  dan hanya jawaban untuk pengumuman yang terakhir dibuka yang dipakai. Dulu
+  judul dan isi pengumuman sebelumnya tampil selama pengumuman baru dimuat,
+  dan jawaban lama yang datang terlambat bisa menimpa yang baru.
+- Selama memuat tampil lingkaran berputar; bila gagal tertulis "Gagal memuat
+  pengumuman." dengan tombol "Coba lagi" (dulu halaman kosong).
+- Halaman hanya punya satu geseran (dulu kotak setinggi layar dengan geseran
+  sendiri di dalam halaman yang juga bisa digeser) dan ruang
+  `bottomNavbarSpace` di bawah, jadi akhir pengumuman panjang tidak tertutup
+  menu bawah.
+- Label jenis pengumuman (`AnnouncementTypeStyle`, sama dengan kartu di
+  Beranda) tampil di atas judul dengan warna jenisnya.
+- Isi pengumuman memakai `SelectableText`, jadi bisa ditekan lama untuk
+  menyalin sebagian (misalnya link), dan tombol "Salin isi" menyalin seluruh
+  isi ke clipboard dengan pesan "Isi pengumuman disalin."
+
 ### Jadwal
 
 `ScheduleApiService` menyusun Jadwal dari `GET /class/me` (kelas yang diikuti)
@@ -578,6 +619,16 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   kedua bloc, profil dimuat ulang diam-diam, dan validasi kedua layar (nama
   kosong/pendek, password kosong, pendek, berspasi, sama dengan yang lama,
   konfirmasi beda)
+- `test/features/user_details/profile_page_test.dart` — keyboard terbuka di
+  Ganti Password: menu bawah turun, kolom konfirmasi tidak tertutup, lalu
+  kembali saat keyboard ditutup; Simpan di Edit Profil bisa ditekan selama
+  keyboard terbuka; server mati tidak menampilkan isian contoh dan Coba lagi
+  memuat data akun; Enter di Edit Profil dan konfirmasi Ganti Password
+  menyimpan; tombol Keluar di HP 360×640 bisa digeser sampai di atas menu
+  bawah, sedangkan HP 411×891 tetap tidak bisa digeser
+- `test/scaffold_page_test.dart` — `ScaffoldPage` asli: Detail Kelas dibuka
+  dari Jadwal lalu "Kembali ke Beranda" menyalakan menu Beranda dan judul
+  sapaan, bukan "Jadwal Praktikum"
 - `test/features/password_reset/password_reset_test.dart` — format email,
   repository (email belum terdaftar, akun belum diverifikasi membawa email),
   urutan state kedua bloc, simpan tidak dikirim dua kali, dan kedua layar
@@ -606,6 +657,12 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   pengumuman sepanjang 1000 karakter bisa digulir sampai akhir di layar HP
   kecil (360×640) tanpa terpotong; sebelum 30 September 2026 halaman ini
   tidak bisa digulir, karena batas deskripsi masih 200 karakter
+- `test/features/announcement/announcement_detail_test.dart` — membuka
+  pengumuman kedua tidak menampilkan isi sebelumnya; jawaban lama yang
+  terlambat tidak menimpa; lingkaran memuat, "Gagal memuat pengumuman." dan
+  Coba lagi; pengumuman panjang di 360×640 hanya punya satu geseran dan baris
+  terakhir sampai di atas menu bawah; isi bisa dipilih dan "Salin isi"
+  menyalin seluruh isi; label jenis tampil di atas judul
 - `test/features/classes/class_detail_test.dart` — 14 pertemuan di HP
   360×640 digeser bersama halaman sampai di atas menu bawah dan mengisi layar
   HP 411×891 (minimal 7 baris); nama dosen panjang dan huruf HP 1,3× tidak

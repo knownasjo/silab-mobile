@@ -1,5 +1,7 @@
 import 'package:silab/features/authentication/presentation/widgets/log_out_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boxicons/flutter_boxicons.dart';
+import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/core/helpers/initials.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -63,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
               backgroundColor: Colors.white,
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
               child: ListView(
+                padding: const EdgeInsets.only(bottom: bottomNavbarSpace),
                 children: [
                   _buildUserInitials(state),
                   const SizedBox(height: 20),
@@ -191,12 +194,14 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserInitials(UserDetailsState state) {
-    final String? userInitials = state is UserDetailLoaded
-        ? nameInitials(state.userDetailEntity?.fullname)
-        : null;
+    final String? userInitials = switch (state) {
+      UserDetailLoaded() => nameInitials(state.userDetailEntity?.fullname),
+      UserDetailFailed() => '?',
+      _ => null,
+    };
 
     return Skeletonizer(
-      enabled: state is UserDetailLoading ? true : false,
+      enabled: state is UserDetailLoading || state is UserDetailInitial,
       ignoreContainers: true,
       child: Container(
         width: 90,
@@ -227,6 +232,30 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildUserDetails(
     UserDetailsState state,
   ) {
+    if (state is UserDetailFailed) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            'Gagal memuat data akun.',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          TextButton.icon(
+            onPressed: () =>
+                context.read<UserDetailsBloc>().add(GetUserDetails()),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xff3272CA),
+            ),
+            icon: const Icon(Boxicons.bx_refresh),
+            label: const Text('Coba lagi'),
+          ),
+        ],
+      );
+    }
+
     String? fullname;
     String? nim;
     String? email;
@@ -238,7 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Skeletonizer(
-      enabled: state is UserDetailLoading ? true : false,
+      enabled: state is UserDetailLoading || state is UserDetailInitial,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

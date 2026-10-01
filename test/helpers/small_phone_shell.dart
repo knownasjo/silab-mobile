@@ -15,10 +15,11 @@ Widget shellWithNavbar({
   required String title,
   required ScrollController controller,
   required Widget child,
+  bool withAppBar = true,
 }) =>
     Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text(title)),
+      appBar: withAppBar ? AppBar(title: Text(title)) : null,
       body: SafeArea(
         child: SingleChildScrollView(controller: controller, child: child),
       ),
@@ -56,5 +57,10 @@ Future<void> scrollEverythingToEnd(WidgetTester tester) async {
   }
 }
 
-double navbarTop(WidgetTester tester) =>
-    tester.getRect(find.byType(CustomBottomNavbar)).top;
+double navbarTop(WidgetTester tester) => tester
+    .getRect(find
+        .descendant(
+            of: find.byType(CustomBottomNavbar),
+            matching: find.byType(Container))
+        .first)
+    .top;

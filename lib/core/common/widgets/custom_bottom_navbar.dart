@@ -42,9 +42,21 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateVisibility();
+  }
+
+  @override
   void didUpdateWidget(CustomBottomNavbar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isVisible) {
+    _updateVisibility();
+  }
+
+  void _updateVisibility() {
+    final isKeyboardOpen = MediaQuery.viewInsetsOf(context).bottom > 0;
+
+    if (widget.isVisible && !isKeyboardOpen) {
       _controller.reverse();
     } else {
       _controller.forward();

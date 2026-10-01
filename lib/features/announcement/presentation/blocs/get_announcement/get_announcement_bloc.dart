@@ -11,6 +11,8 @@ class GetAnnouncementBloc
     extends Bloc<GetAnnouncementEvent, GetAnnouncementState> {
   final GetAnnouncementUseCase _getAnnouncementUseCase;
 
+  String? _requestedId;
+
   GetAnnouncementBloc(this._getAnnouncementUseCase)
       : super(GetAnnouncementInitial()) {
     on<GetAnnouncement>(onGetAnnouncement);
@@ -20,8 +22,13 @@ class GetAnnouncementBloc
   void onGetAnnouncement(
       GetAnnouncementEvent event, Emitter<GetAnnouncementState> emit) async {
     if (event.id != null) {
+      _requestedId = event.id;
+      emit(GetAnnouncementLoading());
+
       final data = await _getAnnouncementUseCase.announcementRepository
           .getAnnouncement(id: event.id!);
+
+      if (_requestedId != event.id) return;
 
       data.fold(
         (left) => emit(GetAnnouncementFailed(message: left.message)),

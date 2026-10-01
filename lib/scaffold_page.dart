@@ -68,6 +68,13 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
   Widget build(BuildContext context) {
     var currentRoute = GoRouterState.of(context).uri.toString();
 
+    currentIndex = switch (currentRoute) {
+      '/home' => 0,
+      '/schedule' => 1,
+      '/profile' => 2,
+      _ => currentIndex,
+    };
+
     if (currentRoute.startsWith('/home/pengumuman')) {
       setState(() {
         appBarTitle = 'Pengumuman';
@@ -137,7 +144,7 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
             ? AppBar(
                 title: currentIndex != 0
                     ? Text(
-                        currentIndex == 1 ? "Jadwal Praktikum" : "Profile",
+                        currentIndex == 1 ? "Jadwal Praktikum" : "Profil",
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
