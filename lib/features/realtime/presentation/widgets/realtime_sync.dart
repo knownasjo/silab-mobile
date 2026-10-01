@@ -116,6 +116,18 @@ class _RealtimeSyncState extends State<RealtimeSync> {
     if (message.action == 'assistants') {
       context.read<GetAllAnnouncementsBloc>().add(RefreshAllAnnouncements());
     }
+
+    final scheduledClassIds = {
+      for (final schedule
+          in context.read<UserScheduleBloc>().state.schedules ?? const [])
+        for (final practicum in schedule.practicums ?? const [])
+          practicum.class_id,
+    };
+
+    if (message.action == 'assistants' ||
+        scheduledClassIds.contains(message.classId)) {
+      context.read<UserScheduleBloc>().add(RefreshUserSchedule());
+    }
   }
 
   void _refreshRegistration() {

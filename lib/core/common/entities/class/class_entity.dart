@@ -12,6 +12,7 @@ class ClassEntity with _$ClassEntity {
     final String? day,
     final String? lecturer,
     final String? session_time,
+    final String? room,
   }) = _ClassEntity;
 
   factory ClassEntity.fromJson(Map<String, dynamic> json) =>

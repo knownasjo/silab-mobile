@@ -173,7 +173,8 @@ jadwalnya, dengan keterangan bahwa kelas dikelola lewat web SILAB. Datanya dari
 `GET /class` (untuk mahasiswa backend hanya mengembalikan kelas yang ia
 pegang), lewat `AssistedClassesBloc` di `lib/features/user_details`. Bagian ini
 tidak tampil bila ia tidak memegang kelas, dan ikut berubah tanpa refresh saat
-laboran menambah atau menghapusnya (event `class`).
+laboran menambah atau menghapusnya (event `class`). Kelas yang ia pegang juga
+tampil di Jadwal dengan tanda "Asisten" (lihat "Jadwal").
 
 ## Alur yang tersambung ke web
 
@@ -481,6 +482,26 @@ mengambil kelas yang sama dari `UserRegisteredClassBloc`, yang dimuat ulang
 oleh event `activation`. Bila kelas itu sudah tidak ada di daftar, halaman
 menampilkan pemberitahuan alih-alih tab Presensi dan Classmates.
 
+### Jadwal
+
+`ScheduleApiService` menyusun Jadwal dari `GET /class/me` (kelas yang diikuti)
+dan `GET /class` (kelas yang dipegang sebagai asisten), dikelompokkan per hari
+(Senin → Minggu) dan diurutkan menurut jam dalam satu hari.
+
+- Tiap kartu menampilkan ruang di belakang jam ("07.00 - 08.40 · PSI"). Ruang
+  dibaca dari field `room` yang sudah dikirim backend (`ClassEntity.room`);
+  kartu Detail Kelas juga mendapat kolom **Ruang** di samping Hari dan Sesi.
+- Kartu kelas yang diikuti bisa diketuk (ikon panah) dan membuka Detail Kelas
+  dengan `pushNamed`, jadi tombol kembali kembali ke Jadwal.
+- Kelas asisten bertanda "Asisten" dan tidak bisa diketuk, karena asisten
+  tidak scan presensi di kelas itu. Jadwal dimuat ulang saat event `class`
+  dengan `action: "assistants"` datang, atau saat event `class` menyangkut
+  kelas yang sedang tampil di Jadwal (misalnya nama mata kuliah diubah).
+- Di bawah daftar ada ruang `bottomNavbarSpace`; dulu di layar 360×640 kartu
+  terakhir tertutup menu bawah bila kelas tersebar di 4 hari atau lebih.
+- Bila gagal dimuat tertulis "Gagal memuat jadwal." dengan tombol "Coba lagi"
+  (dulu "Terjadi suatu kesalahan, coba lagi!" dengan tombol ikon saja).
+
 ### Detail Kelas dan Scan QR
 
 - Seluruh halaman Detail Kelas yang digeser, dan di bawahnya ada ruang
@@ -532,8 +553,15 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   ulang, logout), refresh diam-diam di bloc (tanpa loading, data lama tetap
   tampil bila gagal, event kelas lain diabaikan, pengumuman dihapus), dan
   `RealtimeSync` (event `period` dan `ready` setelah tersambung ulang memuat
-  ulang semua tampilan, event `subject` hanya daftar mata kuliah, dan kelas
-  baru ikut memuat ulang baris Kelas di Pembayaran & Kelas)
+  ulang semua tampilan, event `subject` hanya daftar mata kuliah, kelas
+  baru ikut memuat ulang baris Kelas di Pembayaran & Kelas, dan pergantian
+  asisten atau perubahan kelas yang tampil di Jadwal memuat ulang Jadwal)
+- `test/features/schedule/schedule_page_test.dart` — kelas di 4–6 hari pada
+  layar 360×640: kartu terakhir bisa digeser sampai di atas menu bawah; server
+  mati menampilkan "Gagal memuat jadwal." dan Coba lagi memuat ulang; kartu
+  menampilkan ruang dan bila diketuk membuka Detail Kelas berkolom Ruang, lalu
+  kembali ke Jadwal; kelas asisten bertanda "Asisten", urut jam bersama kelas
+  lain, dan tidak bisa diketuk
 - `test/features/registration/registration_test.dart` — NIM dari email
   kampus, inisial nama, repository (token disimpan hanya bila kode benar),
   login akun belum terverifikasi membawa email, urutan state kedua bloc, form
@@ -651,7 +679,8 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   (3–6 mata kuliah), dan Pilih Kelas (2–4 pendaftaran) bisa digeser sampai di
   atas menu bawah (`test/helpers/small_phone_shell.dart`)
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
-  respons asli backend
+  respons asli backend; Jadwal disusun dari contoh `GET /class/me` dan
+  `GET /class` (urut hari dan jam, ruang ikut, kelas asisten bertanda)
 - `test/live/` — alur mahasiswa terhadap backend yang sedang berjalan; hanya
   membaca data, dilewati bila `API_BASE_URL` tidak diberikan
 

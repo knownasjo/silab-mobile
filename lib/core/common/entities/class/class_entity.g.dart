@@ -14,6 +14,7 @@ _$ClassEntityImpl _$$ClassEntityImplFromJson(Map<String, dynamic> json) =>
       day: json['day'] as String?,
       lecturer: json['lecturer'] as String?,
       session_time: json['session_time'] as String?,
+      room: json['room'] as String?,
     );
 
 Map<String, dynamic> _$$ClassEntityImplToJson(_$ClassEntityImpl instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$ClassEntityImplToJson(_$ClassEntityImpl instance) =>
       'day': instance.day,
       'lecturer': instance.lecturer,
       'session_time': instance.session_time,
+      'room': instance.room,
     };

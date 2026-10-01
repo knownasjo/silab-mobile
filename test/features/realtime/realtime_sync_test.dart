@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,6 +21,9 @@ import 'package:silab/features/realtime/domain/repository/realtime_repository.da
 import 'package:silab/features/realtime/domain/usecases/watch_realtime_events_usecase.dart';
 import 'package:silab/features/realtime/presentation/bloc/realtime_bloc.dart';
 import 'package:silab/features/realtime/presentation/widgets/realtime_sync.dart';
+import 'package:silab/core/failures/failures.dart';
+import 'package:silab/features/schedule/domain/entities/practicums/practicums_entity.dart';
+import 'package:silab/features/schedule/domain/entities/schedule/schedule_entity.dart';
 import 'package:silab/features/schedule/domain/repository/schedule_repository.dart';
 import 'package:silab/features/schedule/domain/usecases/get_user_schedule_usecase.dart';
 import 'package:silab/features/schedule/presentation/bloc/user_schedule_bloc.dart';
@@ -44,6 +48,12 @@ class FakeRepositories
         SelectedSubjectRepository,
         SubjectRepository,
         UserRepository {
+  List<ScheduleEntity> schedule = const [];
+
+  @override
+  Future<Either<Failures, List<ScheduleEntity>>> getUserSchedule() async =>
+      Right(schedule);
+
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
@@ -100,8 +110,9 @@ void main() {
     await tester.pump();
   }
 
-  Future<void> connect(WidgetTester tester) async {
-    final repositories = FakeRepositories();
+  Future<void> connect(WidgetTester tester,
+      {List<ScheduleEntity> schedule = const []}) async {
+    final repositories = FakeRepositories()..schedule = schedule;
 
     await tester.pumpWidget(MultiBlocProvider(
       providers: [
@@ -151,6 +162,16 @@ void main() {
 
     await send(tester, const RealtimeEventEntity(type: 'ready'));
     expect(recorder.events, isEmpty);
+
+    if (schedule.isNotEmpty) {
+      tester
+          .element(find.byType(SizedBox))
+          .read<UserScheduleBloc>()
+          .add(GetUserSchedule());
+      await tester.pump();
+      await tester.pump();
+      recorder.events.clear();
+    }
   }
 
   testWidgets('semester baru dimulai: semua layar dimuat ulang',
@@ -247,5 +268,43 @@ void main() {
         isA<RefreshUserSelectedSubjects>(),
       ]),
     );
+  });
+
+  testWidgets('asisten kelas berubah: Jadwal ikut dimuat ulang',
+      (tester) async {
+    await connect(tester);
+
+    await send(
+      tester,
+      const RealtimeEventEntity(
+          type: 'class', action: 'assistants', classId: 'c1'),
+    );
+
+    expect(recorder.events, contains(isA<RefreshUserSchedule>()));
+  });
+
+  testWidgets(
+      'kelas yang tampil di Jadwal berubah: Jadwal dimuat ulang, kelas lain tidak',
+      (tester) async {
+    await connect(tester, schedule: const [
+      ScheduleEntity(
+        day: 'Senin',
+        practicums: [
+          PracticumsEntity(class_id: 'c-asisten', is_assistant: true)
+        ],
+      ),
+    ]);
+
+    await send(
+      tester,
+      const RealtimeEventEntity(type: 'class', classId: 'c-lain'),
+    );
+    expect(recorder.events, isNot(contains(isA<RefreshUserSchedule>())));
+
+    await send(
+      tester,
+      const RealtimeEventEntity(type: 'class', classId: 'c-asisten'),
+    );
+    expect(recorder.events, contains(isA<RefreshUserSchedule>()));
   });
 }

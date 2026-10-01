@@ -26,6 +26,7 @@ mixin _$ClassEntity {
   String? get day => throw _privateConstructorUsedError;
   String? get lecturer => throw _privateConstructorUsedError;
   String? get session_time => throw _privateConstructorUsedError;
+  String? get room => throw _privateConstructorUsedError;
 
   /// Serializes this ClassEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +50,8 @@ abstract class $ClassEntityCopyWith<$Res> {
       String? subject_class,
       String? day,
       String? lecturer,
-      String? session_time});
+      String? session_time,
+      String? room});
 }
 
 /// @nodoc
@@ -73,6 +75,7 @@ class _$ClassEntityCopyWithImpl<$Res, $Val extends ClassEntity>
     Object? day = freezed,
     Object? lecturer = freezed,
     Object? session_time = freezed,
+    Object? room = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -99,6 +102,10 @@ class _$ClassEntityCopyWithImpl<$Res, $Val extends ClassEntity>
           ? _value.session_time
           : session_time // ignore: cast_nullable_to_non_nullable
               as String?,
+      room: freezed == room
+          ? _value.room
+          : room // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -117,7 +124,8 @@ abstract class _$$ClassEntityImplCopyWith<$Res>
       String? subject_class,
       String? day,
       String? lecturer,
-      String? session_time});
+      String? session_time,
+      String? room});
 }
 
 /// @nodoc
@@ -139,6 +147,7 @@ class __$$ClassEntityImplCopyWithImpl<$Res>
     Object? day = freezed,
     Object? lecturer = freezed,
     Object? session_time = freezed,
+    Object? room = freezed,
   }) {
     return _then(_$ClassEntityImpl(
       id: freezed == id
@@ -165,6 +174,10 @@ class __$$ClassEntityImplCopyWithImpl<$Res>
           ? _value.session_time
           : session_time // ignore: cast_nullable_to_non_nullable
               as String?,
+      room: freezed == room
+          ? _value.room
+          : room // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -178,7 +191,8 @@ class _$ClassEntityImpl implements _ClassEntity {
       this.subject_class,
       this.day,
       this.lecturer,
-      this.session_time});
+      this.session_time,
+      this.room});
 
   factory _$ClassEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClassEntityImplFromJson(json);
@@ -195,10 +209,12 @@ class _$ClassEntityImpl implements _ClassEntity {
   final String? lecturer;
   @override
   final String? session_time;
+  @override
+  final String? room;
 
   @override
   String toString() {
-    return 'ClassEntity(id: $id, subject_name: $subject_name, subject_class: $subject_class, day: $day, lecturer: $lecturer, session_time: $session_time)';
+    return 'ClassEntity(id: $id, subject_name: $subject_name, subject_class: $subject_class, day: $day, lecturer: $lecturer, session_time: $session_time, room: $room)';
   }
 
   @override
@@ -215,13 +231,14 @@ class _$ClassEntityImpl implements _ClassEntity {
             (identical(other.lecturer, lecturer) ||
                 other.lecturer == lecturer) &&
             (identical(other.session_time, session_time) ||
-                other.session_time == session_time));
+                other.session_time == session_time) &&
+            (identical(other.room, room) || other.room == room));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, subject_name, subject_class,
-      day, lecturer, session_time);
+      day, lecturer, session_time, room);
 
   /// Create a copy of ClassEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -246,7 +263,8 @@ abstract class _ClassEntity implements ClassEntity {
       final String? subject_class,
       final String? day,
       final String? lecturer,
-      final String? session_time}) = _$ClassEntityImpl;
+      final String? session_time,
+      final String? room}) = _$ClassEntityImpl;
 
   factory _ClassEntity.fromJson(Map<String, dynamic> json) =
       _$ClassEntityImpl.fromJson;
@@ -263,6 +281,8 @@ abstract class _ClassEntity implements ClassEntity {
   String? get lecturer;
   @override
   String? get session_time;
+  @override
+  String? get room;
 
   /// Create a copy of ClassEntity
   /// with the given fields replaced by the non-null parameter values.

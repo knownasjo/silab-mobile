@@ -79,63 +79,55 @@ class ClassCard extends StatelessWidget {
           ),
           IntrinsicHeight(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hari',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: const Color(0xff1d1d1d).withOpacity(0.5),
-                        ),
-                      ),
-                      Text(
-                        formatDay(classEntity.day),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
+                Expanded(
+                  flex: 2,
+                  child: _buildInfo('Hari', formatDay(classEntity.day)),
                 ),
                 const VerticalDivider(
                   color: Color(0xffBFD9EF),
                   thickness: 1,
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Sesi',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: const Color(0xff1d1d1d).withOpacity(0.5),
-                        ),
-                      ),
-                      Text(
-                        classEntity.session_time!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                Expanded(
+                  flex: 3,
+                  child: _buildInfo('Sesi', classEntity.session_time!),
+                ),
+                const VerticalDivider(
+                  color: Color(0xffBFD9EF),
+                  thickness: 1,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: _buildInfo('Ruang', classEntity.room ?? '-'),
+                ),
               ],
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildInfo(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+            color: const Color(0xff1d1d1d).withOpacity(0.5),
+          ),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -29,6 +29,11 @@ const myClassesJson = '''
   {"id":"c-imk","subject_id":"s3","subject_name":"Interaksi Manusia dan Komputer","subject_class":"A","semester":"4","lecturer":"Dosen001","day":"MONDAY","session_time":"13.00 - 14.30","room":"PSI"}
 ]}''';
 
+const assistedClassesJson = '''
+{"status":true,"message":"Berhasil","data":[
+  {"id":"c-jk","subjectId":"s4","name":"B","subject_name":"Jaringan Komputer","semester":"3","quota":30,"isFull":false,"room":"SBTI","sessionId":"sesi-2","day":"MONDAY","startAt":"10.00","endAt":"11.30","participants":12}
+]}''';
+
 void main() {
   test('login: token dibaca dari status boolean', () {
     final login = LoginResponseEntity.fromJson(json(
@@ -135,19 +140,30 @@ void main() {
     expect(announcements.single.type, 'INHALL');
   });
 
-  test('jadwal disusun dari /class/me: urut hari, nama hari bahasa Indonesia',
+  test(
+      'jadwal disusun dari /class/me dan kelas asisten /class: urut hari dan jam, nama hari bahasa Indonesia, ruang ikut',
       () async {
     AppConfig.create(baseUrl: 'http://silab.test');
     SharedPreferences.setMockInitialValues({'accessToken': 't'});
     final api = ApiClient(
-      MockClient((_) async => http.Response(myClassesJson, 200)),
+      MockClient((request) async => http.Response(
+          request.url.path == '/class' ? assistedClassesJson : myClassesJson,
+          200)),
       await SharedPreferences.getInstance(),
     );
 
     final schedule = await ScheduleApiService(api).getUserSchedule();
 
     expect(schedule.map((s) => s.day), ['Senin', 'Rabu']);
-    expect(schedule.first.practicums!.map((p) => p.session),
-        ['07.00 - 08.30', '13.00 - 14.30']);
+    final monday = schedule.first.practicums!;
+    expect(monday.map((p) => p.session),
+        ['07.00 - 08.30', '10.00 - 11.30', '13.00 - 14.30']);
+    expect(monday.map((p) => p.room), ['PSI', 'SBTI', 'PSI']);
+    expect(monday.map((p) => p.is_assistant == true), [false, true, false]);
+    expect(monday[1].subject_name, 'Jaringan Komputer');
+    expect(monday[1].subject_class, 'B');
+    expect(monday[1].class_entity, isNull);
+    expect(monday.first.class_entity?.id, 'c-alpro');
+    expect(monday.first.class_entity?.room, 'PSI');
   });
 }

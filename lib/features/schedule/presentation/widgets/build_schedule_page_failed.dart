@@ -12,11 +12,15 @@ class BuildSchedulePageFailed extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Terjadi suatu kesalahan, coba lagi!'),
-          IconButton(
+          const Text('Gagal memuat jadwal.'),
+          TextButton.icon(
             onPressed: () =>
                 context.read<UserScheduleBloc>().add(GetUserSchedule()),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xff3272CA),
+            ),
             icon: const Icon(Boxicons.bx_refresh),
+            label: const Text('Coba lagi'),
           ),
         ],
       ),
