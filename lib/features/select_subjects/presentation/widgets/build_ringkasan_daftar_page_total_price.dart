@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:silab/core/helpers/currency_formatter.dart';
 import 'package:silab/features/subjects/domain/entities/subject/subject_entity.dart';
 
 class BuildRingkasanDaftarPageTotalPrice extends StatelessWidget {
@@ -22,7 +23,7 @@ class BuildRingkasanDaftarPageTotalPrice extends StatelessWidget {
           ),
         ),
         Text(
-          'Rp${subjects!.length * 5000}',
+          formatRupiah(subjects!.length * practicumFeePerSubject),
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,

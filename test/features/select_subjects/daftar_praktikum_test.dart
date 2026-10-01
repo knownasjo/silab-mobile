@@ -193,6 +193,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Selanjutnya'));
     await tester.pumpAndSettle();
+    expect(find.text('Rp5.000'), findsOneWidget);
     await tester.tap(find.text('Simpan'));
     await tester.pumpAndSettle();
     expect(find.text('Simpan Pendaftaran'), findsOneWidget);

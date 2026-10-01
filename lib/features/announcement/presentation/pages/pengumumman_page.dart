@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/core/helpers/time_formatter.dart';
 import 'package:silab/features/announcement/presentation/blocs/get_announcement/get_announcement_bloc.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class PengumumanPageExtra {
   final String? title;
@@ -92,7 +92,7 @@ class _PengumumanPageState extends State<PengumumanPage> {
                       ),
                     ),
                     Text(
-                      "${state.announcement!.author!}, ${DateTime.parse(state.announcement!.created_at!).toLocal().difference(DateTime.now()).inDays != 0 ? DateTime.parse(state.announcement!.created_at!).toLocal() : timeago.format(DateTime.parse(state.announcement!.created_at!).toLocal())}",
+                      "${state.announcement!.author!}, ${formatPostedAt(state.announcement!.created_at)}",
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w300,

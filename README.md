@@ -304,6 +304,26 @@ dibuka dari banner Beranda, aplikasi kembali ke Beranda seperti sebelumnya.
 Kode: `widgets/build_payment_status_page_class_info.dart` dan
 `BuildPickClassPageConfirmationDialog`.
 
+Daftarnya berjudul "Mata Kuliah Didaftarkan" (dulu "Daftar Aktivasi").
+Waktu daftar di tiap kartu memakai `formatPostedAt`
+(`lib/core/helpers/time_formatter.dart`): kurang dari sehari ditulis relatif
+dalam bahasa Indonesia ("5 menit yang lalu", "3 jam yang lalu"), selebihnya
+"29 Sep 2026, 06.04" dalam waktu HP. Halaman detail pengumuman memakai fungsi
+yang sama; dulu keduanya menulis "5 minutes ago" atau waktu mentah seperti
+"2026-09-29 06:04:12.345". Selama memuat, daftar menampilkan lingkaran
+berputar. Bila belum ada pendaftaran, tertulis "Belum ada pendaftaran. Daftar
+praktikum lewat pengumuman Pendaftaran Praktikum di Beranda." Bila gagal
+dimuat, tertulis "Gagal memuat pendaftaran." dengan tombol "Coba lagi"
+(`widgets/build_payment_status_page_message.dart`).
+
+Di atas daftar ada kotak kuning "Belum dibayar: N mata kuliah" dan
+"Total: Rp…" yang menghitung pendaftaran berstatus Belum Lunas dikali tarif
+`practicumFeePerSubject` (Rp5.000, `lib/core/helpers/currency_formatter.dart`).
+Kotak ini hilang bila semuanya sudah Lunas dan ikut berubah saat laboran
+mengonfirmasi pembayaran. Tarif yang sama dipakai total di halaman Ringkasan,
+yang kini tertulis "Rp10.000", bukan "Rp10000". Tarif ditulis di aplikasi,
+bukan diambil dari server, jadi perubahan tarif butuh APK baru.
+
 ### Batalkan pendaftaran
 
 Di Profil → Pembayaran & Kelas, setiap pendaftaran berstatus **Belum Lunas**
@@ -311,7 +331,7 @@ punya tombol merah "Batalkan pendaftaran" di bawah kotak mata kuliahnya.
 
 ```
 ┌──────────────────────────────────┐
-│ 30 menit lalu       Belum Lunas  │
+│ 30 menit yang lalu  Belum Lunas  │
 │ ┌──────────────────────────────┐ │
 │ │ Basis Data        Semester 3 │ │
 │ │ Kelas: bisa dipilih setelah  │ │
@@ -519,7 +539,18 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   keadaan baris Kelas beserta urutannya di kartu; menu Profil berisi
   "Pembayaran & Kelas" tanpa "Riwayat Pembayaran"; setelah kelas disimpan,
   aplikasi kembali ke Pembayaran & Kelas bila dibuka dari Profil dan ke
-  Beranda bila dibuka dari banner, dan baris Kelas langsung berganti
+  Beranda bila dibuka dari banner, dan baris Kelas langsung berganti; judul
+  "Mata Kuliah Didaftarkan" dan waktu berbahasa Indonesia; keterangan belum
+  ada pendaftaran; server mati menampilkan "Gagal memuat pendaftaran." dan
+  Coba lagi memuat ulang; lingkaran berputar selama memuat; kotak Belum
+  dibayar menghitung jumlah dan total mata kuliah Belum Lunas di atas daftar
+  dan hilang bila semua Lunas
+- `test/core/helpers/currency_formatter_test.dart` — rupiah dengan titik
+  ribuan tanpa desimal
+- `test/core/helpers/time_formatter_test.dart` — waktu relatif berbahasa
+  Indonesia untuk kurang dari sehari, tanggal dengan bulan singkat Indonesia
+  (Mei, Agu, Des) dan jam untuk yang lebih lama, waktu UTC dari server
+  diubah ke waktu HP, dan isian kosong atau rusak menjadi "-"
 - `test/features/select_subjects/daftar_praktikum_test.dart` — 9 mata
   kuliah di layar 360×640: halaman bisa digeser jari sampai Selanjutnya;
   server mati menampilkan "Gagal memuat mata kuliah." dan Coba lagi memuat
@@ -547,7 +578,8 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   (`GET /class/:id/classmates`, diri sendiri ditandai "Anda"). Fitur modul
   praktikum tidak dikerjakan, jadi tab "Modul" dan widget "Segera Hadir"-nya
   sudah dihapus.
-- Sengaja dibiarkan: total harga di ringkasan pendaftaran adalah tarif tetap
-  Rp5.000 per mata kuliah yang ditulis di UI.
+- Sengaja dibiarkan: tarif praktikum adalah angka tetap Rp5.000 per mata
+  kuliah di aplikasi (`practicumFeePerSubject`), dipakai di Ringkasan dan
+  kotak Belum dibayar.
 - Beberapa entity lama tidak dipakai lagi (misalnya `ClassEntity`,
   `ClassResponseEntity`, dan `RegisteredClassEntity` di `features/`).

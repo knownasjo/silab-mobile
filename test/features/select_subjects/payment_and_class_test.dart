@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -41,6 +42,8 @@ const notChosen = 'Kelas: belum dipilih';
 const waitPaid = 'Kelas: bisa dipilih setelah lunas';
 const noClassYet = 'Kelas: belum tersedia';
 const chosenJK = 'Kelas: B · Rabu, 13:00 - 15:00';
+const noRegistrations =
+    'Belum ada pendaftaran. Daftar praktikum lewat pengumuman Pendaftaran Praktikum di Beranda.';
 
 Map<String, dynamic> kelas(String id, String name, String day, String time) => {
       'id': id,
@@ -79,6 +82,8 @@ void main() {
   late SharedPreferences prefs;
   late List<http.Request> requests;
   late List<Map<String, dynamic>> activations;
+  late bool activationsDown;
+  Completer<void>? holdActivations;
 
   final jkA = kelas('k-jk-a', 'A', 'TUESDAY', '10:00 - 12:00');
   final jkB = kelas('k-jk-b', 'B', 'WEDNESDAY', '13:00 - 15:00');
@@ -91,6 +96,8 @@ void main() {
     });
     prefs = await SharedPreferences.getInstance();
     requests = [];
+    activationsDown = false;
+    holdActivations = null;
     activations = [
       activation('a-bd', 'Basis Data', true,
           registered: {'id': 'k-bd-a', 'name': 'A'},
@@ -124,6 +131,8 @@ void main() {
     final ok = {'status': true, 'message': 'Berhasil'};
 
     if (request.method == 'GET' && path == '/activation') {
+      await holdActivations?.future;
+      if (activationsDown) throw http.ClientException('Connection refused');
       return jsonResponse({...ok, 'data': activations}, 200);
     }
 
@@ -165,7 +174,11 @@ void main() {
     return jsonResponse({'status': false, 'message': 'Not Found'}, 404);
   }
 
-  Future<GoRouter> openApp(WidgetTester tester, String initialLocation) async {
+  Future<GoRouter> openApp(
+    WidgetTester tester,
+    String initialLocation, {
+    bool settle = true,
+  }) async {
     tester.view.physicalSize = const Size(800, 1600);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -257,7 +270,7 @@ void main() {
       ],
       child: MaterialApp.router(routerConfig: router),
     ));
-    await tester.pumpAndSettle();
+    if (settle) await tester.pumpAndSettle();
     return router;
   }
 
@@ -388,5 +401,96 @@ void main() {
     expect(find.text('Beranda'), findsOneWidget);
     expect(find.text('Anda dapat memilih kelas untuk 1 Mata Kuliah'),
         findsNothing);
+  });
+
+  testWidgets('judul "Mata Kuliah Didaftarkan" dan waktu berbahasa Indonesia',
+      (tester) async {
+    final now = DateTime.now();
+    activations[0]['created_at'] =
+        now.subtract(const Duration(minutes: 5)).toUtc().toIso8601String();
+    for (final a in activations.skip(1)) {
+      a['created_at'] =
+          now.subtract(const Duration(days: 3)).toUtc().toIso8601String();
+    }
+    await openApp(tester, '/home/payment-status');
+
+    expect(find.text('Mata Kuliah Didaftarkan'), findsOneWidget);
+    expect(find.text('Daftar Aktivasi'), findsNothing);
+    expect(find.textContaining('ago'), findsNothing);
+    final dates = find.textContaining(RegExp(
+        r'^\d{1,2} (Jan|Feb|Mar|Apr|Mei|Jun|Jul|Agu|Sep|Okt|Nov|Des) \d{4}, \d{2}\.\d{2}$'));
+    expect(dates, findsNWidgets(activations.length - 1));
+    expect(find.text('5 menit yang lalu'), findsOneWidget);
+  });
+
+  testWidgets('belum ada pendaftaran: keterangan tampil', (tester) async {
+    activations = [];
+    await openApp(tester, '/home/payment-status');
+
+    expect(find.text(noRegistrations), findsOneWidget);
+    expect(find.text('Coba lagi'), findsNothing);
+  });
+
+  testWidgets(
+      'server mati: "Gagal memuat pendaftaran." dan Coba lagi memuat ulang',
+      (tester) async {
+    activationsDown = true;
+    await openApp(tester, '/home/payment-status');
+
+    expect(find.text('Gagal memuat pendaftaran.'), findsOneWidget);
+    expect(find.text(noRegistrations), findsNothing);
+
+    activationsDown = false;
+    await tester.tap(find.text('Coba lagi'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Gagal memuat pendaftaran.'), findsNothing);
+    expect(find.text('Basis Data'), findsOneWidget);
+  });
+
+  testWidgets('sedang memuat: lingkaran berputar, bukan halaman kosong',
+      (tester) async {
+    holdActivations = Completer<void>();
+    await openApp(tester, '/home/payment-status', settle: false);
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text(noRegistrations), findsNothing);
+
+    holdActivations!.complete();
+    await tester.pumpAndSettle();
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.text('Basis Data'), findsOneWidget);
+  });
+
+  testWidgets(
+      'kotak Belum dibayar: jumlah dan total mata kuliah Belum Lunas, di atas daftar',
+      (tester) async {
+    await openApp(tester, '/home/payment-status');
+
+    expect(find.text('Belum dibayar: 1 mata kuliah'), findsOneWidget);
+    expect(find.text('Total: Rp5.000'), findsOneWidget);
+    expect(
+      tester.getRect(find.text('Total: Rp5.000')).bottom,
+      lessThan(tester.getRect(find.text('Mata Kuliah Didaftarkan')).top),
+    );
+
+    activations.add(activation('a-rpl', 'Rekayasa Perangkat Lunak', false));
+    await openApp(tester, '/home/payment-status');
+
+    expect(find.text('Belum dibayar: 2 mata kuliah'), findsOneWidget);
+    expect(find.text('Total: Rp10.000'), findsOneWidget);
+  });
+
+  testWidgets('semua sudah lunas: kotak Belum dibayar tidak muncul',
+      (tester) async {
+    for (final a in activations) {
+      a['status'] = true;
+    }
+    await openApp(tester, '/home/payment-status');
+
+    expect(find.textContaining('Belum dibayar'), findsNothing);
+    expect(find.textContaining('Total:'), findsNothing);
   });
 }
