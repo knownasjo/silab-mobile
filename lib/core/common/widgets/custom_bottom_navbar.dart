@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:silab/core/common/entities/bottom_navbar/bottom_navbar_entity.dart';
 
+const double bottomNavbarSpace = 100;
+
 class CustomBottomNavbar extends StatefulWidget {
   final List<BottomNavbarEntity> items;
   final void Function(int) onTap;

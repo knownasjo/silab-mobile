@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_event.dart';
-import 'package:silab/features/select_subjects/presentation/widgets/build_payment_status_page_message.dart';
+import 'package:silab/features/select_subjects/presentation/widgets/build_status_message.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_payment_status_page_pick_class_button.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_payment_status_page_subject_list.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_payment_status_page_unpaid_total.dart';
@@ -32,6 +33,7 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
       child: ListView(
         shrinkWrap: true,
+        padding: const EdgeInsets.only(bottom: bottomNavbarSpace),
         children: [
           const Text(
             'Selesaikan pembayaran anda. Status pembayaran anda akan diubah secara otomatis.',
@@ -88,7 +90,7 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
                   builder: (context, state) {
                     if (state is SelectedSubjectByNimLoaded) {
                       if (state.selectedSubjectEntity?.isEmpty ?? true) {
-                        return const BuildPaymentStatusPageMessage(
+                        return const BuildStatusMessage(
                           message: emptyMessage,
                         );
                       }
@@ -99,7 +101,7 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
                     }
 
                     if (state is SelectedSubjectByNimFailed) {
-                      return BuildPaymentStatusPageMessage(
+                      return BuildStatusMessage(
                         message: 'Gagal memuat pendaftaran.',
                         onRetry: () => _reload(context),
                       );

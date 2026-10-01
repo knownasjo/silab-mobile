@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 
-class BuildPaymentStatusPageMessage extends StatelessWidget {
+class BuildStatusMessage extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
 
-  const BuildPaymentStatusPageMessage({
+  const BuildStatusMessage({
     super.key,
     required this.message,
     this.onRetry,

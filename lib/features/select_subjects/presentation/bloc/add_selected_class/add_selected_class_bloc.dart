@@ -17,6 +17,8 @@ class AddSelectedClassBloc
 
   void onAddSelectedClass(
       AddSelectedClassEvent event, Emitter<AddSelectedClassState> emit) async {
+    if (state is AddSelectedClassLoading) return;
+
     emit(AddSelectedClassLoading());
 
     final data = await _addSelectedClassUseCase.selectedSubjectRepository

@@ -245,7 +245,7 @@ laboran menambah atau menghapusnya (event `class`).
    lain yang ia ikuti atau pegang sebagai asisten. Penolakan server, misalnya
    "Jadwal bentrok: ... yang Anda ikuti." atau kelas yang baru saja penuh
    karena direbut mahasiswa lain, tampil sebagai pesan merah setelah menekan
-   Simpan; aplikasi tidak perlu diubah untuk itu. Bila laboran membatalkan
+   Simpan (lihat "Pilih Kelas" di bawah). Bila laboran membatalkan
    pembayarannya sebelum ada presensi, kelas itu hilang dari Beranda dan
    Jadwal lewat event `class` dan `activation`.
 5. Kelas muncul di Beranda dan Jadwal.
@@ -314,7 +314,7 @@ yang sama; dulu keduanya menulis "5 minutes ago" atau waktu mentah seperti
 berputar. Bila belum ada pendaftaran, tertulis "Belum ada pendaftaran. Daftar
 praktikum lewat pengumuman Pendaftaran Praktikum di Beranda." Bila gagal
 dimuat, tertulis "Gagal memuat pendaftaran." dengan tombol "Coba lagi"
-(`widgets/build_payment_status_page_message.dart`).
+(`widgets/build_status_message.dart`).
 
 Di atas daftar ada kotak kuning "Belum dibayar: N mata kuliah" dan
 "Total: Rp…" yang menghitung pendaftaran berstatus Belum Lunas dikali tarif
@@ -323,6 +323,43 @@ Kotak ini hilang bila semuanya sudah Lunas dan ikut berubah saat laboran
 mengonfirmasi pembayaran. Tarif yang sama dipakai total di halaman Ringkasan,
 yang kini tertulis "Rp10.000", bukan "Rp10000". Tarif ditulis di aplikasi,
 bukan diambil dari server, jadi perubahan tarif butuh APK baru.
+
+### Pilih Kelas
+
+Halaman Pilih Kelas (route `pilih-kelas`) memuat `GET /class/registration`,
+yang kini diurutkan server menurut nama mata kuliah lalu nama kelas (A→Z).
+Selama memuat tampil lingkaran berputar; bila gagal tertulis "Gagal memuat
+kelas." dengan tombol "Coba lagi"; bila kosong tertulis "Tidak ada kelas yang
+bisa dipilih." Tombol Simpan hanya muncul bila ada kelas untuk dipilih.
+
+- Mengetuk lagi kelas yang sudah dipilih (lingkaran atau barisnya)
+  membatalkan pilihan. Dulu ketukan pada lingkaran memicu error dan tidak
+  terjadi apa-apa.
+- Bila daftar dimuat ulang (real-time atau Coba lagi) dan kelas yang dipilih
+  sudah dihapus atau penuh, pilihannya dilepas, jadi Simpan tidak mengirim
+  kelas yang tidak ada.
+- Dialog "Simpan Pilihan Kelas" menampilkan mata kuliah dan kelas yang
+  dipilih ("Kelas A · Senin, 07.00 - 08.40") dan peringatan "Kelas yang sudah
+  disimpan tidak bisa diganti sendiri. Hubungi laboran jika perlu pindah."
+  (hanya laboran yang bisa memindah lewat `PUT /activation/:id/class`).
+- Selama menyimpan, tombol Simpan berubah menjadi "Menyimpan..." dan terkunci
+  bersama Kembali, dialog tidak bisa ditutup, dan `AddSelectedClassBloc`
+  mengabaikan tekanan kedua. Dulu tekan ganda mengirim dua permintaan, dan
+  menutup dialog saat menyimpan bisa membuat aplikasi menutup halaman yang
+  salah.
+- Bila server menolak, dialog tertutup, pesan merahnya terlihat (dulu
+  tertutup bayangan dialog), dan daftar kelas dimuat ulang, misalnya kelas
+  yang baru penuh menjadi abu-abu.
+- Dialog "Berhasil" tidak tertutup oleh ketukan di luar; tombol kembali HP
+  bekerja sama dengan OK (memuat ulang data lalu kembali ke halaman asal).
+
+Halaman Pilih Kelas, Pendaftaran Praktikum, dan Pembayaran & Kelas diberi
+ruang kosong setinggi `bottomNavbarSpace` (100,
+`lib/core/common/widgets/custom_bottom_navbar.dart`) di bawah isinya, jadi
+tombol terakhir selalu berhenti di atas menu bawah. Dulu di layar 360×640
+tombol Simpan tertutup menu bawah bila satu mata kuliah punya 5 kelas, begitu
+juga Selanjutnya (4–5 mata kuliah) dan Pilih Kelas di Pembayaran & Kelas (3
+mata kuliah atau lebih).
 
 ### Batalkan pendaftaran
 
@@ -558,6 +595,19 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   bertanda; Simpan yang ditekan berkali-kali (juga Kembali dan ketukan di luar
   dialog) hanya mengirim satu `POST /activation` lalu membuka Pembayaran
   tanpa pesan merah; penolakan server menutup dialog dan tetap di Ringkasan
+- `test/features/select_subjects/pilih_kelas_test.dart` — dialog konfirmasi
+  menampilkan kelas yang dipilih dan peringatan; Simpan yang ditekan
+  berkali-kali (juga Kembali, ketukan di luar, dan tombol kembali HP) hanya
+  mengirim satu `POST /class/registration`; dialog Berhasil tidak tertutup
+  ketukan di luar dan tombol kembali HP sama dengan OK; penolakan server
+  menutup dialog, menampilkan pesan, dan memuat ulang daftar; pilihan yang
+  kelasnya dihapus atau penuh dilepas; ketuk lagi membatalkan pilihan;
+  lingkaran memuat, "Gagal memuat kelas." dengan Coba lagi, dan keterangan
+  bila kosong
+- `test/features/select_subjects/bottom_navbar_space_test.dart` — di layar
+  360×640 dengan menu bawah tampil, tombol Simpan (3–6 kelas), Selanjutnya
+  (3–6 mata kuliah), dan Pilih Kelas (2–4 pendaftaran) bisa digeser sampai di
+  atas menu bawah (`test/helpers/small_phone_shell.dart`)
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
   respons asli backend
 - `test/live/` — alur mahasiswa terhadap backend yang sedang berjalan; hanya

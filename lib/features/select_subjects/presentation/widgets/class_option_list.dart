@@ -32,7 +32,10 @@ class ClassOptionList extends StatelessWidget {
           margin: EdgeInsets.only(bottom: index != classes.length - 1 ? 12 : 0),
           child: InkWell(
             borderRadius: BorderRadius.circular(24),
-            onTap: isFull ? null : () => onClassChanged(option.class_id),
+            onTap: isFull
+                ? null
+                : () => onClassChanged(
+                    option.class_id == selectedClass ? null : option.class_id),
             child: Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

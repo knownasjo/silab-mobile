@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/core/common/widgets/custom_small_button.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
@@ -49,7 +50,7 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
           padding: const EdgeInsets.only(right: 15, left: 15, top: 24),
           child: ListView(
             shrinkWrap: true,
-            padding: const EdgeInsets.only(bottom: 24),
+            padding: const EdgeInsets.only(bottom: bottomNavbarSpace),
             children: [
               const Text(
                 'Pilihlah praktikum sesuai dengan Mata Kuliah yang anda ambil di KRS.',
