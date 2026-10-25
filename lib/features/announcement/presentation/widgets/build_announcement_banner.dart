@@ -31,7 +31,7 @@ class BuildAnnouncementBanner extends StatelessWidget {
                     : 'id',
                 createdAt: state.announcements != null &&
                         state is GetAllAnnouncementsLoaded
-                    ? state.announcements![index].created_at!
+                    ? state.announcements![index].createdAt!
                     : 'Created At',
                 author: state.announcements != null &&
                         state is GetAllAnnouncementsLoaded

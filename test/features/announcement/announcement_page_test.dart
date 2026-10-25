@@ -49,7 +49,7 @@ void main() {
                   title: 'Pengumuman Panjang',
                   type: 'BASIC',
                   body: body,
-                  created_at: DateTime.now().toIso8601String(),
+                  createdAt: DateTime.now().toIso8601String(),
                   author: 'Laboran',
                 ),
               ),

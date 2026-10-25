@@ -40,7 +40,7 @@ class ClassCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    classEntity.subject_class!,
+                    classEntity.subjectClass!,
                     style: const TextStyle(
                       color: Color(0xffFFBF01),
                       fontSize: 14,
@@ -55,7 +55,7 @@ class ClassCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      classEntity.subject_name!,
+                      classEntity.subjectName!,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -90,7 +90,7 @@ class ClassCard extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 3,
-                  child: _buildInfo('Sesi', classEntity.session_time!),
+                  child: _buildInfo('Sesi', classEntity.sessionTime!),
                 ),
                 const VerticalDivider(
                   color: Color(0xffBFD9EF),

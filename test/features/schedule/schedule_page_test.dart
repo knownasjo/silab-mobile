@@ -40,11 +40,11 @@ Map<String, dynamic> kelas(int number, String day,
         {String time = '07.00 - 08.40', String room = 'PSI'}) =>
     {
       'id': 'k$number',
-      'subject_name': 'Mata Kuliah $number',
-      'subject_class': 'A',
+      'subjectName': 'Mata Kuliah $number',
+      'subjectClass': 'A',
       'lecturer': 'Dosen001',
       'day': day,
-      'session_time': time,
+      'sessionTime': time,
       'room': room,
     };
 
@@ -233,7 +233,7 @@ void main() {
       {
         'id': 'k9',
         'name': 'B',
-        'subject_name': 'Jaringan Komputer',
+        'subjectName': 'Jaringan Komputer',
         'day': 'MONDAY',
         'startAt': '10.00',
         'endAt': '11.40',

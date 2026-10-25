@@ -24,7 +24,7 @@ mixin _$ActivationClassEntity {
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get day => throw _privateConstructorUsedError;
-  String? get session_time => throw _privateConstructorUsedError;
+  String? get sessionTime => throw _privateConstructorUsedError;
 
   /// Serializes this ActivationClassEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $ActivationClassEntityCopyWith<$Res> {
           $Res Function(ActivationClassEntity) then) =
       _$ActivationClassEntityCopyWithImpl<$Res, ActivationClassEntity>;
   @useResult
-  $Res call({String? id, String? name, String? day, String? session_time});
+  $Res call({String? id, String? name, String? day, String? sessionTime});
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$ActivationClassEntityCopyWithImpl<$Res,
     Object? id = freezed,
     Object? name = freezed,
     Object? day = freezed,
-    Object? session_time = freezed,
+    Object? sessionTime = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -79,9 +79,9 @@ class _$ActivationClassEntityCopyWithImpl<$Res,
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
               as String?,
-      session_time: freezed == session_time
-          ? _value.session_time
-          : session_time // ignore: cast_nullable_to_non_nullable
+      sessionTime: freezed == sessionTime
+          ? _value.sessionTime
+          : sessionTime // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -96,7 +96,7 @@ abstract class _$$ActivationClassEntityImplCopyWith<$Res>
       __$$ActivationClassEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? id, String? name, String? day, String? session_time});
+  $Res call({String? id, String? name, String? day, String? sessionTime});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class __$$ActivationClassEntityImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? day = freezed,
-    Object? session_time = freezed,
+    Object? sessionTime = freezed,
   }) {
     return _then(_$ActivationClassEntityImpl(
       id: freezed == id
@@ -131,9 +131,9 @@ class __$$ActivationClassEntityImplCopyWithImpl<$Res>
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
               as String?,
-      session_time: freezed == session_time
-          ? _value.session_time
-          : session_time // ignore: cast_nullable_to_non_nullable
+      sessionTime: freezed == sessionTime
+          ? _value.sessionTime
+          : sessionTime // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -143,7 +143,7 @@ class __$$ActivationClassEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ActivationClassEntityImpl implements _ActivationClassEntity {
   const _$ActivationClassEntityImpl(
-      {this.id, this.name, this.day, this.session_time});
+      {this.id, this.name, this.day, this.sessionTime});
 
   factory _$ActivationClassEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$ActivationClassEntityImplFromJson(json);
@@ -155,11 +155,11 @@ class _$ActivationClassEntityImpl implements _ActivationClassEntity {
   @override
   final String? day;
   @override
-  final String? session_time;
+  final String? sessionTime;
 
   @override
   String toString() {
-    return 'ActivationClassEntity(id: $id, name: $name, day: $day, session_time: $session_time)';
+    return 'ActivationClassEntity(id: $id, name: $name, day: $day, sessionTime: $sessionTime)';
   }
 
   @override
@@ -170,13 +170,13 @@ class _$ActivationClassEntityImpl implements _ActivationClassEntity {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.day, day) || other.day == day) &&
-            (identical(other.session_time, session_time) ||
-                other.session_time == session_time));
+            (identical(other.sessionTime, sessionTime) ||
+                other.sessionTime == sessionTime));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, day, session_time);
+  int get hashCode => Object.hash(runtimeType, id, name, day, sessionTime);
 
   /// Create a copy of ActivationClassEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -200,7 +200,7 @@ abstract class _ActivationClassEntity implements ActivationClassEntity {
       {final String? id,
       final String? name,
       final String? day,
-      final String? session_time}) = _$ActivationClassEntityImpl;
+      final String? sessionTime}) = _$ActivationClassEntityImpl;
 
   factory _ActivationClassEntity.fromJson(Map<String, dynamic> json) =
       _$ActivationClassEntityImpl.fromJson;
@@ -212,7 +212,7 @@ abstract class _ActivationClassEntity implements ActivationClassEntity {
   @override
   String? get day;
   @override
-  String? get session_time;
+  String? get sessionTime;
 
   /// Create a copy of ActivationClassEntity
   /// with the given fields replaced by the non-null parameter values.

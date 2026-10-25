@@ -29,8 +29,8 @@ const offered = 'Tidak ada praktikum yang ditawarkan';
 
 Map<String, dynamic> subject(int i) => {
       'id': 's$i',
-      'subject_name': 'Praktikum Mata Kuliah Nomor $i',
-      'subject_code': '55331000$i',
+      'subjectName': 'Praktikum Mata Kuliah Nomor $i',
+      'subjectCode': '55331000$i',
       'semester': '1',
     };
 
@@ -74,13 +74,13 @@ void main() {
           {
             'id': 'a-$id',
             'status': false,
-            'created_at': '2026-09-30T02:00:00.000Z',
-            'subject_id': id,
+            'createdAt': '2026-09-30T02:00:00.000Z',
+            'subjectId': id,
             'subjects': [
-              {'subject_name': 'Terdaftar $id', 'semester': '1'}
+              {'subjectName': 'Terdaftar $id', 'semester': '1'}
             ],
-            'registered_class': null,
-            'available_classes': [],
+            'registeredClass': null,
+            'availableClasses': [],
           }
       ]);
     }

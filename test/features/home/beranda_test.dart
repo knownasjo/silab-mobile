@@ -41,11 +41,11 @@ const emptyClasses =
 
 Map<String, dynamic> kelas(String id, String subject, String lecturer) => {
       'id': id,
-      'subject_name': subject,
-      'subject_class': 'A',
+      'subjectName': subject,
+      'subjectClass': 'A',
       'lecturer': lecturer,
       'day': 'MONDAY',
-      'session_time': '07.00 - 08.40',
+      'sessionTime': '07.00 - 08.40',
     };
 
 Map<String, dynamic> pengumuman(String id, String type) => {
@@ -53,7 +53,7 @@ Map<String, dynamic> pengumuman(String id, String type) => {
       'title': 'Pengumuman $id',
       'type': type,
       'body': 'Isi pengumuman $id.',
-      'created_at': '2026-09-30T02:00:00.000Z',
+      'createdAt': '2026-09-30T02:00:00.000Z',
       'author': 'Laboran Uji',
     };
 
@@ -197,11 +197,11 @@ void main() {
           child: RegisteredClassCard(
             classEntity: ClassEntity(
               id: 'k1',
-              subject_name: 'Interaksi Manusia dan Komputer Lanjutan',
-              subject_class: 'A',
+              subjectName: 'Interaksi Manusia dan Komputer Lanjutan',
+              subjectClass: 'A',
               lecturer: longLecturer,
               day: 'MONDAY',
-              session_time: '07.00 - 08.40',
+              sessionTime: '07.00 - 08.40',
             ),
           ),
         ),
@@ -238,11 +238,11 @@ void main() {
           child: RegisteredClassCard(
             classEntity: ClassEntity(
               id: 'k1',
-              subject_name: 'Basis Data',
-              subject_class: 'A',
+              subjectName: 'Basis Data',
+              subjectClass: 'A',
               lecturer: 'Dosen001',
               day: 'MONDAY',
-              session_time: '07.00 - 08.40',
+              sessionTime: '07.00 - 08.40',
             ),
           ),
         ),

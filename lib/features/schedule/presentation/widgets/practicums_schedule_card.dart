@@ -25,7 +25,7 @@ class PracticumsScheduleCard extends StatelessWidget {
   }
 
   Widget _buildCard(BuildContext context, PracticumsEntity? practicum) {
-    final classEntity = practicum?.class_entity;
+    final classEntity = practicum?.classEntity;
     final session = practicum?.session ?? 'Sesi Kelas';
     final room = practicum?.room;
 
@@ -65,7 +65,7 @@ class PracticumsScheduleCard extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  practicum?.subject_class ?? 'X',
+                  practicum?.subjectClass ?? 'X',
                   style: const TextStyle(
                     color: Color(0xffFFBF01),
                     fontWeight: FontWeight.w600,
@@ -80,7 +80,7 @@ class PracticumsScheduleCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      practicum?.subject_name ?? 'Mata Praktikum',
+                      practicum?.subjectName ?? 'Mata Praktikum',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -97,7 +97,7 @@ class PracticumsScheduleCard extends StatelessWidget {
                   ],
                 ),
               ),
-              if (practicum?.is_assistant == true)
+              if (practicum?.isAssistant == true)
                 Container(
                   margin: const EdgeInsets.only(left: 8),
                   padding: const EdgeInsets.symmetric(

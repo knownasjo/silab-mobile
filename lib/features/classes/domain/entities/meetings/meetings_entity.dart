@@ -11,16 +11,16 @@ class MeetingsEntity with _$MeetingsEntity {
 
   const factory MeetingsEntity({
     final String? id,
-    final String? meeting_name,
-    final String? submitted_at,
-    final bool? is_attended,
-    final bool? is_open,
+    final String? meetingName,
+    final String? submittedAt,
+    final bool? isAttended,
+    final bool? isOpen,
   }) = _MeetingsEntity;
 
   AttendanceStatus get attendanceStatus {
-    if (submitted_at == null) return AttendanceStatus.belumPresensi;
+    if (submittedAt == null) return AttendanceStatus.belumPresensi;
 
-    return is_attended == true
+    return isAttended == true
         ? AttendanceStatus.hadir
         : AttendanceStatus.tidakHadir;
   }

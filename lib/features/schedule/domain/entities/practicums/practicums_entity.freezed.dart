@@ -20,13 +20,13 @@ PracticumsEntity _$PracticumsEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PracticumsEntity {
-  String? get subject_name => throw _privateConstructorUsedError;
-  String? get subject_class => throw _privateConstructorUsedError;
+  String? get subjectName => throw _privateConstructorUsedError;
+  String? get subjectClass => throw _privateConstructorUsedError;
   String? get session => throw _privateConstructorUsedError;
-  String? get class_id => throw _privateConstructorUsedError;
+  String? get classId => throw _privateConstructorUsedError;
   String? get room => throw _privateConstructorUsedError;
-  bool? get is_assistant => throw _privateConstructorUsedError;
-  ClassEntity? get class_entity => throw _privateConstructorUsedError;
+  bool? get isAssistant => throw _privateConstructorUsedError;
+  ClassEntity? get classEntity => throw _privateConstructorUsedError;
 
   /// Serializes this PracticumsEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,15 +45,15 @@ abstract class $PracticumsEntityCopyWith<$Res> {
       _$PracticumsEntityCopyWithImpl<$Res, PracticumsEntity>;
   @useResult
   $Res call(
-      {String? subject_name,
-      String? subject_class,
+      {String? subjectName,
+      String? subjectClass,
       String? session,
-      String? class_id,
+      String? classId,
       String? room,
-      bool? is_assistant,
-      ClassEntity? class_entity});
+      bool? isAssistant,
+      ClassEntity? classEntity});
 
-  $ClassEntityCopyWith<$Res>? get class_entity;
+  $ClassEntityCopyWith<$Res>? get classEntity;
 }
 
 /// @nodoc
@@ -71,42 +71,42 @@ class _$PracticumsEntityCopyWithImpl<$Res, $Val extends PracticumsEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? subject_name = freezed,
-    Object? subject_class = freezed,
+    Object? subjectName = freezed,
+    Object? subjectClass = freezed,
     Object? session = freezed,
-    Object? class_id = freezed,
+    Object? classId = freezed,
     Object? room = freezed,
-    Object? is_assistant = freezed,
-    Object? class_entity = freezed,
+    Object? isAssistant = freezed,
+    Object? classEntity = freezed,
   }) {
     return _then(_value.copyWith(
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_class: freezed == subject_class
-          ? _value.subject_class
-          : subject_class // ignore: cast_nullable_to_non_nullable
+      subjectClass: freezed == subjectClass
+          ? _value.subjectClass
+          : subjectClass // ignore: cast_nullable_to_non_nullable
               as String?,
       session: freezed == session
           ? _value.session
           : session // ignore: cast_nullable_to_non_nullable
               as String?,
-      class_id: freezed == class_id
-          ? _value.class_id
-          : class_id // ignore: cast_nullable_to_non_nullable
+      classId: freezed == classId
+          ? _value.classId
+          : classId // ignore: cast_nullable_to_non_nullable
               as String?,
       room: freezed == room
           ? _value.room
           : room // ignore: cast_nullable_to_non_nullable
               as String?,
-      is_assistant: freezed == is_assistant
-          ? _value.is_assistant
-          : is_assistant // ignore: cast_nullable_to_non_nullable
+      isAssistant: freezed == isAssistant
+          ? _value.isAssistant
+          : isAssistant // ignore: cast_nullable_to_non_nullable
               as bool?,
-      class_entity: freezed == class_entity
-          ? _value.class_entity
-          : class_entity // ignore: cast_nullable_to_non_nullable
+      classEntity: freezed == classEntity
+          ? _value.classEntity
+          : classEntity // ignore: cast_nullable_to_non_nullable
               as ClassEntity?,
     ) as $Val);
   }
@@ -115,13 +115,13 @@ class _$PracticumsEntityCopyWithImpl<$Res, $Val extends PracticumsEntity>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ClassEntityCopyWith<$Res>? get class_entity {
-    if (_value.class_entity == null) {
+  $ClassEntityCopyWith<$Res>? get classEntity {
+    if (_value.classEntity == null) {
       return null;
     }
 
-    return $ClassEntityCopyWith<$Res>(_value.class_entity!, (value) {
-      return _then(_value.copyWith(class_entity: value) as $Val);
+    return $ClassEntityCopyWith<$Res>(_value.classEntity!, (value) {
+      return _then(_value.copyWith(classEntity: value) as $Val);
     });
   }
 }
@@ -135,16 +135,16 @@ abstract class _$$PracticumsEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? subject_name,
-      String? subject_class,
+      {String? subjectName,
+      String? subjectClass,
       String? session,
-      String? class_id,
+      String? classId,
       String? room,
-      bool? is_assistant,
-      ClassEntity? class_entity});
+      bool? isAssistant,
+      ClassEntity? classEntity});
 
   @override
-  $ClassEntityCopyWith<$Res>? get class_entity;
+  $ClassEntityCopyWith<$Res>? get classEntity;
 }
 
 /// @nodoc
@@ -160,42 +160,42 @@ class __$$PracticumsEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? subject_name = freezed,
-    Object? subject_class = freezed,
+    Object? subjectName = freezed,
+    Object? subjectClass = freezed,
     Object? session = freezed,
-    Object? class_id = freezed,
+    Object? classId = freezed,
     Object? room = freezed,
-    Object? is_assistant = freezed,
-    Object? class_entity = freezed,
+    Object? isAssistant = freezed,
+    Object? classEntity = freezed,
   }) {
     return _then(_$PracticumsEntityImpl(
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_class: freezed == subject_class
-          ? _value.subject_class
-          : subject_class // ignore: cast_nullable_to_non_nullable
+      subjectClass: freezed == subjectClass
+          ? _value.subjectClass
+          : subjectClass // ignore: cast_nullable_to_non_nullable
               as String?,
       session: freezed == session
           ? _value.session
           : session // ignore: cast_nullable_to_non_nullable
               as String?,
-      class_id: freezed == class_id
-          ? _value.class_id
-          : class_id // ignore: cast_nullable_to_non_nullable
+      classId: freezed == classId
+          ? _value.classId
+          : classId // ignore: cast_nullable_to_non_nullable
               as String?,
       room: freezed == room
           ? _value.room
           : room // ignore: cast_nullable_to_non_nullable
               as String?,
-      is_assistant: freezed == is_assistant
-          ? _value.is_assistant
-          : is_assistant // ignore: cast_nullable_to_non_nullable
+      isAssistant: freezed == isAssistant
+          ? _value.isAssistant
+          : isAssistant // ignore: cast_nullable_to_non_nullable
               as bool?,
-      class_entity: freezed == class_entity
-          ? _value.class_entity
-          : class_entity // ignore: cast_nullable_to_non_nullable
+      classEntity: freezed == classEntity
+          ? _value.classEntity
+          : classEntity // ignore: cast_nullable_to_non_nullable
               as ClassEntity?,
     ));
   }
@@ -205,35 +205,35 @@ class __$$PracticumsEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PracticumsEntityImpl implements _PracticumsEntity {
   const _$PracticumsEntityImpl(
-      {this.subject_name,
-      this.subject_class,
+      {this.subjectName,
+      this.subjectClass,
       this.session,
-      this.class_id,
+      this.classId,
       this.room,
-      this.is_assistant,
-      this.class_entity});
+      this.isAssistant,
+      this.classEntity});
 
   factory _$PracticumsEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$PracticumsEntityImplFromJson(json);
 
   @override
-  final String? subject_name;
+  final String? subjectName;
   @override
-  final String? subject_class;
+  final String? subjectClass;
   @override
   final String? session;
   @override
-  final String? class_id;
+  final String? classId;
   @override
   final String? room;
   @override
-  final bool? is_assistant;
+  final bool? isAssistant;
   @override
-  final ClassEntity? class_entity;
+  final ClassEntity? classEntity;
 
   @override
   String toString() {
-    return 'PracticumsEntity(subject_name: $subject_name, subject_class: $subject_class, session: $session, class_id: $class_id, room: $room, is_assistant: $is_assistant, class_entity: $class_entity)';
+    return 'PracticumsEntity(subjectName: $subjectName, subjectClass: $subjectClass, session: $session, classId: $classId, room: $room, isAssistant: $isAssistant, classEntity: $classEntity)';
   }
 
   @override
@@ -241,24 +241,23 @@ class _$PracticumsEntityImpl implements _PracticumsEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PracticumsEntityImpl &&
-            (identical(other.subject_name, subject_name) ||
-                other.subject_name == subject_name) &&
-            (identical(other.subject_class, subject_class) ||
-                other.subject_class == subject_class) &&
+            (identical(other.subjectName, subjectName) ||
+                other.subjectName == subjectName) &&
+            (identical(other.subjectClass, subjectClass) ||
+                other.subjectClass == subjectClass) &&
             (identical(other.session, session) || other.session == session) &&
-            (identical(other.class_id, class_id) ||
-                other.class_id == class_id) &&
+            (identical(other.classId, classId) || other.classId == classId) &&
             (identical(other.room, room) || other.room == room) &&
-            (identical(other.is_assistant, is_assistant) ||
-                other.is_assistant == is_assistant) &&
-            (identical(other.class_entity, class_entity) ||
-                other.class_entity == class_entity));
+            (identical(other.isAssistant, isAssistant) ||
+                other.isAssistant == isAssistant) &&
+            (identical(other.classEntity, classEntity) ||
+                other.classEntity == classEntity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, subject_name, subject_class,
-      session, class_id, room, is_assistant, class_entity);
+  int get hashCode => Object.hash(runtimeType, subjectName, subjectClass,
+      session, classId, room, isAssistant, classEntity);
 
   /// Create a copy of PracticumsEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -279,31 +278,31 @@ class _$PracticumsEntityImpl implements _PracticumsEntity {
 
 abstract class _PracticumsEntity implements PracticumsEntity {
   const factory _PracticumsEntity(
-      {final String? subject_name,
-      final String? subject_class,
+      {final String? subjectName,
+      final String? subjectClass,
       final String? session,
-      final String? class_id,
+      final String? classId,
       final String? room,
-      final bool? is_assistant,
-      final ClassEntity? class_entity}) = _$PracticumsEntityImpl;
+      final bool? isAssistant,
+      final ClassEntity? classEntity}) = _$PracticumsEntityImpl;
 
   factory _PracticumsEntity.fromJson(Map<String, dynamic> json) =
       _$PracticumsEntityImpl.fromJson;
 
   @override
-  String? get subject_name;
+  String? get subjectName;
   @override
-  String? get subject_class;
+  String? get subjectClass;
   @override
   String? get session;
   @override
-  String? get class_id;
+  String? get classId;
   @override
   String? get room;
   @override
-  bool? get is_assistant;
+  bool? get isAssistant;
   @override
-  ClassEntity? get class_entity;
+  ClassEntity? get classEntity;
 
   /// Create a copy of PracticumsEntity
   /// with the given fields replaced by the non-null parameter values.

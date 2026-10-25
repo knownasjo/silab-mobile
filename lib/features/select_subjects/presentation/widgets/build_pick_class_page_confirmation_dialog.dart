@@ -25,7 +25,7 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
     context.read<AddSelectedClassBloc>().add(
           AddSelectedClass(
             selectedClass:
-                selectedClasses.map((option) => option.class_id!).toList(),
+                selectedClasses.map((option) => option.classId!).toList(),
           ),
         );
   }
@@ -77,14 +77,14 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          option.subject_name ?? '-',
+                          option.subjectName ?? '-',
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Kelas ${option.subject_class} · ${formatDay(option.day)}, ${option.session_time}',
+                          'Kelas ${option.subjectClass} · ${formatDay(option.day)}, ${option.sessionTime}',
                           style: const TextStyle(fontSize: 14),
                         ),
                       ],

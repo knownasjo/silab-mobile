@@ -23,7 +23,7 @@ class AssistedClassEntity extends Equatable {
       AssistedClassEntity(
         id: _readString(json['id']) ?? '',
         name: _readString(json['name']) ?? '-',
-        subjectName: _readString(json['subject_name']) ?? '-',
+        subjectName: _readString(json['subjectName']) ?? '-',
         day: _readString(json['day']),
         startAt: _readString(json['startAt']),
         endAt: _readString(json['endAt']),

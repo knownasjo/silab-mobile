@@ -7,13 +7,13 @@ part 'practicums_entity.g.dart';
 @freezed
 class PracticumsEntity with _$PracticumsEntity {
   const factory PracticumsEntity({
-    final String? subject_name,
-    final String? subject_class,
+    final String? subjectName,
+    final String? subjectClass,
     final String? session,
-    final String? class_id,
+    final String? classId,
     final String? room,
-    final bool? is_assistant,
-    final ClassEntity? class_entity,
+    final bool? isAssistant,
+    final ClassEntity? classEntity,
   }) = _PracticumsEntity;
 
   factory PracticumsEntity.fromJson(Map<String, dynamic> json) =>

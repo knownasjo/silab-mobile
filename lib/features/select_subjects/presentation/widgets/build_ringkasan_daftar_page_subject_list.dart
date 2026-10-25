@@ -33,7 +33,7 @@ class BuildRingkasanDaftarPageSubjectList extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
               child: Text(
-                subjects![index].subject_name!,
+                subjects![index].subjectName!,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

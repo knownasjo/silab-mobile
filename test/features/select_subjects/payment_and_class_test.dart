@@ -49,11 +49,11 @@ Map<String, dynamic> kelas(String id, String name, String day, String time) => {
       'id': id,
       'name': name,
       'day': day,
-      'session_time': time,
+      'sessionTime': time,
       'room': 'Lab RPL',
       'quota': 30,
-      'registered_students': 5,
-      'is_full': false,
+      'registeredStudents': 5,
+      'isFull': false,
     };
 
 Map<String, dynamic> activation(
@@ -66,13 +66,13 @@ Map<String, dynamic> activation(
     {
       'id': id,
       'status': paid,
-      'created_at': '2026-09-30T02:00:00.000Z',
-      'subject_id': 's-$id',
+      'createdAt': '2026-09-30T02:00:00.000Z',
+      'subjectId': 's-$id',
       'subjects': [
-        {'subject_name': subject, 'semester': '3'},
+        {'subjectName': subject, 'semester': '3'},
       ],
-      'registered_class': registered,
-      'available_classes': classes,
+      'registeredClass': registered,
+      'availableClasses': classes,
     };
 
 http.Response jsonResponse(Object body, int status) =>
@@ -111,16 +111,16 @@ void main() {
 
   List<Map<String, dynamic>> classOptions() => [
         for (final a in activations)
-          if (a['status'] == true && a['registered_class'] == null)
-            for (final c in a['available_classes'] as List)
+          if (a['status'] == true && a['registeredClass'] == null)
+            for (final c in a['availableClasses'] as List)
               {
                 'id': c['id'],
-                'subject_name': (a['subjects'] as List).first['subject_name'],
-                'subject_class': c['name'],
+                'subjectName': (a['subjects'] as List).first['subjectName'],
+                'subjectClass': c['name'],
                 'semester': '3',
-                'session_time': c['session_time'],
+                'sessionTime': c['sessionTime'],
                 'quota': c['quota'],
-                'registered_students': c['registered_students'],
+                'registeredStudents': c['registeredStudents'],
                 'day': c['day'],
               },
       ];
@@ -143,9 +143,9 @@ void main() {
     if (request.method == 'POST' && path == '/class/registration') {
       final ids = (jsonDecode(request.body)['classIds'] as List).cast<String>();
       for (final a in activations) {
-        for (final c in a['available_classes'] as List) {
+        for (final c in a['availableClasses'] as List) {
           if (ids.contains(c['id'])) {
-            a['registered_class'] = {'id': c['id'], 'name': c['name']};
+            a['registeredClass'] = {'id': c['id'], 'name': c['name']};
           }
         }
       }
@@ -347,7 +347,7 @@ void main() {
 
   testWidgets('kelas yang dipindah laboran tetap tampil walau belum lunas',
       (tester) async {
-    activations[2]['registered_class'] = {'id': 'k-alg-a', 'name': 'A'};
+    activations[2]['registeredClass'] = {'id': 'k-alg-a', 'name': 'A'};
     await openApp(tester, '/home/payment-status');
 
     expect(find.text('Kelas: A · Kamis, 07:00 - 09:00'), findsOneWidget);
@@ -406,10 +406,10 @@ void main() {
   testWidgets('judul "Mata Kuliah Didaftarkan" dan waktu berbahasa Indonesia',
       (tester) async {
     final now = DateTime.now();
-    activations[0]['created_at'] =
+    activations[0]['createdAt'] =
         now.subtract(const Duration(minutes: 5)).toUtc().toIso8601String();
     for (final a in activations.skip(1)) {
-      a['created_at'] =
+      a['createdAt'] =
           now.subtract(const Duration(days: 3)).toUtc().toIso8601String();
     }
     await openApp(tester, '/home/payment-status');

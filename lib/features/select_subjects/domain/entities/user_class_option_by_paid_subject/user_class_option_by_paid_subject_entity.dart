@@ -7,13 +7,13 @@ part 'user_class_option_by_paid_subject_entity.g.dart';
 class UserClassOptionByPaidSubjectEntity
     with _$UserClassOptionByPaidSubjectEntity {
   const factory UserClassOptionByPaidSubjectEntity({
-    @JsonKey(name: 'id') final String? class_id,
-    final String? subject_name,
-    final String? subject_class,
+    @JsonKey(name: 'id') final String? classId,
+    final String? subjectName,
+    final String? subjectClass,
     final String? semester,
-    final String? session_time,
+    final String? sessionTime,
     final int? quota,
-    final int? registered_students,
+    final int? registeredStudents,
     final String? day,
   }) = _UserClassOptionByPaidSubjectEntity;
 

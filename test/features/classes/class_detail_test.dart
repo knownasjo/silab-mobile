@@ -49,10 +49,10 @@ Map<String, dynamic> meeting(int number,
         {bool open = false, bool attended = false, String? name}) =>
     {
       'id': 'm$number',
-      'meeting_name': name ?? 'Pertemuan $number',
-      'is_open': open,
-      'submitted_at': attended ? '2026-10-01T01:00:00.000Z' : null,
-      'is_attended': attended,
+      'meetingName': name ?? 'Pertemuan $number',
+      'isOpen': open,
+      'submittedAt': attended ? '2026-10-01T01:00:00.000Z' : null,
+      'isAttended': attended,
     };
 
 void main() {
@@ -86,11 +86,11 @@ void main() {
 
   Map<String, dynamic> kelas() => {
         'id': 'k1',
-        'subject_name': 'Basis Data',
-        'subject_class': 'A',
+        'subjectName': 'Basis Data',
+        'subjectClass': 'A',
         'lecturer': lecturer,
         'day': 'MONDAY',
-        'session_time': '07.00 - 08.40',
+        'sessionTime': '07.00 - 08.40',
       };
 
   Future<http.Response> backend(http.Request request) async {
@@ -100,7 +100,7 @@ void main() {
     if (path == '/meeting/k1') return ok(meetings);
     if (path == '/class/k1/classmates') {
       return ok([
-        {'id': 'u1', 'name': 'Budi Santoso', 'is_me': true},
+        {'id': 'u1', 'name': 'Budi Santoso', 'isMe': true},
       ]);
     }
     if (path == '/class/me') return ok([kelas()]);

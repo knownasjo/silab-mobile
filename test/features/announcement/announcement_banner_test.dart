@@ -36,7 +36,7 @@ Future<void> pumpCarousel(
     title: title,
     type: type,
     body: 'Isi ${'kata ' * 190}',
-    created_at: DateTime.now().toIso8601String(),
+    createdAt: DateTime.now().toIso8601String(),
     author: 'Laboran',
   );
 

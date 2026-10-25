@@ -34,7 +34,7 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
                 children: [
                   Text(
                     formatPostedAt(
-                      state.selectedSubjectEntity![index].created_at,
+                      state.selectedSubjectEntity![index].createdAt,
                     ),
                   ),
                   Container(

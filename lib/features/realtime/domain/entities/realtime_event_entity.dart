@@ -21,9 +21,9 @@ class RealtimeEventEntity extends Equatable {
   ) =>
       RealtimeEventEntity(
         type: type,
-        classId: _readString(json['class_id']),
-        meetingId: _readString(json['meeting_id']),
-        announcementId: _readString(json['announcement_id']),
+        classId: _readString(json['classId']),
+        meetingId: _readString(json['meetingId']),
+        announcementId: _readString(json['announcementId']),
         action: _readString(json['action']),
       );
 

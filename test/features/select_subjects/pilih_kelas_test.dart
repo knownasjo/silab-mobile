@@ -45,12 +45,12 @@ Map<String, dynamic> option(
 ) =>
     {
       'id': id,
-      'subject_name': subject,
-      'subject_class': name,
+      'subjectName': subject,
+      'subjectClass': name,
       'semester': '3',
-      'session_time': time,
+      'sessionTime': time,
       'quota': 30,
-      'registered_students': 5,
+      'registeredStudents': 5,
       'day': day,
     };
 
@@ -295,7 +295,7 @@ void main() {
         jsonEncode(
             {'status': false, 'message': 'Kelas A Basis Data sudah penuh!'}),
         409);
-    onPost = () => options[0]['registered_students'] = 30;
+    onPost = () => options[0]['registeredStudents'] = 30;
     await tester.tap(inDialog('Simpan'));
     await settle(tester);
 
@@ -316,7 +316,7 @@ void main() {
     expect(canSave(tester), isTrue);
 
     options.removeAt(0);
-    options.last['registered_students'] = 30;
+    options.last['registeredStudents'] = 30;
     refreshOptions(tester);
     await settle(tester);
 

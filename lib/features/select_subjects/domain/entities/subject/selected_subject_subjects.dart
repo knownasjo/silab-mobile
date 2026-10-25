@@ -6,7 +6,7 @@ part 'selected_subject_subjects.g.dart';
 @freezed
 class SelectedSubjectSubjectsEntity with _$SelectedSubjectSubjectsEntity {
   const factory SelectedSubjectSubjectsEntity({
-    final String? subject_name,
+    final String? subjectName,
     final String? semester,
   }) = _SelectedSubjectSubjectsEntity;
 

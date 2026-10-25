@@ -21,7 +21,7 @@ ClassmateEntity _$ClassmateEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ClassmateEntity {
   String? get name => throw _privateConstructorUsedError;
-  bool? get is_me => throw _privateConstructorUsedError;
+  bool? get isMe => throw _privateConstructorUsedError;
 
   /// Serializes this ClassmateEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $ClassmateEntityCopyWith<$Res> {
           ClassmateEntity value, $Res Function(ClassmateEntity) then) =
       _$ClassmateEntityCopyWithImpl<$Res, ClassmateEntity>;
   @useResult
-  $Res call({String? name, bool? is_me});
+  $Res call({String? name, bool? isMe});
 }
 
 /// @nodoc
@@ -58,16 +58,16 @@ class _$ClassmateEntityCopyWithImpl<$Res, $Val extends ClassmateEntity>
   @override
   $Res call({
     Object? name = freezed,
-    Object? is_me = freezed,
+    Object? isMe = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      is_me: freezed == is_me
-          ? _value.is_me
-          : is_me // ignore: cast_nullable_to_non_nullable
+      isMe: freezed == isMe
+          ? _value.isMe
+          : isMe // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -81,7 +81,7 @@ abstract class _$$ClassmateEntityImplCopyWith<$Res>
       __$$ClassmateEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, bool? is_me});
+  $Res call({String? name, bool? isMe});
 }
 
 /// @nodoc
@@ -98,16 +98,16 @@ class __$$ClassmateEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
-    Object? is_me = freezed,
+    Object? isMe = freezed,
   }) {
     return _then(_$ClassmateEntityImpl(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      is_me: freezed == is_me
-          ? _value.is_me
-          : is_me // ignore: cast_nullable_to_non_nullable
+      isMe: freezed == isMe
+          ? _value.isMe
+          : isMe // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -116,7 +116,7 @@ class __$$ClassmateEntityImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ClassmateEntityImpl implements _ClassmateEntity {
-  const _$ClassmateEntityImpl({this.name, this.is_me});
+  const _$ClassmateEntityImpl({this.name, this.isMe});
 
   factory _$ClassmateEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClassmateEntityImplFromJson(json);
@@ -124,11 +124,11 @@ class _$ClassmateEntityImpl implements _ClassmateEntity {
   @override
   final String? name;
   @override
-  final bool? is_me;
+  final bool? isMe;
 
   @override
   String toString() {
-    return 'ClassmateEntity(name: $name, is_me: $is_me)';
+    return 'ClassmateEntity(name: $name, isMe: $isMe)';
   }
 
   @override
@@ -137,12 +137,12 @@ class _$ClassmateEntityImpl implements _ClassmateEntity {
         (other.runtimeType == runtimeType &&
             other is _$ClassmateEntityImpl &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.is_me, is_me) || other.is_me == is_me));
+            (identical(other.isMe, isMe) || other.isMe == isMe));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, is_me);
+  int get hashCode => Object.hash(runtimeType, name, isMe);
 
   /// Create a copy of ClassmateEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -162,7 +162,7 @@ class _$ClassmateEntityImpl implements _ClassmateEntity {
 }
 
 abstract class _ClassmateEntity implements ClassmateEntity {
-  const factory _ClassmateEntity({final String? name, final bool? is_me}) =
+  const factory _ClassmateEntity({final String? name, final bool? isMe}) =
       _$ClassmateEntityImpl;
 
   factory _ClassmateEntity.fromJson(Map<String, dynamic> json) =
@@ -171,7 +171,7 @@ abstract class _ClassmateEntity implements ClassmateEntity {
   @override
   String? get name;
   @override
-  bool? get is_me;
+  bool? get isMe;
 
   /// Create a copy of ClassmateEntity
   /// with the given fields replaced by the non-null parameter values.

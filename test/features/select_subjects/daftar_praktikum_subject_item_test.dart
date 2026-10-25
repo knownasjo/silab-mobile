@@ -19,8 +19,8 @@ void main() {
   testWidgets('kode mata kuliah tampil di bawah nama', (tester) async {
     await tester.pumpWidget(itemFor(const SubjectEntity(
       id: 's1',
-      subject_code: '553310001',
-      subject_name: 'Algoritma dan Pemrograman',
+      subjectCode: '553310001',
+      subjectName: 'Algoritma dan Pemrograman',
       semester: '1',
     )));
 
@@ -34,7 +34,7 @@ void main() {
   testWidgets('tanpa kode, hanya nama yang tampil', (tester) async {
     await tester.pumpWidget(itemFor(const SubjectEntity(
       id: 's2',
-      subject_name: 'Data Mining',
+      subjectName: 'Data Mining',
       semester: '5',
     )));
 

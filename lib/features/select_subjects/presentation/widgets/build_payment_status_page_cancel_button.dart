@@ -13,7 +13,7 @@ class BuildPaymentStatusPageCancelButton extends StatelessWidget {
 
   String get _subjectName =>
       activation.subjects
-          ?.map((subject) => subject.subject_name)
+          ?.map((subject) => subject.subjectName)
           .whereType<String>()
           .join(', ') ??
       '';
@@ -27,7 +27,7 @@ class BuildPaymentStatusPageCancelButton extends StatelessWidget {
     if (confirmed == true && context.mounted) {
       context
           .read<CancelActivationBloc>()
-          .add(CancelActivation(activation.activation_id!));
+          .add(CancelActivation(activation.activationId!));
     }
   }
 
@@ -39,14 +39,14 @@ class BuildPaymentStatusPageCancelButton extends StatelessWidget {
             state is CancelActivationSubmitting ? state.activationId : null;
 
         return TextButton(
-          onPressed: submittingId != null || activation.activation_id == null
+          onPressed: submittingId != null || activation.activationId == null
               ? null
               : () => _confirm(context),
           style: TextButton.styleFrom(
             foregroundColor: const Color(0xffFE2F60),
           ),
           child: Text(
-            submittingId == activation.activation_id
+            submittingId == activation.activationId
                 ? 'Membatalkan...'
                 : 'Batalkan pendaftaran',
             style: const TextStyle(

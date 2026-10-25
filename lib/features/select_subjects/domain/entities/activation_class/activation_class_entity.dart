@@ -9,7 +9,7 @@ class ActivationClassEntity with _$ActivationClassEntity {
     final String? id,
     final String? name,
     final String? day,
-    final String? session_time,
+    final String? sessionTime,
   }) = _ActivationClassEntity;
 
   factory ActivationClassEntity.fromJson(Map<String, dynamic> json) =>

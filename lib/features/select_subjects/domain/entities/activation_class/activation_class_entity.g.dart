@@ -12,7 +12,7 @@ _$ActivationClassEntityImpl _$$ActivationClassEntityImplFromJson(
       id: json['id'] as String?,
       name: json['name'] as String?,
       day: json['day'] as String?,
-      session_time: json['session_time'] as String?,
+      sessionTime: json['sessionTime'] as String?,
     );
 
 Map<String, dynamic> _$$ActivationClassEntityImplToJson(
@@ -21,5 +21,5 @@ Map<String, dynamic> _$$ActivationClassEntityImplToJson(
       'id': instance.id,
       'name': instance.name,
       'day': instance.day,
-      'session_time': instance.session_time,
+      'sessionTime': instance.sessionTime,
     };

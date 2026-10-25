@@ -180,7 +180,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
 
   Widget _buildClassmateItem(ClassmateEntity classmate) {
     final name = classmate.name ?? '-';
-    final isMe = classmate.is_me == true;
+    final isMe = classmate.isMe == true;
 
     return Container(
       width: double.infinity,
@@ -285,7 +285,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: Text(
-                    meeting.meeting_name ?? '-',
+                    meeting.meetingName ?? '-',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -302,7 +302,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   }
 
   bool _canScan(MeetingsEntity meeting) =>
-      meeting.is_open == true &&
+      meeting.isOpen == true &&
       meeting.attendanceStatus == AttendanceStatus.belumPresensi;
 
   Widget _buildScanButton(MeetingsEntity meeting) {
@@ -366,7 +366,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
     final String? reason;
     if (meeting.attendanceStatus != AttendanceStatus.belumPresensi) {
       reason = 'Presensi pertemuan ini sudah tercatat.';
-    } else if (meeting.is_open != true) {
+    } else if (meeting.isOpen != true) {
       reason = 'Sesi presensi sedang tidak dibuka.';
     } else {
       reason = null;

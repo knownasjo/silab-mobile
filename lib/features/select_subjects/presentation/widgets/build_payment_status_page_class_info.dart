@@ -12,27 +12,27 @@ class BuildPaymentStatusPageClassInfo extends StatelessWidget {
   });
 
   String get _label {
-    final registered = activation.registered_class;
+    final registered = activation.registeredClass;
 
     if (registered != null) {
-      final detail = activation.available_classes
+      final detail = activation.availableClasses
           ?.firstWhereOrNull((option) => option.id == registered.id);
 
       return detail == null
           ? '${registered.name}'
-          : '${registered.name} · ${formatDay(detail.day)}, ${detail.session_time}';
+          : '${registered.name} · ${formatDay(detail.day)}, ${detail.sessionTime}';
     }
 
     if (activation.status != true) return 'bisa dipilih setelah lunas';
 
-    if (activation.available_classes?.isEmpty ?? true) return 'belum tersedia';
+    if (activation.availableClasses?.isEmpty ?? true) return 'belum tersedia';
 
     return 'belum dipilih';
   }
 
   @override
   Widget build(BuildContext context) {
-    final hasClass = activation.registered_class != null;
+    final hasClass = activation.registeredClass != null;
 
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 4),

@@ -18,23 +18,23 @@ import 'package:silab/features/classes/presentation/widgets/registered_class_gua
 
 const alproC = {
   'id': 'c-alpro',
-  'subject_id': 's1',
-  'subject_name': 'Algoritma dan Pemrograman',
-  'subject_class': 'C',
+  'subjectId': 's1',
+  'subjectName': 'Algoritma dan Pemrograman',
+  'subjectClass': 'C',
   'semester': '1',
   'lecturer': 'Dosen001',
   'day': 'TUESDAY',
-  'session_time': '16.10 - 17.10',
+  'sessionTime': '16.10 - 17.10',
   'room': 'PSI',
 };
 
 const openedFromList = ClassEntity(
   id: 'c-alpro',
-  subject_name: 'Algoritma dan Pemrograman',
-  subject_class: 'C',
+  subjectName: 'Algoritma dan Pemrograman',
+  subjectClass: 'C',
   day: 'TUESDAY',
   lecturer: 'Dosen001',
-  session_time: '16.10 - 17.10',
+  sessionTime: '16.10 - 17.10',
 );
 
 void main() {
@@ -95,7 +95,7 @@ void main() {
                   body: RegisteredClassGuard(
                     classEntity: openedFromList,
                     builder: (context, latest) => Text(
-                      'Kelas ${latest.subject_class} · ${latest.day} · ${latest.session_time}',
+                      'Kelas ${latest.subjectClass} · ${latest.day} · ${latest.sessionTime}',
                     ),
                   ),
                 ),
@@ -129,9 +129,9 @@ void main() {
     classes = [
       {
         ...alproC,
-        'subject_class': 'E',
+        'subjectClass': 'E',
         'day': 'WEDNESDAY',
-        'session_time': '12.30 - 14.10'
+        'sessionTime': '12.30 - 14.10'
       },
     ];
     await tester.runAsync(() async {

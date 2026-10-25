@@ -278,8 +278,8 @@ void main() {
           sent.add(request);
           return eventStream([
             'event: ready\ndata: {}\n\nevent: pi',
-            'ng\ndata: {}\n\nevent: meeting\ndata: {"meeting_id":"m1"}\n',
-            '\nevent: attendance\ndata: {"meeting_id":"m1"}\n\n',
+            'ng\ndata: {}\n\nevent: meeting\ndata: {"meetingId":"m1"}\n',
+            '\nevent: attendance\ndata: {"meetingId":"m1"}\n\n',
           ]);
         }),
         prefs,
@@ -289,7 +289,7 @@ void main() {
 
       expect(events.map((event) => event.type),
           ['ready', 'meeting', 'attendance']);
-      expect(events[1].data, {'meeting_id': 'm1'});
+      expect(events[1].data, {'meetingId': 'm1'});
       expect(events[0].data, isEmpty);
       expect(sent.single.url.path, eventsPath);
       expect(sent.single.headers['Authorization'], 'Bearer token-lama');

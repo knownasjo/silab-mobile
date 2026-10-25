@@ -35,7 +35,7 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
 
   Set<String> _registeredSubjectIds(SelectedSubjectByNimState state) => {
         for (final activation in state.selectedSubjectEntity ?? const [])
-          if (activation.subject_id != null) activation.subject_id!,
+          if (activation.subjectId != null) activation.subjectId!,
       };
 
   @override

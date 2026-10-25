@@ -250,7 +250,7 @@ tampil di Jadwal dengan tanda "Asisten" (lihat "Jadwal").
    terjangkau walau satu semester punya banyak mata kuliah. Mata kuliah yang
    sudah didaftarkan di semester aktif tampil tercentang abu-abu dengan
    tulisan "Sudah didaftarkan" dan tidak bisa dipilih lagi; datanya dari
-   `subject_id` di `GET /activation`, yang dimuat saat halaman dibuka dan ikut
+   `subjectId` di `GET /activation`, yang dimuat saat halaman dibuka dan ikut
    diperbarui lewat event `activation`. Bila daftar mata kuliah gagal dimuat,
    halaman menulis "Gagal memuat mata kuliah." dengan tombol "Coba lagi", bukan
    "Tidak ada praktikum yang ditawarkan". Di dialog "Simpan Pendaftaran",
@@ -315,8 +315,8 @@ Menu Profil berisi Edit Profil, Ganti Password, **Pembayaran & Kelas**, dan
 Keluar. Menu "Riwayat Pembayaran" dihapus pada 1 Oktober 2026 karena belum
 punya halaman. Halaman Pembayaran & Kelas (route `payment-status`) memuat
 pendaftaran semester aktif dari `GET /activation`. Tiap kotak mata kuliah
-punya baris **Kelas** yang dibaca dari `registered_class` dan
-`available_classes` di respons yang sama, jadi server tidak diubah:
+punya baris **Kelas** yang dibaca dari `registeredClass` dan
+`availableClasses` di respons yang sama, jadi server tidak diubah:
 
 | Keadaan | Baris Kelas |
 |---|---|
@@ -447,8 +447,8 @@ akun lain di pertemuan ini." dan pesan itu tampil seperti penolakan lain.
   dibalas server "Perbarui aplikasi SILAB ke versi terbaru untuk melakukan
   presensi."
 
-Status presensi mengikuti aturan yang sama dengan web: `submitted_at` kosong
-berarti **belum presensi**; bila terisi, `is_attended` menentukan **hadir**
+Status presensi mengikuti aturan yang sama dengan web: `submittedAt` kosong
+berarti **belum presensi**; bila terisi, `isAttended` menentukan **hadir**
 atau **tidak hadir**.
 
 ## Struktur
@@ -461,6 +461,13 @@ koneksi diubah menjadi pesan yang bisa dibaca: server tidak merespons dalam 20
 detik, tidak dapat terhubung, dan sertifikat HTTPS server bermasalah ("Koneksi
 aman ke server gagal (sertifikat HTTPS). Hubungi laboran."). Yang terakhir
 dulu tidak tertangkap, jadi layar bisa tertahan di loading.
+
+Nama field data (entity, model, dan kunci JSON yang dikirim maupun diterima)
+memakai camelCase, sama dengan backend dan web, misalnya `subjectName`,
+`isAttended`, dan `deviceId`. Sampai 25 Oktober 2026 field ini masih
+snake_case (`subject_name`) mengikuti server lama, jadi APK yang dibuat
+sebelum tanggal itu tidak cocok lagi dengan server sekarang. Nama file tetap
+snake_case karena itu aturan Dart.
 
 Access token berlaku 15 menit. Bila backend membalas `jwt expired`,
 `ApiClient` menukar refresh token di `POST /auth/refresh`, menyimpan token

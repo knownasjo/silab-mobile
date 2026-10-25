@@ -97,7 +97,7 @@ class _RealtimeSyncState extends State<RealtimeSync> {
         const [];
 
     if (message.action == 'created' ||
-        classOptions.any((option) => option.class_id == message.classId)) {
+        classOptions.any((option) => option.classId == message.classId)) {
       context
           .read<UserClassOptionByPaidSubjectBloc>()
           .add(RefreshUserClassOptionByPaidSubject());
@@ -121,7 +121,7 @@ class _RealtimeSyncState extends State<RealtimeSync> {
       for (final schedule
           in context.read<UserScheduleBloc>().state.schedules ?? const [])
         for (final practicum in schedule.practicums ?? const [])
-          practicum.class_id,
+          practicum.classId,
     };
 
     if (message.action == 'assistants' ||

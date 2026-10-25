@@ -24,9 +24,9 @@ const cancelLabel = 'Batalkan pendaftaran';
 Map<String, dynamic> activation(String id, String subject, bool status) => {
       'id': id,
       'status': status,
-      'created_at': '2026-09-30T02:00:00.000Z',
+      'createdAt': '2026-09-30T02:00:00.000Z',
       'subjects': [
-        {'subject_name': subject, 'semester': '3'},
+        {'subjectName': subject, 'semester': '3'},
       ],
     };
 
@@ -78,7 +78,7 @@ void main() {
 
       final removed = activations.firstWhere((a) => a['id'] == id);
       activations.remove(removed);
-      final subject = (removed['subjects'] as List).first['subject_name'];
+      final subject = (removed['subjects'] as List).first['subjectName'];
       return jsonResponse(
           {'status': true, 'message': 'Pendaftaran $subject dibatalkan.'}, 200);
     }

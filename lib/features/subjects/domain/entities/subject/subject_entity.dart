@@ -7,8 +7,8 @@ part 'subject_entity.g.dart';
 class SubjectEntity with _$SubjectEntity {
   const factory SubjectEntity({
     final String? id,
-    final String? subject_name,
-    final String? subject_code,
+    final String? subjectName,
+    final String? subjectCode,
     final String? semester,
   }) = _SubjectEntity;
 

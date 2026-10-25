@@ -71,7 +71,7 @@ class _QrScanPageState extends State<QrScanPage> {
         ?.where((meeting) => meeting.id == widget.qrScanPageExtra.meetingId)
         .firstOrNull;
 
-    return meeting != null && meeting.is_open != true;
+    return meeting != null && meeting.isOpen != true;
   }
 
   void _leaveClosedSession() {

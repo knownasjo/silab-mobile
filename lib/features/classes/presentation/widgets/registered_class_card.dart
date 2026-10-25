@@ -55,7 +55,7 @@ class RegisteredClassCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      classEntity != null ? classEntity!.subject_class! : 'A',
+                      classEntity != null ? classEntity!.subjectClass! : 'A',
                       style: const TextStyle(
                         color: Color(0xffFFBF01),
                         fontSize: 14,
@@ -71,7 +71,7 @@ class RegisteredClassCard extends StatelessWidget {
                     children: [
                       Text(
                         classEntity != null
-                            ? classEntity!.subject_name!
+                            ? classEntity!.subjectName!
                             : 'Subject Name',
                         style: const TextStyle(
                           fontSize: 14,
@@ -154,7 +154,7 @@ class RegisteredClassCard extends StatelessWidget {
                         ),
                         Text(
                           classEntity != null
-                              ? classEntity!.session_time!
+                              ? classEntity!.sessionTime!
                               : 'Jadwal',
                         ),
                       ],

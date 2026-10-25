@@ -23,7 +23,7 @@ class ClassOptionList extends StatelessWidget {
       itemBuilder: (context, index) {
         final option = classes[index];
         final quota = option.quota ?? 0;
-        final registered = option.registered_students ?? 0;
+        final registered = option.registeredStudents ?? 0;
         final isFull = registered >= quota;
         final textColor =
             isFull ? const Color(0xff8d8d8d) : const Color(0xff1d1d1d);
@@ -35,7 +35,7 @@ class ClassOptionList extends StatelessWidget {
             onTap: isFull
                 ? null
                 : () => onClassChanged(
-                    option.class_id == selectedClass ? null : option.class_id),
+                    option.classId == selectedClass ? null : option.classId),
             child: Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -53,7 +53,7 @@ class ClassOptionList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Radio<String?>(
-                    value: option.class_id,
+                    value: option.classId,
                     groupValue: selectedClass,
                     onChanged: isFull ? null : (value) => onClassChanged(value),
                     visualDensity:
@@ -73,7 +73,7 @@ class ClassOptionList extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          option.subject_class!,
+                          option.subjectClass!,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class ClassOptionList extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${formatDay(option.day)}, ${option.session_time}',
+                          '${formatDay(option.day)}, ${option.sessionTime}',
                           style: TextStyle(fontSize: 14, color: textColor),
                         ),
                         Text(

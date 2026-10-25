@@ -79,8 +79,8 @@ void main() {
           'data': {
             'email': body['email'],
             'nim': '2000016123',
-            'expires_in': 600,
-            'resend_in': 60,
+            'expiresIn': 600,
+            'resendIn': 60,
           },
         }, 201);
       case '/auth/register/resend':

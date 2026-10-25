@@ -82,7 +82,7 @@ void main() {
         return jsonResponse({
           'status': true,
           'message': 'Kode reset password dikirim ke $email',
-          'data': {'email': email, 'expires_in': 600, 'resend_in': 60},
+          'data': {'email': email, 'expiresIn': 600, 'resendIn': 60},
         }, 200);
       case '/auth/password/reset':
         if (body['code'] != '123456') {

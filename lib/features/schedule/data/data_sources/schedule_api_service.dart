@@ -33,24 +33,24 @@ class ScheduleApiService {
         (
           day: c.day,
           practicum: PracticumsEntity(
-            class_id: c.id,
-            subject_name: c.subject_name,
-            subject_class: c.subject_class,
-            session: c.session_time,
+            classId: c.id,
+            subjectName: c.subjectName,
+            subjectClass: c.subjectClass,
+            session: c.sessionTime,
             room: c.room,
-            class_entity: c,
+            classEntity: c,
           ),
         ),
       for (final a in assistedClasses)
         (
           day: a.day,
           practicum: PracticumsEntity(
-            class_id: a.id,
-            subject_name: a.subjectName,
-            subject_class: a.name,
+            classId: a.id,
+            subjectName: a.subjectName,
+            subjectClass: a.name,
             session: '${a.startAt} - ${a.endAt}',
             room: a.room,
-            is_assistant: true,
+            isAssistant: true,
           ),
         ),
     ];

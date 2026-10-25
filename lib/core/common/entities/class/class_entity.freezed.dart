@@ -21,11 +21,11 @@ ClassEntity _$ClassEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ClassEntity {
   String? get id => throw _privateConstructorUsedError;
-  String? get subject_name => throw _privateConstructorUsedError;
-  String? get subject_class => throw _privateConstructorUsedError;
+  String? get subjectName => throw _privateConstructorUsedError;
+  String? get subjectClass => throw _privateConstructorUsedError;
   String? get day => throw _privateConstructorUsedError;
   String? get lecturer => throw _privateConstructorUsedError;
-  String? get session_time => throw _privateConstructorUsedError;
+  String? get sessionTime => throw _privateConstructorUsedError;
   String? get room => throw _privateConstructorUsedError;
 
   /// Serializes this ClassEntity to a JSON map.
@@ -46,11 +46,11 @@ abstract class $ClassEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      String? subject_name,
-      String? subject_class,
+      String? subjectName,
+      String? subjectClass,
       String? day,
       String? lecturer,
-      String? session_time,
+      String? sessionTime,
       String? room});
 }
 
@@ -70,11 +70,11 @@ class _$ClassEntityCopyWithImpl<$Res, $Val extends ClassEntity>
   @override
   $Res call({
     Object? id = freezed,
-    Object? subject_name = freezed,
-    Object? subject_class = freezed,
+    Object? subjectName = freezed,
+    Object? subjectClass = freezed,
     Object? day = freezed,
     Object? lecturer = freezed,
-    Object? session_time = freezed,
+    Object? sessionTime = freezed,
     Object? room = freezed,
   }) {
     return _then(_value.copyWith(
@@ -82,13 +82,13 @@ class _$ClassEntityCopyWithImpl<$Res, $Val extends ClassEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_class: freezed == subject_class
-          ? _value.subject_class
-          : subject_class // ignore: cast_nullable_to_non_nullable
+      subjectClass: freezed == subjectClass
+          ? _value.subjectClass
+          : subjectClass // ignore: cast_nullable_to_non_nullable
               as String?,
       day: freezed == day
           ? _value.day
@@ -98,9 +98,9 @@ class _$ClassEntityCopyWithImpl<$Res, $Val extends ClassEntity>
           ? _value.lecturer
           : lecturer // ignore: cast_nullable_to_non_nullable
               as String?,
-      session_time: freezed == session_time
-          ? _value.session_time
-          : session_time // ignore: cast_nullable_to_non_nullable
+      sessionTime: freezed == sessionTime
+          ? _value.sessionTime
+          : sessionTime // ignore: cast_nullable_to_non_nullable
               as String?,
       room: freezed == room
           ? _value.room
@@ -120,11 +120,11 @@ abstract class _$$ClassEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
-      String? subject_name,
-      String? subject_class,
+      String? subjectName,
+      String? subjectClass,
       String? day,
       String? lecturer,
-      String? session_time,
+      String? sessionTime,
       String? room});
 }
 
@@ -142,11 +142,11 @@ class __$$ClassEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? subject_name = freezed,
-    Object? subject_class = freezed,
+    Object? subjectName = freezed,
+    Object? subjectClass = freezed,
     Object? day = freezed,
     Object? lecturer = freezed,
-    Object? session_time = freezed,
+    Object? sessionTime = freezed,
     Object? room = freezed,
   }) {
     return _then(_$ClassEntityImpl(
@@ -154,13 +154,13 @@ class __$$ClassEntityImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_class: freezed == subject_class
-          ? _value.subject_class
-          : subject_class // ignore: cast_nullable_to_non_nullable
+      subjectClass: freezed == subjectClass
+          ? _value.subjectClass
+          : subjectClass // ignore: cast_nullable_to_non_nullable
               as String?,
       day: freezed == day
           ? _value.day
@@ -170,9 +170,9 @@ class __$$ClassEntityImplCopyWithImpl<$Res>
           ? _value.lecturer
           : lecturer // ignore: cast_nullable_to_non_nullable
               as String?,
-      session_time: freezed == session_time
-          ? _value.session_time
-          : session_time // ignore: cast_nullable_to_non_nullable
+      sessionTime: freezed == sessionTime
+          ? _value.sessionTime
+          : sessionTime // ignore: cast_nullable_to_non_nullable
               as String?,
       room: freezed == room
           ? _value.room
@@ -187,11 +187,11 @@ class __$$ClassEntityImplCopyWithImpl<$Res>
 class _$ClassEntityImpl implements _ClassEntity {
   const _$ClassEntityImpl(
       {this.id,
-      this.subject_name,
-      this.subject_class,
+      this.subjectName,
+      this.subjectClass,
       this.day,
       this.lecturer,
-      this.session_time,
+      this.sessionTime,
       this.room});
 
   factory _$ClassEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -200,21 +200,21 @@ class _$ClassEntityImpl implements _ClassEntity {
   @override
   final String? id;
   @override
-  final String? subject_name;
+  final String? subjectName;
   @override
-  final String? subject_class;
+  final String? subjectClass;
   @override
   final String? day;
   @override
   final String? lecturer;
   @override
-  final String? session_time;
+  final String? sessionTime;
   @override
   final String? room;
 
   @override
   String toString() {
-    return 'ClassEntity(id: $id, subject_name: $subject_name, subject_class: $subject_class, day: $day, lecturer: $lecturer, session_time: $session_time, room: $room)';
+    return 'ClassEntity(id: $id, subjectName: $subjectName, subjectClass: $subjectClass, day: $day, lecturer: $lecturer, sessionTime: $sessionTime, room: $room)';
   }
 
   @override
@@ -223,22 +223,22 @@ class _$ClassEntityImpl implements _ClassEntity {
         (other.runtimeType == runtimeType &&
             other is _$ClassEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.subject_name, subject_name) ||
-                other.subject_name == subject_name) &&
-            (identical(other.subject_class, subject_class) ||
-                other.subject_class == subject_class) &&
+            (identical(other.subjectName, subjectName) ||
+                other.subjectName == subjectName) &&
+            (identical(other.subjectClass, subjectClass) ||
+                other.subjectClass == subjectClass) &&
             (identical(other.day, day) || other.day == day) &&
             (identical(other.lecturer, lecturer) ||
                 other.lecturer == lecturer) &&
-            (identical(other.session_time, session_time) ||
-                other.session_time == session_time) &&
+            (identical(other.sessionTime, sessionTime) ||
+                other.sessionTime == sessionTime) &&
             (identical(other.room, room) || other.room == room));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, subject_name, subject_class,
-      day, lecturer, session_time, room);
+  int get hashCode => Object.hash(runtimeType, id, subjectName, subjectClass,
+      day, lecturer, sessionTime, room);
 
   /// Create a copy of ClassEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -259,11 +259,11 @@ class _$ClassEntityImpl implements _ClassEntity {
 abstract class _ClassEntity implements ClassEntity {
   const factory _ClassEntity(
       {final String? id,
-      final String? subject_name,
-      final String? subject_class,
+      final String? subjectName,
+      final String? subjectClass,
       final String? day,
       final String? lecturer,
-      final String? session_time,
+      final String? sessionTime,
       final String? room}) = _$ClassEntityImpl;
 
   factory _ClassEntity.fromJson(Map<String, dynamic> json) =
@@ -272,15 +272,15 @@ abstract class _ClassEntity implements ClassEntity {
   @override
   String? get id;
   @override
-  String? get subject_name;
+  String? get subjectName;
   @override
-  String? get subject_class;
+  String? get subjectClass;
   @override
   String? get day;
   @override
   String? get lecturer;
   @override
-  String? get session_time;
+  String? get sessionTime;
   @override
   String? get room;
 

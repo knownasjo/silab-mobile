@@ -14,11 +14,11 @@ class PasswordResetEntity extends Equatable {
   factory PasswordResetEntity.fromJson(Map<String, dynamic> json) =>
       PasswordResetEntity(
         email: json['email'] is String ? json['email'] as String : '',
-        expiresIn: json['expires_in'] is num
-            ? (json['expires_in'] as num).toInt()
+        expiresIn: json['expiresIn'] is num
+            ? (json['expiresIn'] as num).toInt()
             : 600,
         resendIn:
-            json['resend_in'] is num ? (json['resend_in'] as num).toInt() : 60,
+            json['resendIn'] is num ? (json['resendIn'] as num).toInt() : 60,
       );
 
   @override

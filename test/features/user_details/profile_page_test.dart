@@ -79,7 +79,7 @@ void main() {
           {
             'id': 'k$i',
             'name': 'B',
-            'subject_name': 'Jaringan Komputer $i',
+            'subjectName': 'Jaringan Komputer $i',
             'day': 'MONDAY',
             'startAt': '10.00',
             'endAt': '11.40',

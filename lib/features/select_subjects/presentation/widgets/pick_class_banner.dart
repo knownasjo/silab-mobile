@@ -23,7 +23,7 @@ class _PickClassBannerState extends State<PickClassBanner> {
             final Set<String> subjects = {};
 
             for (var subject in state.userClassOptionByPaidSubjectEntity!) {
-              subjects.add(subject.subject_name!);
+              subjects.add(subject.subjectName!);
             }
 
             return InkWell(

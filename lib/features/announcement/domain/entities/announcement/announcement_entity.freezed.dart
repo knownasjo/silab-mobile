@@ -24,7 +24,7 @@ mixin _$AnnouncementEntity {
   String? get title => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
-  String? get created_at => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
   String? get author => throw _privateConstructorUsedError;
 
   /// Serializes this AnnouncementEntity to a JSON map.
@@ -48,7 +48,7 @@ abstract class $AnnouncementEntityCopyWith<$Res> {
       String? title,
       String? type,
       String? body,
-      String? created_at,
+      String? createdAt,
       String? author});
 }
 
@@ -71,7 +71,7 @@ class _$AnnouncementEntityCopyWithImpl<$Res, $Val extends AnnouncementEntity>
     Object? title = freezed,
     Object? type = freezed,
     Object? body = freezed,
-    Object? created_at = freezed,
+    Object? createdAt = freezed,
     Object? author = freezed,
   }) {
     return _then(_value.copyWith(
@@ -91,9 +91,9 @@ class _$AnnouncementEntityCopyWithImpl<$Res, $Val extends AnnouncementEntity>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
       author: freezed == author
           ? _value.author
@@ -116,7 +116,7 @@ abstract class _$$AnnouncementEntityImplCopyWith<$Res>
       String? title,
       String? type,
       String? body,
-      String? created_at,
+      String? createdAt,
       String? author});
 }
 
@@ -137,7 +137,7 @@ class __$$AnnouncementEntityImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? type = freezed,
     Object? body = freezed,
-    Object? created_at = freezed,
+    Object? createdAt = freezed,
     Object? author = freezed,
   }) {
     return _then(_$AnnouncementEntityImpl(
@@ -157,9 +157,9 @@ class __$$AnnouncementEntityImplCopyWithImpl<$Res>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
-      created_at: freezed == created_at
-          ? _value.created_at
-          : created_at // ignore: cast_nullable_to_non_nullable
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
       author: freezed == author
           ? _value.author
@@ -173,12 +173,7 @@ class __$$AnnouncementEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AnnouncementEntityImpl implements _AnnouncementEntity {
   const _$AnnouncementEntityImpl(
-      {this.id,
-      this.title,
-      this.type,
-      this.body,
-      this.created_at,
-      this.author});
+      {this.id, this.title, this.type, this.body, this.createdAt, this.author});
 
   factory _$AnnouncementEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$AnnouncementEntityImplFromJson(json);
@@ -192,13 +187,13 @@ class _$AnnouncementEntityImpl implements _AnnouncementEntity {
   @override
   final String? body;
   @override
-  final String? created_at;
+  final String? createdAt;
   @override
   final String? author;
 
   @override
   String toString() {
-    return 'AnnouncementEntity(id: $id, title: $title, type: $type, body: $body, created_at: $created_at, author: $author)';
+    return 'AnnouncementEntity(id: $id, title: $title, type: $type, body: $body, createdAt: $createdAt, author: $author)';
   }
 
   @override
@@ -210,15 +205,15 @@ class _$AnnouncementEntityImpl implements _AnnouncementEntity {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.body, body) || other.body == body) &&
-            (identical(other.created_at, created_at) ||
-                other.created_at == created_at) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.author, author) || other.author == author));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, type, body, created_at, author);
+      Object.hash(runtimeType, id, title, type, body, createdAt, author);
 
   /// Create a copy of AnnouncementEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -243,7 +238,7 @@ abstract class _AnnouncementEntity implements AnnouncementEntity {
       final String? title,
       final String? type,
       final String? body,
-      final String? created_at,
+      final String? createdAt,
       final String? author}) = _$AnnouncementEntityImpl;
 
   factory _AnnouncementEntity.fromJson(Map<String, dynamic> json) =
@@ -258,7 +253,7 @@ abstract class _AnnouncementEntity implements AnnouncementEntity {
   @override
   String? get body;
   @override
-  String? get created_at;
+  String? get createdAt;
   @override
   String? get author;
 

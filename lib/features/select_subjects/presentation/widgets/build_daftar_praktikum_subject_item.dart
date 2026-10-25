@@ -20,7 +20,7 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final code = state.subjectList?[index].subject_code;
+    final code = state.subjectList?[index].subjectCode;
     final subtitle = [
       if (code != null) code,
       if (isRegistered) 'Sudah didaftarkan',
@@ -42,7 +42,7 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
       dense: true,
       title: Text(
         state.subjectList != null
-            ? state.subjectList![index].subject_name!
+            ? state.subjectList![index].subjectName!
             : 'Subject Name',
         style: const TextStyle(
           fontSize: 14,

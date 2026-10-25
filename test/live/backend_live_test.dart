@@ -66,19 +66,19 @@ void main() {
           (await ClassesApiService(api).getUserRegisteredClasses()).data!;
 
       for (final c in classes) {
-        expect(c.subject_name, isNotEmpty);
+        expect(c.subjectName, isNotEmpty);
 
         final classmates =
             (await ClassesApiService(api).getClassmates(classId: c.id)).data!;
-        expect(classmates.where((m) => m.is_me == true), hasLength(1),
-            reason: 'mahasiswa uji harus muncul sekali di ${c.subject_name}');
+        expect(classmates.where((m) => m.isMe == true), hasLength(1),
+            reason: 'mahasiswa uji harus muncul sekali di ${c.subjectName}');
 
         final meetings =
             (await ClassesApiService(api).getUserMeetingsData(classId: c.id))
                 .data!;
         for (final m in meetings) {
-          expect(m.is_open, isNotNull,
-              reason: '${m.meeting_name} tanpa is_open');
+          expect(m.isOpen, isNotNull,
+              reason: '${m.meetingName} tanpa isOpen');
           m.attendanceStatus;
         }
       }
@@ -107,14 +107,14 @@ void main() {
           await SelectedSubjectApiService(api).getUserSelectedSubject();
       for (final a in activations.data!) {
         expect(a.status, isNotNull);
-        expect(DateTime.tryParse(a.created_at!), isNotNull);
+        expect(DateTime.tryParse(a.createdAt!), isNotNull);
       }
 
       final options = await SelectedSubjectApiService(api)
           .getUserClassOptionbyPaidSubjects();
       for (final o in options.data!) {
         expect(o.quota, isNotNull);
-        expect(o.registered_students, isNotNull);
+        expect(o.registeredStudents, isNotNull);
       }
     });
 
@@ -137,7 +137,7 @@ void main() {
           : (await ClassesApiService(api)
                   .getUserMeetingsData(classId: classes.first.id))
               .data!
-              .where((m) => m.is_open == false)
+              .where((m) => m.isOpen == false)
               .firstOrNull;
 
       if (closedMeeting == null) {

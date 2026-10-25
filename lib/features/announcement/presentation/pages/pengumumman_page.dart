@@ -139,7 +139,7 @@ class _PengumumanPageState extends State<PengumumanPage> {
           ),
         ),
         Text(
-          "${announcement.author ?? '-'}, ${formatPostedAt(announcement.created_at)}",
+          "${announcement.author ?? '-'}, ${formatPostedAt(announcement.createdAt)}",
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w300,

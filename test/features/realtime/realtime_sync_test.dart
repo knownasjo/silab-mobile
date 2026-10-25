@@ -290,7 +290,7 @@ void main() {
       ScheduleEntity(
         day: 'Senin',
         practicums: [
-          PracticumsEntity(class_id: 'c-asisten', is_assistant: true)
+          PracticumsEntity(classId: 'c-asisten', isAssistant: true)
         ],
       ),
     ]);

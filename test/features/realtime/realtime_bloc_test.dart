@@ -117,9 +117,9 @@ void main() {
   test('isi event dibaca dari JSON backend', () {
     expect(
       RealtimeEventEntity.fromJson('announcement', const {
-        'announcement_id': 'a1',
+        'announcementId': 'a1',
         'action': 'deleted',
-        'class_id': 7,
+        'classId': 7,
       }),
       const RealtimeEventEntity(
         type: 'announcement',

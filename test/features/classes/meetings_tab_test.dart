@@ -100,8 +100,8 @@ void main() {
     await respond(
         tester,
         const Right(MeetingsResponseEntity(data: [
-          MeetingsEntity(id: 'm1', meeting_name: 'Pertemuan 1'),
-          MeetingsEntity(id: 'm2', meeting_name: 'Pertemuan 2'),
+          MeetingsEntity(id: 'm1', meetingName: 'Pertemuan 1'),
+          MeetingsEntity(id: 'm2', meetingName: 'Pertemuan 2'),
         ])));
 
     final newest = tester.getTopLeft(find.text('Pertemuan 2')).dy;

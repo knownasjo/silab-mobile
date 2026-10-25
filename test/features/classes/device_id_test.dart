@@ -54,7 +54,7 @@ void main() {
       expect(bodies.single, {
         'nim': '2000016099',
         'password': 'rahasia',
-        'device_id': phoneA,
+        'deviceId': phoneA,
       });
     });
 
@@ -62,7 +62,7 @@ void main() {
       await AuthenticationApiService(api(), const FixedDeviceIdSource(null))
           .userLogin(const LoginModel(nim: '2000016099', password: 'rahasia'));
 
-      expect(bodies.single.containsKey('device_id'), isFalse);
+      expect(bodies.single.containsKey('deviceId'), isFalse);
     });
   });
 
@@ -72,7 +72,7 @@ void main() {
             jsonEncode({
               'status': true,
               'message': 'Presensi berhasil dicatat',
-              'data': {'meeting_id': 'm1'},
+              'data': {'meetingId': 'm1'},
             }),
             201,
           );
@@ -81,7 +81,7 @@ void main() {
           .addUserAttendance(
               classId: 'c1', meetingId: 'm1', meetingToken: 'QR123');
 
-      expect(bodies.single, {'token': 'QR123', 'device_id': phoneA});
+      expect(bodies.single, {'token': 'QR123', 'deviceId': phoneA});
     });
 
     test('HP sudah dipakai akun lain: pesan server diteruskan', () async {

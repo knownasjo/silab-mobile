@@ -21,10 +21,10 @@ MeetingsEntity _$MeetingsEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MeetingsEntity {
   String? get id => throw _privateConstructorUsedError;
-  String? get meeting_name => throw _privateConstructorUsedError;
-  String? get submitted_at => throw _privateConstructorUsedError;
-  bool? get is_attended => throw _privateConstructorUsedError;
-  bool? get is_open => throw _privateConstructorUsedError;
+  String? get meetingName => throw _privateConstructorUsedError;
+  String? get submittedAt => throw _privateConstructorUsedError;
+  bool? get isAttended => throw _privateConstructorUsedError;
+  bool? get isOpen => throw _privateConstructorUsedError;
 
   /// Serializes this MeetingsEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,10 +44,10 @@ abstract class $MeetingsEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      String? meeting_name,
-      String? submitted_at,
-      bool? is_attended,
-      bool? is_open});
+      String? meetingName,
+      String? submittedAt,
+      bool? isAttended,
+      bool? isOpen});
 }
 
 /// @nodoc
@@ -66,31 +66,31 @@ class _$MeetingsEntityCopyWithImpl<$Res, $Val extends MeetingsEntity>
   @override
   $Res call({
     Object? id = freezed,
-    Object? meeting_name = freezed,
-    Object? submitted_at = freezed,
-    Object? is_attended = freezed,
-    Object? is_open = freezed,
+    Object? meetingName = freezed,
+    Object? submittedAt = freezed,
+    Object? isAttended = freezed,
+    Object? isOpen = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      meeting_name: freezed == meeting_name
-          ? _value.meeting_name
-          : meeting_name // ignore: cast_nullable_to_non_nullable
+      meetingName: freezed == meetingName
+          ? _value.meetingName
+          : meetingName // ignore: cast_nullable_to_non_nullable
               as String?,
-      submitted_at: freezed == submitted_at
-          ? _value.submitted_at
-          : submitted_at // ignore: cast_nullable_to_non_nullable
+      submittedAt: freezed == submittedAt
+          ? _value.submittedAt
+          : submittedAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      is_attended: freezed == is_attended
-          ? _value.is_attended
-          : is_attended // ignore: cast_nullable_to_non_nullable
+      isAttended: freezed == isAttended
+          ? _value.isAttended
+          : isAttended // ignore: cast_nullable_to_non_nullable
               as bool?,
-      is_open: freezed == is_open
-          ? _value.is_open
-          : is_open // ignore: cast_nullable_to_non_nullable
+      isOpen: freezed == isOpen
+          ? _value.isOpen
+          : isOpen // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
   }
@@ -106,10 +106,10 @@ abstract class _$$MeetingsEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
-      String? meeting_name,
-      String? submitted_at,
-      bool? is_attended,
-      bool? is_open});
+      String? meetingName,
+      String? submittedAt,
+      bool? isAttended,
+      bool? isOpen});
 }
 
 /// @nodoc
@@ -126,31 +126,31 @@ class __$$MeetingsEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? meeting_name = freezed,
-    Object? submitted_at = freezed,
-    Object? is_attended = freezed,
-    Object? is_open = freezed,
+    Object? meetingName = freezed,
+    Object? submittedAt = freezed,
+    Object? isAttended = freezed,
+    Object? isOpen = freezed,
   }) {
     return _then(_$MeetingsEntityImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      meeting_name: freezed == meeting_name
-          ? _value.meeting_name
-          : meeting_name // ignore: cast_nullable_to_non_nullable
+      meetingName: freezed == meetingName
+          ? _value.meetingName
+          : meetingName // ignore: cast_nullable_to_non_nullable
               as String?,
-      submitted_at: freezed == submitted_at
-          ? _value.submitted_at
-          : submitted_at // ignore: cast_nullable_to_non_nullable
+      submittedAt: freezed == submittedAt
+          ? _value.submittedAt
+          : submittedAt // ignore: cast_nullable_to_non_nullable
               as String?,
-      is_attended: freezed == is_attended
-          ? _value.is_attended
-          : is_attended // ignore: cast_nullable_to_non_nullable
+      isAttended: freezed == isAttended
+          ? _value.isAttended
+          : isAttended // ignore: cast_nullable_to_non_nullable
               as bool?,
-      is_open: freezed == is_open
-          ? _value.is_open
-          : is_open // ignore: cast_nullable_to_non_nullable
+      isOpen: freezed == isOpen
+          ? _value.isOpen
+          : isOpen // ignore: cast_nullable_to_non_nullable
               as bool?,
     ));
   }
@@ -161,10 +161,10 @@ class __$$MeetingsEntityImplCopyWithImpl<$Res>
 class _$MeetingsEntityImpl extends _MeetingsEntity {
   const _$MeetingsEntityImpl(
       {this.id,
-      this.meeting_name,
-      this.submitted_at,
-      this.is_attended,
-      this.is_open})
+      this.meetingName,
+      this.submittedAt,
+      this.isAttended,
+      this.isOpen})
       : super._();
 
   factory _$MeetingsEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -173,17 +173,17 @@ class _$MeetingsEntityImpl extends _MeetingsEntity {
   @override
   final String? id;
   @override
-  final String? meeting_name;
+  final String? meetingName;
   @override
-  final String? submitted_at;
+  final String? submittedAt;
   @override
-  final bool? is_attended;
+  final bool? isAttended;
   @override
-  final bool? is_open;
+  final bool? isOpen;
 
   @override
   String toString() {
-    return 'MeetingsEntity(id: $id, meeting_name: $meeting_name, submitted_at: $submitted_at, is_attended: $is_attended, is_open: $is_open)';
+    return 'MeetingsEntity(id: $id, meetingName: $meetingName, submittedAt: $submittedAt, isAttended: $isAttended, isOpen: $isOpen)';
   }
 
   @override
@@ -192,19 +192,19 @@ class _$MeetingsEntityImpl extends _MeetingsEntity {
         (other.runtimeType == runtimeType &&
             other is _$MeetingsEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.meeting_name, meeting_name) ||
-                other.meeting_name == meeting_name) &&
-            (identical(other.submitted_at, submitted_at) ||
-                other.submitted_at == submitted_at) &&
-            (identical(other.is_attended, is_attended) ||
-                other.is_attended == is_attended) &&
-            (identical(other.is_open, is_open) || other.is_open == is_open));
+            (identical(other.meetingName, meetingName) ||
+                other.meetingName == meetingName) &&
+            (identical(other.submittedAt, submittedAt) ||
+                other.submittedAt == submittedAt) &&
+            (identical(other.isAttended, isAttended) ||
+                other.isAttended == isAttended) &&
+            (identical(other.isOpen, isOpen) || other.isOpen == isOpen));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, meeting_name, submitted_at, is_attended, is_open);
+      runtimeType, id, meetingName, submittedAt, isAttended, isOpen);
 
   /// Create a copy of MeetingsEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -226,10 +226,10 @@ class _$MeetingsEntityImpl extends _MeetingsEntity {
 abstract class _MeetingsEntity extends MeetingsEntity {
   const factory _MeetingsEntity(
       {final String? id,
-      final String? meeting_name,
-      final String? submitted_at,
-      final bool? is_attended,
-      final bool? is_open}) = _$MeetingsEntityImpl;
+      final String? meetingName,
+      final String? submittedAt,
+      final bool? isAttended,
+      final bool? isOpen}) = _$MeetingsEntityImpl;
   const _MeetingsEntity._() : super._();
 
   factory _MeetingsEntity.fromJson(Map<String, dynamic> json) =
@@ -238,13 +238,13 @@ abstract class _MeetingsEntity extends MeetingsEntity {
   @override
   String? get id;
   @override
-  String? get meeting_name;
+  String? get meetingName;
   @override
-  String? get submitted_at;
+  String? get submittedAt;
   @override
-  bool? get is_attended;
+  bool? get isAttended;
   @override
-  bool? get is_open;
+  bool? get isOpen;
 
   /// Create a copy of MeetingsEntity
   /// with the given fields replaced by the non-null parameter values.

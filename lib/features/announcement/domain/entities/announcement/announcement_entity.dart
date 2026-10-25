@@ -10,7 +10,7 @@ class AnnouncementEntity with _$AnnouncementEntity {
     final String? title,
     final String? type,
     final String? body,
-    final String? created_at,
+    final String? createdAt,
     final String? author,
   }) = _AnnouncementEntity;
 

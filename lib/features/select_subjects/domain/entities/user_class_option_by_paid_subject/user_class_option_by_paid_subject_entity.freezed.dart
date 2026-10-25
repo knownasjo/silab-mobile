@@ -22,13 +22,13 @@ UserClassOptionByPaidSubjectEntity _$UserClassOptionByPaidSubjectEntityFromJson(
 /// @nodoc
 mixin _$UserClassOptionByPaidSubjectEntity {
   @JsonKey(name: 'id')
-  String? get class_id => throw _privateConstructorUsedError;
-  String? get subject_name => throw _privateConstructorUsedError;
-  String? get subject_class => throw _privateConstructorUsedError;
+  String? get classId => throw _privateConstructorUsedError;
+  String? get subjectName => throw _privateConstructorUsedError;
+  String? get subjectClass => throw _privateConstructorUsedError;
   String? get semester => throw _privateConstructorUsedError;
-  String? get session_time => throw _privateConstructorUsedError;
+  String? get sessionTime => throw _privateConstructorUsedError;
   int? get quota => throw _privateConstructorUsedError;
-  int? get registered_students => throw _privateConstructorUsedError;
+  int? get registeredStudents => throw _privateConstructorUsedError;
   String? get day => throw _privateConstructorUsedError;
 
   /// Serializes this UserClassOptionByPaidSubjectEntity to a JSON map.
@@ -51,13 +51,13 @@ abstract class $UserClassOptionByPaidSubjectEntityCopyWith<$Res> {
           UserClassOptionByPaidSubjectEntity>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') String? class_id,
-      String? subject_name,
-      String? subject_class,
+      {@JsonKey(name: 'id') String? classId,
+      String? subjectName,
+      String? subjectClass,
       String? semester,
-      String? session_time,
+      String? sessionTime,
       int? quota,
-      int? registered_students,
+      int? registeredStudents,
       String? day});
 }
 
@@ -77,43 +77,43 @@ class _$UserClassOptionByPaidSubjectEntityCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? class_id = freezed,
-    Object? subject_name = freezed,
-    Object? subject_class = freezed,
+    Object? classId = freezed,
+    Object? subjectName = freezed,
+    Object? subjectClass = freezed,
     Object? semester = freezed,
-    Object? session_time = freezed,
+    Object? sessionTime = freezed,
     Object? quota = freezed,
-    Object? registered_students = freezed,
+    Object? registeredStudents = freezed,
     Object? day = freezed,
   }) {
     return _then(_value.copyWith(
-      class_id: freezed == class_id
-          ? _value.class_id
-          : class_id // ignore: cast_nullable_to_non_nullable
+      classId: freezed == classId
+          ? _value.classId
+          : classId // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_class: freezed == subject_class
-          ? _value.subject_class
-          : subject_class // ignore: cast_nullable_to_non_nullable
+      subjectClass: freezed == subjectClass
+          ? _value.subjectClass
+          : subjectClass // ignore: cast_nullable_to_non_nullable
               as String?,
       semester: freezed == semester
           ? _value.semester
           : semester // ignore: cast_nullable_to_non_nullable
               as String?,
-      session_time: freezed == session_time
-          ? _value.session_time
-          : session_time // ignore: cast_nullable_to_non_nullable
+      sessionTime: freezed == sessionTime
+          ? _value.sessionTime
+          : sessionTime // ignore: cast_nullable_to_non_nullable
               as String?,
       quota: freezed == quota
           ? _value.quota
           : quota // ignore: cast_nullable_to_non_nullable
               as int?,
-      registered_students: freezed == registered_students
-          ? _value.registered_students
-          : registered_students // ignore: cast_nullable_to_non_nullable
+      registeredStudents: freezed == registeredStudents
+          ? _value.registeredStudents
+          : registeredStudents // ignore: cast_nullable_to_non_nullable
               as int?,
       day: freezed == day
           ? _value.day
@@ -133,13 +133,13 @@ abstract class _$$UserClassOptionByPaidSubjectEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') String? class_id,
-      String? subject_name,
-      String? subject_class,
+      {@JsonKey(name: 'id') String? classId,
+      String? subjectName,
+      String? subjectClass,
       String? semester,
-      String? session_time,
+      String? sessionTime,
       int? quota,
-      int? registered_students,
+      int? registeredStudents,
       String? day});
 }
 
@@ -158,43 +158,43 @@ class __$$UserClassOptionByPaidSubjectEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? class_id = freezed,
-    Object? subject_name = freezed,
-    Object? subject_class = freezed,
+    Object? classId = freezed,
+    Object? subjectName = freezed,
+    Object? subjectClass = freezed,
     Object? semester = freezed,
-    Object? session_time = freezed,
+    Object? sessionTime = freezed,
     Object? quota = freezed,
-    Object? registered_students = freezed,
+    Object? registeredStudents = freezed,
     Object? day = freezed,
   }) {
     return _then(_$UserClassOptionByPaidSubjectEntityImpl(
-      class_id: freezed == class_id
-          ? _value.class_id
-          : class_id // ignore: cast_nullable_to_non_nullable
+      classId: freezed == classId
+          ? _value.classId
+          : classId // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_class: freezed == subject_class
-          ? _value.subject_class
-          : subject_class // ignore: cast_nullable_to_non_nullable
+      subjectClass: freezed == subjectClass
+          ? _value.subjectClass
+          : subjectClass // ignore: cast_nullable_to_non_nullable
               as String?,
       semester: freezed == semester
           ? _value.semester
           : semester // ignore: cast_nullable_to_non_nullable
               as String?,
-      session_time: freezed == session_time
-          ? _value.session_time
-          : session_time // ignore: cast_nullable_to_non_nullable
+      sessionTime: freezed == sessionTime
+          ? _value.sessionTime
+          : sessionTime // ignore: cast_nullable_to_non_nullable
               as String?,
       quota: freezed == quota
           ? _value.quota
           : quota // ignore: cast_nullable_to_non_nullable
               as int?,
-      registered_students: freezed == registered_students
-          ? _value.registered_students
-          : registered_students // ignore: cast_nullable_to_non_nullable
+      registeredStudents: freezed == registeredStudents
+          ? _value.registeredStudents
+          : registeredStudents // ignore: cast_nullable_to_non_nullable
               as int?,
       day: freezed == day
           ? _value.day
@@ -209,13 +209,13 @@ class __$$UserClassOptionByPaidSubjectEntityImplCopyWithImpl<$Res>
 class _$UserClassOptionByPaidSubjectEntityImpl
     implements _UserClassOptionByPaidSubjectEntity {
   const _$UserClassOptionByPaidSubjectEntityImpl(
-      {@JsonKey(name: 'id') this.class_id,
-      this.subject_name,
-      this.subject_class,
+      {@JsonKey(name: 'id') this.classId,
+      this.subjectName,
+      this.subjectClass,
       this.semester,
-      this.session_time,
+      this.sessionTime,
       this.quota,
-      this.registered_students,
+      this.registeredStudents,
       this.day});
 
   factory _$UserClassOptionByPaidSubjectEntityImpl.fromJson(
@@ -224,25 +224,25 @@ class _$UserClassOptionByPaidSubjectEntityImpl
 
   @override
   @JsonKey(name: 'id')
-  final String? class_id;
+  final String? classId;
   @override
-  final String? subject_name;
+  final String? subjectName;
   @override
-  final String? subject_class;
+  final String? subjectClass;
   @override
   final String? semester;
   @override
-  final String? session_time;
+  final String? sessionTime;
   @override
   final int? quota;
   @override
-  final int? registered_students;
+  final int? registeredStudents;
   @override
   final String? day;
 
   @override
   String toString() {
-    return 'UserClassOptionByPaidSubjectEntity(class_id: $class_id, subject_name: $subject_name, subject_class: $subject_class, semester: $semester, session_time: $session_time, quota: $quota, registered_students: $registered_students, day: $day)';
+    return 'UserClassOptionByPaidSubjectEntity(classId: $classId, subjectName: $subjectName, subjectClass: $subjectClass, semester: $semester, sessionTime: $sessionTime, quota: $quota, registeredStudents: $registeredStudents, day: $day)';
   }
 
   @override
@@ -250,26 +250,25 @@ class _$UserClassOptionByPaidSubjectEntityImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserClassOptionByPaidSubjectEntityImpl &&
-            (identical(other.class_id, class_id) ||
-                other.class_id == class_id) &&
-            (identical(other.subject_name, subject_name) ||
-                other.subject_name == subject_name) &&
-            (identical(other.subject_class, subject_class) ||
-                other.subject_class == subject_class) &&
+            (identical(other.classId, classId) || other.classId == classId) &&
+            (identical(other.subjectName, subjectName) ||
+                other.subjectName == subjectName) &&
+            (identical(other.subjectClass, subjectClass) ||
+                other.subjectClass == subjectClass) &&
             (identical(other.semester, semester) ||
                 other.semester == semester) &&
-            (identical(other.session_time, session_time) ||
-                other.session_time == session_time) &&
+            (identical(other.sessionTime, sessionTime) ||
+                other.sessionTime == sessionTime) &&
             (identical(other.quota, quota) || other.quota == quota) &&
-            (identical(other.registered_students, registered_students) ||
-                other.registered_students == registered_students) &&
+            (identical(other.registeredStudents, registeredStudents) ||
+                other.registeredStudents == registeredStudents) &&
             (identical(other.day, day) || other.day == day));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, class_id, subject_name,
-      subject_class, semester, session_time, quota, registered_students, day);
+  int get hashCode => Object.hash(runtimeType, classId, subjectName,
+      subjectClass, semester, sessionTime, quota, registeredStudents, day);
 
   /// Create a copy of UserClassOptionByPaidSubjectEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -292,13 +291,13 @@ class _$UserClassOptionByPaidSubjectEntityImpl
 abstract class _UserClassOptionByPaidSubjectEntity
     implements UserClassOptionByPaidSubjectEntity {
   const factory _UserClassOptionByPaidSubjectEntity(
-      {@JsonKey(name: 'id') final String? class_id,
-      final String? subject_name,
-      final String? subject_class,
+      {@JsonKey(name: 'id') final String? classId,
+      final String? subjectName,
+      final String? subjectClass,
       final String? semester,
-      final String? session_time,
+      final String? sessionTime,
       final int? quota,
-      final int? registered_students,
+      final int? registeredStudents,
       final String? day}) = _$UserClassOptionByPaidSubjectEntityImpl;
 
   factory _UserClassOptionByPaidSubjectEntity.fromJson(
@@ -307,19 +306,19 @@ abstract class _UserClassOptionByPaidSubjectEntity
 
   @override
   @JsonKey(name: 'id')
-  String? get class_id;
+  String? get classId;
   @override
-  String? get subject_name;
+  String? get subjectName;
   @override
-  String? get subject_class;
+  String? get subjectClass;
   @override
   String? get semester;
   @override
-  String? get session_time;
+  String? get sessionTime;
   @override
   int? get quota;
   @override
-  int? get registered_students;
+  int? get registeredStudents;
   @override
   String? get day;
 

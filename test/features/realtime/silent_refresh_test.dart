@@ -122,7 +122,7 @@ void main() {
     test('event dari kelas lain diabaikan', () async {
       final repository = FakeClassRepository()
         ..meetings = {
-          'c1': [const MeetingsEntity(id: 'm1', is_open: false)],
+          'c1': [const MeetingsEntity(id: 'm1', isOpen: false)],
         };
       final bloc = UserMeetingsBloc(GetUserMeetingsDataUsecase(repository));
       bloc.add(const GetUserMeetings(classId: 'c1'));
@@ -134,13 +134,13 @@ void main() {
       expect(repository.calls, isEmpty);
 
       repository.meetings = {
-        'c1': [const MeetingsEntity(id: 'm1', is_open: true)],
+        'c1': [const MeetingsEntity(id: 'm1', isOpen: true)],
       };
       bloc.add(const RefreshUserMeetings());
       await settle();
 
       expect(repository.calls, ['/meeting/c1']);
-      expect(bloc.state.meetingsData?.single.is_open, isTrue);
+      expect(bloc.state.meetingsData?.single.isOpen, isTrue);
       await bloc.close();
     });
   });

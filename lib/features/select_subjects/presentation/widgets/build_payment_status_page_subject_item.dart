@@ -25,7 +25,7 @@ class BuildPaymentStatusPageSubjectItem extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.6,
             child: Text(
-              state.selectedSubjectEntity![index].subjects![idx].subject_name!,
+              state.selectedSubjectEntity![index].subjects![idx].subjectName!,
               overflow: TextOverflow.ellipsis,
             ),
           ),

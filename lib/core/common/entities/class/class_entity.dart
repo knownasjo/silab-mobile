@@ -7,11 +7,11 @@ part 'class_entity.g.dart';
 class ClassEntity with _$ClassEntity {
   const factory ClassEntity({
     final String? id,
-    final String? subject_name,
-    final String? subject_class,
+    final String? subjectName,
+    final String? subjectClass,
     final String? day,
     final String? lecturer,
-    final String? session_time,
+    final String? sessionTime,
     final String? room,
   }) = _ClassEntity;
 

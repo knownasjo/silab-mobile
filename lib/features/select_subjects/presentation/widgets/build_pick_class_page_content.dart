@@ -40,8 +40,8 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
       List<UserClassOptionByPaidSubjectEntity> options) {
     final openClassIds = {
       for (final option in options)
-        if ((option.registered_students ?? 0) < (option.quota ?? 0))
-          option.class_id,
+        if ((option.registeredStudents ?? 0) < (option.quota ?? 0))
+          option.classId,
     };
 
     setState(() {
@@ -63,7 +63,7 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
       context: context,
       builder: (context) => BuildPickClassPageConfirmationDialog(
         selectedClasses: options
-            .where((option) => selectedClasses.containsValue(option.class_id))
+            .where((option) => selectedClasses.containsValue(option.classId))
             .toList(),
       ),
     );
@@ -113,7 +113,7 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
 
               final Map<String?, List<UserClassOptionByPaidSubjectEntity>>
                   groupedClasses =
-                  groupBy(options, ((classes) => classes.subject_name));
+                  groupBy(options, ((classes) => classes.subjectName));
 
               return Column(
                 children: [

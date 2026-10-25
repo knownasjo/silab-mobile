@@ -10,12 +10,12 @@ _$ClassmateEntityImpl _$$ClassmateEntityImplFromJson(
         Map<String, dynamic> json) =>
     _$ClassmateEntityImpl(
       name: json['name'] as String?,
-      is_me: json['is_me'] as bool?,
+      isMe: json['isMe'] as bool?,
     );
 
 Map<String, dynamic> _$$ClassmateEntityImplToJson(
         _$ClassmateEntityImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'is_me': instance.is_me,
+      'isMe': instance.isMe,
     };

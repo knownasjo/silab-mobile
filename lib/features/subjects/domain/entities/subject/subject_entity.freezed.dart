@@ -21,8 +21,8 @@ SubjectEntity _$SubjectEntityFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$SubjectEntity {
   String? get id => throw _privateConstructorUsedError;
-  String? get subject_name => throw _privateConstructorUsedError;
-  String? get subject_code => throw _privateConstructorUsedError;
+  String? get subjectName => throw _privateConstructorUsedError;
+  String? get subjectCode => throw _privateConstructorUsedError;
   String? get semester => throw _privateConstructorUsedError;
 
   /// Serializes this SubjectEntity to a JSON map.
@@ -42,10 +42,7 @@ abstract class $SubjectEntityCopyWith<$Res> {
       _$SubjectEntityCopyWithImpl<$Res, SubjectEntity>;
   @useResult
   $Res call(
-      {String? id,
-      String? subject_name,
-      String? subject_code,
-      String? semester});
+      {String? id, String? subjectName, String? subjectCode, String? semester});
 }
 
 /// @nodoc
@@ -64,8 +61,8 @@ class _$SubjectEntityCopyWithImpl<$Res, $Val extends SubjectEntity>
   @override
   $Res call({
     Object? id = freezed,
-    Object? subject_name = freezed,
-    Object? subject_code = freezed,
+    Object? subjectName = freezed,
+    Object? subjectCode = freezed,
     Object? semester = freezed,
   }) {
     return _then(_value.copyWith(
@@ -73,13 +70,13 @@ class _$SubjectEntityCopyWithImpl<$Res, $Val extends SubjectEntity>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_code: freezed == subject_code
-          ? _value.subject_code
-          : subject_code // ignore: cast_nullable_to_non_nullable
+      subjectCode: freezed == subjectCode
+          ? _value.subjectCode
+          : subjectCode // ignore: cast_nullable_to_non_nullable
               as String?,
       semester: freezed == semester
           ? _value.semester
@@ -98,10 +95,7 @@ abstract class _$$SubjectEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
-      String? subject_name,
-      String? subject_code,
-      String? semester});
+      {String? id, String? subjectName, String? subjectCode, String? semester});
 }
 
 /// @nodoc
@@ -118,8 +112,8 @@ class __$$SubjectEntityImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? subject_name = freezed,
-    Object? subject_code = freezed,
+    Object? subjectName = freezed,
+    Object? subjectCode = freezed,
     Object? semester = freezed,
   }) {
     return _then(_$SubjectEntityImpl(
@@ -127,13 +121,13 @@ class __$$SubjectEntityImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_name: freezed == subject_name
-          ? _value.subject_name
-          : subject_name // ignore: cast_nullable_to_non_nullable
+      subjectName: freezed == subjectName
+          ? _value.subjectName
+          : subjectName // ignore: cast_nullable_to_non_nullable
               as String?,
-      subject_code: freezed == subject_code
-          ? _value.subject_code
-          : subject_code // ignore: cast_nullable_to_non_nullable
+      subjectCode: freezed == subjectCode
+          ? _value.subjectCode
+          : subjectCode // ignore: cast_nullable_to_non_nullable
               as String?,
       semester: freezed == semester
           ? _value.semester
@@ -147,7 +141,7 @@ class __$$SubjectEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SubjectEntityImpl implements _SubjectEntity {
   const _$SubjectEntityImpl(
-      {this.id, this.subject_name, this.subject_code, this.semester});
+      {this.id, this.subjectName, this.subjectCode, this.semester});
 
   factory _$SubjectEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$SubjectEntityImplFromJson(json);
@@ -155,15 +149,15 @@ class _$SubjectEntityImpl implements _SubjectEntity {
   @override
   final String? id;
   @override
-  final String? subject_name;
+  final String? subjectName;
   @override
-  final String? subject_code;
+  final String? subjectCode;
   @override
   final String? semester;
 
   @override
   String toString() {
-    return 'SubjectEntity(id: $id, subject_name: $subject_name, subject_code: $subject_code, semester: $semester)';
+    return 'SubjectEntity(id: $id, subjectName: $subjectName, subjectCode: $subjectCode, semester: $semester)';
   }
 
   @override
@@ -172,10 +166,10 @@ class _$SubjectEntityImpl implements _SubjectEntity {
         (other.runtimeType == runtimeType &&
             other is _$SubjectEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.subject_name, subject_name) ||
-                other.subject_name == subject_name) &&
-            (identical(other.subject_code, subject_code) ||
-                other.subject_code == subject_code) &&
+            (identical(other.subjectName, subjectName) ||
+                other.subjectName == subjectName) &&
+            (identical(other.subjectCode, subjectCode) ||
+                other.subjectCode == subjectCode) &&
             (identical(other.semester, semester) ||
                 other.semester == semester));
   }
@@ -183,7 +177,7 @@ class _$SubjectEntityImpl implements _SubjectEntity {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, subject_name, subject_code, semester);
+      Object.hash(runtimeType, id, subjectName, subjectCode, semester);
 
   /// Create a copy of SubjectEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -204,8 +198,8 @@ class _$SubjectEntityImpl implements _SubjectEntity {
 abstract class _SubjectEntity implements SubjectEntity {
   const factory _SubjectEntity(
       {final String? id,
-      final String? subject_name,
-      final String? subject_code,
+      final String? subjectName,
+      final String? subjectCode,
       final String? semester}) = _$SubjectEntityImpl;
 
   factory _SubjectEntity.fromJson(Map<String, dynamic> json) =
@@ -214,9 +208,9 @@ abstract class _SubjectEntity implements SubjectEntity {
   @override
   String? get id;
   @override
-  String? get subject_name;
+  String? get subjectName;
   @override
-  String? get subject_code;
+  String? get subjectCode;
   @override
   String? get semester;
 

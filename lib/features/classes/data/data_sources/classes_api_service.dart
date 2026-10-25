@@ -41,7 +41,7 @@ class ClassesApiService {
         '/subject/classes/$classId/meetings/$meetingId/attendances',
         body: {
           'token': meetingToken,
-          if (deviceId != null) 'device_id': deviceId,
+          if (deviceId != null) 'deviceId': deviceId,
         },
       ),
     );

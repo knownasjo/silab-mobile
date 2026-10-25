@@ -19,7 +19,7 @@ const alproB = {
   'id': 'b8dca325',
   'subjectId': 's1',
   'name': 'B',
-  'subject_name': 'Algoritma dan Pemrograman',
+  'subjectName': 'Algoritma dan Pemrograman',
   'semester': '1',
   'quota': 30,
   'isFull': false,
@@ -33,7 +33,7 @@ const alproB = {
 const rplA = {
   'id': 'eb4e960d',
   'name': 'A',
-  'subject_name': 'Rekayasa Perangkat Lunak',
+  'subjectName': 'Rekayasa Perangkat Lunak',
   'day': 'TUESDAY',
   'startAt': '09.00',
   'endAt': '10.40',

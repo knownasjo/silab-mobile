@@ -56,12 +56,12 @@ void main() {
           for (final i in items)
             {
               'id': 'k$i',
-              'subject_name': 'Basis Data',
-              'subject_class': String.fromCharCode(64 + i),
+              'subjectName': 'Basis Data',
+              'subjectClass': String.fromCharCode(64 + i),
               'semester': '3',
-              'session_time': '07.00 - 08.40',
+              'sessionTime': '07.00 - 08.40',
               'quota': 30,
-              'registered_students': 5,
+              'registeredStudents': 5,
               'day': days[i - 1],
             }
         ]),
@@ -69,8 +69,8 @@ void main() {
           for (final i in items)
             {
               'id': 's$i',
-              'subject_name': 'Praktikum Mata Kuliah $i',
-              'subject_code': '55331000$i',
+              'subjectName': 'Praktikum Mata Kuliah $i',
+              'subjectCode': '55331000$i',
               'semester': '1',
             }
         ]),
@@ -79,22 +79,22 @@ void main() {
             {
               'id': 'a$i',
               'status': true,
-              'created_at': '2026-09-30T02:00:00.000Z',
-              'subject_id': 's$i',
+              'createdAt': '2026-09-30T02:00:00.000Z',
+              'subjectId': 's$i',
               'subjects': [
-                {'subject_name': 'Mata Kuliah $i', 'semester': '3'}
+                {'subjectName': 'Mata Kuliah $i', 'semester': '3'}
               ],
-              'registered_class': {'id': 'k$i', 'name': 'A'},
-              'available_classes': [
+              'registeredClass': {'id': 'k$i', 'name': 'A'},
+              'availableClasses': [
                 {
                   'id': 'k$i',
                   'name': 'A',
                   'day': 'MONDAY',
-                  'session_time': '07.00 - 08.40',
+                  'sessionTime': '07.00 - 08.40',
                   'room': 'Lab',
                   'quota': 30,
-                  'registered_students': 5,
-                  'is_full': false,
+                  'registeredStudents': 5,
+                  'isFull': false,
                 }
               ],
             }
