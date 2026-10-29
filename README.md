@@ -194,10 +194,11 @@ ini sebagai mahasiswa biasa (daftar praktikum lain, bayar, scan presensi). Di
 Profil muncul bagian "Asisten Praktikum" berisi kelas yang ia pegang beserta
 jadwalnya, dengan keterangan bahwa kelas dikelola lewat web SILAB. Datanya dari
 `GET /class` (untuk mahasiswa backend hanya mengembalikan kelas yang ia
-pegang), lewat `AssistedClassesBloc` di `lib/features/user_details`. Bagian ini
-tidak tampil bila ia tidak memegang kelas, dan ikut berubah tanpa refresh saat
-laboran menambah atau menghapusnya (event `class`). Kelas yang ia pegang juga
-tampil di Jadwal dengan tanda "Asisten" (lihat "Jadwal").
+pegang), lewat `AssistedClassesBloc` di `lib/features/user_details`. Urutannya
+abjad, nama mata kuliah lalu nama kelas, mengikuti urutan dari backend. Bagian
+ini tidak tampil bila ia tidak memegang kelas, dan ikut berubah tanpa refresh
+saat laboran menambah atau menghapusnya (event `class`). Kelas yang ia pegang
+juga tampil di Jadwal dengan tanda "Asisten" (lihat "Jadwal").
 
 ## Alur yang tersambung ke web
 
