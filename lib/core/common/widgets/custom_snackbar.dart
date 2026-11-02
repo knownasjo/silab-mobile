@@ -24,6 +24,9 @@ SnackBar snackBar({
 
   return SnackBar(
     duration: const Duration(seconds: 3),
+    persist: action != null &&
+        actionLabel != null &&
+        WidgetsBinding.instance.accessibilityFeatures.accessibleNavigation,
     content: Text(
       message!,
       style: TextStyle(

@@ -18,11 +18,12 @@ terjadi di dua tempat (`lib/core/helpers/login_number.dart`):
 
 ## Kebutuhan
 
-- Flutter 3.24.x (Dart 3.5.4), sesuai `environment.sdk` di `pubspec.yaml`
+- Flutter 3.47.9 (Dart 3.13.7)
 - `silab-backend` berjalan (lihat README-nya), bawaan di port 3000
-- Untuk Android: Android SDK dengan platform 35 dan **JDK 17**. Gradle 8.10.2
-  belum mendukung JDK 21, jadi arahkan `JAVA_HOME` ke JDK 17 bila JDK bawaan
-  laptop lebih baru
+- Untuk Android: Android SDK dengan platform 36 dan **JDK 17** (versi minimal
+  untuk Gradle 9 dan AGP 9). NDK 28.2 dan build-tools 36 diunduh otomatis saat
+  build pertama. JDK 21 juga bisa, tetapi perintah build di bawah tetap memakai
+  JDK 17, versi yang dipakai saat pengujian
 
 ## Menjalankan
 
@@ -70,21 +71,98 @@ Bila HP tidak bisa tersambung:
 
 ### Konfigurasi Android
 
-`mobile_scanner` 6.0.x memakai CameraX 1.5, yang membutuhkan versi berikut.
-Versi bawaan proyek (AGP 7.3.0, Gradle 7.6.3, Kotlin 1.8.0, minSdk 21) gagal
-di-build:
+Versi Android mengikuti templat Flutter 3.47. Flutter menolak build dengan
+Gradle di bawah 8.14, AGP di bawah 8.11.1, atau Kotlin di bawah 2.2.20:
 
 | | Versi |
 |---|---|
-| Android Gradle Plugin | 8.7.3 (`android/settings.gradle`) |
-| Gradle | 8.10.2 (`android/gradle/wrapper/gradle-wrapper.properties`) |
-| Kotlin | 2.1.0 |
-| compileSdk / minSdk | 35 / 23 (Android 6.0) |
+| Android Gradle Plugin | 9.1.0 (`android/settings.gradle`) |
+| Gradle | 9.3.1 (`android/gradle/wrapper/gradle-wrapper.properties`) |
+| Kotlin | 2.4.0 |
+| Java untuk kode Android | 17 |
+| compileSdk / targetSdk / minSdk | 36 / 36 / 24 (Android 7.0), nilai bawaan Flutter |
+
+Penyesuaian untuk AGP 9 mengikuti panduan resmi Flutter:
+
+- `android/gradle.properties` berisi `android.newDsl=false` dan
+  `android.builtInKotlin=false`, karena `flutter_udid`, `mobile_scanner`,
+  `shared_preferences_android`, dan `smart_auth` (dari `pinput`) belum
+  mendukung Kotlin bawaan AGP 9. Build menampilkan peringatan untuk keempat
+  plugin itu; peringatan hilang setelah plugin-plugin itu dinaikkan atau
+  dilepas.
+- Plugin `kotlin-android` dilepas dari `android/app/build.gradle` dan diganti
+  blok `kotlin { compilerOptions { jvmTarget = JVM_17 } }`.
+- `buildFeatures { resValues = true }`, karena flavor memakai `resValue` untuk
+  nama aplikasi dan AGP 9 mematikannya secara bawaan.
+- `android/build.gradle` memakai `layout.buildDirectory`, karena `buildDir`
+  dihapus di Gradle 9.
+
+Dua pengaturan menjaga aplikasi tetap bekerja seperti di Flutter 3.24:
+
+- `android:enableOnBackInvokedCallback="false"` di `AndroidManifest.xml`.
+  Dengan targetSdk 36, Android 16 memakai *predictive back*. Bersama go_router
+  14 dan menu bawah (`StatefulShellRoute`), tombol kembali setelah dialog atau
+  halaman scan ditutup dari halaman di dalam tab malah menutup aplikasi
+  ([flutter#146341](https://github.com/flutter/flutter/issues/146341)),
+  misalnya Detail Kelas → Scan QR → kembali → kembali. Pengaturan resmi
+  Android ini membuat tombol kembali bekerja seperti dulu. go_router 17.5
+  memperbaiki kasus itu, tetapi tombol kembali jadi macet setelah pindah tab
+  ([flutter#193098](https://github.com/flutter/flutter/issues/193098)). Periksa
+  lagi saat go_router dinaikkan atau targetSdk naik ke 37.
+- `android/app/proguard-rules.pro` berisi aturan `-keep` untuk kelas
+  `ComponentRegistrar`. R8 di AGP 9 (mode ketat
+  `android.r8.strictFullModeForKeepRules`) membuang konstruktor kelas
+  pendaftar ML Kit, sehingga di APK rilis halaman scan hanya menampilkan
+  "Kamera tidak bisa dibuka". Flutter memasukkan file ini ke build rilis
+  secara otomatis. Mode ketat sengaja tidak dimatikan lewat
+  `gradle.properties` karena pengaturan itu dihapus di AGP 10.
 
 `flutter_local_notifications` mewajibkan *core library desugaring*, jadi
 fitur itu diaktifkan di `android/app/build.gradle`. Plugin Google Services
 (sisa FlutterFire) dilepas karena aplikasi tidak memakai Firebase dan
 `google-services.json` tidak ada.
+
+### Flutter 3.47
+
+Sejak 3 November 2026 aplikasi memakai Flutter 3.47.9 (sebelumnya 3.24.5).
+Selain konfigurasi Android di atas, yang berubah:
+
+- `skeletonizer` naik dari 1.4 ke 2.1.3 karena 1.x tidak bisa di-compile
+  dengan Flutter 3.47. Versi 3 sengaja belum dipakai karena warna kerangka
+  memuat akan mengikuti mode gelap HP.
+- `flutter_udid` naik dari 4.0.0 ke 4.1.6 (lihat "Satu HP satu akun per
+  pertemuan"), dan `google_fonts` dari 6.3.0 ke 6.3.3 di `pubspec.lock`;
+  file huruf Manrope di dalamnya sama persis.
+- Android 6 tidak didukung lagi; minimal Android 7.0.
+- `analysis_options.yaml` mendapat daftar `exclude` folder platform yang
+  ditambahkan otomatis oleh Flutter.
+- Snackbar bertombol (misalnya "Ulangi") tetap hilang sendiri setelah 3 detik
+  seperti dulu. Sejak Flutter 3.47 snackbar bertombol bawaannya tidak hilang
+  sendiri, jadi `custom_snackbar.dart` mengatur `persist` dengan aturan
+  Flutter lama: snackbar bertombol hanya tetap tampil bila TalkBack menyala.
+
+Tampilan yang sengaja mengikuti Flutter 3.47 dan Android 16:
+
+- Aplikasi tampil *edge-to-edge*, yang diwajibkan Android 15 ke atas untuk
+  targetSdk 35 ke atas: bilah navigasi bawah HP mengikuti warna aplikasi
+  (putih, dulu hitam), navigasi 3 tombol tembus pandang, bilah status di
+  halaman Masuk putih (dulu abu-abu) dan isi halaman Masuk turun sekitar
+  12 dp, dan gambar kamera di halaman scan sampai ke balik bilah sistem.
+- Kolom isian bergaris (`CustomFormField`): teks bergeser 4 dp ke kanan
+  (jarak tetap Material 3 antara ikon dan teks), dan tulisan petunjuk sedikit
+  lebih renggang (jarak huruf 0,5, dulu 0,15).
+- Ikon di `TextButton.icon` ("Coba lagi", "Salin isi", dan lainnya) 18 dp,
+  dulu 24 dp.
+
+Pembaruan ini diuji dengan membandingkan APK lama (Flutter 3.24.5) dan APK
+baru di emulator Android 16. Hasilnya: 216 tes widget dan 6 tes live tetap
+lulus, dan gambar akhir setiap tes widget hanya berbeda pada tiga perubahan
+tampilan di atas (selebihnya selisih yang tidak terlihat mata: pembulatan
+warna 1/255 dan penghalusan tepi garis dan huruf). Kode HP
+sama, sehingga presensi QR tetap berstatus BIASA. APK baru yang dipasang di
+atas APK lama tetap masuk tanpa login ulang. Permintaan ke server sama persis
+(96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama, dan snackbar
+"Ulangi" tampil sekitar 3 detik seperti dulu.
 
 ## Akun uji
 
@@ -441,9 +519,11 @@ akun lain di pertemuan ini." dan pesan itu tampil seperti penolakan lain.
   (`~/.android/debug.keystore`), jadi selalu build dari laptop yang sama dan
   simpan cadangan file kunci itu. Kunci berbeda membuat kode HP semua
   mahasiswa berubah, dan APK baru tidak bisa dipasang di atas APK lama.
-- `flutter_udid` dikunci di versi 4.0.0 karena versi 4.1 ke atas butuh Flutter
-  yang lebih baru dari 3.24. Kode yang dihasilkan sama, jadi paketnya bisa
-  ikut dinaikkan saat Flutter dinaikkan.
+- `flutter_udid` dikunci di versi 4.1.6 supaya cara membuat kode HP tidak
+  berubah tanpa diperiksa. Paket ini naik dari 4.0.0 bersama Flutter 3.47
+  karena 4.0.0 memakai repositori `jcenter()` yang sudah dihapus di Gradle 9.
+  Kode Android kedua versi sama persis, dan kode HP sebelum dan sesudah naik
+  sudah dicek sama, jadi kode HP mahasiswa tidak berubah.
 - Bila kode HP tidak terbaca, login tetap berjalan tanpa kode, sedangkan scan
   dibalas server "Perbarui aplikasi SILAB ke versi terbaru untuk melakukan
   presensi."
