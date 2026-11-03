@@ -21,9 +21,9 @@ terjadi di dua tempat (`lib/core/helpers/login_number.dart`):
 - Flutter 3.47.9 (Dart 3.13.7)
 - `silab-backend` berjalan (lihat README-nya), bawaan di port 3000
 - Untuk Android: Android SDK dengan platform 36 dan **JDK 17** (versi minimal
-  untuk Gradle 9 dan AGP 9). NDK 28.2 dan build-tools 36 diunduh otomatis saat
-  build pertama. JDK 21 juga bisa, tetapi perintah build di bawah tetap memakai
-  JDK 17, versi yang dipakai saat pengujian
+  untuk Gradle 9 dan AGP 9). NDK 28.2, CMake 3.22.1, dan build-tools 36
+  diunduh otomatis saat build pertama. JDK 21 juga bisa, tetapi perintah build
+  di bawah tetap memakai JDK 17, versi yang dipakai saat pengujian
 
 ## Menjalankan
 
@@ -252,6 +252,25 @@ atas APK lama tetap masuk tanpa login ulang, permintaan ke server sama (96
 permintaan dalam 47 langkah), 10 kasus tombol kembali sama, dan presensi QR
 sungguhan tetap tercatat hadir dengan status BIASA. Di emulator, ikon menu
 bawah di 32 layar sama persis sampai tiap piksel.
+
+`shared_preferences` naik dari 2.5.3 ke 2.5.6, bersama
+`shared_preferences_android` 2.5.4 (dari 2.4.7),
+`shared_preferences_platform_interface` 2.4.2, dan
+`shared_preferences_foundation` 2.5.7 (khusus iOS dan macOS) di
+`pubspec.lock`. Di Android, plugin ini kini ditulis dengan Kotlin dan dipanggil
+lewat JNI, sehingga paket `jni` dan `jni_util` ikut masuk, APK membawa pustaka
+`libdartjni.so` dan AndroidX DataStore 1.2.1 (sekitar 0,8 MB lebih besar), dan
+build pertama mengunduh CMake 3.22.1. `linux/flutter/generated_plugins.cmake`
+dan `windows/flutter/generated_plugins.cmake` ikut berubah otomatis karena
+`jni` adalah plugin FFI. Token login tetap disimpan dengan cara yang sama:
+kunci `flutter.accessToken` dan `flutter.refreshToken` di
+`FlutterSharedPreferences.xml`. Di emulator, isi file itu sama dengan versi
+lama setelah login, setelah update, dan setelah keluar, dan APK baru
+membacanya tanpa menulis ulang. Diuji dengan cara yang sama: 216 tes widget dan
+6 tes live lulus dengan gambar akhir sama persis, APK baru yang dipasang di
+atas APK lama tetap masuk tanpa login ulang, permintaan ke server sama (96
+permintaan dalam 47 langkah), 10 kasus tombol kembali sama, dan presensi QR
+sungguhan tetap tercatat hadir dengan status BIASA.
 
 ## Akun uji
 
