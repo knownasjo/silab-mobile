@@ -6,20 +6,20 @@ part of 'user_detail_response_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UserDetailResponseEntityImpl _$$UserDetailResponseEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$UserDetailResponseEntityImpl(
-      status: json['status'] as bool?,
-      message: json['message'] as String?,
-      data: json['data'] == null
-          ? null
-          : UserDetailEntity.fromJson(json['data'] as Map<String, dynamic>),
-    );
+_UserDetailResponseEntity _$UserDetailResponseEntityFromJson(
+  Map<String, dynamic> json,
+) => _UserDetailResponseEntity(
+  status: json['status'] as bool?,
+  message: json['message'] as String?,
+  data: json['data'] == null
+      ? null
+      : UserDetailEntity.fromJson(json['data'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$$UserDetailResponseEntityImplToJson(
-        _$UserDetailResponseEntityImpl instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-    };
+Map<String, dynamic> _$UserDetailResponseEntityToJson(
+  _UserDetailResponseEntity instance,
+) => <String, dynamic>{
+  'status': instance.status,
+  'message': instance.message,
+  'data': instance.data,
+};

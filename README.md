@@ -208,6 +208,23 @@ tetap masuk tanpa login ulang, permintaan ke server sama (96 permintaan dalam
 47 langkah), 10 kasus tombol kembali sama, dan presensi QR sungguhan tetap
 tercatat hadir dengan status BIASA.
 
+Alat pembuat kode entity naik ke versi terbaru: `freezed` 4.0.3 (dari 2.5.2),
+`json_serializable` 6.15.2 (dari 6.8.0), `build_runner` 2.17.1 (dari 2.4.13),
+`freezed_annotation` 3.1.0, dan `json_annotation` 4.12.0. `freezed` 4
+membutuhkan bahasa Dart 3.13, jadi batas SDK di `pubspec.yaml` menjadi
+`^3.13.7`. Karena itu 37 class entity kini ditulis `abstract class`, kata
+`final` di parameter entity dihapus (155 tempat), dan semua file
+`.freezed.dart` dan `.g.dart` dibuat ulang. Cara membaca dan menulis JSON
+tidak berubah: isi `.g.dart` sama dengan yang lama kecuali nama class
+internal, dan hasil `fromJson`, `toJson`, `==`, `copyWith`, dan `toString`
+ke-37 entity, baik dengan jawaban asli backend maupun data bertipe salah, sama
+persis dengan kode lama. Kenaikan bahasa Dart dari 3.5 ke 3.13 juga tidak
+mengubah tipe yang disimpulkan Dart di file lain. Diuji dengan cara yang sama:
+216 tes widget dan 6 tes live lulus dengan gambar akhir sama persis, APK baru
+yang dipasang di atas APK lama tetap masuk tanpa login ulang, permintaan ke
+server sama (96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama,
+dan presensi QR sungguhan tetap tercatat hadir dengan status BIASA.
+
 ## Akun uji
 
 | NIM | Password |
@@ -702,22 +719,19 @@ dan `GET /class` (kelas yang dipegang sebagai asisten), dikelompokkan per hari
 - Tombol kembali di halaman scan dipindah ke kiri atas; di HP 360×640 dulu
   tombol itu menimpa sudut kiri bawah bingkai.
 
-Entity memakai `freezed`/`json_serializable`. Setelah mengubah entity:
+Entity memakai `freezed`/`json_serializable`. Class entity ditulis
+`@freezed abstract class NamaEntity with _$NamaEntity`, dan parameter
+`factory`-nya tanpa `final` (Dart 3.13 tidak mengizinkannya lagi). Setelah
+mengubah entity:
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
-Jangan menggabungkan `--build-filter` dengan `--delete-conflicting-outputs`:
-file generate milik entity lain ikut terhapus.
-
-Sejak Flutter 3.47, `pubspec.lock` memakai `freezed` 2.5.2 dan
-`json_serializable` 6.8.0: versi yang lebih baru dalam batas `pubspec.yaml`
-memakai `analyzer` 7, yang gagal membaca sintaks baru Dart di dalam Flutter
-3.47. Karena itu perintah di atas menulis ulang semua file `.freezed.dart`
-dengan gaya `freezed` 2.5.2 (tanpa komentar dokumentasi dan dengan
-`@JsonKey(ignore: true)`), dengan fungsi yang sama. File `.g.dart` tidak
-berubah.
+File generate yang sudah tidak cocok dihapus dan dibuat ulang otomatis, jadi
+opsi `--delete-conflicting-outputs` tidak dipakai lagi (`build_runner` kini
+mengabaikannya dengan peringatan). Jangan memakai `--build-filter`: di salinan
+yang belum pernah di-build, file generate milik entity lain ikut terhapus.
 
 ## Tes
 

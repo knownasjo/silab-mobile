@@ -4,10 +4,10 @@ part 'attendance_entity.freezed.dart';
 part 'attendance_entity.g.dart';
 
 @freezed
-class AttendanceEntity with _$AttendanceEntity {
+abstract class AttendanceEntity with _$AttendanceEntity {
   const factory AttendanceEntity({
-    final bool? status,
-    final String? message,
+    bool? status,
+    String? message,
   }) = _AttendanceEntity;
 
   factory AttendanceEntity.fromJson(Map<String, dynamic> json) =>

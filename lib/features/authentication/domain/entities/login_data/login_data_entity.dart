@@ -4,10 +4,10 @@ part 'login_data_entity.freezed.dart';
 part 'login_data_entity.g.dart';
 
 @freezed
-class LoginDataEntity with _$LoginDataEntity {
+abstract class LoginDataEntity with _$LoginDataEntity {
   const factory LoginDataEntity({
-    final String? accessToken,
-    final String? refreshToken,
+    String? accessToken,
+    String? refreshToken,
   }) = _LoginDataEntity;
 
   factory LoginDataEntity.fromJson(Map<String, dynamic> json) =>

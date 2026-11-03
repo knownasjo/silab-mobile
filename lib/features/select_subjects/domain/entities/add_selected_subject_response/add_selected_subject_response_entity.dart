@@ -5,11 +5,11 @@ part 'add_selected_subject_response_entity.freezed.dart';
 part 'add_selected_subject_response_entity.g.dart';
 
 @freezed
-class AddSelectedSubjectResponseEntity with _$AddSelectedSubjectResponseEntity {
+abstract class AddSelectedSubjectResponseEntity with _$AddSelectedSubjectResponseEntity {
   const factory AddSelectedSubjectResponseEntity({
-    final bool? status,
-    final String? message,
-    final AddSubjectSubjectsEntity? data,
+    bool? status,
+    String? message,
+    AddSubjectSubjectsEntity? data,
   }) = _AddSelectedSubjectResponseEntity;
 
   factory AddSelectedSubjectResponseEntity.fromJson(

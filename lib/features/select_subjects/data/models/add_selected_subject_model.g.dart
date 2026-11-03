@@ -7,8 +7,5 @@ part of 'add_selected_subject_model.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$AddSelectedSubjectModelToJson(
-        AddSelectedSubjectModel instance) =>
-    <String, dynamic>{
-      'nim': instance.nim,
-      'subjects': instance.subjects,
-    };
+  AddSelectedSubjectModel instance,
+) => <String, dynamic>{'nim': instance.nim, 'subjects': instance.subjects};

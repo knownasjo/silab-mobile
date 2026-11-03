@@ -4,19 +4,19 @@ part 'class_entity.freezed.dart';
 part 'class_entity.g.dart';
 
 @freezed
-class ClassEntity with _$ClassEntity {
+abstract class ClassEntity with _$ClassEntity {
   const factory ClassEntity({
-    final String? id,
-    final String? subject,
-    final String? name,
-    final int? quota,
-    final bool? isFull,
-    final String? day,
-    final String? startAt,
-    final String? endAt,
-    final String? ruang,
-    final List<String>? participants,
-    final List<String>? learningModule,
+    String? id,
+    String? subject,
+    String? name,
+    int? quota,
+    bool? isFull,
+    String? day,
+    String? startAt,
+    String? endAt,
+    String? ruang,
+    List<String>? participants,
+    List<String>? learningModule,
   }) = _ClassEntity;
 
   factory ClassEntity.fromJson(Map<String, dynamic> json) =>

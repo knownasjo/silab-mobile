@@ -5,11 +5,11 @@ part 'announcement_response_entity.freezed.dart';
 part 'announcement_response_entity.g.dart';
 
 @freezed
-class AnnouncementResponseEntity with _$AnnouncementResponseEntity {
+abstract class AnnouncementResponseEntity with _$AnnouncementResponseEntity {
   const factory AnnouncementResponseEntity({
-    final bool? status,
-    final String? message,
-    final AnnouncementEntity? data,
+    bool? status,
+    String? message,
+    AnnouncementEntity? data,
   }) = _AnnouncementResponseEntity;
 
   factory AnnouncementResponseEntity.fromJson(Map<String, dynamic> json) =>

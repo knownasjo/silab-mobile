@@ -6,16 +6,11 @@ part of 'classmate_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ClassmateEntityImpl _$$ClassmateEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ClassmateEntityImpl(
+_ClassmateEntity _$ClassmateEntityFromJson(Map<String, dynamic> json) =>
+    _ClassmateEntity(
       name: json['name'] as String?,
       isMe: json['isMe'] as bool?,
     );
 
-Map<String, dynamic> _$$ClassmateEntityImplToJson(
-        _$ClassmateEntityImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'isMe': instance.isMe,
-    };
+Map<String, dynamic> _$ClassmateEntityToJson(_ClassmateEntity instance) =>
+    <String, dynamic>{'name': instance.name, 'isMe': instance.isMe};

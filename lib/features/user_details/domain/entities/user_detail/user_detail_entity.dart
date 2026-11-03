@@ -4,11 +4,11 @@ part 'user_detail_entity.freezed.dart';
 part 'user_detail_entity.g.dart';
 
 @freezed
-class UserDetailEntity with _$UserDetailEntity {
+abstract class UserDetailEntity with _$UserDetailEntity {
   const factory UserDetailEntity({
-    final String? nim,
-    @JsonKey(name: 'name') final String? fullname,
-    final String? email,
+    String? nim,
+    @JsonKey(name: 'name') String? fullname,
+    String? email,
   }) = _UserDetailEntity;
 
   factory UserDetailEntity.fromJson(Map<String, dynamic> json) =>

@@ -5,10 +5,10 @@ part 'schedule_entity.freezed.dart';
 part 'schedule_entity.g.dart';
 
 @freezed
-class ScheduleEntity with _$ScheduleEntity {
+abstract class ScheduleEntity with _$ScheduleEntity {
   const factory ScheduleEntity({
-    final String? day,
-    final List<PracticumsEntity>? practicums,
+    String? day,
+    List<PracticumsEntity>? practicums,
   }) = _ScheduleEntity;
 
   factory ScheduleEntity.fromJson(Map<String, dynamic> json) =>

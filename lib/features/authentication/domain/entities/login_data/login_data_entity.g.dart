@@ -6,15 +6,13 @@ part of 'login_data_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LoginDataEntityImpl _$$LoginDataEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$LoginDataEntityImpl(
+_LoginDataEntity _$LoginDataEntityFromJson(Map<String, dynamic> json) =>
+    _LoginDataEntity(
       accessToken: json['accessToken'] as String?,
       refreshToken: json['refreshToken'] as String?,
     );
 
-Map<String, dynamic> _$$LoginDataEntityImplToJson(
-        _$LoginDataEntityImpl instance) =>
+Map<String, dynamic> _$LoginDataEntityToJson(_LoginDataEntity instance) =>
     <String, dynamic>{
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,

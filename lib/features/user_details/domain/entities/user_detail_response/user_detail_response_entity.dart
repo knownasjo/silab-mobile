@@ -5,11 +5,11 @@ part 'user_detail_response_entity.freezed.dart';
 part 'user_detail_response_entity.g.dart';
 
 @freezed
-class UserDetailResponseEntity with _$UserDetailResponseEntity {
+abstract class UserDetailResponseEntity with _$UserDetailResponseEntity {
   const factory UserDetailResponseEntity({
-    final bool? status,
-    final String? message,
-    final UserDetailEntity? data,
+    bool? status,
+    String? message,
+    UserDetailEntity? data,
   }) = _UserDetailResponseEntity;
 
   factory UserDetailResponseEntity.fromJson(Map<String, dynamic> json) =>

@@ -6,16 +6,16 @@ part of 'selected_subject_subjects.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SelectedSubjectSubjectsEntityImpl
-    _$$SelectedSubjectSubjectsEntityImplFromJson(Map<String, dynamic> json) =>
-        _$SelectedSubjectSubjectsEntityImpl(
-          subjectName: json['subjectName'] as String?,
-          semester: json['semester'] as String?,
-        );
+_SelectedSubjectSubjectsEntity _$SelectedSubjectSubjectsEntityFromJson(
+  Map<String, dynamic> json,
+) => _SelectedSubjectSubjectsEntity(
+  subjectName: json['subjectName'] as String?,
+  semester: json['semester'] as String?,
+);
 
-Map<String, dynamic> _$$SelectedSubjectSubjectsEntityImplToJson(
-        _$SelectedSubjectSubjectsEntityImpl instance) =>
-    <String, dynamic>{
-      'subjectName': instance.subjectName,
-      'semester': instance.semester,
-    };
+Map<String, dynamic> _$SelectedSubjectSubjectsEntityToJson(
+  _SelectedSubjectSubjectsEntity instance,
+) => <String, dynamic>{
+  'subjectName': instance.subjectName,
+  'semester': instance.semester,
+};

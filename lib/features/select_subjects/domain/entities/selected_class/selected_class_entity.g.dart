@@ -6,16 +6,15 @@ part of 'selected_class_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SelectedClassEntityImpl _$$SelectedClassEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SelectedClassEntityImpl(
+_SelectedClassEntity _$SelectedClassEntityFromJson(Map<String, dynamic> json) =>
+    _SelectedClassEntity(
       subjectName: json['subjectName'] as String?,
       className: json['className'] as String?,
     );
 
-Map<String, dynamic> _$$SelectedClassEntityImplToJson(
-        _$SelectedClassEntityImpl instance) =>
-    <String, dynamic>{
-      'subjectName': instance.subjectName,
-      'className': instance.className,
-    };
+Map<String, dynamic> _$SelectedClassEntityToJson(
+  _SelectedClassEntity instance,
+) => <String, dynamic>{
+  'subjectName': instance.subjectName,
+  'className': instance.className,
+};

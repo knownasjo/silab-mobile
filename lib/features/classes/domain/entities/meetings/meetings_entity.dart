@@ -6,15 +6,15 @@ part 'meetings_entity.g.dart';
 enum AttendanceStatus { hadir, tidakHadir, belumPresensi }
 
 @freezed
-class MeetingsEntity with _$MeetingsEntity {
+abstract class MeetingsEntity with _$MeetingsEntity {
   const MeetingsEntity._();
 
   const factory MeetingsEntity({
-    final String? id,
-    final String? meetingName,
-    final String? submittedAt,
-    final bool? isAttended,
-    final bool? isOpen,
+    String? id,
+    String? meetingName,
+    String? submittedAt,
+    bool? isAttended,
+    bool? isOpen,
   }) = _MeetingsEntity;
 
   AttendanceStatus get attendanceStatus {

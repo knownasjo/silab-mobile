@@ -6,18 +6,17 @@ part of 'class_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ClassEntityImpl _$$ClassEntityImplFromJson(Map<String, dynamic> json) =>
-    _$ClassEntityImpl(
-      id: json['id'] as String?,
-      subjectName: json['subjectName'] as String?,
-      subjectClass: json['subjectClass'] as String?,
-      day: json['day'] as String?,
-      lecturer: json['lecturer'] as String?,
-      sessionTime: json['sessionTime'] as String?,
-      room: json['room'] as String?,
-    );
+_ClassEntity _$ClassEntityFromJson(Map<String, dynamic> json) => _ClassEntity(
+  id: json['id'] as String?,
+  subjectName: json['subjectName'] as String?,
+  subjectClass: json['subjectClass'] as String?,
+  day: json['day'] as String?,
+  lecturer: json['lecturer'] as String?,
+  sessionTime: json['sessionTime'] as String?,
+  room: json['room'] as String?,
+);
 
-Map<String, dynamic> _$$ClassEntityImplToJson(_$ClassEntityImpl instance) =>
+Map<String, dynamic> _$ClassEntityToJson(_ClassEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'subjectName': instance.subjectName,

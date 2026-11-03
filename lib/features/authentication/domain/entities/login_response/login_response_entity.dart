@@ -5,11 +5,11 @@ part 'login_response_entity.freezed.dart';
 part 'login_response_entity.g.dart';
 
 @freezed
-class LoginResponseEntity with _$LoginResponseEntity {
+abstract class LoginResponseEntity with _$LoginResponseEntity {
   const factory LoginResponseEntity({
-    final bool? status,
-    final String? message,
-    final LoginDataEntity? data,
+    bool? status,
+    String? message,
+    LoginDataEntity? data,
   }) = _LoginResponseEntity;
 
   factory LoginResponseEntity.fromJson(Map<String, dynamic> json) =>

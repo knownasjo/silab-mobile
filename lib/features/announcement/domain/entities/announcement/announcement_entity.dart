@@ -4,14 +4,14 @@ part 'announcement_entity.freezed.dart';
 part 'announcement_entity.g.dart';
 
 @freezed
-class AnnouncementEntity with _$AnnouncementEntity {
+abstract class AnnouncementEntity with _$AnnouncementEntity {
   const factory AnnouncementEntity({
-    final String? id,
-    final String? title,
-    final String? type,
-    final String? body,
-    final String? createdAt,
-    final String? author,
+    String? id,
+    String? title,
+    String? type,
+    String? body,
+    String? createdAt,
+    String? author,
   }) = _AnnouncementEntity;
 
   factory AnnouncementEntity.fromJson(Map<String, dynamic> json) =>

@@ -4,12 +4,12 @@ part 'activation_class_entity.freezed.dart';
 part 'activation_class_entity.g.dart';
 
 @freezed
-class ActivationClassEntity with _$ActivationClassEntity {
+abstract class ActivationClassEntity with _$ActivationClassEntity {
   const factory ActivationClassEntity({
-    final String? id,
-    final String? name,
-    final String? day,
-    final String? sessionTime,
+    String? id,
+    String? name,
+    String? day,
+    String? sessionTime,
   }) = _ActivationClassEntity;
 
   factory ActivationClassEntity.fromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'add_subject_subjects_entity.dart';
@@ -9,163 +9,277 @@ part of 'add_subject_subjects_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-AddSubjectSubjectsEntity _$AddSubjectSubjectsEntityFromJson(
-    Map<String, dynamic> json) {
-  return _AddSubjectSubjectsEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$AddSubjectSubjectsEntity {
-  String? get id => throw _privateConstructorUsedError;
+
+ String? get id;
+/// Create a copy of AddSubjectSubjectsEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AddSubjectSubjectsEntityCopyWith<AddSubjectSubjectsEntity> get copyWith => _$AddSubjectSubjectsEntityCopyWithImpl<AddSubjectSubjectsEntity>(this as AddSubjectSubjectsEntity, _$identity);
 
   /// Serializes this AddSubjectSubjectsEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of AddSubjectSubjectsEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AddSubjectSubjectsEntityCopyWith<AddSubjectSubjectsEntity> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as AddSubjectSubjectsEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddSubjectSubjectsEntity&&(identical(other.id, _this.id) || other.id == _this.id));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as AddSubjectSubjectsEntity;
+  return Object.hash(runtimeType,_this.id);
+}
+
+@override
+String toString() {
+  final _this = this as AddSubjectSubjectsEntity;
+  return 'AddSubjectSubjectsEntity(id: ${_this.id})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AddSubjectSubjectsEntityCopyWith<$Res> {
-  factory $AddSubjectSubjectsEntityCopyWith(AddSubjectSubjectsEntity value,
-          $Res Function(AddSubjectSubjectsEntity) then) =
-      _$AddSubjectSubjectsEntityCopyWithImpl<$Res, AddSubjectSubjectsEntity>;
-  @useResult
-  $Res call({String? id});
-}
+abstract mixin class $AddSubjectSubjectsEntityCopyWith<$Res>  {
+  factory $AddSubjectSubjectsEntityCopyWith(AddSubjectSubjectsEntity value, $Res Function(AddSubjectSubjectsEntity) _then) = _$AddSubjectSubjectsEntityCopyWithImpl;
+@useResult
+$Res call({
+ String? id
+});
 
+
+
+
+}
 /// @nodoc
-class _$AddSubjectSubjectsEntityCopyWithImpl<$Res,
-        $Val extends AddSubjectSubjectsEntity>
+class _$AddSubjectSubjectsEntityCopyWithImpl<$Res>
     implements $AddSubjectSubjectsEntityCopyWith<$Res> {
-  _$AddSubjectSubjectsEntityCopyWithImpl(this._value, this._then);
+  _$AddSubjectSubjectsEntityCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AddSubjectSubjectsEntity _self;
+  final $Res Function(AddSubjectSubjectsEntity) _then;
 
-  /// Create a copy of AddSubjectSubjectsEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
+/// Create a copy of AddSubjectSubjectsEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,}) {
+  return _then(AddSubjectSubjectsEntity(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$AddSubjectSubjectsEntityImplCopyWith<$Res>
-    implements $AddSubjectSubjectsEntityCopyWith<$Res> {
-  factory _$$AddSubjectSubjectsEntityImplCopyWith(
-          _$AddSubjectSubjectsEntityImpl value,
-          $Res Function(_$AddSubjectSubjectsEntityImpl) then) =
-      __$$AddSubjectSubjectsEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? id});
 }
 
-/// @nodoc
-class __$$AddSubjectSubjectsEntityImplCopyWithImpl<$Res>
-    extends _$AddSubjectSubjectsEntityCopyWithImpl<$Res,
-        _$AddSubjectSubjectsEntityImpl>
-    implements _$$AddSubjectSubjectsEntityImplCopyWith<$Res> {
-  __$$AddSubjectSubjectsEntityImplCopyWithImpl(
-      _$AddSubjectSubjectsEntityImpl _value,
-      $Res Function(_$AddSubjectSubjectsEntityImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of AddSubjectSubjectsEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-  }) {
-    return _then(_$AddSubjectSubjectsEntityImpl(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+/// Adds pattern-matching-related methods to [AddSubjectSubjectsEntity].
+extension AddSubjectSubjectsEntityPatterns on AddSubjectSubjectsEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AddSubjectSubjectsEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AddSubjectSubjectsEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AddSubjectSubjectsEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _AddSubjectSubjectsEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AddSubjectSubjectsEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AddSubjectSubjectsEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AddSubjectSubjectsEntity() when $default != null:
+return $default(_that.id);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id)  $default,) {final _that = this;
+switch (_that) {
+case _AddSubjectSubjectsEntity():
+return $default(_that.id);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id)?  $default,) {final _that = this;
+switch (_that) {
+case _AddSubjectSubjectsEntity() when $default != null:
+return $default(_that.id);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AddSubjectSubjectsEntityImpl implements _AddSubjectSubjectsEntity {
-  const _$AddSubjectSubjectsEntityImpl({this.id});
 
-  factory _$AddSubjectSubjectsEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AddSubjectSubjectsEntityImplFromJson(json);
+class _AddSubjectSubjectsEntity implements AddSubjectSubjectsEntity {
+  const _AddSubjectSubjectsEntity({this.id});
+  factory _AddSubjectSubjectsEntity.fromJson(Map<String, dynamic> json) => _$AddSubjectSubjectsEntityFromJson(json);
 
-  @override
-  final String? id;
+@override final  String? id;
 
-  @override
-  String toString() {
+/// Create a copy of AddSubjectSubjectsEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AddSubjectSubjectsEntityCopyWith<_AddSubjectSubjectsEntity> get copyWith => __$AddSubjectSubjectsEntityCopyWithImpl<_AddSubjectSubjectsEntity>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AddSubjectSubjectsEntityToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddSubjectSubjectsEntity&&(identical(other.id, id) || other.id == id));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id);
+}
+
+@override
+String toString() {
     return 'AddSubjectSubjectsEntity(id: $id)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AddSubjectSubjectsEntityImpl &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id);
-
-  /// Create a copy of AddSubjectSubjectsEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AddSubjectSubjectsEntityImplCopyWith<_$AddSubjectSubjectsEntityImpl>
-      get copyWith => __$$AddSubjectSubjectsEntityImplCopyWithImpl<
-          _$AddSubjectSubjectsEntityImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AddSubjectSubjectsEntityImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _AddSubjectSubjectsEntity implements AddSubjectSubjectsEntity {
-  const factory _AddSubjectSubjectsEntity({final String? id}) =
-      _$AddSubjectSubjectsEntityImpl;
 
-  factory _AddSubjectSubjectsEntity.fromJson(Map<String, dynamic> json) =
-      _$AddSubjectSubjectsEntityImpl.fromJson;
-
-  @override
-  String? get id;
-
-  /// Create a copy of AddSubjectSubjectsEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AddSubjectSubjectsEntityImplCopyWith<_$AddSubjectSubjectsEntityImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$AddSubjectSubjectsEntityCopyWith<$Res> implements $AddSubjectSubjectsEntityCopyWith<$Res> {
+  factory _$AddSubjectSubjectsEntityCopyWith(_AddSubjectSubjectsEntity value, $Res Function(_AddSubjectSubjectsEntity) _then) = __$AddSubjectSubjectsEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ String? id
+});
+
+
+
+
+}
+/// @nodoc
+class __$AddSubjectSubjectsEntityCopyWithImpl<$Res>
+    implements _$AddSubjectSubjectsEntityCopyWith<$Res> {
+  __$AddSubjectSubjectsEntityCopyWithImpl(this._self, this._then);
+
+  final _AddSubjectSubjectsEntity _self;
+  final $Res Function(_AddSubjectSubjectsEntity) _then;
+
+/// Create a copy of AddSubjectSubjectsEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,}) {
+  return _then(_AddSubjectSubjectsEntity(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+// dart format on

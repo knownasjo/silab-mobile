@@ -4,14 +4,14 @@ part 'class_participants_entity.freezed.dart';
 part 'class_participants_entity.g.dart';
 
 @freezed
-class ClassParticipantsEntity with _$ClassParticipantsEntity {
+abstract class ClassParticipantsEntity with _$ClassParticipantsEntity {
   const factory ClassParticipantsEntity({
-    final String? id,
-    final String? email,
-    final String? fullname,
-    final String? nim,
-    final List<String>? role,
-    final bool? paid,
+    String? id,
+    String? email,
+    String? fullname,
+    String? nim,
+    List<String>? role,
+    bool? paid,
   }) = _ClassParticipantsEntity;
 
   factory ClassParticipantsEntity.fromJson(Map<String, dynamic> json) =>

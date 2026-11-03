@@ -5,15 +5,15 @@ part 'practicums_entity.freezed.dart';
 part 'practicums_entity.g.dart';
 
 @freezed
-class PracticumsEntity with _$PracticumsEntity {
+abstract class PracticumsEntity with _$PracticumsEntity {
   const factory PracticumsEntity({
-    final String? subjectName,
-    final String? subjectClass,
-    final String? session,
-    final String? classId,
-    final String? room,
-    final bool? isAssistant,
-    final ClassEntity? classEntity,
+    String? subjectName,
+    String? subjectClass,
+    String? session,
+    String? classId,
+    String? room,
+    bool? isAssistant,
+    ClassEntity? classEntity,
   }) = _PracticumsEntity;
 
   factory PracticumsEntity.fromJson(Map<String, dynamic> json) =>

@@ -7,7 +7,4 @@ part of 'login_model.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$LoginModelToJson(LoginModel instance) =>
-    <String, dynamic>{
-      'nim': instance.nim,
-      'password': instance.password,
-    };
+    <String, dynamic>{'nim': instance.nim, 'password': instance.password};

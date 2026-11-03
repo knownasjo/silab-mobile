@@ -6,8 +6,8 @@ part of 'meetings_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MeetingsEntityImpl _$$MeetingsEntityImplFromJson(Map<String, dynamic> json) =>
-    _$MeetingsEntityImpl(
+_MeetingsEntity _$MeetingsEntityFromJson(Map<String, dynamic> json) =>
+    _MeetingsEntity(
       id: json['id'] as String?,
       meetingName: json['meetingName'] as String?,
       submittedAt: json['submittedAt'] as String?,
@@ -15,8 +15,7 @@ _$MeetingsEntityImpl _$$MeetingsEntityImplFromJson(Map<String, dynamic> json) =>
       isOpen: json['isOpen'] as bool?,
     );
 
-Map<String, dynamic> _$$MeetingsEntityImplToJson(
-        _$MeetingsEntityImpl instance) =>
+Map<String, dynamic> _$MeetingsEntityToJson(_MeetingsEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'meetingName': instance.meetingName,

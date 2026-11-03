@@ -4,10 +4,10 @@ part 'add_selected_class_response_entity.freezed.dart';
 part 'add_selected_class_response_entity.g.dart';
 
 @freezed
-class AddSelectedClassResponseEntity with _$AddSelectedClassResponseEntity {
+abstract class AddSelectedClassResponseEntity with _$AddSelectedClassResponseEntity {
   const factory AddSelectedClassResponseEntity({
-    final bool? status,
-    final String? message,
+    bool? status,
+    String? message,
   }) = _AddSelectedClassResponseEntity;
 
   factory AddSelectedClassResponseEntity.fromJson(Map<String, dynamic> json) =>

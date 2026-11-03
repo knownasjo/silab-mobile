@@ -6,9 +6,8 @@ part of 'class_response_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ClassResponseEntityImpl _$$ClassResponseEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ClassResponseEntityImpl(
+_ClassResponseEntity _$ClassResponseEntityFromJson(Map<String, dynamic> json) =>
+    _ClassResponseEntity(
       status: (json['status'] as num?)?.toInt(),
       message: json['message'] as String?,
       data: json['data'] == null
@@ -16,10 +15,10 @@ _$ClassResponseEntityImpl _$$ClassResponseEntityImplFromJson(
           : ClassEntity.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ClassResponseEntityImplToJson(
-        _$ClassResponseEntityImpl instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-    };
+Map<String, dynamic> _$ClassResponseEntityToJson(
+  _ClassResponseEntity instance,
+) => <String, dynamic>{
+  'status': instance.status,
+  'message': instance.message,
+  'data': instance.data,
+};

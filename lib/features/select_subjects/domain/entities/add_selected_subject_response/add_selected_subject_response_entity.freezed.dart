@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'add_selected_subject_response_entity.dart';
@@ -9,226 +9,307 @@ part of 'add_selected_subject_response_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-AddSelectedSubjectResponseEntity _$AddSelectedSubjectResponseEntityFromJson(
-    Map<String, dynamic> json) {
-  return _AddSelectedSubjectResponseEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$AddSelectedSubjectResponseEntity {
-  bool? get status => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
-  AddSubjectSubjectsEntity? get data => throw _privateConstructorUsedError;
+
+ bool? get status; String? get message; AddSubjectSubjectsEntity? get data;
+/// Create a copy of AddSelectedSubjectResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AddSelectedSubjectResponseEntityCopyWith<AddSelectedSubjectResponseEntity> get copyWith => _$AddSelectedSubjectResponseEntityCopyWithImpl<AddSelectedSubjectResponseEntity>(this as AddSelectedSubjectResponseEntity, _$identity);
 
   /// Serializes this AddSelectedSubjectResponseEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of AddSelectedSubjectResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AddSelectedSubjectResponseEntityCopyWith<AddSelectedSubjectResponseEntity>
-      get copyWith => throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as AddSelectedSubjectResponseEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddSelectedSubjectResponseEntity&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.data, _this.data) || other.data == _this.data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as AddSelectedSubjectResponseEntity;
+  return Object.hash(runtimeType,_this.status,_this.message,_this.data);
+}
+
+@override
+String toString() {
+  final _this = this as AddSelectedSubjectResponseEntity;
+  return 'AddSelectedSubjectResponseEntity(status: ${_this.status}, message: ${_this.message}, data: ${_this.data})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AddSelectedSubjectResponseEntityCopyWith<$Res> {
-  factory $AddSelectedSubjectResponseEntityCopyWith(
-          AddSelectedSubjectResponseEntity value,
-          $Res Function(AddSelectedSubjectResponseEntity) then) =
-      _$AddSelectedSubjectResponseEntityCopyWithImpl<$Res,
-          AddSelectedSubjectResponseEntity>;
-  @useResult
-  $Res call({bool? status, String? message, AddSubjectSubjectsEntity? data});
+abstract mixin class $AddSelectedSubjectResponseEntityCopyWith<$Res>  {
+  factory $AddSelectedSubjectResponseEntityCopyWith(AddSelectedSubjectResponseEntity value, $Res Function(AddSelectedSubjectResponseEntity) _then) = _$AddSelectedSubjectResponseEntityCopyWithImpl;
+@useResult
+$Res call({
+ bool? status, String? message, AddSubjectSubjectsEntity? data
+});
 
-  $AddSubjectSubjectsEntityCopyWith<$Res>? get data;
+
+$AddSubjectSubjectsEntityCopyWith<$Res>? get data;
+
 }
-
 /// @nodoc
-class _$AddSelectedSubjectResponseEntityCopyWithImpl<$Res,
-        $Val extends AddSelectedSubjectResponseEntity>
+class _$AddSelectedSubjectResponseEntityCopyWithImpl<$Res>
     implements $AddSelectedSubjectResponseEntityCopyWith<$Res> {
-  _$AddSelectedSubjectResponseEntityCopyWithImpl(this._value, this._then);
+  _$AddSelectedSubjectResponseEntityCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AddSelectedSubjectResponseEntity _self;
+  final $Res Function(AddSelectedSubjectResponseEntity) _then;
 
-  /// Create a copy of AddSelectedSubjectResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
-    Object? data = freezed,
-  }) {
-    return _then(_value.copyWith(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as AddSubjectSubjectsEntity?,
-    ) as $Val);
+/// Create a copy of AddSelectedSubjectResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? message = freezed,Object? data = freezed,}) {
+  return _then(AddSelectedSubjectResponseEntity(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as bool?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AddSubjectSubjectsEntity?,
+  ));
+}
+/// Create a copy of AddSelectedSubjectResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AddSubjectSubjectsEntityCopyWith<$Res>? get data {
+    if (_self.data == null) {
+    return null;
   }
 
-  /// Create a copy of AddSelectedSubjectResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddSubjectSubjectsEntityCopyWith<$Res>? get data {
-    if (_value.data == null) {
-      return null;
-    }
-
-    return $AddSubjectSubjectsEntityCopyWith<$Res>(_value.data!, (value) {
-      return _then(_value.copyWith(data: value) as $Val);
-    });
-  }
+  return $AddSubjectSubjectsEntityCopyWith<$Res>(_self.data!, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
 }
 
-/// @nodoc
-abstract class _$$AddSelectedSubjectResponseEntityImplCopyWith<$Res>
-    implements $AddSelectedSubjectResponseEntityCopyWith<$Res> {
-  factory _$$AddSelectedSubjectResponseEntityImplCopyWith(
-          _$AddSelectedSubjectResponseEntityImpl value,
-          $Res Function(_$AddSelectedSubjectResponseEntityImpl) then) =
-      __$$AddSelectedSubjectResponseEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({bool? status, String? message, AddSubjectSubjectsEntity? data});
 
-  @override
-  $AddSubjectSubjectsEntityCopyWith<$Res>? get data;
+/// Adds pattern-matching-related methods to [AddSelectedSubjectResponseEntity].
+extension AddSelectedSubjectResponseEntityPatterns on AddSelectedSubjectResponseEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AddSelectedSubjectResponseEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AddSelectedSubjectResponseEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AddSelectedSubjectResponseEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _AddSelectedSubjectResponseEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AddSelectedSubjectResponseEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AddSelectedSubjectResponseEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? status,  String? message,  AddSubjectSubjectsEntity? data)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AddSelectedSubjectResponseEntity() when $default != null:
+return $default(_that.status,_that.message,_that.data);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? status,  String? message,  AddSubjectSubjectsEntity? data)  $default,) {final _that = this;
+switch (_that) {
+case _AddSelectedSubjectResponseEntity():
+return $default(_that.status,_that.message,_that.data);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? status,  String? message,  AddSubjectSubjectsEntity? data)?  $default,) {final _that = this;
+switch (_that) {
+case _AddSelectedSubjectResponseEntity() when $default != null:
+return $default(_that.status,_that.message,_that.data);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-class __$$AddSelectedSubjectResponseEntityImplCopyWithImpl<$Res>
-    extends _$AddSelectedSubjectResponseEntityCopyWithImpl<$Res,
-        _$AddSelectedSubjectResponseEntityImpl>
-    implements _$$AddSelectedSubjectResponseEntityImplCopyWith<$Res> {
-  __$$AddSelectedSubjectResponseEntityImplCopyWithImpl(
-      _$AddSelectedSubjectResponseEntityImpl _value,
-      $Res Function(_$AddSelectedSubjectResponseEntityImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AddSelectedSubjectResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
-    Object? data = freezed,
-  }) {
-    return _then(_$AddSelectedSubjectResponseEntityImpl(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as AddSubjectSubjectsEntity?,
-    ));
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AddSelectedSubjectResponseEntityImpl
-    implements _AddSelectedSubjectResponseEntity {
-  const _$AddSelectedSubjectResponseEntityImpl(
-      {this.status, this.message, this.data});
 
-  factory _$AddSelectedSubjectResponseEntityImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$AddSelectedSubjectResponseEntityImplFromJson(json);
+class _AddSelectedSubjectResponseEntity implements AddSelectedSubjectResponseEntity {
+  const _AddSelectedSubjectResponseEntity({this.status, this.message, this.data});
+  factory _AddSelectedSubjectResponseEntity.fromJson(Map<String, dynamic> json) => _$AddSelectedSubjectResponseEntityFromJson(json);
 
-  @override
-  final bool? status;
-  @override
-  final String? message;
-  @override
-  final AddSubjectSubjectsEntity? data;
+@override final  bool? status;
+@override final  String? message;
+@override final  AddSubjectSubjectsEntity? data;
 
-  @override
-  String toString() {
+/// Create a copy of AddSelectedSubjectResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AddSelectedSubjectResponseEntityCopyWith<_AddSelectedSubjectResponseEntity> get copyWith => __$AddSelectedSubjectResponseEntityCopyWithImpl<_AddSelectedSubjectResponseEntity>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AddSelectedSubjectResponseEntityToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddSelectedSubjectResponseEntity&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message)&&(identical(other.data, data) || other.data == data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,status,message,data);
+}
+
+@override
+String toString() {
     return 'AddSelectedSubjectResponseEntity(status: $status, message: $message, data: $data)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AddSelectedSubjectResponseEntityImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.data, data) || other.data == data));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, status, message, data);
-
-  /// Create a copy of AddSelectedSubjectResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AddSelectedSubjectResponseEntityImplCopyWith<
-          _$AddSelectedSubjectResponseEntityImpl>
-      get copyWith => __$$AddSelectedSubjectResponseEntityImplCopyWithImpl<
-          _$AddSelectedSubjectResponseEntityImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AddSelectedSubjectResponseEntityImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _AddSelectedSubjectResponseEntity
-    implements AddSelectedSubjectResponseEntity {
-  const factory _AddSelectedSubjectResponseEntity(
-          {final bool? status,
-          final String? message,
-          final AddSubjectSubjectsEntity? data}) =
-      _$AddSelectedSubjectResponseEntityImpl;
 
-  factory _AddSelectedSubjectResponseEntity.fromJson(
-          Map<String, dynamic> json) =
-      _$AddSelectedSubjectResponseEntityImpl.fromJson;
-
-  @override
-  bool? get status;
-  @override
-  String? get message;
-  @override
-  AddSubjectSubjectsEntity? get data;
-
-  /// Create a copy of AddSelectedSubjectResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AddSelectedSubjectResponseEntityImplCopyWith<
-          _$AddSelectedSubjectResponseEntityImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$AddSelectedSubjectResponseEntityCopyWith<$Res> implements $AddSelectedSubjectResponseEntityCopyWith<$Res> {
+  factory _$AddSelectedSubjectResponseEntityCopyWith(_AddSelectedSubjectResponseEntity value, $Res Function(_AddSelectedSubjectResponseEntity) _then) = __$AddSelectedSubjectResponseEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ bool? status, String? message, AddSubjectSubjectsEntity? data
+});
+
+
+@override $AddSubjectSubjectsEntityCopyWith<$Res>? get data;
+
+}
+/// @nodoc
+class __$AddSelectedSubjectResponseEntityCopyWithImpl<$Res>
+    implements _$AddSelectedSubjectResponseEntityCopyWith<$Res> {
+  __$AddSelectedSubjectResponseEntityCopyWithImpl(this._self, this._then);
+
+  final _AddSelectedSubjectResponseEntity _self;
+  final $Res Function(_AddSelectedSubjectResponseEntity) _then;
+
+/// Create a copy of AddSelectedSubjectResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? message = freezed,Object? data = freezed,}) {
+  return _then(_AddSelectedSubjectResponseEntity(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as bool?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as AddSubjectSubjectsEntity?,
+  ));
+}
+
+/// Create a copy of AddSelectedSubjectResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AddSubjectSubjectsEntityCopyWith<$Res>? get data {
+    if (_self.data == null) {
+    return null;
+  }
+
+  return $AddSubjectSubjectsEntityCopyWith<$Res>(_self.data!, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
+}
+
+// dart format on

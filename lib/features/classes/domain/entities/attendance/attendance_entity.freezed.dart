@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'attendance_entity.dart';
@@ -9,174 +9,280 @@ part of 'attendance_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-AttendanceEntity _$AttendanceEntityFromJson(Map<String, dynamic> json) {
-  return _AttendanceEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$AttendanceEntity {
-  bool? get status => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
+
+ bool? get status; String? get message;
+/// Create a copy of AttendanceEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AttendanceEntityCopyWith<AttendanceEntity> get copyWith => _$AttendanceEntityCopyWithImpl<AttendanceEntity>(this as AttendanceEntity, _$identity);
 
   /// Serializes this AttendanceEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of AttendanceEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AttendanceEntityCopyWith<AttendanceEntity> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as AttendanceEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AttendanceEntity&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.message, _this.message) || other.message == _this.message));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as AttendanceEntity;
+  return Object.hash(runtimeType,_this.status,_this.message);
+}
+
+@override
+String toString() {
+  final _this = this as AttendanceEntity;
+  return 'AttendanceEntity(status: ${_this.status}, message: ${_this.message})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AttendanceEntityCopyWith<$Res> {
-  factory $AttendanceEntityCopyWith(
-          AttendanceEntity value, $Res Function(AttendanceEntity) then) =
-      _$AttendanceEntityCopyWithImpl<$Res, AttendanceEntity>;
-  @useResult
-  $Res call({bool? status, String? message});
-}
+abstract mixin class $AttendanceEntityCopyWith<$Res>  {
+  factory $AttendanceEntityCopyWith(AttendanceEntity value, $Res Function(AttendanceEntity) _then) = _$AttendanceEntityCopyWithImpl;
+@useResult
+$Res call({
+ bool? status, String? message
+});
 
+
+
+
+}
 /// @nodoc
-class _$AttendanceEntityCopyWithImpl<$Res, $Val extends AttendanceEntity>
+class _$AttendanceEntityCopyWithImpl<$Res>
     implements $AttendanceEntityCopyWith<$Res> {
-  _$AttendanceEntityCopyWithImpl(this._value, this._then);
+  _$AttendanceEntityCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AttendanceEntity _self;
+  final $Res Function(AttendanceEntity) _then;
 
-  /// Create a copy of AttendanceEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
-  }) {
-    return _then(_value.copyWith(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
+/// Create a copy of AttendanceEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? message = freezed,}) {
+  return _then(AttendanceEntity(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as bool?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$AttendanceEntityImplCopyWith<$Res>
-    implements $AttendanceEntityCopyWith<$Res> {
-  factory _$$AttendanceEntityImplCopyWith(_$AttendanceEntityImpl value,
-          $Res Function(_$AttendanceEntityImpl) then) =
-      __$$AttendanceEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({bool? status, String? message});
 }
 
-/// @nodoc
-class __$$AttendanceEntityImplCopyWithImpl<$Res>
-    extends _$AttendanceEntityCopyWithImpl<$Res, _$AttendanceEntityImpl>
-    implements _$$AttendanceEntityImplCopyWith<$Res> {
-  __$$AttendanceEntityImplCopyWithImpl(_$AttendanceEntityImpl _value,
-      $Res Function(_$AttendanceEntityImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of AttendanceEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
-  }) {
-    return _then(_$AttendanceEntityImpl(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+/// Adds pattern-matching-related methods to [AttendanceEntity].
+extension AttendanceEntityPatterns on AttendanceEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AttendanceEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AttendanceEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AttendanceEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _AttendanceEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AttendanceEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AttendanceEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? status,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AttendanceEntity() when $default != null:
+return $default(_that.status,_that.message);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? status,  String? message)  $default,) {final _that = this;
+switch (_that) {
+case _AttendanceEntity():
+return $default(_that.status,_that.message);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? status,  String? message)?  $default,) {final _that = this;
+switch (_that) {
+case _AttendanceEntity() when $default != null:
+return $default(_that.status,_that.message);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AttendanceEntityImpl implements _AttendanceEntity {
-  const _$AttendanceEntityImpl({this.status, this.message});
 
-  factory _$AttendanceEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AttendanceEntityImplFromJson(json);
+class _AttendanceEntity implements AttendanceEntity {
+  const _AttendanceEntity({this.status, this.message});
+  factory _AttendanceEntity.fromJson(Map<String, dynamic> json) => _$AttendanceEntityFromJson(json);
 
-  @override
-  final bool? status;
-  @override
-  final String? message;
+@override final  bool? status;
+@override final  String? message;
 
-  @override
-  String toString() {
+/// Create a copy of AttendanceEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AttendanceEntityCopyWith<_AttendanceEntity> get copyWith => __$AttendanceEntityCopyWithImpl<_AttendanceEntity>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AttendanceEntityToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AttendanceEntity&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,status,message);
+}
+
+@override
+String toString() {
     return 'AttendanceEntity(status: $status, message: $message)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AttendanceEntityImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, status, message);
-
-  /// Create a copy of AttendanceEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AttendanceEntityImplCopyWith<_$AttendanceEntityImpl> get copyWith =>
-      __$$AttendanceEntityImplCopyWithImpl<_$AttendanceEntityImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AttendanceEntityImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _AttendanceEntity implements AttendanceEntity {
-  const factory _AttendanceEntity({final bool? status, final String? message}) =
-      _$AttendanceEntityImpl;
 
-  factory _AttendanceEntity.fromJson(Map<String, dynamic> json) =
-      _$AttendanceEntityImpl.fromJson;
-
-  @override
-  bool? get status;
-  @override
-  String? get message;
-
-  /// Create a copy of AttendanceEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AttendanceEntityImplCopyWith<_$AttendanceEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$AttendanceEntityCopyWith<$Res> implements $AttendanceEntityCopyWith<$Res> {
+  factory _$AttendanceEntityCopyWith(_AttendanceEntity value, $Res Function(_AttendanceEntity) _then) = __$AttendanceEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ bool? status, String? message
+});
+
+
+
+
+}
+/// @nodoc
+class __$AttendanceEntityCopyWithImpl<$Res>
+    implements _$AttendanceEntityCopyWith<$Res> {
+  __$AttendanceEntityCopyWithImpl(this._self, this._then);
+
+  final _AttendanceEntity _self;
+  final $Res Function(_AttendanceEntity) _then;
+
+/// Create a copy of AttendanceEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? message = freezed,}) {
+  return _then(_AttendanceEntity(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as bool?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+// dart format on

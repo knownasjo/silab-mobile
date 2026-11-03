@@ -5,11 +5,11 @@ part 'classes_details_response_entity.freezed.dart';
 part 'classes_details_response_entity.g.dart';
 
 @freezed
-class ClassesDetailsResponseEntity with _$ClassesDetailsResponseEntity {
+abstract class ClassesDetailsResponseEntity with _$ClassesDetailsResponseEntity {
   const factory ClassesDetailsResponseEntity({
-    final int? status,
-    final String? message,
-    final List<ClassEntity>? data,
+    int? status,
+    String? message,
+    List<ClassEntity>? data,
   }) = _ClassesDetailsResponseEntity;
 
   factory ClassesDetailsResponseEntity.fromJson(Map<String, dynamic> json) =>

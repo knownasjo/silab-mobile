@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'class_entity.dart';
@@ -9,285 +9,295 @@ part of 'class_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-ClassEntity _$ClassEntityFromJson(Map<String, dynamic> json) {
-  return _ClassEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$ClassEntity {
-  String? get id => throw _privateConstructorUsedError;
-  String? get subjectName => throw _privateConstructorUsedError;
-  String? get subjectClass => throw _privateConstructorUsedError;
-  String? get day => throw _privateConstructorUsedError;
-  String? get lecturer => throw _privateConstructorUsedError;
-  String? get sessionTime => throw _privateConstructorUsedError;
-  String? get room => throw _privateConstructorUsedError;
+
+ String? get id; String? get subjectName; String? get subjectClass; String? get day; String? get lecturer; String? get sessionTime; String? get room;
+/// Create a copy of ClassEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ClassEntityCopyWith<ClassEntity> get copyWith => _$ClassEntityCopyWithImpl<ClassEntity>(this as ClassEntity, _$identity);
 
   /// Serializes this ClassEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of ClassEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ClassEntityCopyWith<ClassEntity> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ClassEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClassEntity&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.subjectName, _this.subjectName) || other.subjectName == _this.subjectName)&&(identical(other.subjectClass, _this.subjectClass) || other.subjectClass == _this.subjectClass)&&(identical(other.day, _this.day) || other.day == _this.day)&&(identical(other.lecturer, _this.lecturer) || other.lecturer == _this.lecturer)&&(identical(other.sessionTime, _this.sessionTime) || other.sessionTime == _this.sessionTime)&&(identical(other.room, _this.room) || other.room == _this.room));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as ClassEntity;
+  return Object.hash(runtimeType,_this.id,_this.subjectName,_this.subjectClass,_this.day,_this.lecturer,_this.sessionTime,_this.room);
+}
+
+@override
+String toString() {
+  final _this = this as ClassEntity;
+  return 'ClassEntity(id: ${_this.id}, subjectName: ${_this.subjectName}, subjectClass: ${_this.subjectClass}, day: ${_this.day}, lecturer: ${_this.lecturer}, sessionTime: ${_this.sessionTime}, room: ${_this.room})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ClassEntityCopyWith<$Res> {
-  factory $ClassEntityCopyWith(
-          ClassEntity value, $Res Function(ClassEntity) then) =
-      _$ClassEntityCopyWithImpl<$Res, ClassEntity>;
-  @useResult
-  $Res call(
-      {String? id,
-      String? subjectName,
-      String? subjectClass,
-      String? day,
-      String? lecturer,
-      String? sessionTime,
-      String? room});
-}
+abstract mixin class $ClassEntityCopyWith<$Res>  {
+  factory $ClassEntityCopyWith(ClassEntity value, $Res Function(ClassEntity) _then) = _$ClassEntityCopyWithImpl;
+@useResult
+$Res call({
+ String? id, String? subjectName, String? subjectClass, String? day, String? lecturer, String? sessionTime, String? room
+});
 
+
+
+
+}
 /// @nodoc
-class _$ClassEntityCopyWithImpl<$Res, $Val extends ClassEntity>
+class _$ClassEntityCopyWithImpl<$Res>
     implements $ClassEntityCopyWith<$Res> {
-  _$ClassEntityCopyWithImpl(this._value, this._then);
+  _$ClassEntityCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ClassEntity _self;
+  final $Res Function(ClassEntity) _then;
 
-  /// Create a copy of ClassEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? subjectName = freezed,
-    Object? subjectClass = freezed,
-    Object? day = freezed,
-    Object? lecturer = freezed,
-    Object? sessionTime = freezed,
-    Object? room = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subjectName: freezed == subjectName
-          ? _value.subjectName
-          : subjectName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subjectClass: freezed == subjectClass
-          ? _value.subjectClass
-          : subjectClass // ignore: cast_nullable_to_non_nullable
-              as String?,
-      day: freezed == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lecturer: freezed == lecturer
-          ? _value.lecturer
-          : lecturer // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sessionTime: freezed == sessionTime
-          ? _value.sessionTime
-          : sessionTime // ignore: cast_nullable_to_non_nullable
-              as String?,
-      room: freezed == room
-          ? _value.room
-          : room // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
+/// Create a copy of ClassEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? subjectName = freezed,Object? subjectClass = freezed,Object? day = freezed,Object? lecturer = freezed,Object? sessionTime = freezed,Object? room = freezed,}) {
+  return _then(ClassEntity(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,subjectName: freezed == subjectName ? _self.subjectName : subjectName // ignore: cast_nullable_to_non_nullable
+as String?,subjectClass: freezed == subjectClass ? _self.subjectClass : subjectClass // ignore: cast_nullable_to_non_nullable
+as String?,day: freezed == day ? _self.day : day // ignore: cast_nullable_to_non_nullable
+as String?,lecturer: freezed == lecturer ? _self.lecturer : lecturer // ignore: cast_nullable_to_non_nullable
+as String?,sessionTime: freezed == sessionTime ? _self.sessionTime : sessionTime // ignore: cast_nullable_to_non_nullable
+as String?,room: freezed == room ? _self.room : room // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$ClassEntityImplCopyWith<$Res>
-    implements $ClassEntityCopyWith<$Res> {
-  factory _$$ClassEntityImplCopyWith(
-          _$ClassEntityImpl value, $Res Function(_$ClassEntityImpl) then) =
-      __$$ClassEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String? id,
-      String? subjectName,
-      String? subjectClass,
-      String? day,
-      String? lecturer,
-      String? sessionTime,
-      String? room});
 }
 
-/// @nodoc
-class __$$ClassEntityImplCopyWithImpl<$Res>
-    extends _$ClassEntityCopyWithImpl<$Res, _$ClassEntityImpl>
-    implements _$$ClassEntityImplCopyWith<$Res> {
-  __$$ClassEntityImplCopyWithImpl(
-      _$ClassEntityImpl _value, $Res Function(_$ClassEntityImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of ClassEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? subjectName = freezed,
-    Object? subjectClass = freezed,
-    Object? day = freezed,
-    Object? lecturer = freezed,
-    Object? sessionTime = freezed,
-    Object? room = freezed,
-  }) {
-    return _then(_$ClassEntityImpl(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subjectName: freezed == subjectName
-          ? _value.subjectName
-          : subjectName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subjectClass: freezed == subjectClass
-          ? _value.subjectClass
-          : subjectClass // ignore: cast_nullable_to_non_nullable
-              as String?,
-      day: freezed == day
-          ? _value.day
-          : day // ignore: cast_nullable_to_non_nullable
-              as String?,
-      lecturer: freezed == lecturer
-          ? _value.lecturer
-          : lecturer // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sessionTime: freezed == sessionTime
-          ? _value.sessionTime
-          : sessionTime // ignore: cast_nullable_to_non_nullable
-              as String?,
-      room: freezed == room
-          ? _value.room
-          : room // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+/// Adds pattern-matching-related methods to [ClassEntity].
+extension ClassEntityPatterns on ClassEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ClassEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ClassEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ClassEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _ClassEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ClassEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ClassEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? subjectName,  String? subjectClass,  String? day,  String? lecturer,  String? sessionTime,  String? room)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ClassEntity() when $default != null:
+return $default(_that.id,_that.subjectName,_that.subjectClass,_that.day,_that.lecturer,_that.sessionTime,_that.room);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? subjectName,  String? subjectClass,  String? day,  String? lecturer,  String? sessionTime,  String? room)  $default,) {final _that = this;
+switch (_that) {
+case _ClassEntity():
+return $default(_that.id,_that.subjectName,_that.subjectClass,_that.day,_that.lecturer,_that.sessionTime,_that.room);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? subjectName,  String? subjectClass,  String? day,  String? lecturer,  String? sessionTime,  String? room)?  $default,) {final _that = this;
+switch (_that) {
+case _ClassEntity() when $default != null:
+return $default(_that.id,_that.subjectName,_that.subjectClass,_that.day,_that.lecturer,_that.sessionTime,_that.room);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ClassEntityImpl implements _ClassEntity {
-  const _$ClassEntityImpl(
-      {this.id,
-      this.subjectName,
-      this.subjectClass,
-      this.day,
-      this.lecturer,
-      this.sessionTime,
-      this.room});
 
-  factory _$ClassEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ClassEntityImplFromJson(json);
+class _ClassEntity implements ClassEntity {
+  const _ClassEntity({this.id, this.subjectName, this.subjectClass, this.day, this.lecturer, this.sessionTime, this.room});
+  factory _ClassEntity.fromJson(Map<String, dynamic> json) => _$ClassEntityFromJson(json);
 
-  @override
-  final String? id;
-  @override
-  final String? subjectName;
-  @override
-  final String? subjectClass;
-  @override
-  final String? day;
-  @override
-  final String? lecturer;
-  @override
-  final String? sessionTime;
-  @override
-  final String? room;
+@override final  String? id;
+@override final  String? subjectName;
+@override final  String? subjectClass;
+@override final  String? day;
+@override final  String? lecturer;
+@override final  String? sessionTime;
+@override final  String? room;
 
-  @override
-  String toString() {
+/// Create a copy of ClassEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ClassEntityCopyWith<_ClassEntity> get copyWith => __$ClassEntityCopyWithImpl<_ClassEntity>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ClassEntityToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClassEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.subjectName, subjectName) || other.subjectName == subjectName)&&(identical(other.subjectClass, subjectClass) || other.subjectClass == subjectClass)&&(identical(other.day, day) || other.day == day)&&(identical(other.lecturer, lecturer) || other.lecturer == lecturer)&&(identical(other.sessionTime, sessionTime) || other.sessionTime == sessionTime)&&(identical(other.room, room) || other.room == room));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,subjectName,subjectClass,day,lecturer,sessionTime,room);
+}
+
+@override
+String toString() {
     return 'ClassEntity(id: $id, subjectName: $subjectName, subjectClass: $subjectClass, day: $day, lecturer: $lecturer, sessionTime: $sessionTime, room: $room)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ClassEntityImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.subjectName, subjectName) ||
-                other.subjectName == subjectName) &&
-            (identical(other.subjectClass, subjectClass) ||
-                other.subjectClass == subjectClass) &&
-            (identical(other.day, day) || other.day == day) &&
-            (identical(other.lecturer, lecturer) ||
-                other.lecturer == lecturer) &&
-            (identical(other.sessionTime, sessionTime) ||
-                other.sessionTime == sessionTime) &&
-            (identical(other.room, room) || other.room == room));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, subjectName, subjectClass,
-      day, lecturer, sessionTime, room);
-
-  /// Create a copy of ClassEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ClassEntityImplCopyWith<_$ClassEntityImpl> get copyWith =>
-      __$$ClassEntityImplCopyWithImpl<_$ClassEntityImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ClassEntityImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _ClassEntity implements ClassEntity {
-  const factory _ClassEntity(
-      {final String? id,
-      final String? subjectName,
-      final String? subjectClass,
-      final String? day,
-      final String? lecturer,
-      final String? sessionTime,
-      final String? room}) = _$ClassEntityImpl;
 
-  factory _ClassEntity.fromJson(Map<String, dynamic> json) =
-      _$ClassEntityImpl.fromJson;
-
-  @override
-  String? get id;
-  @override
-  String? get subjectName;
-  @override
-  String? get subjectClass;
-  @override
-  String? get day;
-  @override
-  String? get lecturer;
-  @override
-  String? get sessionTime;
-  @override
-  String? get room;
-
-  /// Create a copy of ClassEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ClassEntityImplCopyWith<_$ClassEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$ClassEntityCopyWith<$Res> implements $ClassEntityCopyWith<$Res> {
+  factory _$ClassEntityCopyWith(_ClassEntity value, $Res Function(_ClassEntity) _then) = __$ClassEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ String? id, String? subjectName, String? subjectClass, String? day, String? lecturer, String? sessionTime, String? room
+});
+
+
+
+
+}
+/// @nodoc
+class __$ClassEntityCopyWithImpl<$Res>
+    implements _$ClassEntityCopyWith<$Res> {
+  __$ClassEntityCopyWithImpl(this._self, this._then);
+
+  final _ClassEntity _self;
+  final $Res Function(_ClassEntity) _then;
+
+/// Create a copy of ClassEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? subjectName = freezed,Object? subjectClass = freezed,Object? day = freezed,Object? lecturer = freezed,Object? sessionTime = freezed,Object? room = freezed,}) {
+  return _then(_ClassEntity(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,subjectName: freezed == subjectName ? _self.subjectName : subjectName // ignore: cast_nullable_to_non_nullable
+as String?,subjectClass: freezed == subjectClass ? _self.subjectClass : subjectClass // ignore: cast_nullable_to_non_nullable
+as String?,day: freezed == day ? _self.day : day // ignore: cast_nullable_to_non_nullable
+as String?,lecturer: freezed == lecturer ? _self.lecturer : lecturer // ignore: cast_nullable_to_non_nullable
+as String?,sessionTime: freezed == sessionTime ? _self.sessionTime : sessionTime // ignore: cast_nullable_to_non_nullable
+as String?,room: freezed == room ? _self.room : room // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+// dart format on

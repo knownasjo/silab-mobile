@@ -6,9 +6,8 @@ part of 'announcement_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AnnouncementEntityImpl _$$AnnouncementEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AnnouncementEntityImpl(
+_AnnouncementEntity _$AnnouncementEntityFromJson(Map<String, dynamic> json) =>
+    _AnnouncementEntity(
       id: json['id'] as String?,
       title: json['title'] as String?,
       type: json['type'] as String?,
@@ -17,8 +16,7 @@ _$AnnouncementEntityImpl _$$AnnouncementEntityImplFromJson(
       author: json['author'] as String?,
     );
 
-Map<String, dynamic> _$$AnnouncementEntityImplToJson(
-        _$AnnouncementEntityImpl instance) =>
+Map<String, dynamic> _$AnnouncementEntityToJson(_AnnouncementEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

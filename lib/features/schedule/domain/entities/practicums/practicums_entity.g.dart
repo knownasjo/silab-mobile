@@ -6,9 +6,8 @@ part of 'practicums_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PracticumsEntityImpl _$$PracticumsEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$PracticumsEntityImpl(
+_PracticumsEntity _$PracticumsEntityFromJson(Map<String, dynamic> json) =>
+    _PracticumsEntity(
       subjectName: json['subjectName'] as String?,
       subjectClass: json['subjectClass'] as String?,
       session: json['session'] as String?,
@@ -20,8 +19,7 @@ _$PracticumsEntityImpl _$$PracticumsEntityImplFromJson(
           : ClassEntity.fromJson(json['classEntity'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$PracticumsEntityImplToJson(
-        _$PracticumsEntityImpl instance) =>
+Map<String, dynamic> _$PracticumsEntityToJson(_PracticumsEntity instance) =>
     <String, dynamic>{
       'subjectName': instance.subjectName,
       'subjectClass': instance.subjectClass,

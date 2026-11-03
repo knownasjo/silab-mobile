@@ -6,16 +6,13 @@ part of 'add_selected_class_response_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AddSelectedClassResponseEntityImpl
-    _$$AddSelectedClassResponseEntityImplFromJson(Map<String, dynamic> json) =>
-        _$AddSelectedClassResponseEntityImpl(
-          status: json['status'] as bool?,
-          message: json['message'] as String?,
-        );
+_AddSelectedClassResponseEntity _$AddSelectedClassResponseEntityFromJson(
+  Map<String, dynamic> json,
+) => _AddSelectedClassResponseEntity(
+  status: json['status'] as bool?,
+  message: json['message'] as String?,
+);
 
-Map<String, dynamic> _$$AddSelectedClassResponseEntityImplToJson(
-        _$AddSelectedClassResponseEntityImpl instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-    };
+Map<String, dynamic> _$AddSelectedClassResponseEntityToJson(
+  _AddSelectedClassResponseEntity instance,
+) => <String, dynamic>{'status': instance.status, 'message': instance.message};

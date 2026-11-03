@@ -5,11 +5,11 @@ part 'subject_list_response_entity.freezed.dart';
 part 'subject_list_response_entity.g.dart';
 
 @freezed
-class SubjectListResponseEntity with _$SubjectListResponseEntity {
+abstract class SubjectListResponseEntity with _$SubjectListResponseEntity {
   const factory SubjectListResponseEntity({
-    final bool? status,
-    final String? message,
-    final List<SubjectEntity>? data,
+    bool? status,
+    String? message,
+    List<SubjectEntity>? data,
   }) = _SubjectListResponseEntity;
 
   factory SubjectListResponseEntity.fromJson(Map<String, dynamic> json) =>

@@ -6,15 +6,15 @@ part 'selected_subject_entity.freezed.dart';
 part 'selected_subject_entity.g.dart';
 
 @freezed
-class SelectedSubjectEntity with _$SelectedSubjectEntity {
+abstract class SelectedSubjectEntity with _$SelectedSubjectEntity {
   const factory SelectedSubjectEntity({
-    @JsonKey(name: 'id') final String? activationId,
-    final bool? status,
-    final String? createdAt,
-    final String? subjectId,
-    final List<SelectedSubjectSubjectsEntity>? subjects,
-    final ActivationClassEntity? registeredClass,
-    final List<ActivationClassEntity>? availableClasses,
+    @JsonKey(name: 'id') String? activationId,
+    bool? status,
+    String? createdAt,
+    String? subjectId,
+    List<SelectedSubjectSubjectsEntity>? subjects,
+    ActivationClassEntity? registeredClass,
+    List<ActivationClassEntity>? availableClasses,
   }) = _SelectedSubjectEntity;
 
   factory SelectedSubjectEntity.fromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'user_detail_entity.dart';
@@ -9,199 +9,283 @@ part of 'user_detail_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-UserDetailEntity _$UserDetailEntityFromJson(Map<String, dynamic> json) {
-  return _UserDetailEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$UserDetailEntity {
-  String? get nim => throw _privateConstructorUsedError;
-  @JsonKey(name: 'name')
-  String? get fullname => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
+
+ String? get nim;@JsonKey(name: 'name') String? get fullname; String? get email;
+/// Create a copy of UserDetailEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UserDetailEntityCopyWith<UserDetailEntity> get copyWith => _$UserDetailEntityCopyWithImpl<UserDetailEntity>(this as UserDetailEntity, _$identity);
 
   /// Serializes this UserDetailEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of UserDetailEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserDetailEntityCopyWith<UserDetailEntity> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as UserDetailEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserDetailEntity&&(identical(other.nim, _this.nim) || other.nim == _this.nim)&&(identical(other.fullname, _this.fullname) || other.fullname == _this.fullname)&&(identical(other.email, _this.email) || other.email == _this.email));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as UserDetailEntity;
+  return Object.hash(runtimeType,_this.nim,_this.fullname,_this.email);
+}
+
+@override
+String toString() {
+  final _this = this as UserDetailEntity;
+  return 'UserDetailEntity(nim: ${_this.nim}, fullname: ${_this.fullname}, email: ${_this.email})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $UserDetailEntityCopyWith<$Res> {
-  factory $UserDetailEntityCopyWith(
-          UserDetailEntity value, $Res Function(UserDetailEntity) then) =
-      _$UserDetailEntityCopyWithImpl<$Res, UserDetailEntity>;
-  @useResult
-  $Res call(
-      {String? nim, @JsonKey(name: 'name') String? fullname, String? email});
-}
+abstract mixin class $UserDetailEntityCopyWith<$Res>  {
+  factory $UserDetailEntityCopyWith(UserDetailEntity value, $Res Function(UserDetailEntity) _then) = _$UserDetailEntityCopyWithImpl;
+@useResult
+$Res call({
+ String? nim,@JsonKey(name: 'name') String? fullname, String? email
+});
 
+
+
+
+}
 /// @nodoc
-class _$UserDetailEntityCopyWithImpl<$Res, $Val extends UserDetailEntity>
+class _$UserDetailEntityCopyWithImpl<$Res>
     implements $UserDetailEntityCopyWith<$Res> {
-  _$UserDetailEntityCopyWithImpl(this._value, this._then);
+  _$UserDetailEntityCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final UserDetailEntity _self;
+  final $Res Function(UserDetailEntity) _then;
 
-  /// Create a copy of UserDetailEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? nim = freezed,
-    Object? fullname = freezed,
-    Object? email = freezed,
-  }) {
-    return _then(_value.copyWith(
-      nim: freezed == nim
-          ? _value.nim
-          : nim // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fullname: freezed == fullname
-          ? _value.fullname
-          : fullname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
+/// Create a copy of UserDetailEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? nim = freezed,Object? fullname = freezed,Object? email = freezed,}) {
+  return _then(UserDetailEntity(
+nim: freezed == nim ? _self.nim : nim // ignore: cast_nullable_to_non_nullable
+as String?,fullname: freezed == fullname ? _self.fullname : fullname // ignore: cast_nullable_to_non_nullable
+as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$UserDetailEntityImplCopyWith<$Res>
-    implements $UserDetailEntityCopyWith<$Res> {
-  factory _$$UserDetailEntityImplCopyWith(_$UserDetailEntityImpl value,
-          $Res Function(_$UserDetailEntityImpl) then) =
-      __$$UserDetailEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String? nim, @JsonKey(name: 'name') String? fullname, String? email});
 }
 
-/// @nodoc
-class __$$UserDetailEntityImplCopyWithImpl<$Res>
-    extends _$UserDetailEntityCopyWithImpl<$Res, _$UserDetailEntityImpl>
-    implements _$$UserDetailEntityImplCopyWith<$Res> {
-  __$$UserDetailEntityImplCopyWithImpl(_$UserDetailEntityImpl _value,
-      $Res Function(_$UserDetailEntityImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of UserDetailEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? nim = freezed,
-    Object? fullname = freezed,
-    Object? email = freezed,
-  }) {
-    return _then(_$UserDetailEntityImpl(
-      nim: freezed == nim
-          ? _value.nim
-          : nim // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fullname: freezed == fullname
-          ? _value.fullname
-          : fullname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+/// Adds pattern-matching-related methods to [UserDetailEntity].
+extension UserDetailEntityPatterns on UserDetailEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UserDetailEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UserDetailEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UserDetailEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _UserDetailEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UserDetailEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UserDetailEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? nim, @JsonKey(name: 'name')  String? fullname,  String? email)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UserDetailEntity() when $default != null:
+return $default(_that.nim,_that.fullname,_that.email);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? nim, @JsonKey(name: 'name')  String? fullname,  String? email)  $default,) {final _that = this;
+switch (_that) {
+case _UserDetailEntity():
+return $default(_that.nim,_that.fullname,_that.email);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? nim, @JsonKey(name: 'name')  String? fullname,  String? email)?  $default,) {final _that = this;
+switch (_that) {
+case _UserDetailEntity() when $default != null:
+return $default(_that.nim,_that.fullname,_that.email);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UserDetailEntityImpl implements _UserDetailEntity {
-  const _$UserDetailEntityImpl(
-      {this.nim, @JsonKey(name: 'name') this.fullname, this.email});
 
-  factory _$UserDetailEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserDetailEntityImplFromJson(json);
+class _UserDetailEntity implements UserDetailEntity {
+  const _UserDetailEntity({this.nim, @JsonKey(name: 'name') this.fullname, this.email});
+  factory _UserDetailEntity.fromJson(Map<String, dynamic> json) => _$UserDetailEntityFromJson(json);
 
-  @override
-  final String? nim;
-  @override
-  @JsonKey(name: 'name')
-  final String? fullname;
-  @override
-  final String? email;
+@override final  String? nim;
+@override@JsonKey(name: 'name') final  String? fullname;
+@override final  String? email;
 
-  @override
-  String toString() {
+/// Create a copy of UserDetailEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UserDetailEntityCopyWith<_UserDetailEntity> get copyWith => __$UserDetailEntityCopyWithImpl<_UserDetailEntity>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UserDetailEntityToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserDetailEntity&&(identical(other.nim, nim) || other.nim == nim)&&(identical(other.fullname, fullname) || other.fullname == fullname)&&(identical(other.email, email) || other.email == email));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,nim,fullname,email);
+}
+
+@override
+String toString() {
     return 'UserDetailEntity(nim: $nim, fullname: $fullname, email: $email)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UserDetailEntityImpl &&
-            (identical(other.nim, nim) || other.nim == nim) &&
-            (identical(other.fullname, fullname) ||
-                other.fullname == fullname) &&
-            (identical(other.email, email) || other.email == email));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, nim, fullname, email);
-
-  /// Create a copy of UserDetailEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UserDetailEntityImplCopyWith<_$UserDetailEntityImpl> get copyWith =>
-      __$$UserDetailEntityImplCopyWithImpl<_$UserDetailEntityImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserDetailEntityImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _UserDetailEntity implements UserDetailEntity {
-  const factory _UserDetailEntity(
-      {final String? nim,
-      @JsonKey(name: 'name') final String? fullname,
-      final String? email}) = _$UserDetailEntityImpl;
 
-  factory _UserDetailEntity.fromJson(Map<String, dynamic> json) =
-      _$UserDetailEntityImpl.fromJson;
-
-  @override
-  String? get nim;
-  @override
-  @JsonKey(name: 'name')
-  String? get fullname;
-  @override
-  String? get email;
-
-  /// Create a copy of UserDetailEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserDetailEntityImplCopyWith<_$UserDetailEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$UserDetailEntityCopyWith<$Res> implements $UserDetailEntityCopyWith<$Res> {
+  factory _$UserDetailEntityCopyWith(_UserDetailEntity value, $Res Function(_UserDetailEntity) _then) = __$UserDetailEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ String? nim,@JsonKey(name: 'name') String? fullname, String? email
+});
+
+
+
+
+}
+/// @nodoc
+class __$UserDetailEntityCopyWithImpl<$Res>
+    implements _$UserDetailEntityCopyWith<$Res> {
+  __$UserDetailEntityCopyWithImpl(this._self, this._then);
+
+  final _UserDetailEntity _self;
+  final $Res Function(_UserDetailEntity) _then;
+
+/// Create a copy of UserDetailEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? nim = freezed,Object? fullname = freezed,Object? email = freezed,}) {
+  return _then(_UserDetailEntity(
+nim: freezed == nim ? _self.nim : nim // ignore: cast_nullable_to_non_nullable
+as String?,fullname: freezed == fullname ? _self.fullname : fullname // ignore: cast_nullable_to_non_nullable
+as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+// dart format on

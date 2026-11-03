@@ -6,20 +6,20 @@ part of 'classmates_response_entity.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ClassmatesResponseEntityImpl _$$ClassmatesResponseEntityImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ClassmatesResponseEntityImpl(
-      status: json['status'] as bool?,
-      message: json['message'] as String?,
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => ClassmateEntity.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+_ClassmatesResponseEntity _$ClassmatesResponseEntityFromJson(
+  Map<String, dynamic> json,
+) => _ClassmatesResponseEntity(
+  status: json['status'] as bool?,
+  message: json['message'] as String?,
+  data: (json['data'] as List<dynamic>?)
+      ?.map((e) => ClassmateEntity.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
-Map<String, dynamic> _$$ClassmatesResponseEntityImplToJson(
-        _$ClassmatesResponseEntityImpl instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-    };
+Map<String, dynamic> _$ClassmatesResponseEntityToJson(
+  _ClassmatesResponseEntity instance,
+) => <String, dynamic>{
+  'status': instance.status,
+  'message': instance.message,
+  'data': instance.data,
+};

@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'classmates_response_entity.dart';
@@ -9,207 +9,291 @@ part of 'classmates_response_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-ClassmatesResponseEntity _$ClassmatesResponseEntityFromJson(
-    Map<String, dynamic> json) {
-  return _ClassmatesResponseEntity.fromJson(json);
-}
 
 /// @nodoc
 mixin _$ClassmatesResponseEntity {
-  bool? get status => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
-  List<ClassmateEntity>? get data => throw _privateConstructorUsedError;
+
+ bool? get status; String? get message; List<ClassmateEntity>? get data;
+/// Create a copy of ClassmatesResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ClassmatesResponseEntityCopyWith<ClassmatesResponseEntity> get copyWith => _$ClassmatesResponseEntityCopyWithImpl<ClassmatesResponseEntity>(this as ClassmatesResponseEntity, _$identity);
 
   /// Serializes this ClassmatesResponseEntity to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of ClassmatesResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ClassmatesResponseEntityCopyWith<ClassmatesResponseEntity> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ClassmatesResponseEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClassmatesResponseEntity&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.message, _this.message) || other.message == _this.message)&&const DeepCollectionEquality().equals(other.data, _this.data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as ClassmatesResponseEntity;
+  return Object.hash(runtimeType,_this.status,_this.message,const DeepCollectionEquality().hash(_this.data));
+}
+
+@override
+String toString() {
+  final _this = this as ClassmatesResponseEntity;
+  return 'ClassmatesResponseEntity(status: ${_this.status}, message: ${_this.message}, data: ${_this.data})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ClassmatesResponseEntityCopyWith<$Res> {
-  factory $ClassmatesResponseEntityCopyWith(ClassmatesResponseEntity value,
-          $Res Function(ClassmatesResponseEntity) then) =
-      _$ClassmatesResponseEntityCopyWithImpl<$Res, ClassmatesResponseEntity>;
-  @useResult
-  $Res call({bool? status, String? message, List<ClassmateEntity>? data});
-}
+abstract mixin class $ClassmatesResponseEntityCopyWith<$Res>  {
+  factory $ClassmatesResponseEntityCopyWith(ClassmatesResponseEntity value, $Res Function(ClassmatesResponseEntity) _then) = _$ClassmatesResponseEntityCopyWithImpl;
+@useResult
+$Res call({
+ bool? status, String? message, List<ClassmateEntity>? data
+});
 
+
+
+
+}
 /// @nodoc
-class _$ClassmatesResponseEntityCopyWithImpl<$Res,
-        $Val extends ClassmatesResponseEntity>
+class _$ClassmatesResponseEntityCopyWithImpl<$Res>
     implements $ClassmatesResponseEntityCopyWith<$Res> {
-  _$ClassmatesResponseEntityCopyWithImpl(this._value, this._then);
+  _$ClassmatesResponseEntityCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ClassmatesResponseEntity _self;
+  final $Res Function(ClassmatesResponseEntity) _then;
 
-  /// Create a copy of ClassmatesResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
-    Object? data = freezed,
-  }) {
-    return _then(_value.copyWith(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<ClassmateEntity>?,
-    ) as $Val);
-  }
+/// Create a copy of ClassmatesResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = freezed,Object? message = freezed,Object? data = freezed,}) {
+  return _then(ClassmatesResponseEntity(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as bool?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as List<ClassmateEntity>?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$ClassmatesResponseEntityImplCopyWith<$Res>
-    implements $ClassmatesResponseEntityCopyWith<$Res> {
-  factory _$$ClassmatesResponseEntityImplCopyWith(
-          _$ClassmatesResponseEntityImpl value,
-          $Res Function(_$ClassmatesResponseEntityImpl) then) =
-      __$$ClassmatesResponseEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({bool? status, String? message, List<ClassmateEntity>? data});
 }
 
-/// @nodoc
-class __$$ClassmatesResponseEntityImplCopyWithImpl<$Res>
-    extends _$ClassmatesResponseEntityCopyWithImpl<$Res,
-        _$ClassmatesResponseEntityImpl>
-    implements _$$ClassmatesResponseEntityImplCopyWith<$Res> {
-  __$$ClassmatesResponseEntityImplCopyWithImpl(
-      _$ClassmatesResponseEntityImpl _value,
-      $Res Function(_$ClassmatesResponseEntityImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of ClassmatesResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
-    Object? data = freezed,
-  }) {
-    return _then(_$ClassmatesResponseEntityImpl(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: freezed == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<ClassmateEntity>?,
-    ));
-  }
+/// Adds pattern-matching-related methods to [ClassmatesResponseEntity].
+extension ClassmatesResponseEntityPatterns on ClassmatesResponseEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ClassmatesResponseEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ClassmatesResponseEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ClassmatesResponseEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _ClassmatesResponseEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ClassmatesResponseEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ClassmatesResponseEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? status,  String? message,  List<ClassmateEntity>? data)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ClassmatesResponseEntity() when $default != null:
+return $default(_that.status,_that.message,_that.data);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? status,  String? message,  List<ClassmateEntity>? data)  $default,) {final _that = this;
+switch (_that) {
+case _ClassmatesResponseEntity():
+return $default(_that.status,_that.message,_that.data);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? status,  String? message,  List<ClassmateEntity>? data)?  $default,) {final _that = this;
+switch (_that) {
+case _ClassmatesResponseEntity() when $default != null:
+return $default(_that.status,_that.message,_that.data);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ClassmatesResponseEntityImpl implements _ClassmatesResponseEntity {
-  const _$ClassmatesResponseEntityImpl(
-      {this.status, this.message, final List<ClassmateEntity>? data})
-      : _data = data;
 
-  factory _$ClassmatesResponseEntityImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ClassmatesResponseEntityImplFromJson(json);
+class _ClassmatesResponseEntity implements ClassmatesResponseEntity {
+  const _ClassmatesResponseEntity({this.status, this.message,  List<ClassmateEntity>? data}): _data = data;
+  factory _ClassmatesResponseEntity.fromJson(Map<String, dynamic> json) => _$ClassmatesResponseEntityFromJson(json);
 
-  @override
-  final bool? status;
-  @override
-  final String? message;
-  final List<ClassmateEntity>? _data;
-  @override
-  List<ClassmateEntity>? get data {
-    final value = _data;
-    if (value == null) return null;
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+@override final  bool? status;
+@override final  String? message;
+ final  List<ClassmateEntity>? _data;
+@override List<ClassmateEntity>? get data {
+  final value = _data;
+  if (value == null) return null;
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
-  @override
-  String toString() {
+
+/// Create a copy of ClassmatesResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ClassmatesResponseEntityCopyWith<_ClassmatesResponseEntity> get copyWith => __$ClassmatesResponseEntityCopyWithImpl<_ClassmatesResponseEntity>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ClassmatesResponseEntityToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClassmatesResponseEntity&&(identical(other.status, status) || other.status == status)&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.data, _data));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,status,message,const DeepCollectionEquality().hash(_data));
+}
+
+@override
+String toString() {
     return 'ClassmatesResponseEntity(status: $status, message: $message, data: $data)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ClassmatesResponseEntityImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.message, message) || other.message == message) &&
-            const DeepCollectionEquality().equals(other._data, _data));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, status, message, const DeepCollectionEquality().hash(_data));
-
-  /// Create a copy of ClassmatesResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ClassmatesResponseEntityImplCopyWith<_$ClassmatesResponseEntityImpl>
-      get copyWith => __$$ClassmatesResponseEntityImplCopyWithImpl<
-          _$ClassmatesResponseEntityImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ClassmatesResponseEntityImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _ClassmatesResponseEntity implements ClassmatesResponseEntity {
-  const factory _ClassmatesResponseEntity(
-      {final bool? status,
-      final String? message,
-      final List<ClassmateEntity>? data}) = _$ClassmatesResponseEntityImpl;
 
-  factory _ClassmatesResponseEntity.fromJson(Map<String, dynamic> json) =
-      _$ClassmatesResponseEntityImpl.fromJson;
-
-  @override
-  bool? get status;
-  @override
-  String? get message;
-  @override
-  List<ClassmateEntity>? get data;
-
-  /// Create a copy of ClassmatesResponseEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ClassmatesResponseEntityImplCopyWith<_$ClassmatesResponseEntityImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$ClassmatesResponseEntityCopyWith<$Res> implements $ClassmatesResponseEntityCopyWith<$Res> {
+  factory _$ClassmatesResponseEntityCopyWith(_ClassmatesResponseEntity value, $Res Function(_ClassmatesResponseEntity) _then) = __$ClassmatesResponseEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ bool? status, String? message, List<ClassmateEntity>? data
+});
+
+
+
+
+}
+/// @nodoc
+class __$ClassmatesResponseEntityCopyWithImpl<$Res>
+    implements _$ClassmatesResponseEntityCopyWith<$Res> {
+  __$ClassmatesResponseEntityCopyWithImpl(this._self, this._then);
+
+  final _ClassmatesResponseEntity _self;
+  final $Res Function(_ClassmatesResponseEntity) _then;
+
+/// Create a copy of ClassmatesResponseEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = freezed,Object? message = freezed,Object? data = freezed,}) {
+  return _then(_ClassmatesResponseEntity(
+status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as bool?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,data: freezed == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<ClassmateEntity>?,
+  ));
+}
+
+
+}
+
+// dart format on

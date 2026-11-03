@@ -4,10 +4,10 @@ part 'selected_subject_subjects.freezed.dart';
 part 'selected_subject_subjects.g.dart';
 
 @freezed
-class SelectedSubjectSubjectsEntity with _$SelectedSubjectSubjectsEntity {
+abstract class SelectedSubjectSubjectsEntity with _$SelectedSubjectSubjectsEntity {
   const factory SelectedSubjectSubjectsEntity({
-    final String? subjectName,
-    final String? semester,
+    String? subjectName,
+    String? semester,
   }) = _SelectedSubjectSubjectsEntity;
 
   factory SelectedSubjectSubjectsEntity.fromJson(Map<String, dynamic> json) =>
