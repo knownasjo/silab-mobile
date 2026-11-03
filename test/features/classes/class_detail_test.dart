@@ -37,23 +37,28 @@ class FakeDeviceId extends DeviceIdSource {
   Future<String?> read() async => 'hp-uji';
 }
 
-const scannerMethods =
-    MethodChannel('dev.steenbakker.mobile_scanner/scanner/method');
-const scannerEvents =
-    EventChannel('dev.steenbakker.mobile_scanner/scanner/event');
+const scannerMethods = MethodChannel(
+  'dev.steenbakker.mobile_scanner/scanner/method',
+);
+const scannerEvents = EventChannel(
+  'dev.steenbakker.mobile_scanner/scanner/event',
+);
 const longLecturer = 'Dr. Ir. Budi Santoso Wibowo, S.T., M.Kom., IPM.';
 const longTitle = 'Normalisasi Basis Data dan Desain Skema Lanjut 01';
 const offline = 'Tidak dapat terhubung ke server. Periksa koneksi internet.';
 
-Map<String, dynamic> meeting(int number,
-        {bool open = false, bool attended = false, String? name}) =>
-    {
-      'id': 'm$number',
-      'meetingName': name ?? 'Pertemuan $number',
-      'isOpen': open,
-      'submittedAt': attended ? '2026-10-01T01:00:00.000Z' : null,
-      'isAttended': attended,
-    };
+Map<String, dynamic> meeting(
+  int number, {
+  bool open = false,
+  bool attended = false,
+  String? name,
+}) => {
+  'id': 'm$number',
+  'meetingName': name ?? 'Pertemuan $number',
+  'isOpen': open,
+  'submittedAt': attended ? '2026-10-01T01:00:00.000Z' : null,
+  'isAttended': attended,
+};
 
 void main() {
   late SharedPreferences prefs;
@@ -69,8 +74,10 @@ void main() {
 
   setUp(() async {
     AppConfig.create(baseUrl: 'http://silab.test');
-    SharedPreferences.setMockInitialValues(
-        {'accessToken': 'akses', 'refreshToken': 'segar'});
+    SharedPreferences.setMockInitialValues({
+      'accessToken': 'akses',
+      'refreshToken': 'segar',
+    });
     prefs = await SharedPreferences.getInstance();
     meetings = [meeting(1), meeting(2, attended: true), meeting(3, open: true)];
     attendancePosts = [];
@@ -82,16 +89,18 @@ void main() {
 
   http.Response ok(Object? data, [String message = 'Berhasil']) =>
       http.Response(
-          jsonEncode({'status': true, 'message': message, 'data': data}), 200);
+        jsonEncode({'status': true, 'message': message, 'data': data}),
+        200,
+      );
 
   Map<String, dynamic> kelas() => {
-        'id': 'k1',
-        'subjectName': 'Basis Data',
-        'subjectClass': 'A',
-        'lecturer': lecturer,
-        'day': 'MONDAY',
-        'sessionTime': '07.00 - 08.40',
-      };
+    'id': 'k1',
+    'subjectName': 'Basis Data',
+    'subjectClass': 'A',
+    'lecturer': lecturer,
+    'day': 'MONDAY',
+    'sessionTime': '07.00 - 08.40',
+  };
 
   Future<http.Response> backend(http.Request request) async {
     final path = request.url.path;
@@ -116,14 +125,18 @@ void main() {
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 5; i++) {
       await tester.runAsync(
-          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+        () => Future<void>.delayed(const Duration(milliseconds: 20)),
+      );
       await tester.pump(const Duration(milliseconds: 100));
     }
     await tester.pumpAndSettle();
   }
 
-  Future<void> openDetail(WidgetTester tester,
-      {Size size = const Size(360, 640), double textScale = 1}) async {
+  Future<void> openDetail(
+    WidgetTester tester, {
+    Size size = const Size(360, 640),
+    double textScale = 1,
+  }) async {
     useSmallPhone(tester);
     tester.view.physicalSize = size * 3;
     tester.platformDispatcher.textScaleFactorTestValue = textScale;
@@ -135,16 +148,18 @@ void main() {
         'state' => cameraAllowed ? 1 : 2,
         'request' => cameraAllowed,
         'start' => {
-            'textureId': 1,
-            'size': {'width': 640.0, 'height': 480.0},
-            'numberOfCameras': 1,
-            'currentTorchState': 0,
-          },
+          'textureId': 1,
+          'size': {'width': 640.0, 'height': 480.0},
+          'numberOfCameras': 1,
+          'currentTorchState': 0,
+        },
         _ => null,
       };
     });
     messenger.setMockStreamHandler(
-        scannerEvents, MockStreamHandler.inline(onListen: (_, __) {}));
+      scannerEvents,
+      MockStreamHandler.inline(onListen: (_, __) {}),
+    );
     addTearDown(() {
       messenger.setMockMethodCallHandler(scannerMethods, null);
       messenger.setMockStreamHandler(scannerEvents, null);
@@ -157,8 +172,9 @@ void main() {
 
     final router = GoRouter(
       initialLocation: '/home/class/k1',
-      initialExtra:
-          ClassDetailPageExtra(classEntity: ClassEntity.fromJson(kelas())),
+      initialExtra: ClassDetailPageExtra(
+        classEntity: ClassEntity.fromJson(kelas()),
+      ),
       routes: [
         GoRoute(
           path: '/qr-scan',
@@ -193,34 +209,37 @@ void main() {
     );
     addTearDown(router.dispose);
 
-    await tester.pumpWidget(MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => UserMeetingsBloc(GetUserMeetingsDataUsecase(classes)),
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) =>
+                UserMeetingsBloc(GetUserMeetingsDataUsecase(classes)),
+          ),
+          BlocProvider(
+            create: (_) => ClassmatesBloc(GetClassmatesUsecase(classes)),
+          ),
+          BlocProvider(
+            create: (_) => UserRegisteredClassBloc(
+              GetUserRegisteredClassesUseCase(classes),
+            ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                UserAttendancesBloc(AddUserAttendancesUsecase(classes)),
+          ),
+        ],
+        child: MaterialApp.router(
+          theme: ThemeData(fontFamily: realFontFamily),
+          routerConfig: router,
         ),
-        BlocProvider(
-          create: (_) => ClassmatesBloc(GetClassmatesUsecase(classes)),
-        ),
-        BlocProvider(
-          create: (_) => UserRegisteredClassBloc(
-              GetUserRegisteredClassesUseCase(classes)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              UserAttendancesBloc(AddUserAttendancesUsecase(classes)),
-        ),
-      ],
-      child: MaterialApp.router(
-        theme: ThemeData(fontFamily: realFontFamily),
-        routerConfig: router,
       ),
-    ));
+    );
     await settle(tester);
   }
 
-  Finder rowOf(String title) => find
-      .ancestor(of: find.text(title), matching: find.byType(Row))
-      .first;
+  Finder rowOf(String title) =>
+      find.ancestor(of: find.text(title), matching: find.byType(Row)).first;
 
   Finder actionOf(String title) =>
       find.descendant(of: rowOf(title), matching: find.byType(InkWell)).last;
@@ -239,63 +258,74 @@ void main() {
         ),
       );
 
-  Finder scanFrame() => find.byWidgetPredicate((widget) =>
-      widget is Container &&
-      widget.constraints == BoxConstraints.tight(const Size(300, 300)));
+  Finder scanFrame() => find.byWidgetPredicate(
+    (widget) =>
+        widget is Container &&
+        widget.constraints == BoxConstraints.tight(const Size(300, 300)),
+  );
 
   group('Detail Kelas', () {
     testWidgets(
-        '14 pertemuan di HP 360×640: seluruh halaman yang digeser, pertemuan terakhir bisa sampai di atas menu bawah',
-        (tester) async {
-      meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
-      await openDetail(tester);
+      '14 pertemuan di HP 360×640: seluruh halaman yang digeser, pertemuan terakhir bisa sampai di atas menu bawah',
+      (tester) async {
+        meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
+        await openDetail(tester);
 
-      expect(controller.position.maxScrollExtent, greaterThan(0));
-      for (final element in find.byType(Scrollable).evaluate()) {
-        final position =
-            ((element as StatefulElement).state as ScrollableState).position;
-        if (position != controller.position &&
-            position.axis == Axis.vertical) {
-          expect(position.maxScrollExtent, 0,
-              reason: 'tidak boleh ada kotak geser di dalam halaman');
+        expect(controller.position.maxScrollExtent, greaterThan(0));
+        for (final element in find.byType(Scrollable).evaluate()) {
+          final position =
+              ((element as StatefulElement).state as ScrollableState).position;
+          if (position != controller.position &&
+              position.axis == Axis.vertical) {
+            expect(
+              position.maxScrollExtent,
+              0,
+              reason: 'tidak boleh ada kotak geser di dalam halaman',
+            );
+          }
         }
-      }
 
-      await scrollEverythingToEnd(tester);
-      expect(tester.getRect(rowOf('Pertemuan 1')).bottom,
-          lessThanOrEqualTo(navbarTop(tester)));
-    });
-
-    testWidgets(
-        '14 pertemuan di HP tinggi 411×891: layar terisi, bukan kotak kecil berisi 5 baris',
-        (tester) async {
-      meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
-      await openDetail(tester, size: const Size(411, 891));
-
-      final visible = [
-        for (var i = 1; i <= 14; i++)
-          if (tester.getRect(rowOf('Pertemuan $i')).bottom <=
-              navbarTop(tester))
-            i
-      ];
-      expect(visible.length, greaterThanOrEqualTo(7));
-    });
+        await scrollEverythingToEnd(tester);
+        expect(
+          tester.getRect(rowOf('Pertemuan 1')).bottom,
+          lessThanOrEqualTo(navbarTop(tester)),
+        );
+      },
+    );
 
     testWidgets(
-        'kartu kelas: nama dosen panjang dipotong "…" dan huruf HP 1,3× tidak memotong kartu',
-        (tester) async {
-      lecturer = longLecturer;
-      await openDetail(tester, textScale: 1.3);
+      '14 pertemuan di HP tinggi 411×891: layar terisi, bukan kotak kecil berisi 5 baris',
+      (tester) async {
+        meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
+        await openDetail(tester, size: const Size(411, 891));
 
-      expect(tester.takeException(), isNull);
-      final text = tester.widget<Text>(find.text(longLecturer));
-      expect(text.maxLines, 1);
-      expect(text.overflow, TextOverflow.ellipsis);
-      expect(find.text('07.00 - 08.40'), findsOneWidget);
-    });
+        final visible = [
+          for (var i = 1; i <= 14; i++)
+            if (tester.getRect(rowOf('Pertemuan $i')).bottom <=
+                navbarTop(tester))
+              i,
+        ];
+        expect(visible.length, greaterThanOrEqualTo(7));
+      },
+    );
 
-    testWidgets('judul pertemuan 50 huruf dipotong "…", baris tidak meluap',
-        (tester) async {
+    testWidgets(
+      'kartu kelas: nama dosen panjang dipotong "…" dan huruf HP 1,3× tidak memotong kartu',
+      (tester) async {
+        lecturer = longLecturer;
+        await openDetail(tester, textScale: 1.3);
+
+        expect(tester.takeException(), isNull);
+        final text = tester.widget<Text>(find.text(longLecturer));
+        expect(text.maxLines, 1);
+        expect(text.overflow, TextOverflow.ellipsis);
+        expect(find.text('07.00 - 08.40'), findsOneWidget);
+      },
+    );
+
+    testWidgets('judul pertemuan 50 huruf dipotong "…", baris tidak meluap', (
+      tester,
+    ) async {
       meetings = [meeting(1, name: longTitle)];
       await openDetail(tester);
 
@@ -306,126 +336,137 @@ void main() {
     });
 
     testWidgets(
-        'sesi yang sedang dibuka: tombol "Scan QR" hanya di pertemuan terbuka yang belum presensi',
-        (tester) async {
-      meetings = [
-        meeting(1),
-        meeting(2, open: true, attended: true),
-        meeting(3, open: true),
-      ];
-      await openDetail(tester);
+      'sesi yang sedang dibuka: tombol "Scan QR" hanya di pertemuan terbuka yang belum presensi',
+      (tester) async {
+        meetings = [
+          meeting(1),
+          meeting(2, open: true, attended: true),
+          meeting(3, open: true),
+        ];
+        await openDetail(tester);
 
-      expect(find.text('Scan QR'), findsOneWidget);
-      expect(
+        expect(find.text('Scan QR'), findsOneWidget);
+        expect(
           find.descendant(
-              of: rowOf('Pertemuan 3'), matching: find.text('Scan QR')),
-          findsOneWidget);
+            of: rowOf('Pertemuan 3'),
+            matching: find.text('Scan QR'),
+          ),
+          findsOneWidget,
+        );
 
-      await tester.tap(find.text('Scan QR'));
-      await settle(tester);
-      expect(find.byType(QrScanPage), findsOneWidget);
-    });
-
-    testWidgets(
-        'pertemuan yang sesinya tidak dibuka: "Sesi presensi sedang tidak dibuka."',
-        (tester) async {
-      await openDetail(tester);
-
-      await tester.tap(actionOf('Pertemuan 1'));
-      await tester.pump();
-
-      expect(find.text('Sesi presensi sedang tidak dibuka.'), findsOneWidget);
-      expect(find.textContaining('belum dibuka'), findsNothing);
-      expect(find.byType(QrScanPage), findsNothing);
-    });
+        await tester.tap(find.text('Scan QR'));
+        await settle(tester);
+        expect(find.byType(QrScanPage), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'server mati: tab Presensi dan Classmates punya Coba lagi yang memuat ulang',
-        (tester) async {
-      down = {'/meeting/k1', '/class/k1/classmates'};
-      await openDetail(tester);
+      'pertemuan yang sesinya tidak dibuka: "Sesi presensi sedang tidak dibuka."',
+      (tester) async {
+        await openDetail(tester);
 
-      expect(find.text(offline), findsOneWidget);
-      down.clear();
-      await tester.tap(find.text('Coba lagi'));
-      await settle(tester);
-      expect(find.text('Pertemuan 3'), findsOneWidget);
+        await tester.tap(actionOf('Pertemuan 1'));
+        await tester.pump();
 
-      await tester.tap(find.text('Classmates'));
-      await tester.pumpAndSettle();
-      expect(find.text(offline), findsOneWidget);
-      await tester.tap(find.text('Coba lagi'));
-      await settle(tester);
-      expect(find.text('Budi Santoso'), findsOneWidget);
-    });
+        expect(find.text('Sesi presensi sedang tidak dibuka.'), findsOneWidget);
+        expect(find.textContaining('belum dibuka'), findsNothing);
+        expect(find.byType(QrScanPage), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'server mati: tab Presensi dan Classmates punya Coba lagi yang memuat ulang',
+      (tester) async {
+        down = {'/meeting/k1', '/class/k1/classmates'};
+        await openDetail(tester);
+
+        expect(find.text(offline), findsOneWidget);
+        down.clear();
+        await tester.tap(find.text('Coba lagi'));
+        await settle(tester);
+        expect(find.text('Pertemuan 3'), findsOneWidget);
+
+        await tester.tap(find.text('Classmates'));
+        await tester.pumpAndSettle();
+        expect(find.text(offline), findsOneWidget);
+        await tester.tap(find.text('Coba lagi'));
+        await settle(tester);
+        expect(find.text('Budi Santoso'), findsOneWidget);
+      },
+    );
   });
 
   group('Scan QR', () {
     testWidgets(
-        'sedang mencatat presensi: ketukan di luar dan tombol kembali HP diabaikan, lalu kembali ke Detail Kelas',
-        (tester) async {
-      await openScanner(tester);
+      'sedang mencatat presensi: ketukan di luar dan tombol kembali HP diabaikan, lalu kembali ke Detail Kelas',
+      (tester) async {
+        await openScanner(tester);
 
-      holdAttendance = Completer<void>();
-      scan(tester);
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
-      expect(find.byType(CustomLoadingIndicator), findsOneWidget);
+        holdAttendance = Completer<void>();
+        scan(tester);
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+        expect(find.byType(CustomLoadingIndicator), findsOneWidget);
 
-      await tester.tapAt(const Offset(200, 300));
-      await tester.pump(const Duration(milliseconds: 300));
-      await tester.binding.handlePopRoute();
-      await tester.pump(const Duration(milliseconds: 300));
-      expect(find.byType(CustomLoadingIndicator), findsOneWidget);
-      expect(find.byType(QrScanPage), findsOneWidget);
+        await tester.tapAt(const Offset(200, 300));
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.binding.handlePopRoute();
+        await tester.pump(const Duration(milliseconds: 300));
+        expect(find.byType(CustomLoadingIndicator), findsOneWidget);
+        expect(find.byType(QrScanPage), findsOneWidget);
 
-      holdAttendance!.complete();
-      await settle(tester);
+        holdAttendance!.complete();
+        await settle(tester);
 
-      expect(tester.takeException(), isNull);
-      expect(attendancePosts, hasLength(1));
-      expect(find.byType(QrScanPage), findsNothing);
-      expect(find.byType(ClassDetailPage), findsOneWidget);
-      expect(find.text('Halaman Beranda'), findsNothing);
-      expect(find.text('Presensi berhasil'), findsOneWidget);
-      expect(find.text('Scan QR'), findsNothing);
-    });
+        expect(tester.takeException(), isNull);
+        expect(attendancePosts, hasLength(1));
+        expect(find.byType(QrScanPage), findsNothing);
+        expect(find.byType(ClassDetailPage), findsOneWidget);
+        expect(find.text('Halaman Beranda'), findsNothing);
+        expect(find.text('Presensi berhasil'), findsOneWidget);
+        expect(find.text('Scan QR'), findsNothing);
+      },
+    );
 
     testWidgets(
-        'izin kamera ditolak: pesan berbahasa Indonesia, Coba lagi menyalakan kamera',
-        (tester) async {
-      cameraAllowed = false;
-      await openScanner(tester);
+      'izin kamera ditolak: pesan berbahasa Indonesia, Coba lagi menyalakan kamera',
+      (tester) async {
+        cameraAllowed = false;
+        await openScanner(tester);
 
-      expect(find.text('Camera permission denied.'), findsNothing);
-      expect(
+        expect(find.text('Camera permission denied.'), findsNothing);
+        expect(
           find.text(
-              'Izin kamera ditolak. Izinkan Kamera untuk SILAB di Pengaturan HP, lalu tekan Coba lagi.'),
-          findsOneWidget);
-      expect(scanFrame(), findsNothing);
+            'Izin kamera ditolak. Izinkan Kamera untuk SILAB di Pengaturan HP, lalu tekan Coba lagi.',
+          ),
+          findsOneWidget,
+        );
+        expect(scanFrame(), findsNothing);
 
-      cameraAllowed = true;
-      await tester.tap(find.text('Coba lagi'));
-      await settle(tester);
+        cameraAllowed = true;
+        await tester.tap(find.text('Coba lagi'));
+        await settle(tester);
 
-      expect(find.textContaining('Izin kamera ditolak'), findsNothing);
-      expect(scanFrame(), findsOneWidget);
-    });
+        expect(find.textContaining('Izin kamera ditolak'), findsNothing);
+        expect(scanFrame(), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'HP 360×640: tombol kembali di kiri atas, tidak menimpa bingkai scan',
-        (tester) async {
-      await openScanner(tester);
+      'HP 360×640: tombol kembali di kiri atas, tidak menimpa bingkai scan',
+      (tester) async {
+        await openScanner(tester);
 
-      final back = tester.getRect(find.byIcon(Boxicons.bx_chevron_left));
-      final frame = tester.getRect(scanFrame());
-      expect(back.overlaps(frame), isFalse);
-      expect(back.bottom, lessThanOrEqualTo(frame.top));
+        final back = tester.getRect(find.byIcon(Boxicons.bx_chevron_left));
+        final frame = tester.getRect(scanFrame());
+        expect(back.overlaps(frame), isFalse);
+        expect(back.bottom, lessThanOrEqualTo(frame.top));
 
-      await tester.tap(find.byIcon(Boxicons.bx_chevron_left));
-      await settle(tester);
-      expect(find.byType(QrScanPage), findsNothing);
-      expect(find.byType(ClassDetailPage), findsOneWidget);
-    });
+        await tester.tap(find.byIcon(Boxicons.bx_chevron_left));
+        await settle(tester);
+        expect(find.byType(QrScanPage), findsNothing);
+        expect(find.byType(ClassDetailPage), findsOneWidget);
+      },
+    );
   });
 }

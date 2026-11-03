@@ -12,14 +12,18 @@ class UserRegisteredClassBloc
   final GetUserRegisteredClassesUseCase _getUserRegisteredClassesUseCase;
 
   UserRegisteredClassBloc(this._getUserRegisteredClassesUseCase)
-      : super(UserRegisteredClassInitial()) {
+    : super(UserRegisteredClassInitial()) {
     on<GetUserRegisteredClass>(onGetUserRegisteredClass);
-    on<RefreshUserRegisteredClass>(onRefreshUserRegisteredClass,
-        transformer: coalesced());
+    on<RefreshUserRegisteredClass>(
+      onRefreshUserRegisteredClass,
+      transformer: coalesced(),
+    );
   }
 
-  void onGetUserRegisteredClass(UserRegisteredClassEvent event,
-      Emitter<UserRegisteredClassState> emit) async {
+  void onGetUserRegisteredClass(
+    UserRegisteredClassEvent event,
+    Emitter<UserRegisteredClassState> emit,
+  ) async {
     emit(UserRegisteredClassLoading());
 
     final data = await _getUserRegisteredClassesUseCase.classRepository
@@ -31,8 +35,10 @@ class UserRegisteredClassBloc
     );
   }
 
-  Future<void> onRefreshUserRegisteredClass(RefreshUserRegisteredClass event,
-      Emitter<UserRegisteredClassState> emit) async {
+  Future<void> onRefreshUserRegisteredClass(
+    RefreshUserRegisteredClass event,
+    Emitter<UserRegisteredClassState> emit,
+  ) async {
     if (state is UserRegisteredClassInitial) return;
 
     final data = await _getUserRegisteredClassesUseCase.classRepository

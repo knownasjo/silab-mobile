@@ -22,13 +22,13 @@ import 'package:silab/features/select_subjects/presentation/pages/payment_status
 const cancelLabel = 'Batalkan pendaftaran';
 
 Map<String, dynamic> activation(String id, String subject, bool status) => {
-      'id': id,
-      'status': status,
-      'createdAt': '2026-09-30T02:00:00.000Z',
-      'subjects': [
-        {'subjectName': subject, 'semester': '3'},
-      ],
-    };
+  'id': id,
+  'status': status,
+  'createdAt': '2026-09-30T02:00:00.000Z',
+  'subjects': [
+    {'subjectName': subject, 'semester': '3'},
+  ],
+};
 
 http.Response jsonResponse(Object body, int status) =>
     http.Response(jsonEncode(body), status);
@@ -61,13 +61,19 @@ void main() {
     final path = request.url.path;
 
     if (request.method == 'GET' && path == '/activation') {
-      return jsonResponse(
-          {'status': true, 'message': 'Berhasil', 'data': activations}, 200);
+      return jsonResponse({
+        'status': true,
+        'message': 'Berhasil',
+        'data': activations,
+      }, 200);
     }
 
     if (request.method == 'GET' && path == '/class/registration') {
-      return jsonResponse(
-          {'status': true, 'message': 'Berhasil', 'data': []}, 200);
+      return jsonResponse({
+        'status': true,
+        'message': 'Berhasil',
+        'data': [],
+      }, 200);
     }
 
     if (request.method == 'DELETE' && path.startsWith('/activation/')) {
@@ -79,8 +85,10 @@ void main() {
       final removed = activations.firstWhere((a) => a['id'] == id);
       activations.remove(removed);
       final subject = (removed['subjects'] as List).first['subjectName'];
-      return jsonResponse(
-          {'status': true, 'message': 'Pendaftaran $subject dibatalkan.'}, 200);
+      return jsonResponse({
+        'status': true,
+        'message': 'Pendaftaran $subject dibatalkan.',
+      }, 200);
     }
 
     return jsonResponse({'status': false, 'message': 'Not Found'}, 404);
@@ -91,28 +99,32 @@ void main() {
       SelectedSubjectApiService(ApiClient(MockClient(backend), prefs)),
     );
 
-    await tester.pumpWidget(MaterialApp(
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => SelectedSubjectByNimBloc(
-                GetSelectedSubjectByNimUsecase(repository)),
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => SelectedSubjectByNimBloc(
+                GetSelectedSubjectByNimUsecase(repository),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => UserClassOptionByPaidSubjectBloc(
+                GetUserClassOptionByPaidSubjectUsecase(repository),
+              ),
+            ),
+            BlocProvider(
+              create: (_) =>
+                  CancelActivationBloc(CancelActivationUsecase(repository)),
+            ),
+          ],
+          child: Scaffold(
+            appBar: AppBar(title: const Text('Status Pembayaran')),
+            body: const PaymentStatusPage(),
           ),
-          BlocProvider(
-            create: (_) => UserClassOptionByPaidSubjectBloc(
-                GetUserClassOptionByPaidSubjectUsecase(repository)),
-          ),
-          BlocProvider(
-            create: (_) =>
-                CancelActivationBloc(CancelActivationUsecase(repository)),
-          ),
-        ],
-        child: Scaffold(
-          appBar: AppBar(title: const Text('Status Pembayaran')),
-          body: const PaymentStatusPage(),
         ),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
   }
 
@@ -124,8 +136,9 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('tombol batal hanya ada di pendaftaran yang belum lunas',
-      (tester) async {
+  testWidgets('tombol batal hanya ada di pendaftaran yang belum lunas', (
+    tester,
+  ) async {
     await openPage(tester);
 
     expect(find.text('Lunas'), findsOneWidget);
@@ -146,7 +159,8 @@ void main() {
     expect(find.text('Batalkan Pendaftaran'), findsOneWidget);
     expect(
       find.text(
-          'Pendaftaran Basis Data akan dibatalkan. Anda bisa mendaftarkannya lagi nanti.'),
+        'Pendaftaran Basis Data akan dibatalkan. Anda bisa mendaftarkannya lagi nanti.',
+      ),
       findsOneWidget,
     );
 
@@ -158,8 +172,9 @@ void main() {
     expect(find.text('Basis Data'), findsOneWidget);
   });
 
-  testWidgets('Ya, batalkan menghapus pendaftaran dan daftar diperbarui',
-      (tester) async {
+  testWidgets('Ya, batalkan menghapus pendaftaran dan daftar diperbarui', (
+    tester,
+  ) async {
     await openPage(tester);
     holdDelete = Completer<void>();
     await tapCancel(tester);
@@ -167,10 +182,12 @@ void main() {
     await tester.pump();
 
     expect(find.text('Membatalkan...'), findsOneWidget);
-    final button = tester.widget<TextButton>(find.ancestor(
-      of: find.text('Membatalkan...'),
-      matching: find.byType(TextButton),
-    ));
+    final button = tester.widget<TextButton>(
+      find.ancestor(
+        of: find.text('Membatalkan...'),
+        matching: find.byType(TextButton),
+      ),
+    );
     expect(button.onPressed, isNull);
 
     holdDelete!.complete();
@@ -184,12 +201,15 @@ void main() {
     expect(find.text('Algoritma'), findsOneWidget);
   });
 
-  testWidgets('penolakan server tampil dan tombol bisa ditekan lagi',
-      (tester) async {
+  testWidgets('penolakan server tampil dan tombol bisa ditekan lagi', (
+    tester,
+  ) async {
     const message =
         'Pendaftaran yang sudah lunas tidak bisa dibatalkan. Hubungi laboran bila perlu dibatalkan.';
-    deleteReplies['a-belum'] =
-        jsonResponse({'status': false, 'message': message}, 409);
+    deleteReplies['a-belum'] = jsonResponse({
+      'status': false,
+      'message': message,
+    }, 409);
 
     await openPage(tester);
     await tapCancel(tester);
@@ -198,10 +218,12 @@ void main() {
 
     expect(find.text(message), findsOneWidget);
     expect(find.text('Basis Data'), findsOneWidget);
-    final button = tester.widget<TextButton>(find.ancestor(
-      of: find.text(cancelLabel),
-      matching: find.byType(TextButton),
-    ));
+    final button = tester.widget<TextButton>(
+      find.ancestor(
+        of: find.text(cancelLabel),
+        matching: find.byType(TextButton),
+      ),
+    );
     expect(button.onPressed, isNotNull);
   });
 }

@@ -4,7 +4,8 @@ part 'add_selected_class_response_entity.freezed.dart';
 part 'add_selected_class_response_entity.g.dart';
 
 @freezed
-abstract class AddSelectedClassResponseEntity with _$AddSelectedClassResponseEntity {
+abstract class AddSelectedClassResponseEntity
+    with _$AddSelectedClassResponseEntity {
   const factory AddSelectedClassResponseEntity({
     bool? status,
     String? message,

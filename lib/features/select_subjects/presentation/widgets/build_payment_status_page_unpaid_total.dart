@@ -12,8 +12,9 @@ class BuildPaymentStatusPageUnpaidTotal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final unpaid =
-        activations.where((activation) => activation.status != true).length;
+    final unpaid = activations
+        .where((activation) => activation.status != true)
+        .length;
 
     if (unpaid == 0) return const SizedBox.shrink();
 
@@ -31,18 +32,12 @@ class BuildPaymentStatusPageUnpaidTotal extends StatelessWidget {
         children: [
           Text(
             'Belum dibayar: $unpaid mata kuliah',
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
           Text(
             'Total: ${formatRupiah(unpaid * practicumFeePerSubject)}',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),

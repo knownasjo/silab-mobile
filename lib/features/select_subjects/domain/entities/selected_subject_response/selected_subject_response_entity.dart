@@ -5,7 +5,8 @@ part 'selected_subject_response_entity.freezed.dart';
 part 'selected_subject_response_entity.g.dart';
 
 @freezed
-abstract class SelectedSubjectResponseEntity with _$SelectedSubjectResponseEntity {
+abstract class SelectedSubjectResponseEntity
+    with _$SelectedSubjectResponseEntity {
   const factory SelectedSubjectResponseEntity({
     bool? status,
     String? message,

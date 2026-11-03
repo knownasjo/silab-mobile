@@ -90,10 +90,10 @@ void main() {
         }, 429);
       case '/auth/register/verify':
         if (body['code'] != '123456') {
-          return jsonResponse(
-            {'status': false, 'message': 'Kode salah. Sisa 4 percobaan.'},
-            400,
-          );
+          return jsonResponse({
+            'status': false,
+            'message': 'Kode salah. Sisa 4 percobaan.',
+          }, 400);
         }
         return jsonResponse({
           'status': true,
@@ -127,17 +127,19 @@ void main() {
   });
 
   group('repository pendaftaran', () {
-    test('daftar mengirim data form dan membaca NIM & jeda kirim ulang',
-        () async {
-      final result = await repositoryWith(backend).register(registerModel);
+    test(
+      'daftar mengirim data form dan membaca NIM & jeda kirim ulang',
+      () async {
+        final result = await repositoryWith(backend).register(registerModel);
 
-      expect(
-        result.right,
-        const RegistrationEntity(email: email, nim: '2000016123'),
-      );
-      expect(requests.single.url.path, '/auth/register');
-      expect(jsonDecode(requests.single.body), registerModel.toJson());
-    });
+        expect(
+          result.right,
+          const RegistrationEntity(email: email, nim: '2000016123'),
+        );
+        expect(requests.single.url.path, '/auth/register');
+        expect(jsonDecode(requests.single.body), registerModel.toJson());
+      },
+    );
 
     test('pesan error backend diteruskan apa adanya', () async {
       final result = await repositoryWith(backend).resendCode(email);
@@ -145,14 +147,16 @@ void main() {
       expect(result.left.message, 'Tunggu 42 detik sebelum meminta kode baru.');
     });
 
-    test('kode benar: token disimpan sehingga pengguna langsung masuk',
-        () async {
-      final result = await repositoryWith(backend).verify(email, '123456');
+    test(
+      'kode benar: token disimpan sehingga pengguna langsung masuk',
+      () async {
+        final result = await repositoryWith(backend).verify(email, '123456');
 
-      expect(result.right, 'Akun berhasil dibuat');
-      expect(prefs.getString('accessToken'), 'akses');
-      expect(prefs.getString('refreshToken'), 'segar');
-    });
+        expect(result.right, 'Akun berhasil dibuat');
+        expect(prefs.getString('accessToken'), 'akses');
+        expect(prefs.getString('refreshToken'), 'segar');
+      },
+    );
 
     test('kode salah: token tidak disimpan', () async {
       final result = await repositoryWith(backend).verify(email, '000000');
@@ -162,31 +166,34 @@ void main() {
     });
   });
 
-  test('login akun yang belum diverifikasi membawa email untuk layar kode',
-      () async {
-    final api = ApiClient(
-      MockClient(
-        (request) async => jsonResponse({
-          'status': false,
-          'message': 'Akun belum diverifikasi. Masukkan kode yang dikirim ke '
-              '$email.',
-          'data': {'email': email},
-        }, 403),
-      ),
-      prefs,
-    );
-    final repository = AuthenticationRepositoryImpl(
-      AuthenticationApiService(api),
-      AuthenticationLocalDataSource(prefs),
-    );
+  test(
+    'login akun yang belum diverifikasi membawa email untuk layar kode',
+    () async {
+      final api = ApiClient(
+        MockClient(
+          (request) async => jsonResponse({
+            'status': false,
+            'message':
+                'Akun belum diverifikasi. Masukkan kode yang dikirim ke '
+                '$email.',
+            'data': {'email': email},
+          }, 403),
+        ),
+        prefs,
+      );
+      final repository = AuthenticationRepositoryImpl(
+        AuthenticationApiService(api),
+        AuthenticationLocalDataSource(prefs),
+      );
 
-    final result = await repository.userLogin(
-      loginData: const LoginModel(nim: '2000016123', password: 'rahasia123'),
-    );
+      final result = await repository.userLogin(
+        loginData: const LoginModel(nim: '2000016123', password: 'rahasia123'),
+      );
 
-    expect(result.left, isA<UnverifiedAccountFailures>());
-    expect((result.left as UnverifiedAccountFailures).email, email);
-  });
+      expect(result.left, isA<UnverifiedAccountFailures>());
+      expect((result.left as UnverifiedAccountFailures).email, email);
+    },
+  );
 
   test('ApiClient meneruskan data dari respons error', () async {
     final api = ApiClient(
@@ -203,8 +210,9 @@ void main() {
     await expectLater(
       api.post('/auth/login'),
       throwsA(
-        isA<RequestErrorException>()
-            .having((e) => e.data, 'data', {'email': email}),
+        isA<RequestErrorException>().having((e) => e.data, 'data', {
+          'email': email,
+        }),
       ),
     );
   });
@@ -228,34 +236,38 @@ void main() {
       await bloc.close();
     });
 
-    test('verifikasi: salah lalu benar; kirim ulang terlalu cepat ditolak',
-        () async {
-      final repository = repositoryWith(backend);
-      final bloc = RegistrationVerificationBloc(
-        VerifyRegistrationUsecase(repository),
-        ResendRegistrationCodeUsecase(repository),
-      );
-      final states = <RegistrationVerificationState>[];
-      final subscription = bloc.stream.listen(states.add);
+    test(
+      'verifikasi: salah lalu benar; kirim ulang terlalu cepat ditolak',
+      () async {
+        final repository = repositoryWith(backend);
+        final bloc = RegistrationVerificationBloc(
+          VerifyRegistrationUsecase(repository),
+          ResendRegistrationCodeUsecase(repository),
+        );
+        final states = <RegistrationVerificationState>[];
+        final subscription = bloc.stream.listen(states.add);
 
-      bloc.add(const SubmitVerificationCode(email: email, code: '000000'));
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-      bloc.add(const ResendVerificationCode(email));
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-      bloc.add(const SubmitVerificationCode(email: email, code: '123456'));
-      await Future<void>.delayed(const Duration(milliseconds: 50));
+        bloc.add(const SubmitVerificationCode(email: email, code: '000000'));
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        bloc.add(const ResendVerificationCode(email));
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        bloc.add(const SubmitVerificationCode(email: email, code: '123456'));
+        await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      expect(states, [
-        const VerificationSubmitting(),
-        const VerificationFailed('Kode salah. Sisa 4 percobaan.'),
-        const VerificationResending(),
-        const VerificationFailed('Tunggu 42 detik sebelum meminta kode baru.'),
-        const VerificationSubmitting(),
-        const VerificationSucceeded('Akun berhasil dibuat'),
-      ]);
-      await subscription.cancel();
-      await bloc.close();
-    });
+        expect(states, [
+          const VerificationSubmitting(),
+          const VerificationFailed('Kode salah. Sisa 4 percobaan.'),
+          const VerificationResending(),
+          const VerificationFailed(
+            'Tunggu 42 detik sebelum meminta kode baru.',
+          ),
+          const VerificationSubmitting(),
+          const VerificationSucceeded('Akun berhasil dibuat'),
+        ]);
+        await subscription.cancel();
+        await bloc.close();
+      },
+    );
 
     test('verifikasi yang sedang berjalan tidak dikirim dua kali', () async {
       final bloc = RegistrationVerificationBloc(
@@ -275,8 +287,9 @@ void main() {
   });
 
   group('layar', () {
-    testWidgets('form daftar: NIM muncul dari email, isian kosong ditolak',
-        (tester) async {
+    testWidgets('form daftar: NIM muncul dari email, isian kosong ditolak', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider(
@@ -301,8 +314,9 @@ void main() {
       expect(requests, isEmpty);
     });
 
-    testWidgets('form daftar: password berspasi ditolak sebelum dikirim',
-        (tester) async {
+    testWidgets('form daftar: password berspasi ditolak sebelum dikirim', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider(
@@ -322,49 +336,53 @@ void main() {
         await tester.tap(find.text('Daftar'));
         await tester.pump();
 
-        expect(find.text('Password tidak boleh mengandung spasi'), findsOne,
-            reason: '"$password"');
+        expect(
+          find.text('Password tidak boleh mengandung spasi'),
+          findsOne,
+          reason: '"$password"',
+        );
       }
       expect(requests, isEmpty);
     });
 
     testWidgets(
-        'layar kode: hitung mundur kirim ulang, 6 angka langsung dikirim',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: BlocProvider(
-            create: (_) => RegistrationVerificationBloc(
-              VerifyRegistrationUsecase(repositoryWith(backend)),
-              ResendRegistrationCodeUsecase(repositoryWith(backend)),
-            ),
-            child: const RegistrationVerificationPage(
-              extra: RegistrationVerificationPageExtra(
-                email: email,
-                resendIn: 60,
+      'layar kode: hitung mundur kirim ulang, 6 angka langsung dikirim',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: BlocProvider(
+              create: (_) => RegistrationVerificationBloc(
+                VerifyRegistrationUsecase(repositoryWith(backend)),
+                ResendRegistrationCodeUsecase(repositoryWith(backend)),
+              ),
+              child: const RegistrationVerificationPage(
+                extra: RegistrationVerificationPageExtra(
+                  email: email,
+                  resendIn: 60,
+                ),
               ),
             ),
           ),
-        ),
-      );
+        );
 
-      expect(find.text('Kirim ulang kode dalam 60 detik'), findsOne);
-      await tester.pump(const Duration(seconds: 3));
-      expect(find.text('Kirim ulang kode dalam 57 detik'), findsOne);
+        expect(find.text('Kirim ulang kode dalam 60 detik'), findsOne);
+        await tester.pump(const Duration(seconds: 3));
+        expect(find.text('Kirim ulang kode dalam 57 detik'), findsOne);
 
-      await tester.enterText(find.byType(TextField), '0000a0');
-      expect(requests, isEmpty);
+        await tester.enterText(find.byType(TextField), '0000a0');
+        expect(requests, isEmpty);
 
-      await tester.enterText(find.byType(TextField), '000000');
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 50)),
-      );
-      await tester.pump();
+        await tester.enterText(find.byType(TextField), '000000');
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 50)),
+        );
+        await tester.pump();
 
-      expect(requests.single.url.path, '/auth/register/verify');
-      expect(find.text('Kode salah. Sisa 4 percobaan.'), findsOne);
+        expect(requests.single.url.path, '/auth/register/verify');
+        expect(find.text('Kode salah. Sisa 4 percobaan.'), findsOne);
 
-      await tester.pumpWidget(const SizedBox());
-    });
+        await tester.pumpWidget(const SizedBox());
+      },
+    );
   });
 }

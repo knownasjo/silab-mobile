@@ -12,14 +12,18 @@ class GetAllAnnouncementsBloc
   final GetAllAnnouncementsUseCase _getAllAnnouncementsUseCase;
 
   GetAllAnnouncementsBloc(this._getAllAnnouncementsUseCase)
-      : super(GetAllAnnouncementsInitial()) {
+    : super(GetAllAnnouncementsInitial()) {
     on<GetAllAnnouncements>(onGetAllAnnouncements);
-    on<RefreshAllAnnouncements>(onRefreshAllAnnouncements,
-        transformer: coalesced());
+    on<RefreshAllAnnouncements>(
+      onRefreshAllAnnouncements,
+      transformer: coalesced(),
+    );
   }
 
-  void onGetAllAnnouncements(GetAllAnnouncementsEvent event,
-      Emitter<GetAllAnnouncementsState> emit) async {
+  void onGetAllAnnouncements(
+    GetAllAnnouncementsEvent event,
+    Emitter<GetAllAnnouncementsState> emit,
+  ) async {
     emit(GetAllAnnouncementsLoading());
 
     final data = await _getAllAnnouncementsUseCase.announcementRepository
@@ -31,8 +35,10 @@ class GetAllAnnouncementsBloc
     );
   }
 
-  Future<void> onRefreshAllAnnouncements(RefreshAllAnnouncements event,
-      Emitter<GetAllAnnouncementsState> emit) async {
+  Future<void> onRefreshAllAnnouncements(
+    RefreshAllAnnouncements event,
+    Emitter<GetAllAnnouncementsState> emit,
+  ) async {
     if (state is GetAllAnnouncementsInitial) return;
 
     final data = await _getAllAnnouncementsUseCase.announcementRepository

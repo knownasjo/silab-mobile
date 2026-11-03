@@ -24,15 +24,11 @@ SnackBar snackBar({
 
   return SnackBar(
     duration: const Duration(seconds: 3),
-    persist: action != null &&
+    persist:
+        action != null &&
         actionLabel != null &&
         WidgetsBinding.instance.accessibilityFeatures.accessibleNavigation,
-    content: Text(
-      message!,
-      style: TextStyle(
-        color: textColor,
-      ),
-    ),
+    content: Text(message!, style: TextStyle(color: textColor)),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     backgroundColor: backgroundColor,
     behavior: SnackBarBehavior.floating,

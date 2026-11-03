@@ -56,8 +56,11 @@ void main() {
         expect(request.url.path, '/class/me');
         return statusCode == 200
             ? http.Response(
-                jsonEncode(
-                    {'status': true, 'message': 'Berhasil', 'data': classes}),
+                jsonEncode({
+                  'status': true,
+                  'message': 'Berhasil',
+                  'data': classes,
+                }),
                 200,
               )
             : http.Response(
@@ -79,42 +82,43 @@ void main() {
       Future<void>.delayed(const Duration(milliseconds: 30));
 
   Widget app(UserRegisteredClassBloc bloc) => BlocProvider.value(
-        value: bloc,
-        child: MaterialApp.router(
-          routerConfig: GoRouter(
-            initialLocation: '/class',
-            routes: [
-              GoRoute(
-                path: '/home',
-                name: 'home',
-                builder: (context, state) => const Text('Halaman Beranda'),
-              ),
-              GoRoute(
-                path: '/class',
-                builder: (context, state) => Scaffold(
-                  body: RegisteredClassGuard(
-                    classEntity: openedFromList,
-                    builder: (context, latest) => Text(
-                      'Kelas ${latest.subjectClass} · ${latest.day} · ${latest.sessionTime}',
-                    ),
-                  ),
+    value: bloc,
+    child: MaterialApp.router(
+      routerConfig: GoRouter(
+        initialLocation: '/class',
+        routes: [
+          GoRoute(
+            path: '/home',
+            name: 'home',
+            builder: (context, state) => const Text('Halaman Beranda'),
+          ),
+          GoRoute(
+            path: '/class',
+            builder: (context, state) => Scaffold(
+              body: RegisteredClassGuard(
+                classEntity: openedFromList,
+                builder: (context, latest) => Text(
+                  'Kelas ${latest.subjectClass} · ${latest.day} · ${latest.sessionTime}',
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 
   testWidgets(
-      'sebelum daftar kelas dimuat, memakai data dari halaman sebelumnya',
-      (tester) async {
-    final bloc = createBloc();
+    'sebelum daftar kelas dimuat, memakai data dari halaman sebelumnya',
+    (tester) async {
+      final bloc = createBloc();
 
-    await tester.pumpWidget(app(bloc));
+      await tester.pumpWidget(app(bloc));
 
-    expect(find.text('Kelas C · TUESDAY · 16.10 - 17.10'), findsOne);
-    await tester.runAsync(() => bloc.close());
-  });
+      expect(find.text('Kelas C · TUESDAY · 16.10 - 17.10'), findsOne);
+      await tester.runAsync(() => bloc.close());
+    },
+  );
 
   testWidgets('jadwal yang diubah laboran langsung tampil', (tester) async {
     late UserRegisteredClassBloc bloc;
@@ -131,7 +135,7 @@ void main() {
         ...alproC,
         'subjectClass': 'E',
         'day': 'WEDNESDAY',
-        'sessionTime': '12.30 - 14.10'
+        'sessionTime': '12.30 - 14.10',
       },
     ];
     await tester.runAsync(() async {
@@ -145,8 +149,9 @@ void main() {
     await tester.runAsync(() => bloc.close());
   });
 
-  testWidgets('kelas dihapus: tampil pemberitahuan dan tombol ke Beranda',
-      (tester) async {
+  testWidgets('kelas dihapus: tampil pemberitahuan dan tombol ke Beranda', (
+    tester,
+  ) async {
     late UserRegisteredClassBloc bloc;
 
     await tester.runAsync(() async {
@@ -164,10 +169,7 @@ void main() {
 
     expect(find.text('Kelas C · TUESDAY · 16.10 - 17.10'), findsNothing);
     expect(find.text('Anda sudah tidak terdaftar di kelas ini.'), findsOne);
-    expect(
-      find.textContaining('atau semesternya sudah selesai'),
-      findsOne,
-    );
+    expect(find.textContaining('atau semesternya sudah selesai'), findsOne);
 
     await tester.tap(find.text('Kembali ke Beranda'));
     await tester.pumpAndSettle();

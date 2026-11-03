@@ -3,7 +3,7 @@ import 'package:silab/features/select_subjects/domain/entities/user_class_option
 
 class UserClassOptionByPaidSubjectState extends Equatable {
   final List<UserClassOptionByPaidSubjectEntity>?
-      userClassOptionByPaidSubjectEntity;
+  userClassOptionByPaidSubjectEntity;
   final String? message;
 
   const UserClassOptionByPaidSubjectState({
@@ -23,8 +23,9 @@ final class UserClassOptionByPaidSubjectLoading
 
 final class UserClassOptionByPaidSubjectLoaded
     extends UserClassOptionByPaidSubjectState {
-  const UserClassOptionByPaidSubjectLoaded(
-      {super.userClassOptionByPaidSubjectEntity});
+  const UserClassOptionByPaidSubjectLoaded({
+    super.userClassOptionByPaidSubjectEntity,
+  });
 }
 
 final class UserClassOptionByPaidSubjectFailed

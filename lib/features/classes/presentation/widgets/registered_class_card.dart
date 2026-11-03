@@ -7,10 +7,7 @@ import 'package:silab/features/classes/presentation/pages/class_detail_page.dart
 class RegisteredClassCard extends StatelessWidget {
   final ClassEntity? classEntity;
 
-  const RegisteredClassCard({
-    super.key,
-    this.classEntity,
-  });
+  const RegisteredClassCard({super.key, this.classEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +28,7 @@ class RegisteredClassCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xffBFD9EF),
-            width: 1.5,
-          ),
+          border: Border.all(color: const Color(0xffBFD9EF), width: 1.5),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,8 +118,8 @@ class RegisteredClassCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
-                            color:
-                                const Color(0xff1d1d1d).withValues(alpha: 0.5),
+                            color: const Color(0xff1d1d1d)
+                                .withValues(alpha: 0.5),
                           ),
                         ),
                         Text(
@@ -136,10 +130,7 @@ class RegisteredClassCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const VerticalDivider(
-                    color: Color(0xffBFD9EF),
-                    thickness: 1,
-                  ),
+                  const VerticalDivider(color: Color(0xffBFD9EF), thickness: 1),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2.5,
                     child: Column(
@@ -150,8 +141,8 @@ class RegisteredClassCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
-                            color:
-                                const Color(0xff1d1d1d).withValues(alpha: 0.5),
+                            color: const Color(0xff1d1d1d)
+                                .withValues(alpha: 0.5),
                           ),
                         ),
                         Text(

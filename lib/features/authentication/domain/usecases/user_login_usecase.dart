@@ -12,8 +12,9 @@ class UserLoginUsecase
   const UserLoginUsecase(this.authenticationRepository);
 
   @override
-  Future<Either<Failures, LoginResponseEntity>> call(
-      {LoginModel? params}) async {
+  Future<Either<Failures, LoginResponseEntity>> call({
+    LoginModel? params,
+  }) async {
     return authenticationRepository.userLogin(loginData: params);
   }
 }

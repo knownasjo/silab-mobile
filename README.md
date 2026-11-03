@@ -225,6 +225,18 @@ yang dipasang di atas APK lama tetap masuk tanpa login ulang, permintaan ke
 server sama (96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama,
 dan presensi QR sungguhan tetap tercatat hadir dengan status BIASA.
 
+Seluruh kode di `lib` dan `test` lalu dirapikan sekali dengan
+`dart format lib test`. Sejak bahasa Dart 3.7, `dart format` memakai gaya
+baru: baris dipecah mengikuti lebar 80 karakter, dan koma di akhir daftar
+ditambah atau dibuang otomatis. Yang berubah hanya tata letak 181 file: token
+kode sama persis kecuali koma di akhir daftar, isi komentar sama, tipe setiap
+ekspresi di semua file tidak berubah, dan file generate tidak tersentuh. Diuji
+dengan cara yang sama: 216 tes widget dan 6 tes live lulus dengan gambar akhir
+sama persis, APK baru yang dipasang di atas APK lama tetap masuk tanpa login
+ulang, permintaan ke server sama (96 permintaan dalam 47 langkah), 10 kasus
+tombol kembali sama, dan presensi QR sungguhan tetap tercatat hadir dengan
+status BIASA.
+
 ## Akun uji
 
 | NIM | Password |
@@ -732,6 +744,12 @@ File generate yang sudah tidak cocok dihapus dan dibuat ulang otomatis, jadi
 opsi `--delete-conflicting-outputs` tidak dipakai lagi (`build_runner` kini
 mengabaikannya dengan peringatan). Jangan memakai `--build-filter`: di salinan
 yang belum pernah di-build, file generate milik entity lain ikut terhapus.
+
+Kode dirapikan dengan format bawaan Dart (file generate tidak ikut berubah):
+
+```bash
+dart format lib test
+```
 
 ## Tes
 

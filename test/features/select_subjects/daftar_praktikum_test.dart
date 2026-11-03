@@ -28,11 +28,11 @@ import '../../helpers/real_font.dart';
 const offered = 'Tidak ada praktikum yang ditawarkan';
 
 Map<String, dynamic> subject(int i) => {
-      'id': 's$i',
-      'subjectName': 'Praktikum Mata Kuliah Nomor $i',
-      'subjectCode': '55331000$i',
-      'semester': '1',
-    };
+  'id': 's$i',
+  'subjectName': 'Praktikum Mata Kuliah Nomor $i',
+  'subjectCode': '55331000$i',
+  'semester': '1',
+};
 
 void main() {
   late SharedPreferences prefs;
@@ -46,8 +46,10 @@ void main() {
 
   setUp(() async {
     AppConfig.create(baseUrl: 'http://silab.test');
-    SharedPreferences.setMockInitialValues(
-        {'accessToken': 'akses', 'refreshToken': 'segar'});
+    SharedPreferences.setMockInitialValues({
+      'accessToken': 'akses',
+      'refreshToken': 'segar',
+    });
     prefs = await SharedPreferences.getInstance();
     posts = [];
     subjectCount = 3;
@@ -58,7 +60,9 @@ void main() {
 
   http.Response ok(Object? data, [String message = 'Berhasil']) =>
       http.Response(
-          jsonEncode({'status': true, 'message': message, 'data': data}), 200);
+        jsonEncode({'status': true, 'message': message, 'data': data}),
+        200,
+      );
 
   Future<http.Response> backend(http.Request request) async {
     final path = request.url.path;
@@ -77,26 +81,27 @@ void main() {
             'createdAt': '2026-09-30T02:00:00.000Z',
             'subjectId': id,
             'subjects': [
-              {'subjectName': 'Terdaftar $id', 'semester': '1'}
+              {'subjectName': 'Terdaftar $id', 'semester': '1'},
             ],
             'registeredClass': null,
             'availableClasses': [],
-          }
+          },
       ]);
     }
 
     if (path == '/activation' && request.method == 'POST') {
       posts.add(request);
       await holdPost?.future;
-      final ids =
-          (jsonDecode(request.body)['subjectIds'] as List).cast<String>();
+      final ids = (jsonDecode(request.body)['subjectIds'] as List)
+          .cast<String>();
       if (ids.any(registered.contains)) {
         return http.Response(
-            jsonEncode({
-              'status': false,
-              'message': 'Mata kuliah berikut sudah pernah didaftarkan: X'
-            }),
-            409);
+          jsonEncode({
+            'status': false,
+            'message': 'Mata kuliah berikut sudah pernah didaftarkan: X',
+          }),
+          409,
+        );
       }
       registered.addAll(ids);
       return ok(null, 'Pendaftaran mata kuliah berhasil');
@@ -108,7 +113,8 @@ void main() {
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 5; i++) {
       await tester.runAsync(
-          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+        () => Future<void>.delayed(const Duration(milliseconds: 20)),
+      );
       await tester.pump(const Duration(milliseconds: 100));
     }
     await tester.pumpAndSettle();
@@ -121,72 +127,82 @@ void main() {
     addTearDown(tester.view.reset);
 
     final api = ApiClient(MockClient(backend), prefs);
-    final selected =
-        SelectedSubjectRepositoryImpl(SelectedSubjectApiService(api));
-    final router = GoRouter(initialLocation: '/home/daftar', routes: [
-      ShellRoute(
-        builder: (context, state, child) => Scaffold(
-          appBar: AppBar(title: const Text('Pendaftaran Praktikum')),
-          body: SafeArea(child: SingleChildScrollView(child: child)),
-        ),
-        routes: [
-          GoRoute(
-            path: '/home',
-            name: 'home',
-            builder: (_, __) => const Text('Beranda'),
-            routes: [
-              GoRoute(
-                path: 'daftar',
-                name: 'daftar-praktikum',
-                builder: (_, __) => const DaftarPraktikumPage(),
-              ),
-              GoRoute(
-                path: 'ringkasan',
-                name: 'ringkasan-praktikum',
-                builder: (_, state) => RingkasanDaftarPage(
-                  ringkasanDaftarPageExtra:
-                      state.extra as RingkasanDaftarPageExtra,
-                ),
-              ),
-              GoRoute(
-                path: 'payment-status',
-                name: 'payment-status',
-                builder: (_, __) => const Text('Halaman Pembayaran'),
-              ),
-            ],
+    final selected = SelectedSubjectRepositoryImpl(
+      SelectedSubjectApiService(api),
+    );
+    final router = GoRouter(
+      initialLocation: '/home/daftar',
+      routes: [
+        ShellRoute(
+          builder: (context, state, child) => Scaffold(
+            appBar: AppBar(title: const Text('Pendaftaran Praktikum')),
+            body: SafeArea(child: SingleChildScrollView(child: child)),
           ),
-        ],
-      ),
-    ]);
-    addTearDown(router.dispose);
-
-    await tester.pumpWidget(MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => SubjectListBloc(GetSubjectListUseCase(
-              SubjectRepositoryImpl(SubjectApiService(api)))),
-        ),
-        BlocProvider(
-          create: (_) => SelectedSubjectByNimBloc(
-              GetSelectedSubjectByNimUsecase(selected)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              AddSelectedSubjectBloc(AddSelectedSubjectUseCase(selected)),
+          routes: [
+            GoRoute(
+              path: '/home',
+              name: 'home',
+              builder: (_, __) => const Text('Beranda'),
+              routes: [
+                GoRoute(
+                  path: 'daftar',
+                  name: 'daftar-praktikum',
+                  builder: (_, __) => const DaftarPraktikumPage(),
+                ),
+                GoRoute(
+                  path: 'ringkasan',
+                  name: 'ringkasan-praktikum',
+                  builder: (_, state) => RingkasanDaftarPage(
+                    ringkasanDaftarPageExtra:
+                        state.extra as RingkasanDaftarPageExtra,
+                  ),
+                ),
+                GoRoute(
+                  path: 'payment-status',
+                  name: 'payment-status',
+                  builder: (_, __) => const Text('Halaman Pembayaran'),
+                ),
+              ],
+            ),
+          ],
         ),
       ],
-      child: MaterialApp.router(
-        theme: ThemeData(fontFamily: realFontFamily),
-        routerConfig: router,
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => SubjectListBloc(
+              GetSubjectListUseCase(
+                SubjectRepositoryImpl(SubjectApiService(api)),
+              ),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => SelectedSubjectByNimBloc(
+              GetSelectedSubjectByNimUsecase(selected),
+            ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                AddSelectedSubjectBloc(AddSelectedSubjectUseCase(selected)),
+          ),
+        ],
+        child: MaterialApp.router(
+          theme: ThemeData(fontFamily: realFontFamily),
+          routerConfig: router,
+        ),
       ),
-    ));
+    );
     await settle(tester);
   }
 
   Finder tile(int i) => find.ancestor(
-        of: find.text('Praktikum Mata Kuliah Nomor $i'),
-        matching: find.byType(CheckboxListTile),
-      );
+    of: find.text('Praktikum Mata Kuliah Nomor $i'),
+    matching: find.byType(CheckboxListTile),
+  );
 
   Future<void> goToSummaryWith(WidgetTester tester, int i) async {
     await tester.tap(tile(i));
@@ -200,113 +216,122 @@ void main() {
   }
 
   testWidgets(
-      'banyak mata kuliah di HP kecil: halaman bisa digeser jari sampai Selanjutnya',
-      (tester) async {
-    subjectCount = 9;
-    await openPage(tester);
+    'banyak mata kuliah di HP kecil: halaman bisa digeser jari sampai Selanjutnya',
+    (tester) async {
+      subjectCount = 9;
+      await openPage(tester);
 
-    expect(tester.takeException(), isNull);
-    await tester.tap(tile(1));
-    await tester.pumpAndSettle();
-    expect(tester.getRect(find.text('Selanjutnya')).top, greaterThan(640));
+      expect(tester.takeException(), isNull);
+      await tester.tap(tile(1));
+      await tester.pumpAndSettle();
+      expect(tester.getRect(find.text('Selanjutnya')).top, greaterThan(640));
 
-    await tester.drag(tile(3), const Offset(0, -600));
-    await tester.pumpAndSettle();
+      await tester.drag(tile(3), const Offset(0, -600));
+      await tester.pumpAndSettle();
 
-    final button = tester.getRect(find.text('Selanjutnya'));
-    expect(button.bottom, lessThanOrEqualTo(640));
-    await tester.tap(find.text('Selanjutnya'));
-    await tester.pumpAndSettle();
-    expect(find.byType(RingkasanDaftarPage), findsOneWidget);
-  });
-
-  testWidgets(
-      'server mati: "Gagal memuat mata kuliah." dengan Coba lagi, bukan "tidak ditawarkan"',
-      (tester) async {
-    subjectsDown = true;
-    await openPage(tester);
-
-    expect(find.text(offered), findsNothing);
-    expect(find.text('Gagal memuat mata kuliah.'), findsOneWidget);
-
-    subjectsDown = false;
-    await tester.tap(find.text('Coba lagi'));
-    await settle(tester);
-
-    expect(find.text('Gagal memuat mata kuliah.'), findsNothing);
-    expect(find.text('Praktikum Mata Kuliah Nomor 1'), findsOneWidget);
-  });
+      final button = tester.getRect(find.text('Selanjutnya'));
+      expect(button.bottom, lessThanOrEqualTo(640));
+      await tester.tap(find.text('Selanjutnya'));
+      await tester.pumpAndSettle();
+      expect(find.byType(RingkasanDaftarPage), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      'mata kuliah yang sudah didaftarkan tercentang, tidak bisa diubah, dan bertanda',
-      (tester) async {
-    registered = {'s1'};
-    await openPage(tester);
+    'server mati: "Gagal memuat mata kuliah." dengan Coba lagi, bukan "tidak ditawarkan"',
+    (tester) async {
+      subjectsDown = true;
+      await openPage(tester);
 
-    final done = tester.widget<CheckboxListTile>(tile(1));
-    expect(done.value, isTrue);
-    expect(done.onChanged, isNull);
-    expect(find.text('553310001 · Sudah didaftarkan'), findsOneWidget);
+      expect(find.text(offered), findsNothing);
+      expect(find.text('Gagal memuat mata kuliah.'), findsOneWidget);
 
-    final open = tester.widget<CheckboxListTile>(tile(2));
-    expect(open.value, isFalse);
-    expect(open.onChanged, isNotNull);
-    expect(find.text('553310002'), findsOneWidget);
+      subjectsDown = false;
+      await tester.tap(find.text('Coba lagi'));
+      await settle(tester);
 
-    await tester.tap(tile(1));
-    await tester.pumpAndSettle();
-    expect(tester.widget<CheckboxListTile>(tile(1)).value, isTrue);
-    final next = find.ancestor(
-        of: find.text('Selanjutnya'), matching: find.byType(ElevatedButton));
-    expect(tester.widget<ElevatedButton>(next.first).onPressed, isNull);
-  });
+      expect(find.text('Gagal memuat mata kuliah.'), findsNothing);
+      expect(find.text('Praktikum Mata Kuliah Nomor 1'), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      'Simpan ditekan berkali-kali: satu permintaan, tombol terkunci, lalu ke Pembayaran tanpa pesan merah',
-      (tester) async {
-    await openPage(tester);
-    await goToSummaryWith(tester, 2);
+    'mata kuliah yang sudah didaftarkan tercentang, tidak bisa diubah, dan bertanda',
+    (tester) async {
+      registered = {'s1'};
+      await openPage(tester);
 
-    holdPost = Completer<void>();
-    await tester.tap(find.text('Simpan').last);
-    await tester.pump();
+      final done = tester.widget<CheckboxListTile>(tile(1));
+      expect(done.value, isTrue);
+      expect(done.onChanged, isNull);
+      expect(find.text('553310001 · Sudah didaftarkan'), findsOneWidget);
 
-    expect(find.text('Menyimpan...'), findsOneWidget);
-    for (final label in ['Menyimpan...', 'Kembali']) {
-      await tester.tap(find.text(label), warnIfMissed: false);
+      final open = tester.widget<CheckboxListTile>(tile(2));
+      expect(open.value, isFalse);
+      expect(open.onChanged, isNotNull);
+      expect(find.text('553310002'), findsOneWidget);
+
+      await tester.tap(tile(1));
+      await tester.pumpAndSettle();
+      expect(tester.widget<CheckboxListTile>(tile(1)).value, isTrue);
+      final next = find.ancestor(
+        of: find.text('Selanjutnya'),
+        matching: find.byType(ElevatedButton),
+      );
+      expect(tester.widget<ElevatedButton>(next.first).onPressed, isNull);
+    },
+  );
+
+  testWidgets(
+    'Simpan ditekan berkali-kali: satu permintaan, tombol terkunci, lalu ke Pembayaran tanpa pesan merah',
+    (tester) async {
+      await openPage(tester);
+      await goToSummaryWith(tester, 2);
+
+      holdPost = Completer<void>();
+      await tester.tap(find.text('Simpan').last);
       await tester.pump();
-    }
-    await tester.tapAt(const Offset(10, 10));
-    await tester.pump();
-    expect(find.text('Simpan Pendaftaran'), findsOneWidget);
 
-    holdPost!.complete();
-    await settle(tester);
+      expect(find.text('Menyimpan...'), findsOneWidget);
+      for (final label in ['Menyimpan...', 'Kembali']) {
+        await tester.tap(find.text(label), warnIfMissed: false);
+        await tester.pump();
+      }
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pump();
+      expect(find.text('Simpan Pendaftaran'), findsOneWidget);
 
-    expect(tester.takeException(), isNull);
-    expect(posts, hasLength(1));
-    expect(jsonDecode(posts.single.body), {
-      'subjectIds': ['s2']
-    });
-    expect(find.text('Halaman Pembayaran'), findsOneWidget);
-    expect(find.text('Silakan Lanjutkan Proses Pembayaran'), findsOneWidget);
-    expect(find.textContaining('sudah pernah didaftarkan'), findsNothing);
-  });
+      holdPost!.complete();
+      await settle(tester);
+
+      expect(tester.takeException(), isNull);
+      expect(posts, hasLength(1));
+      expect(jsonDecode(posts.single.body), {
+        'subjectIds': ['s2'],
+      });
+      expect(find.text('Halaman Pembayaran'), findsOneWidget);
+      expect(find.text('Silakan Lanjutkan Proses Pembayaran'), findsOneWidget);
+      expect(find.textContaining('sudah pernah didaftarkan'), findsNothing);
+    },
+  );
 
   testWidgets(
-      'penolakan server: dialog tertutup, pesan merah, tetap di Ringkasan',
-      (tester) async {
-    await openPage(tester);
-    await goToSummaryWith(tester, 3);
-    registered.add('s3');
+    'penolakan server: dialog tertutup, pesan merah, tetap di Ringkasan',
+    (tester) async {
+      await openPage(tester);
+      await goToSummaryWith(tester, 3);
+      registered.add('s3');
 
-    await tester.tap(find.text('Simpan').last);
-    await settle(tester);
+      await tester.tap(find.text('Simpan').last);
+      await settle(tester);
 
-    expect(tester.takeException(), isNull);
-    expect(find.text('Simpan Pendaftaran'), findsNothing);
-    expect(find.text('Mata kuliah berikut sudah pernah didaftarkan: X'),
-        findsOneWidget);
-    expect(find.byType(RingkasanDaftarPage), findsOneWidget);
-  });
+      expect(tester.takeException(), isNull);
+      expect(find.text('Simpan Pendaftaran'), findsNothing);
+      expect(
+        find.text('Mata kuliah berikut sudah pernah didaftarkan: X'),
+        findsOneWidget,
+      );
+      expect(find.byType(RingkasanDaftarPage), findsOneWidget);
+    },
+  );
 }

@@ -69,22 +69,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     if (!_formKey.currentState!.validate()) return;
 
     context.read<ResetPasswordBloc>().add(
-          SubmitNewPassword(
-            ResetPasswordModel(
-              email: _email,
-              code: _codeController.text,
-              password: _passwordController.text,
-              confirmPassword: _confirmPasswordController.text,
-            ),
-          ),
-        );
+      SubmitNewPassword(
+        ResetPasswordModel(
+          email: _email,
+          code: _codeController.text,
+          password: _passwordController.text,
+          confirmPassword: _confirmPasswordController.text,
+        ),
+      ),
+    );
   }
 
   void _showMessage(String message, AlertType type) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      snackBar(message: message, type: type),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(snackBar(message: message, type: type));
   }
 
   void _back() {
@@ -239,7 +238,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     const SizedBox(height: 24),
                     BlocBuilder<ResetPasswordBloc, ResetPasswordState>(
                       builder: (context, state) {
-                        final isSubmitting = state is ResetPasswordSubmitting ||
+                        final isSubmitting =
+                            state is ResetPasswordSubmitting ||
                             state is ResetPasswordSucceeded;
 
                         return CustomLargeButton(
@@ -248,8 +248,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               ? const SizedBox(
                                   width: 16,
                                   height: 16,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text(
                                   'Simpan',
@@ -279,9 +280,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         return TextButton(
                           onPressed: isResending
                               ? null
-                              : () => context
-                                  .read<ResetPasswordBloc>()
-                                  .add(ResendResetCode(_email)),
+                              : () => context.read<ResetPasswordBloc>().add(
+                                  ResendResetCode(_email),
+                                ),
                           child: Text(
                             isResending
                                 ? 'Mengirim kode...'

@@ -7,10 +7,7 @@ import 'package:silab/features/classes/presentation/widgets/build_registered_cla
 class BuildRegisteredClassSuccess extends StatelessWidget {
   final UserRegisteredClassState state;
 
-  const BuildRegisteredClassSuccess({
-    super.key,
-    required this.state,
-  });
+  const BuildRegisteredClassSuccess({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +17,11 @@ class BuildRegisteredClassSuccess extends StatelessWidget {
       children: [
         Row(
           children: [
-            Image.asset(
-              'assets/image/bookmark.png',
-              scale: 2,
-            ),
+            Image.asset('assets/image/bookmark.png', scale: 2),
             const SizedBox(width: 8),
             const Text(
               'Kelas Terdaftar',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ],
         ),
@@ -40,19 +31,17 @@ class BuildRegisteredClassSuccess extends StatelessWidget {
           child: ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: state.registeredClasses != null &&
+            itemCount:
+                state.registeredClasses != null &&
                     state.registeredClasses!.isNotEmpty
                 ? state.registeredClasses!.length
                 : 1,
             itemBuilder: (context, index) => state is UserRegisteredClassLoading
                 ? const BuildRegisteredClassLoading()
                 : state.registeredClasses != null &&
-                        state.registeredClasses!.isNotEmpty
-                    ? BuildRegisteredClassNotEmpty(
-                        index: index,
-                        state: state,
-                      )
-                    : const BuildRegisteredClassEmpty(),
+                      state.registeredClasses!.isNotEmpty
+                ? BuildRegisteredClassNotEmpty(index: index, state: state)
+                : const BuildRegisteredClassEmpty(),
           ),
         ),
       ],

@@ -5,7 +5,8 @@ part 'add_selected_subject_response_entity.freezed.dart';
 part 'add_selected_subject_response_entity.g.dart';
 
 @freezed
-abstract class AddSelectedSubjectResponseEntity with _$AddSelectedSubjectResponseEntity {
+abstract class AddSelectedSubjectResponseEntity
+    with _$AddSelectedSubjectResponseEntity {
   const factory AddSelectedSubjectResponseEntity({
     bool? status,
     String? message,
@@ -13,6 +14,6 @@ abstract class AddSelectedSubjectResponseEntity with _$AddSelectedSubjectRespons
   }) = _AddSelectedSubjectResponseEntity;
 
   factory AddSelectedSubjectResponseEntity.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddSelectedSubjectResponseEntityFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$AddSelectedSubjectResponseEntityFromJson(json);
 }

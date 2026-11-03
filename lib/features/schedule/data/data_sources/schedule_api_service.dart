@@ -23,9 +23,9 @@ class ScheduleApiService {
     final assistedData = responses[1]['data'];
     final assistedClasses = assistedData is List
         ? assistedData
-            .whereType<Map<String, dynamic>>()
-            .map(AssistedClassEntity.fromJson)
-            .toList()
+              .whereType<Map<String, dynamic>>()
+              .map(AssistedClassEntity.fromJson)
+              .toList()
         : const <AssistedClassEntity>[];
 
     final practicums = [

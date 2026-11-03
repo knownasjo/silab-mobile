@@ -56,48 +56,39 @@ class _CustomFormFieldState extends State<CustomFormField> {
           color: const Color(0xff1d1d1d).withValues(alpha: 0.3),
         ),
         prefixIcon: widget.suffixIcon != null
-            ? Image.asset(
-                widget.suffixIcon!,
-                scale: 2,
-              )
+            ? Image.asset(widget.suffixIcon!, scale: 2)
             : null,
         suffixIcon: widget.isObscure
             ? isObscure
-                ? GestureDetector(
-                    onTap: () => setState(() {
-                      isObscure = !isObscure;
-                    }),
-                    child: Image.asset(
-                      'assets/image/show-password.png',
-                      scale: 2,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () => setState(() {
-                      isObscure = !isObscure;
-                    }),
-                    child: Image.asset(
-                      'assets/image/hide-password.png',
-                      scale: 2,
-                    ),
-                  )
+                  ? GestureDetector(
+                      onTap: () => setState(() {
+                        isObscure = !isObscure;
+                      }),
+                      child: Image.asset(
+                        'assets/image/show-password.png',
+                        scale: 2,
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: () => setState(() {
+                        isObscure = !isObscure;
+                      }),
+                      child: Image.asset(
+                        'assets/image/hide-password.png',
+                        scale: 2,
+                      ),
+                    )
             : null,
         border: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color(0xffBFD9EF),
-          ),
+          borderSide: const BorderSide(color: Color(0xffBFD9EF)),
           borderRadius: BorderRadius.circular(30),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color(0xffBFD9EF),
-          ),
+          borderSide: const BorderSide(color: Color(0xffBFD9EF)),
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color(0xff3272CA),
-          ),
+          borderSide: const BorderSide(color: Color(0xff3272CA)),
           borderRadius: BorderRadius.circular(30),
         ),
       ),

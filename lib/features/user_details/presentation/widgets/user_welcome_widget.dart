@@ -41,18 +41,12 @@ class _UserWelcomeState extends State<UserWelcomeWidget> {
             children: [
               Text(
                 'Selamat Datang,',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
               ),
               Text(
                 '-',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
             ],
           );
         }
@@ -64,10 +58,7 @@ class _UserWelcomeState extends State<UserWelcomeWidget> {
             children: [
               const Text(
                 'Selamat Datang,',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
               ),
               Text(
                 (state is UserDetailLoaded && state.userDetailEntity != null)
@@ -77,7 +68,7 @@ class _UserWelcomeState extends State<UserWelcomeWidget> {
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
-              )
+              ),
             ],
           ),
         );

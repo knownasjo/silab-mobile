@@ -22,22 +22,24 @@ class CustomPopUp extends StatelessWidget {
       content: Text(body),
       actions: [
         TextButton(
-            onPressed: () {
-              action();
+          onPressed: () {
+            action();
 
-              context.pop();
-              context.pop();
+            context.pop();
+            context.pop();
 
-              context
-                  .read<SelectedSubjectByNimBloc>()
-                  .add(GetUserSelectedSubjects());
-            },
-            child: const Text('Confirm')),
+            context.read<SelectedSubjectByNimBloc>().add(
+              GetUserSelectedSubjects(),
+            );
+          },
+          child: const Text('Confirm'),
+        ),
         TextButton(
-            onPressed: () {
-              context.pop();
-            },
-            child: const Text('Cancel')),
+          onPressed: () {
+            context.pop();
+          },
+          child: const Text('Cancel'),
+        ),
       ],
     );
   }

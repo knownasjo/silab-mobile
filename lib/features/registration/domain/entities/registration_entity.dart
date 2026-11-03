@@ -20,8 +20,9 @@ class RegistrationEntity extends Equatable {
         expiresIn: json['expiresIn'] is num
             ? (json['expiresIn'] as num).toInt()
             : 600,
-        resendIn:
-            json['resendIn'] is num ? (json['resendIn'] as num).toInt() : 60,
+        resendIn: json['resendIn'] is num
+            ? (json['resendIn'] as num).toInt()
+            : 60,
       );
 
   @override

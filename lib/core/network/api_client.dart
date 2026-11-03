@@ -76,14 +76,14 @@ class ApiClient {
             .timeout(_eventStreamIdleTimeout)
             .transform(_serverEvents())
             .listen(
-          (event) {
-            failures = 0;
-            if (event.type != 'ping') controller.add(event);
-          },
-          onError: (_) => reconnect(failed: true),
-          onDone: reconnect,
-          cancelOnError: true,
-        );
+              (event) {
+                failures = 0;
+                if (event.type != 'ping') controller.add(event);
+              },
+              onError: (_) => reconnect(failed: true),
+              onDone: reconnect,
+              cancelOnError: true,
+            );
       } on Exception {
         reconnect(failed: true);
       }
@@ -152,10 +152,12 @@ class ApiClient {
           data += line.substring(5).trim();
         } else if (line.isEmpty && type != null) {
           final decoded = _tryJsonDecode(data);
-          sink.add(ServerEvent(
-            type!,
-            decoded is Map<String, dynamic> ? decoded : const {},
-          ));
+          sink.add(
+            ServerEvent(
+              type!,
+              decoded is Map<String, dynamic> ? decoded : const {},
+            ),
+          );
           type = null;
           data = '';
         }
@@ -203,8 +205,9 @@ class ApiClient {
   }
 
   Future<String?> _refreshAccessToken() {
-    return _pendingRefresh ??=
-        _requestNewAccessToken().whenComplete(() => _pendingRefresh = null);
+    return _pendingRefresh ??= _requestNewAccessToken().whenComplete(
+      () => _pendingRefresh = null,
+    );
   }
 
   Future<String?> _requestNewAccessToken() async {
@@ -273,8 +276,12 @@ class ApiClient {
     Object? body,
     String? accessToken,
   }) async {
-    final request =
-        _buildRequest(method, path, body: body, accessToken: accessToken);
+    final request = _buildRequest(
+      method,
+      path,
+      body: body,
+      accessToken: accessToken,
+    );
 
     try {
       return await http.Response.fromStream(
@@ -282,13 +289,16 @@ class ApiClient {
       );
     } on TimeoutException {
       throw RequestErrorException(
-          'Server tidak merespons. Periksa koneksi dan alamat server.');
+        'Server tidak merespons. Periksa koneksi dan alamat server.',
+      );
     } on TlsException {
       throw RequestErrorException(
-          'Koneksi aman ke server gagal (sertifikat HTTPS). Hubungi laboran.');
+        'Koneksi aman ke server gagal (sertifikat HTTPS). Hubungi laboran.',
+      );
     } on http.ClientException {
       throw RequestErrorException(
-          'Tidak dapat terhubung ke server. Periksa koneksi internet.');
+        'Tidak dapat terhubung ke server. Periksa koneksi internet.',
+      );
     }
   }
 
@@ -297,7 +307,8 @@ class ApiClient {
     if (decoded is Map<String, dynamic>) return decoded;
 
     throw RequestErrorException(
-        'Respons server tidak dikenali (HTTP ${response.statusCode}).');
+      'Respons server tidak dikenali (HTTP ${response.statusCode}).',
+    );
   }
 
   Object? _tryJsonDecode(String body) {

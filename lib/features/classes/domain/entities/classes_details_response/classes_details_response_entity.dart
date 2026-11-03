@@ -5,7 +5,8 @@ part 'classes_details_response_entity.freezed.dart';
 part 'classes_details_response_entity.g.dart';
 
 @freezed
-abstract class ClassesDetailsResponseEntity with _$ClassesDetailsResponseEntity {
+abstract class ClassesDetailsResponseEntity
+    with _$ClassesDetailsResponseEntity {
   const factory ClassesDetailsResponseEntity({
     int? status,
     String? message,

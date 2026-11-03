@@ -8,11 +8,7 @@ class UserAttendancesEvent extends Equatable {
   const UserAttendancesEvent({this.classId, this.meetingId, this.meetingToken});
 
   @override
-  List<Object?> get props => [
-        classId,
-        meetingId,
-        meetingToken,
-      ];
+  List<Object?> get props => [classId, meetingId, meetingToken];
 }
 
 final class AddUserAttendances extends UserAttendancesEvent {

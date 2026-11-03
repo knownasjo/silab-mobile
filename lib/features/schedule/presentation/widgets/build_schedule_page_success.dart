@@ -8,10 +8,7 @@ import 'package:silab/features/schedule/presentation/widgets/build_scheulde_page
 class BuildSchedulePageSuccess extends StatelessWidget {
   final UserScheduleState state;
 
-  const BuildSchedulePageSuccess({
-    super.key,
-    required this.state,
-  });
+  const BuildSchedulePageSuccess({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +22,8 @@ class BuildSchedulePageSuccess extends StatelessWidget {
         itemBuilder: (context, index) => state is UserScheduleLoading
             ? const BuildScheuldePageLoading()
             : hasSchedules
-                ? BuildSchedulePageScheduleList(state: state, index: index)
-                : const BuildSchedulePageEmpty(),
+            ? BuildSchedulePageScheduleList(state: state, index: index)
+            : const BuildSchedulePageEmpty(),
       ),
     );
   }

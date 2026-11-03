@@ -31,23 +31,19 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
       checkboxShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
       ),
-      side: const BorderSide(
-        color: Color(0xff1d1d1d),
-        width: 1,
-      ),
-      value: isRegistered ||
+      side: const BorderSide(color: Color(0xff1d1d1d), width: 1),
+      value:
+          isRegistered ||
           userSelectedSubjectsId.contains(
-              state.subjectList != null ? state.subjectList![index] : ''),
+            state.subjectList != null ? state.subjectList![index] : '',
+          ),
       onChanged: isRegistered ? null : onChanged,
       dense: true,
       title: Text(
         state.subjectList != null
             ? state.subjectList![index].subjectName!
             : 'Subject Name',
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-        ),
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
       ),
       subtitle: subtitle.isNotEmpty
           ? Text(

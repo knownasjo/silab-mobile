@@ -16,34 +16,33 @@ Widget shellWithNavbar({
   required ScrollController controller,
   required Widget child,
   bool withAppBar = true,
-}) =>
-    Scaffold(
-      backgroundColor: Colors.white,
-      appBar: withAppBar ? AppBar(title: Text(title)) : null,
-      body: SafeArea(
-        child: SingleChildScrollView(controller: controller, child: child),
-      ),
-      extendBody: true,
-      floatingActionButton: CustomBottomNavbar(
-        isVisible: true,
-        currentIndex: 0,
-        items: [
-          for (final (icon, label) in [
-            ('home', 'Beranda'),
-            ('schedule', 'Jadwal'),
-            ('profile', 'Profil'),
-          ])
-            BottomNavbarEntity(
-              icon: SvgPicture.asset('assets/image/$icon.svg'),
-              iconActive: SvgPicture.asset('assets/image/${icon}_active.svg'),
-              label: label,
-            ),
-        ],
-        scrollController: controller,
-        onTap: (_) {},
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+}) => Scaffold(
+  backgroundColor: Colors.white,
+  appBar: withAppBar ? AppBar(title: Text(title)) : null,
+  body: SafeArea(
+    child: SingleChildScrollView(controller: controller, child: child),
+  ),
+  extendBody: true,
+  floatingActionButton: CustomBottomNavbar(
+    isVisible: true,
+    currentIndex: 0,
+    items: [
+      for (final (icon, label) in [
+        ('home', 'Beranda'),
+        ('schedule', 'Jadwal'),
+        ('profile', 'Profil'),
+      ])
+        BottomNavbarEntity(
+          icon: SvgPicture.asset('assets/image/$icon.svg'),
+          iconActive: SvgPicture.asset('assets/image/${icon}_active.svg'),
+          label: label,
+        ),
+    ],
+    scrollController: controller,
+    onTap: (_) {},
+  ),
+  floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+);
 
 Future<void> scrollEverythingToEnd(WidgetTester tester) async {
   for (var round = 0; round < 2; round++) {
@@ -58,9 +57,12 @@ Future<void> scrollEverythingToEnd(WidgetTester tester) async {
 }
 
 double navbarTop(WidgetTester tester) => tester
-    .getRect(find
-        .descendant(
+    .getRect(
+      find
+          .descendant(
             of: find.byType(CustomBottomNavbar),
-            matching: find.byType(Container))
-        .first)
+            matching: find.byType(Container),
+          )
+          .first,
+    )
     .top;

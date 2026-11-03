@@ -13,10 +13,7 @@ import 'package:silab/features/user_details/presentation/widgets/user_welcome_wi
 class ScaffoldPage extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
 
-  const ScaffoldPage({
-    super.key,
-    required this.navigationShell,
-  });
+  const ScaffoldPage({super.key, required this.navigationShell});
 
   @override
   State<ScaffoldPage> createState() => _ScaffoldPageState();
@@ -29,17 +26,20 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
 
   List<BottomNavbarEntity> items = [
     BottomNavbarEntity(
-        icon: SvgPicture.asset('assets/image/home.svg'),
-        iconActive: SvgPicture.asset('assets/image/home_active.svg'),
-        label: 'Beranda'),
+      icon: SvgPicture.asset('assets/image/home.svg'),
+      iconActive: SvgPicture.asset('assets/image/home_active.svg'),
+      label: 'Beranda',
+    ),
     BottomNavbarEntity(
-        icon: SvgPicture.asset('assets/image/schedule.svg'),
-        iconActive: SvgPicture.asset('assets/image/schedule_active.svg'),
-        label: 'Jadwal'),
+      icon: SvgPicture.asset('assets/image/schedule.svg'),
+      iconActive: SvgPicture.asset('assets/image/schedule_active.svg'),
+      label: 'Jadwal',
+    ),
     BottomNavbarEntity(
-        icon: SvgPicture.asset('assets/image/profile.svg'),
-        iconActive: SvgPicture.asset('assets/image/profile_active.svg'),
-        label: 'Profil'),
+      icon: SvgPicture.asset('assets/image/profile.svg'),
+      iconActive: SvgPicture.asset('assets/image/profile_active.svg'),
+      label: 'Profil',
+    ),
   ];
 
   void _goBranch(int index) {
@@ -154,25 +154,22 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
                 forceMaterialTransparency: true,
               )
             : currentRoute.contains('/home')
-                ? AppBar(
-                    title: Text(
-                      appBarTitle,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    leading: InkWell(
-                      onTap: () => context.pop(),
-                      borderRadius: BorderRadius.circular(100),
-                      child: const Icon(
-                        Icons.chevron_left,
-                        size: 32,
-                      ),
-                    ),
-                    forceMaterialTransparency: true,
-                  )
-                : null,
+            ? AppBar(
+                title: Text(
+                  appBarTitle,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                leading: InkWell(
+                  onTap: () => context.pop(),
+                  borderRadius: BorderRadius.circular(100),
+                  child: const Icon(Icons.chevron_left, size: 32),
+                ),
+                forceMaterialTransparency: true,
+              )
+            : null,
         body: SafeArea(
           child: NotificationListener<ScrollNotification>(
             onNotification: (scrollNotification) {
@@ -199,17 +196,18 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
         ),
         extendBody: true,
         floatingActionButton: CustomBottomNavbar(
-            isVisible: _isNavbarVisible,
-            currentIndex: currentIndex,
-            items: items,
-            scrollController: _scrollController,
-            onTap: (index) {
-              setState(() {
-                currentIndex = index;
-              });
+          isVisible: _isNavbarVisible,
+          currentIndex: currentIndex,
+          items: items,
+          scrollController: _scrollController,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
 
-              _goBranch(index);
-            }),
+            _goBranch(index);
+          },
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );

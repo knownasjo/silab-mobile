@@ -11,8 +11,9 @@ class GetUserMeetingsDataUsecase
   const GetUserMeetingsDataUsecase(this.classRepository);
 
   @override
-  Future<Either<Failures, MeetingsResponseEntity>> call(
-      {String? params}) async {
+  Future<Either<Failures, MeetingsResponseEntity>> call({
+    String? params,
+  }) async {
     return await classRepository.getUserMeetingsData(classId: params);
   }
 }

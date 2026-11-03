@@ -49,9 +49,10 @@ class AssistedClassesSection extends StatelessWidget {
   }
 
   Widget _buildClass(AssistedClassEntity assistedClass) {
-    final time = [assistedClass.startAt, assistedClass.endAt]
-        .whereType<String>()
-        .join(' - ');
+    final time = [
+      assistedClass.startAt,
+      assistedClass.endAt,
+    ].whereType<String>().join(' - ');
     final schedule = [
       formatDay(assistedClass.day),
       if (time.isNotEmpty) time,

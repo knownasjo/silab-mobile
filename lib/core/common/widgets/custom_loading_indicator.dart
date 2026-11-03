@@ -18,9 +18,7 @@ class CustomLoadingIndicator extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             shape: BoxShape.rectangle,
           ),
-          child: const Center(
-            child: CupertinoActivityIndicator(),
-          ),
+          child: const Center(child: CupertinoActivityIndicator()),
         ),
       ],
     );

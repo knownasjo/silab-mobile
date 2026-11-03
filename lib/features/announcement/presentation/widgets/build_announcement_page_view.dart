@@ -26,8 +26,8 @@ class BuildAnnouncementPageView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount:
             state is GetAllAnnouncementsLoaded && announcements.length > 1
-                ? announcements.length
-                : 1,
+            ? announcements.length
+            : 1,
         itemBuilder: (context, index) => BuildAnnouncementBanner(
           state: state,
           index: index,

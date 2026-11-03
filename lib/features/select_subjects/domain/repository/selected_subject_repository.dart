@@ -7,16 +7,17 @@ import 'package:silab/features/select_subjects/domain/entities/user_class_option
 
 abstract class SelectedSubjectRepository {
   Future<Either<Failures, SelectedSubjectResponseEntity>>
-      getUserSelectedSubjects();
+  getUserSelectedSubjects();
 
   Future<Either<Failures, AddSelectedSubjectResponseEntity>>
-      addUserSelectedSubject({List<String>? subjects});
+  addUserSelectedSubject({List<String>? subjects});
 
   Future<Either<Failures, UserClassOptionByPaidSubjectResponseEntity>>
-      getUserClassOptionbyPaidSubjects();
+  getUserClassOptionbyPaidSubjects();
 
-  Future<Either<Failures, AddSelectedClassResponseEntity>> addSelectedClass(
-      {List<String>? selectedClass});
+  Future<Either<Failures, AddSelectedClassResponseEntity>> addSelectedClass({
+    List<String>? selectedClass,
+  });
 
   Future<Either<Failures, String>> cancelActivation(String activationId);
 }

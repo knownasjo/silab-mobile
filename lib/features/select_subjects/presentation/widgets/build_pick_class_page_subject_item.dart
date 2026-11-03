@@ -7,7 +7,7 @@ class BuildPickClassPageSubjectItem extends StatelessWidget {
   final Map<String?, List<UserClassOptionByPaidSubjectEntity>> groupedClasses;
   final Map<String, String> selectedClasses;
   final Function({String? subjectName, String? selectedClass})
-      onSelectedClassChanged;
+  onSelectedClassChanged;
 
   const BuildPickClassPageSubjectItem({
     super.key,
@@ -26,10 +26,7 @@ class BuildPickClassPageSubjectItem extends StatelessWidget {
         children: [
           Text(
             groupedClasses.keys.toList()[index]!,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           ClassOptionList(
@@ -39,7 +36,7 @@ class BuildPickClassPageSubjectItem extends StatelessWidget {
               selectedClass: value,
             ),
             selectedClass: selectedClasses[groupedClasses.keys.toList()[index]],
-          )
+          ),
         ],
       ),
     );

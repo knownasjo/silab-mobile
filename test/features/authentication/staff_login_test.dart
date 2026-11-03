@@ -38,42 +38,44 @@ void main() {
   });
 
   ApiClient api() => ApiClient(
-        MockClient((request) async {
-          requests.add('${request.method} ${request.url.path}');
+    MockClient((request) async {
+      requests.add('${request.method} ${request.url.path}');
 
-          if (request.url.path == '/auth/login') {
-            return http.Response(
-              jsonEncode({
-                'status': true,
-                'message': 'Login berhasil',
-                'data': {'accessToken': 'akses', 'refreshToken': 'segar'},
-              }),
-              200,
-            );
-          }
+      if (request.url.path == '/auth/login') {
+        return http.Response(
+          jsonEncode({
+            'status': true,
+            'message': 'Login berhasil',
+            'data': {'accessToken': 'akses', 'refreshToken': 'segar'},
+          }),
+          200,
+        );
+      }
 
-          return http.Response(
-            jsonEncode({
-              'status': true,
-              'message': 'Success get user data!',
-              'data': {'role': role},
-            }),
-            200,
-          );
+      return http.Response(
+        jsonEncode({
+          'status': true,
+          'message': 'Success get user data!',
+          'data': {'role': role},
         }),
-        prefs,
+        200,
       );
+    }),
+    prefs,
+  );
 
   AuthenticationRepositoryImpl repository() => AuthenticationRepositoryImpl(
-        AuthenticationApiService(api(), FixedDeviceIdSource('a' * 64)),
-        AuthenticationLocalDataSource(prefs),
-      );
+    AuthenticationApiService(api(), FixedDeviceIdSource('a' * 64)),
+    AuthenticationLocalDataSource(prefs),
+  );
 
   group('validasi nomor di halaman masuk', () {
     test('NIY 8 angka diarahkan ke SILAB versi web', () {
       expect(validateLoginNumber('60020001'), staffUseWebMessage);
-      expect(staffUseWebMessage,
-          'Akun dosen dan laboran memakai SILAB versi web.');
+      expect(
+        staffUseWebMessage,
+        'Akun dosen dan laboran memakai SILAB versi web.',
+      );
     });
 
     test('aturan NIM mahasiswa tetap sama', () {
@@ -141,8 +143,9 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('NIY 8 angka: pesan tampil tanpa menghubungi server',
-        (tester) async {
+    testWidgets('NIY 8 angka: pesan tampil tanpa menghubungi server', (
+      tester,
+    ) async {
       await pumpLogin(tester);
       await signIn(tester, '60020001');
 
@@ -150,8 +153,9 @@ void main() {
       expect(requests, isEmpty);
     });
 
-    testWidgets('server menyebut role staf: pesan tampil di snackbar',
-        (tester) async {
+    testWidgets('server menyebut role staf: pesan tampil di snackbar', (
+      tester,
+    ) async {
       await pumpLogin(tester);
       await signIn(tester, '6002000100');
 

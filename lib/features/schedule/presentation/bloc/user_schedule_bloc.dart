@@ -11,17 +11,19 @@ class UserScheduleBloc extends Bloc<UserScheduleEvent, UserScheduleState> {
   final GetUserScheduleUsecase _getUserScheduleUsecase;
 
   UserScheduleBloc(this._getUserScheduleUsecase)
-      : super(UserScheduleInitial()) {
+    : super(UserScheduleInitial()) {
     on<GetUserSchedule>(onGetUserSchedule);
     on<RefreshUserSchedule>(onRefreshUserSchedule, transformer: coalesced());
   }
 
   void onGetUserSchedule(
-      UserScheduleEvent event, Emitter<UserScheduleState> emit) async {
+    UserScheduleEvent event,
+    Emitter<UserScheduleState> emit,
+  ) async {
     emit(UserScheduleLoading());
 
-    final data =
-        await _getUserScheduleUsecase.scheduleRepository.getUserSchedule();
+    final data = await _getUserScheduleUsecase.scheduleRepository
+        .getUserSchedule();
 
     data.fold(
       (left) => emit(UserScheduleFailed(message: left.message)),
@@ -30,11 +32,13 @@ class UserScheduleBloc extends Bloc<UserScheduleEvent, UserScheduleState> {
   }
 
   Future<void> onRefreshUserSchedule(
-      RefreshUserSchedule event, Emitter<UserScheduleState> emit) async {
+    RefreshUserSchedule event,
+    Emitter<UserScheduleState> emit,
+  ) async {
     if (state is UserScheduleInitial) return;
 
-    final data =
-        await _getUserScheduleUsecase.scheduleRepository.getUserSchedule();
+    final data = await _getUserScheduleUsecase.scheduleRepository
+        .getUserSchedule();
 
     data.fold(
       (left) => null,

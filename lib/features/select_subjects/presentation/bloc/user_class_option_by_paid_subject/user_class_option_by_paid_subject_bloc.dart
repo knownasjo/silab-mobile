@@ -4,13 +4,17 @@ import 'package:silab/features/select_subjects/domain/usecases/get_user_class_op
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_event.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_state.dart';
 
-class UserClassOptionByPaidSubjectBloc extends Bloc<
-    UserClassOptionByPaidSubjectEvent, UserClassOptionByPaidSubjectState> {
+class UserClassOptionByPaidSubjectBloc
+    extends
+        Bloc<
+          UserClassOptionByPaidSubjectEvent,
+          UserClassOptionByPaidSubjectState
+        > {
   final GetUserClassOptionByPaidSubjectUsecase
-      _getUserClassOptionByPaidSubjectUsecase;
+  _getUserClassOptionByPaidSubjectUsecase;
 
   UserClassOptionByPaidSubjectBloc(this._getUserClassOptionByPaidSubjectUsecase)
-      : super(UserClassOptionByPaidSubjectInitial()) {
+    : super(UserClassOptionByPaidSubjectInitial()) {
     on<GetUserClassOptionByPaidSubject>(onGetUserClassOptionByPaidSubject);
     on<RefreshUserClassOptionByPaidSubject>(
       onRefreshUserClassOptionByPaidSubject,
@@ -19,8 +23,9 @@ class UserClassOptionByPaidSubjectBloc extends Bloc<
   }
 
   void onGetUserClassOptionByPaidSubject(
-      UserClassOptionByPaidSubjectEvent event,
-      Emitter<UserClassOptionByPaidSubjectState> emit) async {
+    UserClassOptionByPaidSubjectEvent event,
+    Emitter<UserClassOptionByPaidSubjectState> emit,
+  ) async {
     emit(UserClassOptionByPaidSubjectLoading());
 
     final data = await _getUserClassOptionByPaidSubjectUsecase
@@ -29,14 +34,18 @@ class UserClassOptionByPaidSubjectBloc extends Bloc<
 
     data.fold(
       (left) => emit(UserClassOptionByPaidSubjectFailed(message: left.message)),
-      (right) => emit(UserClassOptionByPaidSubjectLoaded(
-          userClassOptionByPaidSubjectEntity: right.data)),
+      (right) => emit(
+        UserClassOptionByPaidSubjectLoaded(
+          userClassOptionByPaidSubjectEntity: right.data,
+        ),
+      ),
     );
   }
 
   Future<void> onRefreshUserClassOptionByPaidSubject(
-      RefreshUserClassOptionByPaidSubject event,
-      Emitter<UserClassOptionByPaidSubjectState> emit) async {
+    RefreshUserClassOptionByPaidSubject event,
+    Emitter<UserClassOptionByPaidSubjectState> emit,
+  ) async {
     if (state is UserClassOptionByPaidSubjectInitial) return;
 
     final data = await _getUserClassOptionByPaidSubjectUsecase
@@ -45,8 +54,11 @@ class UserClassOptionByPaidSubjectBloc extends Bloc<
 
     data.fold(
       (left) => null,
-      (right) => emit(UserClassOptionByPaidSubjectLoaded(
-          userClassOptionByPaidSubjectEntity: right.data)),
+      (right) => emit(
+        UserClassOptionByPaidSubjectLoaded(
+          userClassOptionByPaidSubjectEntity: right.data,
+        ),
+      ),
     );
   }
 }

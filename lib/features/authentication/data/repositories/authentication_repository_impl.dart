@@ -18,8 +18,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   );
 
   @override
-  Future<Either<Failures, LoginResponseEntity>> userLogin(
-      {LoginModel? loginData}) async {
+  Future<Either<Failures, LoginResponseEntity>> userLogin({
+    LoginModel? loginData,
+  }) async {
     try {
       if (loginData != null) {
         final result = await _authenticationApiService.userLogin(loginData);
@@ -27,8 +28,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
         if (result.data != null &&
             result.data!.accessToken != null &&
             result.data!.refreshToken != null) {
-          final role = await _authenticationApiService
-              .getUserRole(result.data!.accessToken!);
+          final role = await _authenticationApiService.getUserRole(
+            result.data!.accessToken!,
+          );
 
           if (role != 'MAHASISWA') {
             return Left(RequestFailures(staffUseWebMessage));
@@ -60,8 +62,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Either<Failures, String> getUserAccessToken() {
-    final String? userAccessToken =
-        _authenticationLocalDataSource.getUserAccessToken();
+    final String? userAccessToken = _authenticationLocalDataSource
+        .getUserAccessToken();
 
     if (userAccessToken != null) {
       return Right(userAccessToken);
@@ -133,8 +135,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   @override
   Either<Failures, int> getSessionExpiry() {
-    final int? sessionExpiry =
-        _authenticationLocalDataSource.getSessionExpiry();
+    final int? sessionExpiry = _authenticationLocalDataSource
+        .getSessionExpiry();
 
     if (sessionExpiry != null) {
       return Right(sessionExpiry);

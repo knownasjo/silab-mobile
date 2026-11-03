@@ -15,7 +15,9 @@ class BuildDaftarPraktikumPageDropdown extends StatelessWidget {
     final menuItems = List.generate(8, (i) {
       int semester = i + 1;
       return DropdownMenuItem(
-          value: semester, child: Text('Semester $semester'));
+        value: semester,
+        child: Text('Semester $semester'),
+      );
     });
 
     return Container(
@@ -23,10 +25,7 @@ class BuildDaftarPraktikumPageDropdown extends StatelessWidget {
       height: 35,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: const Color(0xffBFD9EF),
-        ),
+        border: Border.all(width: 2, color: const Color(0xffBFD9EF)),
         borderRadius: BorderRadius.circular(15),
       ),
       child: DropdownButton(
@@ -35,10 +34,7 @@ class BuildDaftarPraktikumPageDropdown extends StatelessWidget {
         value: currentValue,
         underline: const SizedBox(),
         elevation: 100,
-        icon: Image.asset(
-          'assets/image/chevron_down_blue.png',
-          scale: 2,
-        ),
+        icon: Image.asset('assets/image/chevron_down_blue.png', scale: 2),
         enableFeedback: true,
         alignment: Alignment.centerLeft,
         isExpanded: true,

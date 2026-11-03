@@ -22,23 +22,22 @@ class AccountRepositoryImpl implements AccountRepository {
   @override
   Future<Either<Failures, String>> changePassword(
     ChangePasswordModel passwordData,
-  ) =>
-      _guard(() async {
-        final result = await _accountApiService.changePassword(passwordData);
-        final accessToken = result.data?.accessToken;
-        final refreshToken = result.data?.refreshToken;
+  ) => _guard(() async {
+    final result = await _accountApiService.changePassword(passwordData);
+    final accessToken = result.data?.accessToken;
+    final refreshToken = result.data?.refreshToken;
 
-        if (accessToken == null || refreshToken == null) {
-          throw RequestErrorException('Respons server tidak lengkap.');
-        }
+    if (accessToken == null || refreshToken == null) {
+      throw RequestErrorException('Respons server tidak lengkap.');
+    }
 
-        await _authenticationLocalDataSource.setUserTokens(
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-        );
+    await _authenticationLocalDataSource.setUserTokens(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    );
 
-        return result.message ?? 'Password berhasil diganti';
-      });
+    return result.message ?? 'Password berhasil diganti';
+  });
 
   Future<Either<Failures, T>> _guard<T>(Future<T> Function() request) async {
     try {

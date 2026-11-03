@@ -5,5 +5,9 @@ class BottomNavbarEntity {
   final SvgPicture iconActive;
   final String label;
 
-  BottomNavbarEntity({required this.icon, required this.label, required this.iconActive});
+  BottomNavbarEntity({
+    required this.icon,
+    required this.label,
+    required this.iconActive,
+  });
 }

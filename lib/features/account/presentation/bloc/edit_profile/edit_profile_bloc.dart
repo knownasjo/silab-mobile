@@ -8,8 +8,7 @@ part 'edit_profile_state.dart';
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   final UpdateProfileUsecase _updateProfileUsecase;
 
-  EditProfileBloc(this._updateProfileUsecase)
-      : super(const EditProfileIdle()) {
+  EditProfileBloc(this._updateProfileUsecase) : super(const EditProfileIdle()) {
     on<SubmitProfile>(_onSubmitProfile);
   }
 

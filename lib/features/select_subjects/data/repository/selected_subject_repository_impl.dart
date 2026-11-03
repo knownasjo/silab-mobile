@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:either_dart/either.dart';
 import 'package:silab/core/exceptions/exceptions.dart';
 import 'package:silab/core/failures/failures.dart';
@@ -16,7 +17,7 @@ class SelectedSubjectRepositoryImpl implements SelectedSubjectRepository {
 
   @override
   Future<Either<Failures, SelectedSubjectResponseEntity>>
-      getUserSelectedSubjects() async {
+  getUserSelectedSubjects() async {
     try {
       final result = await _selectedSubjectApiService.getUserSelectedSubject();
 
@@ -30,12 +31,11 @@ class SelectedSubjectRepositoryImpl implements SelectedSubjectRepository {
 
   @override
   Future<Either<Failures, AddSelectedSubjectResponseEntity>>
-      addUserSelectedSubject({
-    List<String>? subjects,
-  }) async {
+  addUserSelectedSubject({List<String>? subjects}) async {
     try {
-      final result =
-          await _selectedSubjectApiService.addUserSelectedSubject(subjects);
+      final result = await _selectedSubjectApiService.addUserSelectedSubject(
+        subjects,
+      );
 
       return Right(result);
     } on RequestErrorException catch (e) {
@@ -46,11 +46,13 @@ class SelectedSubjectRepositoryImpl implements SelectedSubjectRepository {
   }
 
   @override
-  Future<Either<Failures, AddSelectedClassResponseEntity>> addSelectedClass(
-      {List<String>? selectedClass}) async {
+  Future<Either<Failures, AddSelectedClassResponseEntity>> addSelectedClass({
+    List<String>? selectedClass,
+  }) async {
     try {
       final result = await _selectedSubjectApiService.addSelectedClass(
-          selectedClass: selectedClass);
+        selectedClass: selectedClass,
+      );
 
       return Right(result);
     } on RequestErrorException catch (e) {
@@ -62,10 +64,10 @@ class SelectedSubjectRepositoryImpl implements SelectedSubjectRepository {
 
   @override
   Future<Either<Failures, UserClassOptionByPaidSubjectResponseEntity>>
-      getUserClassOptionbyPaidSubjects() async {
+  getUserClassOptionbyPaidSubjects() async {
     try {
-      final result =
-          await _selectedSubjectApiService.getUserClassOptionbyPaidSubjects();
+      final result = await _selectedSubjectApiService
+          .getUserClassOptionbyPaidSubjects();
 
       return Right(result);
     } on RequestErrorException catch (e) {
@@ -78,8 +80,9 @@ class SelectedSubjectRepositoryImpl implements SelectedSubjectRepository {
   @override
   Future<Either<Failures, String>> cancelActivation(String activationId) async {
     try {
-      final result =
-          await _selectedSubjectApiService.cancelActivation(activationId);
+      final result = await _selectedSubjectApiService.cancelActivation(
+        activationId,
+      );
 
       return Right(result);
     } on RequestErrorException catch (e) {

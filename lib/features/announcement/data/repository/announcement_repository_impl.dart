@@ -15,7 +15,7 @@ class AnnouncementRepositoryImpl extends AnnouncementRepository {
 
   @override
   Future<Either<Failures, List<AnnouncementEntity>>>
-      getAllAnnouncement() async {
+  getAllAnnouncement() async {
     try {
       final result = await announcementApiService.getAnnouncementList();
 
@@ -28,8 +28,9 @@ class AnnouncementRepositoryImpl extends AnnouncementRepository {
   }
 
   @override
-  Future<Either<Failures, AnnouncementEntity>> getAnnouncement(
-      {String? id}) async {
+  Future<Either<Failures, AnnouncementEntity>> getAnnouncement({
+    String? id,
+  }) async {
     try {
       final result = await announcementApiService.getAnnouncement(id: id);
 

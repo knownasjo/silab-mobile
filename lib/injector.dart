@@ -96,148 +96,216 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<http.Client>(http.Client());
 
   injector.registerSingleton<SharedPreferences>(
-      await SharedPreferences.getInstance());
+    await SharedPreferences.getInstance(),
+  );
 
   injector.registerSingleton<ApiClient>(ApiClient(injector(), injector()));
 
   injector.registerSingleton<AuthenticationApiService>(
-      AuthenticationApiService(injector()));
+    AuthenticationApiService(injector()),
+  );
   injector.registerSingleton<AuthenticationLocalDataSource>(
-      AuthenticationLocalDataSource(injector()));
+    AuthenticationLocalDataSource(injector()),
+  );
   injector.registerSingleton<UserApiService>(UserApiService(injector()));
   injector.registerSingleton<SelectedSubjectApiService>(
-      SelectedSubjectApiService(injector()));
+    SelectedSubjectApiService(injector()),
+  );
   injector.registerSingleton<ClassesApiService>(ClassesApiService(injector()));
   injector.registerSingleton<SubjectApiService>(SubjectApiService(injector()));
   injector.registerSingleton<AnnouncementApiService>(
-      AnnouncementApiService(injector()));
-  injector
-      .registerSingleton<ScheduleApiService>(ScheduleApiService(injector()));
-  injector
-      .registerSingleton<RealtimeApiService>(RealtimeApiService(injector()));
+    AnnouncementApiService(injector()),
+  );
+  injector.registerSingleton<ScheduleApiService>(
+    ScheduleApiService(injector()),
+  );
+  injector.registerSingleton<RealtimeApiService>(
+    RealtimeApiService(injector()),
+  );
   injector.registerSingleton<RegistrationApiService>(
-      RegistrationApiService(injector()));
+    RegistrationApiService(injector()),
+  );
   injector.registerSingleton<PasswordResetApiService>(
-      PasswordResetApiService(injector()));
+    PasswordResetApiService(injector()),
+  );
   injector.registerSingleton<AccountApiService>(AccountApiService(injector()));
 
   injector.registerSingleton<AuthenticationRepository>(
-      AuthenticationRepositoryImpl(injector(), injector()));
+    AuthenticationRepositoryImpl(injector(), injector()),
+  );
   injector.registerSingleton<UserRepository>(UserRepositoryImpl(injector()));
   injector.registerSingleton<SelectedSubjectRepository>(
-      SelectedSubjectRepositoryImpl(injector()));
+    SelectedSubjectRepositoryImpl(injector()),
+  );
   injector.registerSingleton<ClassRepository>(ClassRepositoryImpl(injector()));
-  injector
-      .registerSingleton<SubjectRepository>(SubjectRepositoryImpl(injector()));
+  injector.registerSingleton<SubjectRepository>(
+    SubjectRepositoryImpl(injector()),
+  );
   injector.registerSingleton<AnnouncementRepository>(
-      AnnouncementRepositoryImpl(injector()));
+    AnnouncementRepositoryImpl(injector()),
+  );
   injector.registerSingleton<ScheduleRepository>(
-      ScheduleRepositoryImpl(injector()));
+    ScheduleRepositoryImpl(injector()),
+  );
   injector.registerSingleton<RealtimeRepository>(
-      RealtimeRepositoryImpl(injector()));
+    RealtimeRepositoryImpl(injector()),
+  );
   injector.registerSingleton<RegistrationRepository>(
-      RegistrationRepositoryImpl(injector(), injector()));
+    RegistrationRepositoryImpl(injector(), injector()),
+  );
   injector.registerSingleton<PasswordResetRepository>(
-      PasswordResetRepositoryImpl(injector()));
+    PasswordResetRepositoryImpl(injector()),
+  );
   injector.registerSingleton<AccountRepository>(
-      AccountRepositoryImpl(injector(), injector()));
+    AccountRepositoryImpl(injector(), injector()),
+  );
 
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
   injector.registerSingleton<GetUserAccessTokenUsecase>(
-      GetUserAccessTokenUsecase(injector()));
+    GetUserAccessTokenUsecase(injector()),
+  );
   injector.registerSingleton<GetSessionExpiry>(GetSessionExpiry(injector()));
   injector.registerSingleton<UserLogoutUsecase>(UserLogoutUsecase(injector()));
   injector.registerSingleton<WatchSessionEndedUsecase>(
-      WatchSessionEndedUsecase(injector()));
+    WatchSessionEndedUsecase(injector()),
+  );
   injector.registerSingleton<GetUserDetailsUseCase>(
-      GetUserDetailsUseCase(injector()));
+    GetUserDetailsUseCase(injector()),
+  );
   injector.registerSingleton<GetAssistedClassesUsecase>(
-      GetAssistedClassesUsecase(injector()));
+    GetAssistedClassesUsecase(injector()),
+  );
   injector.registerSingleton<GetSelectedSubjectByNimUsecase>(
-      GetSelectedSubjectByNimUsecase(injector()));
+    GetSelectedSubjectByNimUsecase(injector()),
+  );
   injector.registerSingleton<GetSubjectDetailsUseCase>(
-      GetSubjectDetailsUseCase(injector()));
+    GetSubjectDetailsUseCase(injector()),
+  );
   injector.registerSingleton<GetSubjectListUseCase>(
-      GetSubjectListUseCase(injector()));
+    GetSubjectListUseCase(injector()),
+  );
   injector.registerSingleton<AddSelectedSubjectUseCase>(
-      AddSelectedSubjectUseCase(injector()));
+    AddSelectedSubjectUseCase(injector()),
+  );
   injector.registerSingleton<GetAllAnnouncementsUseCase>(
-      GetAllAnnouncementsUseCase(injector()));
+    GetAllAnnouncementsUseCase(injector()),
+  );
   injector.registerSingleton<GetAnnouncementUseCase>(
-      GetAnnouncementUseCase(injector()));
+    GetAnnouncementUseCase(injector()),
+  );
   injector.registerSingleton<AddSelectedClassUseCase>(
-      AddSelectedClassUseCase(injector()));
+    AddSelectedClassUseCase(injector()),
+  );
   injector.registerSingleton<GetUserRegisteredClassesUseCase>(
-      GetUserRegisteredClassesUseCase(injector()));
+    GetUserRegisteredClassesUseCase(injector()),
+  );
   injector.registerSingleton<GetUserClassOptionByPaidSubjectUsecase>(
-      GetUserClassOptionByPaidSubjectUsecase(injector()));
+    GetUserClassOptionByPaidSubjectUsecase(injector()),
+  );
   injector.registerSingleton<GetUserMeetingsDataUsecase>(
-      GetUserMeetingsDataUsecase(injector()));
+    GetUserMeetingsDataUsecase(injector()),
+  );
   injector.registerSingleton<GetClassmatesUsecase>(
-      GetClassmatesUsecase(injector()));
+    GetClassmatesUsecase(injector()),
+  );
   injector.registerSingleton<AddUserAttendancesUsecase>(
-      AddUserAttendancesUsecase(injector()));
+    AddUserAttendancesUsecase(injector()),
+  );
   injector.registerSingleton<GetUserScheduleUsecase>(
-      GetUserScheduleUsecase(injector()));
+    GetUserScheduleUsecase(injector()),
+  );
   injector.registerSingleton<WatchRealtimeEventsUsecase>(
-      WatchRealtimeEventsUsecase(injector()));
+    WatchRealtimeEventsUsecase(injector()),
+  );
   injector.registerSingleton<RegisterUsecase>(RegisterUsecase(injector()));
   injector.registerSingleton<VerifyRegistrationUsecase>(
-      VerifyRegistrationUsecase(injector()));
+    VerifyRegistrationUsecase(injector()),
+  );
   injector.registerSingleton<ResendRegistrationCodeUsecase>(
-      ResendRegistrationCodeUsecase(injector()));
+    ResendRegistrationCodeUsecase(injector()),
+  );
   injector.registerSingleton<RequestPasswordResetCodeUsecase>(
-      RequestPasswordResetCodeUsecase(injector()));
+    RequestPasswordResetCodeUsecase(injector()),
+  );
   injector.registerSingleton<ResetPasswordUsecase>(
-      ResetPasswordUsecase(injector()));
-  injector
-      .registerSingleton<UpdateProfileUsecase>(UpdateProfileUsecase(injector()));
+    ResetPasswordUsecase(injector()),
+  );
+  injector.registerSingleton<UpdateProfileUsecase>(
+    UpdateProfileUsecase(injector()),
+  );
   injector.registerSingleton<ChangePasswordUsecase>(
-      ChangePasswordUsecase(injector()));
+    ChangePasswordUsecase(injector()),
+  );
   injector.registerSingleton<CancelActivationUsecase>(
-      CancelActivationUsecase(injector()));
+    CancelActivationUsecase(injector()),
+  );
 
-  injector.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
-      injector(), injector(), injector(), injector(), injector()));
+  injector.registerFactory<AuthenticationBloc>(
+    () => AuthenticationBloc(
+      injector(),
+      injector(),
+      injector(),
+      injector(),
+      injector(),
+    ),
+  );
   injector.registerFactory<UserDetailsBloc>(() => UserDetailsBloc(injector()));
   injector.registerFactory<AssistedClassesBloc>(
-      () => AssistedClassesBloc(injector()));
+    () => AssistedClassesBloc(injector()),
+  );
   injector.registerFactory<SelectedSubjectByNimBloc>(
-      () => SelectedSubjectByNimBloc(injector()));
+    () => SelectedSubjectByNimBloc(injector()),
+  );
   injector.registerFactory<SubjectDetailsBloc>(
-      () => SubjectDetailsBloc(injector()));
+    () => SubjectDetailsBloc(injector()),
+  );
   injector.registerFactory<SubjectListBloc>(() => SubjectListBloc(injector()));
   injector.registerFactory<AddSelectedSubjectBloc>(
-      () => AddSelectedSubjectBloc(injector()));
+    () => AddSelectedSubjectBloc(injector()),
+  );
   injector.registerFactory<GetAnnouncementBloc>(
-      () => GetAnnouncementBloc(injector()));
+    () => GetAnnouncementBloc(injector()),
+  );
   injector.registerFactory<GetAllAnnouncementsBloc>(
-      () => GetAllAnnouncementsBloc(injector()));
+    () => GetAllAnnouncementsBloc(injector()),
+  );
   injector.registerFactory<AddSelectedClassBloc>(
-      () => AddSelectedClassBloc(injector()));
+    () => AddSelectedClassBloc(injector()),
+  );
   injector.registerFactory<UserRegisteredClassBloc>(
-      () => UserRegisteredClassBloc(injector()));
+    () => UserRegisteredClassBloc(injector()),
+  );
   injector.registerFactory<UserClassOptionByPaidSubjectBloc>(
-      () => UserClassOptionByPaidSubjectBloc(injector()));
-  injector
-      .registerFactory<UserMeetingsBloc>(() => UserMeetingsBloc(injector()));
+    () => UserClassOptionByPaidSubjectBloc(injector()),
+  );
+  injector.registerFactory<UserMeetingsBloc>(
+    () => UserMeetingsBloc(injector()),
+  );
   injector.registerFactory<ClassmatesBloc>(() => ClassmatesBloc(injector()));
   injector.registerFactory<UserAttendancesBloc>(
-      () => UserAttendancesBloc(injector()));
-  injector
-      .registerFactory<UserScheduleBloc>(() => UserScheduleBloc(injector()));
+    () => UserAttendancesBloc(injector()),
+  );
+  injector.registerFactory<UserScheduleBloc>(
+    () => UserScheduleBloc(injector()),
+  );
   injector.registerFactory<RealtimeBloc>(() => RealtimeBloc(injector()));
-  injector
-      .registerFactory<RegistrationBloc>(() => RegistrationBloc(injector()));
+  injector.registerFactory<RegistrationBloc>(
+    () => RegistrationBloc(injector()),
+  );
   injector.registerFactory<RegistrationVerificationBloc>(
-      () => RegistrationVerificationBloc(injector(), injector()));
+    () => RegistrationVerificationBloc(injector(), injector()),
+  );
   injector.registerFactory<ForgotPasswordBloc>(
-      () => ForgotPasswordBloc(injector()));
+    () => ForgotPasswordBloc(injector()),
+  );
   injector.registerFactory<ResetPasswordBloc>(
-      () => ResetPasswordBloc(injector(), injector()));
+    () => ResetPasswordBloc(injector(), injector()),
+  );
   injector.registerFactory<EditProfileBloc>(() => EditProfileBloc(injector()));
   injector.registerFactory<ChangePasswordBloc>(
-      () => ChangePasswordBloc(injector()));
+    () => ChangePasswordBloc(injector()),
+  );
   injector.registerFactory<CancelActivationBloc>(
-      () => CancelActivationBloc(injector()));
+    () => CancelActivationBloc(injector()),
+  );
 }

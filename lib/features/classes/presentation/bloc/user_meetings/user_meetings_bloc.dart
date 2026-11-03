@@ -13,13 +13,15 @@ class UserMeetingsBloc extends Bloc<UserMeetingsEvent, UserMeetingsState> {
   String? _classId;
 
   UserMeetingsBloc(this._getUserMeetingsDataUsecase)
-      : super(UserMeetingsInitial()) {
+    : super(UserMeetingsInitial()) {
     on<GetUserMeetings>(onGetUserMeetingsData);
     on<RefreshUserMeetings>(onRefreshUserMeetings, transformer: coalesced());
   }
 
   void onGetUserMeetingsData(
-      UserMeetingsEvent event, Emitter<UserMeetingsState> emit) async {
+    UserMeetingsEvent event,
+    Emitter<UserMeetingsState> emit,
+  ) async {
     _classId = event.classId;
     emit(UserMeetingsLoading());
 
@@ -33,7 +35,9 @@ class UserMeetingsBloc extends Bloc<UserMeetingsEvent, UserMeetingsState> {
   }
 
   Future<void> onRefreshUserMeetings(
-      RefreshUserMeetings event, Emitter<UserMeetingsState> emit) async {
+    RefreshUserMeetings event,
+    Emitter<UserMeetingsState> emit,
+  ) async {
     final classId = event.classId ?? _classId;
     if (classId == null || classId != _classId) return;
 

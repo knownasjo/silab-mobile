@@ -18,7 +18,9 @@ class ClassmatesBloc extends Bloc<ClassmatesEvent, ClassmatesState> {
   }
 
   void onGetClassmates(
-      GetClassmates event, Emitter<ClassmatesState> emit) async {
+    GetClassmates event,
+    Emitter<ClassmatesState> emit,
+  ) async {
     _classId = event.classId;
     emit(ClassmatesLoading());
 
@@ -31,7 +33,9 @@ class ClassmatesBloc extends Bloc<ClassmatesEvent, ClassmatesState> {
   }
 
   Future<void> onRefreshClassmates(
-      RefreshClassmates event, Emitter<ClassmatesState> emit) async {
+    RefreshClassmates event,
+    Emitter<ClassmatesState> emit,
+  ) async {
     final classId = event.classId ?? _classId;
     if (classId == null || classId != _classId) return;
 

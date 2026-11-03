@@ -16,16 +16,16 @@ class BuildRegisteredClassNotEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        bottom: (state.registeredClasses != null &&
+        bottom:
+            (state.registeredClasses != null &&
                 index !=
-                    state.registeredClasses!
-                        .indexOf(state.registeredClasses![index]))
+                    state.registeredClasses!.indexOf(
+                      state.registeredClasses![index],
+                    ))
             ? 0
             : 8,
       ),
-      child: RegisteredClassCard(
-        classEntity: state.registeredClasses![index],
-      ),
+      child: RegisteredClassCard(classEntity: state.registeredClasses![index]),
     );
   }
 }

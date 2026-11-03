@@ -12,17 +12,12 @@ class BuildRegisteredClassEmpty extends StatelessWidget {
           width: 240,
           child: Column(
             children: [
-              Image.asset(
-                'assets/image/empty-assets.png',
-                scale: 3,
-              ),
+              Image.asset('assets/image/empty-assets.png', scale: 3),
               const SizedBox(height: 16),
               const Text(
                 'Belum ada kelas. Kelas muncul di sini setelah pembayaran dikonfirmasi dan kelas dipilih.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
             ],
           ),

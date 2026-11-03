@@ -24,10 +24,10 @@ import 'package:silab/features/user_details/domain/usecases/get_user_details_use
 import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
 
 ChangePasswordModel passwordModel(String oldPassword) => ChangePasswordModel(
-      oldPassword: oldPassword,
-      password: 'passwordbaru1',
-      confirmPassword: 'passwordbaru1',
-    );
+  oldPassword: oldPassword,
+  password: 'passwordbaru1',
+  confirmPassword: 'passwordbaru1',
+);
 
 http.Response jsonResponse(Object body, int status) =>
     http.Response(jsonEncode(body), status);
@@ -73,10 +73,10 @@ void main() {
         }, 200);
       case 'PUT /auth/me/password':
         if (body['oldPassword'] != 'passwordlama1') {
-          return jsonResponse(
-            {'status': false, 'message': 'Password lama salah!'},
-            400,
-          );
+          return jsonResponse({
+            'status': false,
+            'message': 'Password lama salah!',
+          }, 400);
         }
         return jsonResponse({
           'status': true,
@@ -99,53 +99,60 @@ void main() {
 
   AccountRepositoryImpl repositoryWith(
     Future<http.Response> Function(http.Request) handler,
-  ) =>
-      AccountRepositoryImpl(
-        AccountApiService(apiWith(handler)),
-        AuthenticationLocalDataSource(prefs),
-      );
+  ) => AccountRepositoryImpl(
+    AccountApiService(apiWith(handler)),
+    AuthenticationLocalDataSource(prefs),
+  );
 
   group('repository', () {
     test('ganti nama mengirim PUT /auth/me dengan token login', () async {
-      final result =
-          await repositoryWith(backend).updateProfile('Budi Santoso Baru');
+      final result = await repositoryWith(backend)
+          .updateProfile('Budi Santoso Baru');
 
       expect(result.right, 'Nama berhasil diperbarui');
       expect(requests.single.method, 'PUT');
       expect(requests.single.url.path, '/auth/me');
       expect(requests.single.headers['Authorization'], 'Bearer akses-lama');
-      expect(jsonDecode(requests.single.body),
-          {'fullname': 'Budi Santoso Baru'});
+      expect(jsonDecode(requests.single.body), {
+        'fullname': 'Budi Santoso Baru',
+      });
     });
 
-    test('ganti password berhasil: token baru disimpan agar tetap masuk',
-        () async {
-      final result = await repositoryWith(backend)
-          .changePassword(passwordModel('passwordlama1'));
+    test(
+      'ganti password berhasil: token baru disimpan agar tetap masuk',
+      () async {
+        final result = await repositoryWith(backend)
+            .changePassword(passwordModel('passwordlama1'));
 
-      expect(result.right, 'Password berhasil diganti');
-      expect(requests.single.url.path, '/auth/me/password');
-      expect(jsonDecode(requests.single.body),
-          passwordModel('passwordlama1').toJson());
-      expect(prefs.getString('accessToken'), 'akses-baru');
-      expect(prefs.getString('refreshToken'), 'segar-baru');
-    });
+        expect(result.right, 'Password berhasil diganti');
+        expect(requests.single.url.path, '/auth/me/password');
+        expect(
+          jsonDecode(requests.single.body),
+          passwordModel('passwordlama1').toJson(),
+        );
+        expect(prefs.getString('accessToken'), 'akses-baru');
+        expect(prefs.getString('refreshToken'), 'segar-baru');
+      },
+    );
 
-    test('password lama salah: pesan diteruskan, token tidak berubah',
-        () async {
-      final result = await repositoryWith(backend)
-          .changePassword(passwordModel('passwordsalah1'));
+    test(
+      'password lama salah: pesan diteruskan, token tidak berubah',
+      () async {
+        final result = await repositoryWith(backend)
+            .changePassword(passwordModel('passwordsalah1'));
 
-      expect(result.left.message, 'Password lama salah!');
-      expect(prefs.getString('accessToken'), 'akses-lama');
-      expect(prefs.getString('refreshToken'), 'segar-lama');
-    });
+        expect(result.left.message, 'Password lama salah!');
+        expect(prefs.getString('accessToken'), 'akses-lama');
+        expect(prefs.getString('refreshToken'), 'segar-lama');
+      },
+    );
   });
 
   group('bloc', () {
     test('ganti nama: Submitting lalu Succeeded', () async {
-      final bloc =
-          EditProfileBloc(UpdateProfileUsecase(repositoryWith(backend)));
+      final bloc = EditProfileBloc(
+        UpdateProfileUsecase(repositoryWith(backend)),
+      );
       final states = <EditProfileState>[];
       final subscription = bloc.stream.listen(states.add);
 
@@ -161,8 +168,9 @@ void main() {
     });
 
     test('ganti password: salah lalu benar, tidak dikirim dua kali', () async {
-      final bloc =
-          ChangePasswordBloc(ChangePasswordUsecase(repositoryWith(backend)));
+      final bloc = ChangePasswordBloc(
+        ChangePasswordUsecase(repositoryWith(backend)),
+      );
       final states = <ChangePasswordState>[];
       final subscription = bloc.stream.listen(states.add);
 
@@ -213,14 +221,16 @@ void main() {
   });
 
   group('layar', () {
-    testWidgets('edit profil: nama lama terisi, isian diperiksa dulu',
-        (tester) async {
+    testWidgets('edit profil: nama lama terisi, isian diperiksa dulu', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: BlocProvider(
-              create: (_) =>
-                  EditProfileBloc(UpdateProfileUsecase(repositoryWith(backend))),
+              create: (_) => EditProfileBloc(
+                UpdateProfileUsecase(repositoryWith(backend)),
+              ),
               child: const EditProfilePage(initialName: 'Budi Santoso'),
             ),
           ),
@@ -243,53 +253,54 @@ void main() {
     });
 
     testWidgets(
-        'ganti password: isian kosong, pendek, berspasi, sama, dan beda ditolak',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: BlocProvider(
-              create: (_) => ChangePasswordBloc(
-                ChangePasswordUsecase(repositoryWith(backend)),
+      'ganti password: isian kosong, pendek, berspasi, sama, dan beda ditolak',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: BlocProvider(
+                create: (_) => ChangePasswordBloc(
+                  ChangePasswordUsecase(repositoryWith(backend)),
+                ),
+                child: const ChangePasswordPage(),
               ),
-              child: const ChangePasswordPage(),
             ),
           ),
-        ),
-      );
+        );
 
-      final fields = find.byType(TextFormField);
-      await tester.tap(find.text('Simpan'));
-      await tester.pump();
-      expect(find.text('Password Lama Belum Diisi!'), findsOne);
-      expect(find.text('Password Baru Belum Diisi!'), findsOne);
+        final fields = find.byType(TextFormField);
+        await tester.tap(find.text('Simpan'));
+        await tester.pump();
+        expect(find.text('Password Lama Belum Diisi!'), findsOne);
+        expect(find.text('Password Baru Belum Diisi!'), findsOne);
 
-      await tester.enterText(fields.at(0), 'passwordlama1');
-      await tester.enterText(fields.at(1), 'pendek');
-      await tester.tap(find.text('Simpan'));
-      await tester.pump();
-      expect(find.text('Password minimal 8 karakter'), findsOne);
+        await tester.enterText(fields.at(0), 'passwordlama1');
+        await tester.enterText(fields.at(1), 'pendek');
+        await tester.tap(find.text('Simpan'));
+        await tester.pump();
+        expect(find.text('Password minimal 8 karakter'), findsOne);
 
-      await tester.enterText(fields.at(1), 'rahasia 123');
-      await tester.tap(find.text('Simpan'));
-      await tester.pump();
-      expect(find.text('Password tidak boleh mengandung spasi'), findsOne);
+        await tester.enterText(fields.at(1), 'rahasia 123');
+        await tester.tap(find.text('Simpan'));
+        await tester.pump();
+        expect(find.text('Password tidak boleh mengandung spasi'), findsOne);
 
-      await tester.enterText(fields.at(1), 'passwordlama1');
-      await tester.enterText(fields.at(2), 'passwordlama1');
-      await tester.tap(find.text('Simpan'));
-      await tester.pump();
-      expect(
-        find.text('Password baru harus berbeda dari password lama'),
-        findsOne,
-      );
+        await tester.enterText(fields.at(1), 'passwordlama1');
+        await tester.enterText(fields.at(2), 'passwordlama1');
+        await tester.tap(find.text('Simpan'));
+        await tester.pump();
+        expect(
+          find.text('Password baru harus berbeda dari password lama'),
+          findsOne,
+        );
 
-      await tester.enterText(fields.at(1), 'passwordbaru1');
-      await tester.enterText(fields.at(2), 'passwordlain1');
-      await tester.tap(find.text('Simpan'));
-      await tester.pump();
-      expect(find.text('Konfirmasi password tidak sama'), findsOne);
-      expect(requests, isEmpty);
-    });
+        await tester.enterText(fields.at(1), 'passwordbaru1');
+        await tester.enterText(fields.at(2), 'passwordlain1');
+        await tester.tap(find.text('Simpan'));
+        await tester.pump();
+        expect(find.text('Konfirmasi password tidak sama'), findsOne);
+        expect(requests, isEmpty);
+      },
+    );
   });
 }

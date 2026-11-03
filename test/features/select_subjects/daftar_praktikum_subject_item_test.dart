@@ -5,24 +5,28 @@ import 'package:silab/features/subjects/domain/entities/subject/subject_entity.d
 import 'package:silab/features/subjects/presentation/bloc/subject_list/subject_list_bloc.dart';
 
 Widget itemFor(SubjectEntity subject) => MaterialApp(
-      home: Scaffold(
-        body: BuildDaftarPraktikumSubjectItem(
-          state: SubjectListSuccess(subjectList: [subject]),
-          index: 0,
-          userSelectedSubjectsId: const [],
-          onChanged: (_) {},
-        ),
-      ),
-    );
+  home: Scaffold(
+    body: BuildDaftarPraktikumSubjectItem(
+      state: SubjectListSuccess(subjectList: [subject]),
+      index: 0,
+      userSelectedSubjectsId: const [],
+      onChanged: (_) {},
+    ),
+  ),
+);
 
 void main() {
   testWidgets('kode mata kuliah tampil di bawah nama', (tester) async {
-    await tester.pumpWidget(itemFor(const SubjectEntity(
-      id: 's1',
-      subjectCode: '553310001',
-      subjectName: 'Algoritma dan Pemrograman',
-      semester: '1',
-    )));
+    await tester.pumpWidget(
+      itemFor(
+        const SubjectEntity(
+          id: 's1',
+          subjectCode: '553310001',
+          subjectName: 'Algoritma dan Pemrograman',
+          semester: '1',
+        ),
+      ),
+    );
 
     expect(find.text('Algoritma dan Pemrograman'), findsOneWidget);
     expect(find.text('553310001'), findsOneWidget);
@@ -32,11 +36,15 @@ void main() {
   });
 
   testWidgets('tanpa kode, hanya nama yang tampil', (tester) async {
-    await tester.pumpWidget(itemFor(const SubjectEntity(
-      id: 's2',
-      subjectName: 'Data Mining',
-      semester: '5',
-    )));
+    await tester.pumpWidget(
+      itemFor(
+        const SubjectEntity(
+          id: 's2',
+          subjectName: 'Data Mining',
+          semester: '5',
+        ),
+      ),
+    );
 
     expect(find.text('Data Mining'), findsOneWidget);
     final tile = tester.widget<CheckboxListTile>(find.byType(CheckboxListTile));

@@ -22,13 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          Future.delayed(const Duration(seconds: 2)).then(
-            (value) => router.goNamed('home'),
-          );
+          Future.delayed(const Duration(seconds: 2))
+              .then((value) => router.goNamed('home'));
         } else {
-          Future.delayed(const Duration(seconds: 2)).then(
-            (value) => router.goNamed('authentication'),
-          );
+          Future.delayed(const Duration(seconds: 2))
+              .then((value) => router.goNamed('authentication'));
         }
       },
       child: Scaffold(
@@ -47,9 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 24,
                 child: CircularProgressIndicator.adaptive(
                   strokeWidth: 4,
-                  valueColor: AlwaysStoppedAnimation(
-                    Color(0xffFFBF01),
-                  ),
+                  valueColor: AlwaysStoppedAnimation(Color(0xffFFBF01)),
                 ),
               ),
             ],

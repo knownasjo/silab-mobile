@@ -42,16 +42,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
-    context
-        .read<ForgotPasswordBloc>()
-        .add(SubmitForgotPassword(normalizeEmail(_emailController.text)));
+    context.read<ForgotPasswordBloc>().add(
+      SubmitForgotPassword(normalizeEmail(_emailController.text)),
+    );
   }
 
   void _showMessage(String message, AlertType type) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      snackBar(message: message, type: type),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(snackBar(message: message, type: type));
   }
 
   void _backToLogin() {
@@ -162,8 +161,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               ? const SizedBox(
                                   width: 16,
                                   height: 16,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text(
                                   'Kirim Kode',

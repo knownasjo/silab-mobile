@@ -35,12 +35,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
     if (!formKey.currentState!.validate()) return;
 
-    context.read<AuthenticationBloc>().add(UserLogin(
-          loginData: LoginModel(
-            nim: _nimController.text.trim(),
-            password: _passwordController.text.trim(),
-          ),
-        ));
+    context.read<AuthenticationBloc>().add(
+      UserLogin(
+        loginData: LoginModel(
+          nim: _nimController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -82,10 +84,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    'assets/image/sisinfo-blue.png',
-                    scale: 3,
-                  ),
+                  Image.asset('assets/image/sisinfo-blue.png', scale: 3),
                   const SizedBox(height: 64),
                   CustomFormField(
                     controller: _nimController,
@@ -130,8 +129,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   BlocBuilder<AuthenticationBloc, AuthenticationState>(
                     builder: (context, state) {
                       return CustomLargeButton(
-                        action:
-                            state is! AuthenticationLoading ? _submit : null,
+                        action: state is! AuthenticationLoading
+                            ? _submit
+                            : null,
                         label: state is! AuthenticationLoading
                             ? const Text(
                                 'Masuk',

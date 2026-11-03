@@ -18,10 +18,13 @@ class AuthenticationApiService {
     final deviceId = await _deviceId.read();
 
     return LoginResponseEntity.fromJson(
-      await _apiClient.post('/auth/login', body: {
-        ...loginData.toJson(),
-        if (deviceId != null) 'deviceId': deviceId,
-      }),
+      await _apiClient.post(
+        '/auth/login',
+        body: {
+          ...loginData.toJson(),
+          if (deviceId != null) 'deviceId': deviceId,
+        },
+      ),
     );
   }
 

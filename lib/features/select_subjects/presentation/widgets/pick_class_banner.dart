@@ -15,8 +15,10 @@ class PickClassBanner extends StatefulWidget {
 class _PickClassBannerState extends State<PickClassBanner> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserClassOptionByPaidSubjectBloc,
-        UserClassOptionByPaidSubjectState>(
+    return BlocBuilder<
+      UserClassOptionByPaidSubjectBloc,
+      UserClassOptionByPaidSubjectState
+    >(
       builder: (context, state) {
         if (state is UserClassOptionByPaidSubjectLoaded) {
           if (state.userClassOptionByPaidSubjectEntity!.isNotEmpty) {
@@ -41,10 +43,7 @@ class _PickClassBannerState extends State<PickClassBanner> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      'assets/image/check-circle.png',
-                      scale: 2,
-                    ),
+                    Image.asset('assets/image/check-circle.png', scale: 2),
                     SizedBox(
                       width: 250,
                       child: Text(
@@ -58,10 +57,7 @@ class _PickClassBannerState extends State<PickClassBanner> {
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    const Icon(
-                      Boxicons.bx_chevron_right,
-                      color: Colors.white,
-                    )
+                    const Icon(Boxicons.bx_chevron_right, color: Colors.white),
                   ],
                 ),
               ),

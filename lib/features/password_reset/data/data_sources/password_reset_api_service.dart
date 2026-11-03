@@ -8,8 +8,14 @@ class PasswordResetApiService {
   const PasswordResetApiService(this._apiClient);
 
   Future<PasswordResetEntity> requestCode(String email) async =>
-      PasswordResetEntity.fromJson(_data(await _apiClient
-          .post('/auth/password/forgot', body: {'email': email})));
+      PasswordResetEntity.fromJson(
+        _data(
+          await _apiClient.post(
+            '/auth/password/forgot',
+            body: {'email': email},
+          ),
+        ),
+      );
 
   Future<String> resetPassword(ResetPasswordModel resetData) async {
     final json = await _apiClient.post(

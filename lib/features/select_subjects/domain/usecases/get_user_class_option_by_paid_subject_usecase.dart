@@ -6,15 +6,18 @@ import 'package:silab/features/select_subjects/domain/repository/selected_subjec
 
 class GetUserClassOptionByPaidSubjectUsecase
     implements
-        UseCase<Either<Failures, UserClassOptionByPaidSubjectResponseEntity>,
-            Null> {
+        UseCase<
+          Either<Failures, UserClassOptionByPaidSubjectResponseEntity>,
+          Null
+        > {
   final SelectedSubjectRepository selectedSubjectRepository;
 
   const GetUserClassOptionByPaidSubjectUsecase(this.selectedSubjectRepository);
 
   @override
-  Future<Either<Failures, UserClassOptionByPaidSubjectResponseEntity>> call(
-      {Null params}) async {
+  Future<Either<Failures, UserClassOptionByPaidSubjectResponseEntity>> call({
+    Null params,
+  }) async {
     return await selectedSubjectRepository.getUserClassOptionbyPaidSubjects();
   }
 }

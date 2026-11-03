@@ -13,12 +13,9 @@ class BuildScheuldePageLoading extends StatelessWidget {
         children: [
           Text(
             'Hari',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          PracticumsScheduleCard()
+          PracticumsScheduleCard(),
         ],
       ),
     );

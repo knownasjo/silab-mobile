@@ -32,7 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
       color: Colors.white,
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.of(context).size.height -
+        height:
+            MediaQuery.of(context).size.height -
             Scaffold.of(context).appBarMaxHeight!,
         child: BlocConsumer<UserDetailsBloc, UserDetailsState>(
           listener: (context, state) {
@@ -57,9 +58,9 @@ class _ProfilePageState extends State<ProfilePage> {
             return RefreshIndicator(
               onRefresh: () async {
                 context.read<UserDetailsBloc>().add(GetUserDetails());
-                context
-                    .read<AssistedClassesBloc>()
-                    .add(const GetAssistedClasses());
+                context.read<AssistedClassesBloc>().add(
+                  const GetAssistedClasses(),
+                );
               },
               color: const Color(0xff3272CA),
               backgroundColor: Colors.white,
@@ -69,9 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   _buildUserInitials(state),
                   const SizedBox(height: 20),
-                  _buildUserDetails(
-                    state,
-                  ),
+                  _buildUserDetails(state),
                   const SizedBox(height: 20),
                   const AssistedClassesSection(),
                   Container(
@@ -125,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const LogOutButton(),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             );
@@ -149,10 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8,
-          horizontal: 8,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -170,10 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            Image.asset(
-              'assets/image/chevron-right.png',
-              scale: 2,
-            ),
+            Image.asset('assets/image/chevron-right.png', scale: 2),
           ],
         ),
       ),
@@ -182,10 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildMenuDivider() {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 8,
-        horizontal: 8,
-      ),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       child: Divider(
         color: const Color(0xff1d1d1d).withValues(alpha: 0.5),
         thickness: 0.5,
@@ -209,10 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
         margin: const EdgeInsets.only(top: 80),
         decoration: BoxDecoration(
           color: const Color(0xffFBFBEF),
-          border: Border.all(
-            color: const Color(0xffFFBF01),
-            width: 3,
-          ),
+          border: Border.all(color: const Color(0xffFFBF01), width: 3),
           shape: BoxShape.circle,
         ),
         child: Center(
@@ -229,19 +216,14 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildUserDetails(
-    UserDetailsState state,
-  ) {
+  Widget _buildUserDetails(UserDetailsState state) {
     if (state is UserDetailFailed) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             'Gagal memuat data akun.',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
           TextButton.icon(
             onPressed: () =>
@@ -274,24 +256,15 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Text(
             fullname ?? "Nama Lengkap",
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
           ),
           Text(
             email ?? "email",
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           Text(
             nim ?? "NIM",
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ],
       ),

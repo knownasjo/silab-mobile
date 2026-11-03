@@ -38,8 +38,10 @@ void main() {
     holdLogin = null;
   });
 
-  Future<void> openLogin(WidgetTester tester,
-      {double keyboardHeight = 0}) async {
+  Future<void> openLogin(
+    WidgetTester tester, {
+    double keyboardHeight = 0,
+  }) async {
     tester.view.physicalSize = const Size(411, 640) * 3;
     tester.view.devicePixelRatio = 3;
     tester.view.padding = const FakeViewPadding(top: statusBar * 3);
@@ -51,8 +53,10 @@ void main() {
         logins.add(request);
         await holdLogin?.future;
         return http.Response(
-          jsonEncode(
-              {'status': false, 'message': 'NIM/NIY atau password salah!'}),
+          jsonEncode({
+            'status': false,
+            'message': 'NIM/NIY atau password salah!',
+          }),
           401,
         );
       }),
@@ -63,18 +67,20 @@ void main() {
       AuthenticationLocalDataSource(prefs),
     );
 
-    await tester.pumpWidget(MaterialApp(
-      home: BlocProvider(
-        create: (_) => AuthenticationBloc(
-          UserLoginUsecase(auth),
-          GetUserAccessTokenUsecase(auth),
-          GetSessionExpiry(auth),
-          UserLogoutUsecase(auth),
-          WatchSessionEndedUsecase(auth),
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BlocProvider(
+          create: (_) => AuthenticationBloc(
+            UserLoginUsecase(auth),
+            GetUserAccessTokenUsecase(auth),
+            GetSessionExpiry(auth),
+            UserLogoutUsecase(auth),
+            WatchSessionEndedUsecase(auth),
+          ),
+          child: const AuthenticationPage(),
         ),
-        child: const AuthenticationPage(),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
   }
 
@@ -86,28 +92,34 @@ void main() {
   }
 
   testWidgets(
-      'HP kecil dengan keyboard terbuka: halaman bisa digeser sampai Masuk dan Daftar',
-      (tester) async {
-    await openLogin(tester, keyboardHeight: keyboard);
+    'HP kecil dengan keyboard terbuka: halaman bisa digeser sampai Masuk dan Daftar',
+    (tester) async {
+      await openLogin(tester, keyboardHeight: keyboard);
 
-    expect(tester.takeException(), isNull);
+      expect(tester.takeException(), isNull);
 
-    const visibleBottom = 640 - keyboard;
-    await tester.ensureVisible(find.text('Daftar'));
-    await tester.pumpAndSettle();
-    expect(tester.getRect(find.text('Masuk')).bottom,
-        lessThanOrEqualTo(visibleBottom));
-    expect(tester.getRect(find.text('Daftar')).bottom,
-        lessThanOrEqualTo(visibleBottom));
+      const visibleBottom = 640 - keyboard;
+      await tester.ensureVisible(find.text('Daftar'));
+      await tester.pumpAndSettle();
+      expect(
+        tester.getRect(find.text('Masuk')).bottom,
+        lessThanOrEqualTo(visibleBottom),
+      );
+      expect(
+        tester.getRect(find.text('Daftar')).bottom,
+        lessThanOrEqualTo(visibleBottom),
+      );
 
-    await tester.tap(find.text('Masuk'));
-    await tester.pumpAndSettle();
-    expect(find.text('NIM Anda Belum Diisi!'), findsOneWidget);
-    expect(logins, isEmpty);
-  });
+      await tester.tap(find.text('Masuk'));
+      await tester.pumpAndSettle();
+      expect(find.text('NIM Anda Belum Diisi!'), findsOneWidget);
+      expect(logins, isEmpty);
+    },
+  );
 
-  testWidgets('tanpa keyboard, isi halaman tetap di tengah layar',
-      (tester) async {
+  testWidgets('tanpa keyboard, isi halaman tetap di tengah layar', (
+    tester,
+  ) async {
     await openLogin(tester);
 
     final top = tester.getRect(find.byType(Image).first).top;
@@ -128,8 +140,9 @@ void main() {
     expect(find.text('NIM/NIY atau password salah!'), findsOneWidget);
   });
 
-  testWidgets('Enter dengan kolom kosong hanya menampilkan pesan',
-      (tester) async {
+  testWidgets('Enter dengan kolom kosong hanya menampilkan pesan', (
+    tester,
+  ) async {
     await openLogin(tester);
     await tester.enterText(field(0), '2211102001');
     await tester.enterText(field(1), '');
@@ -141,8 +154,9 @@ void main() {
     expect(logins, isEmpty);
   });
 
-  testWidgets('Enter berkali-kali saat menunggu server hanya mengirim sekali',
-      (tester) async {
+  testWidgets('Enter berkali-kali saat menunggu server hanya mengirim sekali', (
+    tester,
+  ) async {
     holdLogin = Completer<void>();
     await openLogin(tester);
     await fillIn(tester);

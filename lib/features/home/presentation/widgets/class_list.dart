@@ -21,10 +21,7 @@ class _ClassListState extends State<ClassList> {
         children: [
           const Text(
             'Kelas',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
           classList.isEmpty
               ? const Center(
@@ -46,11 +43,9 @@ class _ClassListState extends State<ClassList> {
                   itemCount: classList.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text('Class ${index + 1}'),
-                    );
+                    return ListTile(title: Text('Class ${index + 1}'));
                   },
-                )
+                ),
         ],
       ),
     );

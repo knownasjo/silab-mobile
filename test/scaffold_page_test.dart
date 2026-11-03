@@ -57,18 +57,22 @@ void main() {
     AppConfig.create(baseUrl: 'http://silab.test');
     SharedPreferences.setMockInitialValues({
       'accessToken': 'akses',
-      'refreshToken':
-          refreshTokenExpiringAt(DateTime.now().add(const Duration(days: 1))),
+      'refreshToken': refreshTokenExpiringAt(
+        DateTime.now().add(const Duration(days: 1)),
+      ),
     });
     final prefs = await SharedPreferences.getInstance();
     final api = ApiClient(
-      MockClient((_) async => http.Response(
+      MockClient(
+        (_) async => http.Response(
           jsonEncode({
             'status': true,
             'message': 'Berhasil',
             'data': {'nim': '2200018123', 'name': 'Budi Santoso'},
           }),
-          200)),
+          200,
+        ),
+      ),
       prefs,
     );
     final authentication = AuthenticationRepositoryImpl(
@@ -84,72 +88,84 @@ void main() {
           builder: (context, state, navigationShell) =>
               ScaffoldPage(navigationShell: navigationShell),
           branches: [
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/home',
-                name: 'home',
-                builder: (_, __) => const Text('Halaman Beranda'),
-                routes: [
-                  GoRoute(
-                    path: 'class/:id',
-                    name: 'class',
-                    builder: (context, _) => TextButton(
-                      onPressed: () => context.goNamed('home'),
-                      child: const Text('Kembali ke Beranda'),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/home',
+                  name: 'home',
+                  builder: (_, __) => const Text('Halaman Beranda'),
+                  routes: [
+                    GoRoute(
+                      path: 'class/:id',
+                      name: 'class',
+                      builder: (context, _) => TextButton(
+                        onPressed: () => context.goNamed('home'),
+                        child: const Text('Kembali ke Beranda'),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ]),
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/schedule',
-                name: 'schedule',
-                builder: (context, _) => TextButton(
-                  onPressed: () =>
-                      context.pushNamed('class', pathParameters: {'id': 'k1'}),
-                  child: const Text('Buka kelas'),
+                  ],
                 ),
-              ),
-            ]),
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/profile',
-                name: 'profile',
-                builder: (_, __) => const Text('Halaman Profil'),
-              ),
-            ]),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/schedule',
+                  name: 'schedule',
+                  builder: (context, _) => TextButton(
+                    onPressed: () => context.pushNamed(
+                      'class',
+                      pathParameters: {'id': 'k1'},
+                    ),
+                    child: const Text('Buka kelas'),
+                  ),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/profile',
+                  name: 'profile',
+                  builder: (_, __) => const Text('Halaman Profil'),
+                ),
+              ],
+            ),
           ],
         ),
       ],
     );
     addTearDown(router.dispose);
 
-    await tester.pumpWidget(MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => AuthenticationBloc(
-            UserLoginUsecase(authentication),
-            GetUserAccessTokenUsecase(authentication),
-            GetSessionExpiry(authentication),
-            UserLogoutUsecase(authentication),
-            WatchSessionEndedUsecase(authentication),
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AuthenticationBloc(
+              UserLoginUsecase(authentication),
+              GetUserAccessTokenUsecase(authentication),
+              GetSessionExpiry(authentication),
+              UserLogoutUsecase(authentication),
+              WatchSessionEndedUsecase(authentication),
+            ),
           ),
+          BlocProvider(
+            create: (_) => RealtimeBloc(
+              WatchRealtimeEventsUsecase(SilentRealtimeRepository()),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserDetailsBloc(
+              GetUserDetailsUseCase(UserRepositoryImpl(UserApiService(api))),
+            ),
+          ),
+        ],
+        child: MaterialApp.router(
+          theme: ThemeData(fontFamily: realFontFamily),
+          routerConfig: router,
         ),
-        BlocProvider(
-          create: (_) => RealtimeBloc(
-              WatchRealtimeEventsUsecase(SilentRealtimeRepository())),
-        ),
-        BlocProvider(
-          create: (_) => UserDetailsBloc(
-              GetUserDetailsUseCase(UserRepositoryImpl(UserApiService(api)))),
-        ),
-      ],
-      child: MaterialApp.router(
-        theme: ThemeData(fontFamily: realFontFamily),
-        routerConfig: router,
       ),
-    ));
+    );
     await tester.pumpAndSettle();
   }
 
@@ -158,25 +174,26 @@ void main() {
       .currentIndex;
 
   testWidgets(
-      'Detail Kelas dibuka dari Jadwal lalu "Kembali ke Beranda": menu Beranda yang menyala dan judulnya sapaan Beranda',
-      (tester) async {
-    await openApp(tester);
+    'Detail Kelas dibuka dari Jadwal lalu "Kembali ke Beranda": menu Beranda yang menyala dan judulnya sapaan Beranda',
+    (tester) async {
+      await openApp(tester);
 
-    await tester.tap(find.text('Jadwal'));
-    await tester.pumpAndSettle();
-    expect(activeMenu(tester), 1);
-    expect(find.text('Jadwal Praktikum'), findsOneWidget);
+      await tester.tap(find.text('Jadwal'));
+      await tester.pumpAndSettle();
+      expect(activeMenu(tester), 1);
+      expect(find.text('Jadwal Praktikum'), findsOneWidget);
 
-    await tester.tap(find.text('Buka kelas'));
-    await tester.pumpAndSettle();
-    expect(find.text('Detail Kelas'), findsOneWidget);
+      await tester.tap(find.text('Buka kelas'));
+      await tester.pumpAndSettle();
+      expect(find.text('Detail Kelas'), findsOneWidget);
 
-    await tester.tap(find.text('Kembali ke Beranda'));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('Kembali ke Beranda'));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Halaman Beranda'), findsOneWidget);
-    expect(activeMenu(tester), 0);
-    expect(find.text('Jadwal Praktikum'), findsNothing);
-    expect(find.byType(UserWelcomeWidget), findsOneWidget);
-  });
+      expect(find.text('Halaman Beranda'), findsOneWidget);
+      expect(activeMenu(tester), 0);
+      expect(find.text('Jadwal Praktikum'), findsNothing);
+      expect(find.byType(UserWelcomeWidget), findsOneWidget);
+    },
+  );
 }

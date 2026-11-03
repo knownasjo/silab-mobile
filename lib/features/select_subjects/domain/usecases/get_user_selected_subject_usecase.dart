@@ -11,8 +11,9 @@ class GetSelectedSubjectByNimUsecase
   const GetSelectedSubjectByNimUsecase(this.selectedSubjectRepository);
 
   @override
-  Future<Either<Failures, SelectedSubjectResponseEntity>> call(
-      {String? params}) async {
+  Future<Either<Failures, SelectedSubjectResponseEntity>> call({
+    String? params,
+  }) async {
     return await selectedSubjectRepository.getUserSelectedSubjects();
   }
 }

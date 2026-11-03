@@ -110,55 +110,64 @@ void main() {
     await tester.pump();
   }
 
-  Future<void> connect(WidgetTester tester,
-      {List<ScheduleEntity> schedule = const []}) async {
+  Future<void> connect(
+    WidgetTester tester, {
+    List<ScheduleEntity> schedule = const [],
+  }) async {
     final repositories = FakeRepositories()..schedule = schedule;
 
-    await tester.pumpWidget(MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => RealtimeBloc(WatchRealtimeEventsUsecase(realtime)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              AssistedClassesBloc(GetAssistedClassesUsecase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              GetAllAnnouncementsBloc(GetAllAnnouncementsUseCase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              GetAnnouncementBloc(GetAnnouncementUseCase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) => SubjectListBloc(GetSubjectListUseCase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) => ClassmatesBloc(GetClassmatesUsecase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              UserMeetingsBloc(GetUserMeetingsDataUsecase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) => SelectedSubjectByNimBloc(
-              GetSelectedSubjectByNimUsecase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) => UserClassOptionByPaidSubjectBloc(
-              GetUserClassOptionByPaidSubjectUsecase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) => UserRegisteredClassBloc(
-              GetUserRegisteredClassesUseCase(repositories)),
-        ),
-        BlocProvider(
-          create: (_) => UserScheduleBloc(GetUserScheduleUsecase(repositories)),
-        ),
-      ],
-      child: const RealtimeSync(child: SizedBox()),
-    ));
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => RealtimeBloc(WatchRealtimeEventsUsecase(realtime)),
+          ),
+          BlocProvider(
+            create: (_) =>
+                AssistedClassesBloc(GetAssistedClassesUsecase(repositories)),
+          ),
+          BlocProvider(
+            create: (_) => GetAllAnnouncementsBloc(
+              GetAllAnnouncementsUseCase(repositories),
+            ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                GetAnnouncementBloc(GetAnnouncementUseCase(repositories)),
+          ),
+          BlocProvider(
+            create: (_) => SubjectListBloc(GetSubjectListUseCase(repositories)),
+          ),
+          BlocProvider(
+            create: (_) => ClassmatesBloc(GetClassmatesUsecase(repositories)),
+          ),
+          BlocProvider(
+            create: (_) =>
+                UserMeetingsBloc(GetUserMeetingsDataUsecase(repositories)),
+          ),
+          BlocProvider(
+            create: (_) => SelectedSubjectByNimBloc(
+              GetSelectedSubjectByNimUsecase(repositories),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserClassOptionByPaidSubjectBloc(
+              GetUserClassOptionByPaidSubjectUsecase(repositories),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserRegisteredClassBloc(
+              GetUserRegisteredClassesUseCase(repositories),
+            ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                UserScheduleBloc(GetUserScheduleUsecase(repositories)),
+          ),
+        ],
+        child: const RealtimeSync(child: SizedBox()),
+      ),
+    );
 
     await send(tester, const RealtimeEventEntity(type: 'ready'));
     expect(recorder.events, isEmpty);
@@ -174,8 +183,9 @@ void main() {
     }
   }
 
-  testWidgets('semester baru dimulai: semua layar dimuat ulang',
-      (tester) async {
+  testWidgets('semester baru dimulai: semua layar dimuat ulang', (
+    tester,
+  ) async {
     await connect(tester);
 
     await send(
@@ -194,117 +204,142 @@ void main() {
     expect(recorder.events, unorderedMatches(refreshEverything));
   });
 
-  testWidgets('mata kuliah berubah: hanya daftar mata kuliah yang dimuat ulang',
-      (tester) async {
-    await connect(tester);
+  testWidgets(
+    'mata kuliah berubah: hanya daftar mata kuliah yang dimuat ulang',
+    (tester) async {
+      await connect(tester);
 
-    await send(tester, const RealtimeEventEntity(type: 'subject'));
+      await send(tester, const RealtimeEventEntity(type: 'subject'));
 
-    expect(recorder.events, [isA<RefreshSubjectList>()]);
-  });
+      expect(recorder.events, [isA<RefreshSubjectList>()]);
+    },
+  );
 
   testWidgets(
-      'pendaftaran berubah: pengumuman ikut dimuat ulang, karena ada pengumuman untuk mata kuliah tertentu',
-      (tester) async {
-    await connect(tester);
+    'pendaftaran berubah: pengumuman ikut dimuat ulang, karena ada pengumuman untuk mata kuliah tertentu',
+    (tester) async {
+      await connect(tester);
 
-    await send(tester, const RealtimeEventEntity(type: 'activation'));
+      await send(tester, const RealtimeEventEntity(type: 'activation'));
 
-    expect(
-      recorder.events,
-      unorderedMatches([
-        isA<RefreshUserSelectedSubjects>(),
-        isA<RefreshUserClassOptionByPaidSubject>(),
-        isA<RefreshUserRegisteredClass>(),
-        isA<RefreshUserSchedule>(),
-        isA<RefreshAllAnnouncements>(),
-      ]),
-    );
-  });
+      expect(
+        recorder.events,
+        unorderedMatches([
+          isA<RefreshUserSelectedSubjects>(),
+          isA<RefreshUserClassOptionByPaidSubject>(),
+          isA<RefreshUserRegisteredClass>(),
+          isA<RefreshUserSchedule>(),
+          isA<RefreshAllAnnouncements>(),
+        ]),
+      );
+    },
+  );
 
-  testWidgets('asisten kelas berubah: pengumuman ikut dimuat ulang',
-      (tester) async {
+  testWidgets('asisten kelas berubah: pengumuman ikut dimuat ulang', (
+    tester,
+  ) async {
     await connect(tester);
 
     await send(
       tester,
       const RealtimeEventEntity(
-          type: 'class', action: 'assistants', classId: 'c1'),
+        type: 'class',
+        action: 'assistants',
+        classId: 'c1',
+      ),
     );
 
     expect(recorder.events, contains(isA<RefreshAllAnnouncements>()));
   });
 
-  testWidgets('kelas biasa berubah: pengumuman tidak dimuat ulang',
-      (tester) async {
+  testWidgets('kelas biasa berubah: pengumuman tidak dimuat ulang', (
+    tester,
+  ) async {
     await connect(tester);
 
     await send(
       tester,
       const RealtimeEventEntity(
-          type: 'class', action: 'updated', classId: 'c1'),
+        type: 'class',
+        action: 'updated',
+        classId: 'c1',
+      ),
     );
 
     expect(recorder.events, isNot(contains(isA<RefreshAllAnnouncements>())));
     expect(
-        recorder.events, isNot(contains(isA<RefreshUserSelectedSubjects>())));
-  });
-
-  testWidgets(
-      'kelas baru dibuat: baris Kelas di Pembayaran & Kelas ikut dimuat ulang',
-      (tester) async {
-    await connect(tester);
-
-    await send(
-      tester,
-      const RealtimeEventEntity(
-          type: 'class', action: 'created', classId: 'c2'),
-    );
-
-    expect(
       recorder.events,
-      containsAll([
-        isA<RefreshUserClassOptionByPaidSubject>(),
-        isA<RefreshUserSelectedSubjects>(),
-      ]),
+      isNot(contains(isA<RefreshUserSelectedSubjects>())),
     );
   });
 
-  testWidgets('asisten kelas berubah: Jadwal ikut dimuat ulang',
-      (tester) async {
+  testWidgets(
+    'kelas baru dibuat: baris Kelas di Pembayaran & Kelas ikut dimuat ulang',
+    (tester) async {
+      await connect(tester);
+
+      await send(
+        tester,
+        const RealtimeEventEntity(
+          type: 'class',
+          action: 'created',
+          classId: 'c2',
+        ),
+      );
+
+      expect(
+        recorder.events,
+        containsAll([
+          isA<RefreshUserClassOptionByPaidSubject>(),
+          isA<RefreshUserSelectedSubjects>(),
+        ]),
+      );
+    },
+  );
+
+  testWidgets('asisten kelas berubah: Jadwal ikut dimuat ulang', (
+    tester,
+  ) async {
     await connect(tester);
 
     await send(
       tester,
       const RealtimeEventEntity(
-          type: 'class', action: 'assistants', classId: 'c1'),
+        type: 'class',
+        action: 'assistants',
+        classId: 'c1',
+      ),
     );
 
     expect(recorder.events, contains(isA<RefreshUserSchedule>()));
   });
 
   testWidgets(
-      'kelas yang tampil di Jadwal berubah: Jadwal dimuat ulang, kelas lain tidak',
-      (tester) async {
-    await connect(tester, schedule: const [
-      ScheduleEntity(
-        day: 'Senin',
-        practicums: [
-          PracticumsEntity(classId: 'c-asisten', isAssistant: true)
+    'kelas yang tampil di Jadwal berubah: Jadwal dimuat ulang, kelas lain tidak',
+    (tester) async {
+      await connect(
+        tester,
+        schedule: const [
+          ScheduleEntity(
+            day: 'Senin',
+            practicums: [
+              PracticumsEntity(classId: 'c-asisten', isAssistant: true),
+            ],
+          ),
         ],
-      ),
-    ]);
+      );
 
-    await send(
-      tester,
-      const RealtimeEventEntity(type: 'class', classId: 'c-lain'),
-    );
-    expect(recorder.events, isNot(contains(isA<RefreshUserSchedule>())));
+      await send(
+        tester,
+        const RealtimeEventEntity(type: 'class', classId: 'c-lain'),
+      );
+      expect(recorder.events, isNot(contains(isA<RefreshUserSchedule>())));
 
-    await send(
-      tester,
-      const RealtimeEventEntity(type: 'class', classId: 'c-asisten'),
-    );
-    expect(recorder.events, contains(isA<RefreshUserSchedule>()));
-  });
+      await send(
+        tester,
+        const RealtimeEventEntity(type: 'class', classId: 'c-asisten'),
+      );
+      expect(recorder.events, contains(isA<RefreshUserSchedule>()));
+    },
+  );
 }

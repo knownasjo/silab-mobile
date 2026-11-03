@@ -37,8 +37,9 @@ class AuthenticationBloc
     on<UserLogout>(onUserLogout);
     on<SessionEndedByServer>(onSessionEndedByServer);
 
-    _sessionEndedSubscription = _watchSessionEndedUsecase()
-        .listen((_) => add(SessionEndedByServer()));
+    _sessionEndedSubscription = _watchSessionEndedUsecase().listen(
+      (_) => add(SessionEndedByServer()),
+    );
   }
 
   void onSessionEndedByServer(
@@ -67,8 +68,9 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) async {
     emit(AuthenticationLoading());
-    final data = await _userLoginUsecase.authenticationRepository
-        .userLogin(loginData: event.loginData);
+    final data = await _userLoginUsecase.authenticationRepository.userLogin(
+      loginData: event.loginData,
+    );
 
     data.fold(
       (left) => emit(
@@ -97,8 +99,8 @@ class AuthenticationBloc
     AuthenticationEvent event,
     Emitter<AuthenticationState> emit,
   ) async {
-    final expiryResult =
-        _getSessionExpiry.authenticationRepository.getSessionExpiry();
+    final expiryResult = _getSessionExpiry.authenticationRepository
+        .getSessionExpiry();
 
     expiryResult.fold(
       (left) {

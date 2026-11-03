@@ -5,10 +5,7 @@ import 'package:silab/features/subjects/domain/entities/subject/subject_entity.d
 class BuildRingkasanDaftarPageTotalPrice extends StatelessWidget {
   final List<SubjectEntity>? subjects;
 
-  const BuildRingkasanDaftarPageTotalPrice({
-    super.key,
-    required this.subjects,
-  });
+  const BuildRingkasanDaftarPageTotalPrice({super.key, required this.subjects});
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +14,11 @@ class BuildRingkasanDaftarPageTotalPrice extends StatelessWidget {
       children: [
         const Text(
           'Total',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.normal,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
         ),
         Text(
           formatRupiah(subjects!.length * practicumFeePerSubject),
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ],
     );

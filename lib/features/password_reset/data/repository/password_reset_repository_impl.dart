@@ -18,8 +18,7 @@ class PasswordResetRepositoryImpl implements PasswordResetRepository {
   @override
   Future<Either<Failures, String>> resetPassword(
     ResetPasswordModel resetData,
-  ) =>
-      _guard(() => _passwordResetApiService.resetPassword(resetData));
+  ) => _guard(() => _passwordResetApiService.resetPassword(resetData));
 
   Future<Either<Failures, T>> _guard<T>(Future<T> Function() request) async {
     try {

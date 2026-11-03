@@ -9,18 +9,29 @@ class RegistrationApiService {
   const RegistrationApiService(this._apiClient);
 
   Future<RegistrationEntity> register(RegisterModel registerData) async =>
-      RegistrationEntity.fromJson(_data(await _apiClient.post('/auth/register',
-          body: registerData.toJson())));
+      RegistrationEntity.fromJson(
+        _data(
+          await _apiClient.post('/auth/register', body: registerData.toJson()),
+        ),
+      );
 
   Future<RegistrationEntity> resendCode(String email) async =>
-      RegistrationEntity.fromJson(_data(await _apiClient
-          .post('/auth/register/resend', body: {'email': email})));
+      RegistrationEntity.fromJson(
+        _data(
+          await _apiClient.post(
+            '/auth/register/resend',
+            body: {'email': email},
+          ),
+        ),
+      );
 
   Future<LoginResponseEntity> verify(String email, String code) async =>
-      LoginResponseEntity.fromJson(await _apiClient.post(
-        '/auth/register/verify',
-        body: {'email': email, 'code': code},
-      ));
+      LoginResponseEntity.fromJson(
+        await _apiClient.post(
+          '/auth/register/verify',
+          body: {'email': email, 'code': code},
+        ),
+      );
 
   static Map<String, dynamic> _data(Map<String, dynamic> json) {
     final data = json['data'];

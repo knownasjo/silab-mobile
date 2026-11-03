@@ -87,18 +87,14 @@ class MainApp extends StatelessWidget {
         BlocProvider<UserMeetingsBloc>(
           create: (_) => UserMeetingsBloc(injector()),
         ),
-        BlocProvider<ClassmatesBloc>(
-          create: (_) => ClassmatesBloc(injector()),
-        ),
+        BlocProvider<ClassmatesBloc>(create: (_) => ClassmatesBloc(injector())),
         BlocProvider<UserAttendancesBloc>(
           create: (_) => UserAttendancesBloc(injector()),
         ),
         BlocProvider<UserScheduleBloc>(
           create: (_) => UserScheduleBloc(injector()),
         ),
-        BlocProvider<RealtimeBloc>(
-          create: (_) => RealtimeBloc(injector()),
-        ),
+        BlocProvider<RealtimeBloc>(create: (_) => RealtimeBloc(injector())),
         BlocProvider<AssistedClassesBloc>(
           create: (_) => AssistedClassesBloc(injector()),
         ),
@@ -111,18 +107,14 @@ class MainApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
-            titleTextStyle: TextStyle(
-              color: Color(0xff1d1d1d),
-            ),
+            titleTextStyle: TextStyle(color: Color(0xff1d1d1d)),
           ),
           canvasColor: const Color(0xfff4f4f9),
           progressIndicatorTheme: const ProgressIndicatorThemeData(
             color: Color(0xffFFBF01),
           ),
           checkboxTheme: const CheckboxThemeData(
-            checkColor: WidgetStatePropertyAll(
-              Color(0xfff4f4f9),
-            ),
+            checkColor: WidgetStatePropertyAll(Color(0xfff4f4f9)),
           ),
           radioTheme: const RadioThemeData(
             fillColor: WidgetStatePropertyAll(Color(0xff3272CA)),

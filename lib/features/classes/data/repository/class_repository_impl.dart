@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:either_dart/either.dart';
 import 'package:silab/core/exceptions/exceptions.dart';
 import 'package:silab/core/failures/failures.dart';
@@ -16,7 +17,7 @@ class ClassRepositoryImpl implements ClassRepository {
 
   @override
   Future<Either<Failures, ClassesResponseEntity>>
-      getUserRegisteredClasses() async {
+  getUserRegisteredClasses() async {
     try {
       final result = await _classesApiService.getUserRegisteredClasses();
 
@@ -29,11 +30,13 @@ class ClassRepositoryImpl implements ClassRepository {
   }
 
   @override
-  Future<Either<Failures, MeetingsResponseEntity>> getUserMeetingsData(
-      {String? classId}) async {
+  Future<Either<Failures, MeetingsResponseEntity>> getUserMeetingsData({
+    String? classId,
+  }) async {
     try {
-      final result =
-          await _classesApiService.getUserMeetingsData(classId: classId);
+      final result = await _classesApiService.getUserMeetingsData(
+        classId: classId,
+      );
 
       return Right(result);
     } on RequestErrorException catch (e) {
@@ -44,8 +47,9 @@ class ClassRepositoryImpl implements ClassRepository {
   }
 
   @override
-  Future<Either<Failures, ClassmatesResponseEntity>> getClassmates(
-      {String? classId}) async {
+  Future<Either<Failures, ClassmatesResponseEntity>> getClassmates({
+    String? classId,
+  }) async {
     try {
       final result = await _classesApiService.getClassmates(classId: classId);
 
@@ -58,8 +62,11 @@ class ClassRepositoryImpl implements ClassRepository {
   }
 
   @override
-  Future<Either<Failures, AttendanceEntity>> addUserAttendances(
-      {String? classId, String? meetingId, String? meetingToken}) async {
+  Future<Either<Failures, AttendanceEntity>> addUserAttendances({
+    String? classId,
+    String? meetingId,
+    String? meetingToken,
+  }) async {
     try {
       final result = await _classesApiService.addUserAttendance(
         classId: classId,

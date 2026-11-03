@@ -10,6 +10,6 @@ class RegisterUsecase {
   const RegisterUsecase(this.registrationRepository);
 
   Future<Either<Failures, RegistrationEntity>> call(
-          RegisterModel registerData) =>
-      registrationRepository.register(registerData);
+    RegisterModel registerData,
+  ) => registrationRepository.register(registerData);
 }

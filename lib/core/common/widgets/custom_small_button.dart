@@ -16,9 +16,7 @@ class CustomSmallButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(130, 40),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         backgroundColor: const Color(0xff3272CA),
         foregroundColor: const Color(0xfff4f4f9),
       ),

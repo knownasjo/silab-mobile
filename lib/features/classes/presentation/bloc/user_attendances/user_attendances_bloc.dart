@@ -10,20 +10,22 @@ class UserAttendancesBloc
   final AddUserAttendancesUsecase _addUserAttendancesUsecase;
 
   UserAttendancesBloc(this._addUserAttendancesUsecase)
-      : super(UserAttendancesInitial()) {
+    : super(UserAttendancesInitial()) {
     on<UserAttendancesEvent>(onAddUserAttendances);
   }
 
   void onAddUserAttendances(
-      UserAttendancesEvent event, Emitter<UserAttendancesState> emit) async {
+    UserAttendancesEvent event,
+    Emitter<UserAttendancesState> emit,
+  ) async {
     emit(UserAttendancesLoading());
 
-    final data =
-        await _addUserAttendancesUsecase.classRepository.addUserAttendances(
-      classId: event.classId,
-      meetingId: event.meetingId,
-      meetingToken: event.meetingToken,
-    );
+    final data = await _addUserAttendancesUsecase.classRepository
+        .addUserAttendances(
+          classId: event.classId,
+          meetingId: event.meetingId,
+          meetingToken: event.meetingToken,
+        );
 
     data.fold(
       (left) => emit(UserAttendancesFailed(message: left.message)),

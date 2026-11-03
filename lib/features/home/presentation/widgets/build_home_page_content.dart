@@ -22,9 +22,9 @@ class BuildHomePageContent extends StatelessWidget {
         context.read<UserDetailsBloc>().add(GetUserDetails());
         context.read<GetAllAnnouncementsBloc>().add(GetAllAnnouncements());
         context.read<UserRegisteredClassBloc>().add(GetUserRegisteredClass());
-        context
-            .read<UserClassOptionByPaidSubjectBloc>()
-            .add(GetUserClassOptionByPaidSubject());
+        context.read<UserClassOptionByPaidSubjectBloc>().add(
+          GetUserClassOptionByPaidSubject(),
+        );
       },
       child: ListView(
         shrinkWrap: true,

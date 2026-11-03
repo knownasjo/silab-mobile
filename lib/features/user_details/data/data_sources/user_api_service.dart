@@ -15,9 +15,9 @@ class UserApiService {
 
     return data is List
         ? data
-            .whereType<Map<String, dynamic>>()
-            .map(AssistedClassEntity.fromJson)
-            .toList()
+              .whereType<Map<String, dynamic>>()
+              .map(AssistedClassEntity.fromJson)
+              .toList()
         : const [];
   }
 }

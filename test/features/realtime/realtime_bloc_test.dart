@@ -38,22 +38,24 @@ void main() {
   Iterable<String?> receivedTypes() =>
       states.whereType<RealtimeMessage>().map((state) => state.message?.type);
 
-  test('ready pertama diabaikan karena halaman baru saja memuat data',
-      () async {
-    bloc.add(const StartRealtime());
-    await settle();
+  test(
+    'ready pertama diabaikan karena halaman baru saja memuat data',
+    () async {
+      bloc.add(const StartRealtime());
+      await settle();
 
-    repository.current
-      ..add(const RealtimeEventEntity(type: 'ready'))
-      ..add(const RealtimeEventEntity(type: 'meeting', classId: 'c1'));
-    await settle();
+      repository.current
+        ..add(const RealtimeEventEntity(type: 'ready'))
+        ..add(const RealtimeEventEntity(type: 'meeting', classId: 'c1'));
+      await settle();
 
-    expect(receivedTypes(), ['meeting']);
-    expect(
-      (states.last as RealtimeMessage).message,
-      const RealtimeEventEntity(type: 'meeting', classId: 'c1'),
-    );
-  });
+      expect(receivedTypes(), ['meeting']);
+      expect(
+        (states.last as RealtimeMessage).message,
+        const RealtimeEventEntity(type: 'meeting', classId: 'c1'),
+      );
+    },
+  );
 
   test('ready setelah tersambung ulang diteruskan agar data disusul', () async {
     bloc.add(const StartRealtime());
@@ -94,25 +96,27 @@ void main() {
     expect(repository.current.hasListener, isTrue);
   });
 
-  test('StopRealtime menutup langganan; login berikutnya mulai dari awal',
-      () async {
-    bloc.add(const StartRealtime());
-    await settle();
-    repository.current.add(const RealtimeEventEntity(type: 'ready'));
-    await settle();
+  test(
+    'StopRealtime menutup langganan; login berikutnya mulai dari awal',
+    () async {
+      bloc.add(const StartRealtime());
+      await settle();
+      repository.current.add(const RealtimeEventEntity(type: 'ready'));
+      await settle();
 
-    bloc.add(const StopRealtime());
-    await settle();
-    expect(repository.current.hasListener, isFalse);
-    expect(bloc.state, isA<RealtimeIdle>());
+      bloc.add(const StopRealtime());
+      await settle();
+      expect(repository.current.hasListener, isFalse);
+      expect(bloc.state, isA<RealtimeIdle>());
 
-    bloc.add(const StartRealtime());
-    await settle();
-    repository.current.add(const RealtimeEventEntity(type: 'ready'));
-    await settle();
+      bloc.add(const StartRealtime());
+      await settle();
+      repository.current.add(const RealtimeEventEntity(type: 'ready'));
+      await settle();
 
-    expect(receivedTypes(), isEmpty);
-  });
+      expect(receivedTypes(), isEmpty);
+    },
+  );
 
   test('isi event dibaca dari JSON backend', () {
     expect(

@@ -35,7 +35,8 @@ class _RingkasanDaftarPageState extends State<RingkasanDaftarPage> {
       color: Colors.white,
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.of(context).size.height -
+        height:
+            MediaQuery.of(context).size.height -
             Scaffold.of(context).appBarMaxHeight!,
         child: Padding(
           padding: const EdgeInsets.only(right: 15, left: 15, top: 24),
@@ -44,10 +45,7 @@ class _RingkasanDaftarPageState extends State<RingkasanDaftarPage> {
             children: [
               const Text(
                 'Berikut adalah mata praktikum yang anda pilih. Sesuaikan dengan Mata Kuliah yang anda ambil di KRS.',
-                style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
               ),
               const SizedBox(height: 48),
               SizedBox(
@@ -72,13 +70,17 @@ class _RingkasanDaftarPageState extends State<RingkasanDaftarPage> {
                     Column(
                       children: [
                         BuildRingkasanDaftarPageSubjectList(
-                          subjects: widget.ringkasanDaftarPageExtra
-                              .userSelectedSubjects.subjects,
+                          subjects: widget
+                              .ringkasanDaftarPageExtra
+                              .userSelectedSubjects
+                              .subjects,
                         ),
                         const SizedBox(height: 8),
                         BuildRingkasanDaftarPageTotalPrice(
-                          subjects: widget.ringkasanDaftarPageExtra
-                              .userSelectedSubjects.subjects,
+                          subjects: widget
+                              .ringkasanDaftarPageExtra
+                              .userSelectedSubjects
+                              .subjects,
                         ),
                       ],
                     ),
@@ -109,13 +111,15 @@ class _RingkasanDaftarPageState extends State<RingkasanDaftarPage> {
 
   void _save(BuildContext context) {
     final subjectIds = widget
-        .ringkasanDaftarPageExtra.userSelectedSubjects.subjects!
+        .ringkasanDaftarPageExtra
+        .userSelectedSubjects
+        .subjects!
         .map((subject) => subject.id!)
         .toList();
 
-    context
-        .read<AddSelectedSubjectBloc>()
-        .add(AddSelectedSubjectButtonTapped(subjects: subjectIds));
+    context.read<AddSelectedSubjectBloc>().add(
+      AddSelectedSubjectButtonTapped(subjects: subjectIds),
+    );
   }
 
   Widget _buildAlertDialog() {
@@ -135,10 +139,7 @@ class _RingkasanDaftarPageState extends State<RingkasanDaftarPage> {
         if (state is AddSelectedSubjectFailed) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
-            snackBar(
-              message: state.message,
-              type: AlertType.error,
-            ),
+            snackBar(message: state.message, type: AlertType.error),
           );
           Navigator.of(context, rootNavigator: true).pop();
         }
@@ -152,15 +153,11 @@ class _RingkasanDaftarPageState extends State<RingkasanDaftarPage> {
             backgroundColor: const Color(0xfff4f4f9),
             title: const Text(
               'Simpan Pendaftaran',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             content: const Text(
               'Apakah anda yakin untuk menyimpan pendaftaran praktikum dan lanjutkan proses pembayaran?',
-              style: TextStyle(
-                fontSize: 16,
-              ),
+              style: TextStyle(fontSize: 16),
               textAlign: TextAlign.justify,
             ),
             actions: [
@@ -216,10 +213,7 @@ class _RingkasanDaftarPageState extends State<RingkasanDaftarPage> {
             icon: SizedBox(
               height: 24,
               width: 24,
-              child: Image.asset(
-                'assets/image/info.png',
-                scale: 2,
-              ),
+              child: Image.asset('assets/image/info.png', scale: 2),
             ),
             actionsAlignment: MainAxisAlignment.spaceEvenly,
           ),

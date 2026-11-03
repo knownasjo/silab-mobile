@@ -16,9 +16,7 @@ class AccountApiService {
 
   Future<LoginResponseEntity> changePassword(
     ChangePasswordModel passwordData,
-  ) async =>
-      LoginResponseEntity.fromJson(await _apiClient.put(
-        '/auth/me/password',
-        body: passwordData.toJson(),
-      ));
+  ) async => LoginResponseEntity.fromJson(
+    await _apiClient.put('/auth/me/password', body: passwordData.toJson()),
+  );
 }

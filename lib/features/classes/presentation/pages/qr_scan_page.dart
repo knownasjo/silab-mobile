@@ -12,19 +12,13 @@ class QrScanPageExtra {
   final String? classId;
   final String? meetingId;
 
-  const QrScanPageExtra({
-    this.classId,
-    this.meetingId,
-  });
+  const QrScanPageExtra({this.classId, this.meetingId});
 }
 
 class QrScanPage extends StatefulWidget {
   final QrScanPageExtra qrScanPageExtra;
 
-  const QrScanPage({
-    super.key,
-    required this.qrScanPageExtra,
-  });
+  const QrScanPage({super.key, required this.qrScanPageExtra});
 
   @override
   State<QrScanPage> createState() => _QrScanPageState();
@@ -42,12 +36,12 @@ class _QrScanPageState extends State<QrScanPage> {
 
     _isSubmitting = true;
     context.read<UserAttendancesBloc>().add(
-          AddUserAttendances(
-            classId: widget.qrScanPageExtra.classId,
-            meetingId: widget.qrScanPageExtra.meetingId,
-            meetingToken: token,
-          ),
-        );
+      AddUserAttendances(
+        classId: widget.qrScanPageExtra.classId,
+        meetingId: widget.qrScanPageExtra.meetingId,
+        meetingToken: token,
+      ),
+    );
   }
 
   void _resumeScanningAfterDelay() {
@@ -126,19 +120,12 @@ class _QrScanPageState extends State<QrScanPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Boxicons.bx_camera_off,
-                color: Colors.white,
-                size: 48,
-              ),
+              const Icon(Boxicons.bx_camera_off, color: Colors.white, size: 48),
               const SizedBox(height: 16),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
               const SizedBox(height: 8),
               TextButton.icon(
@@ -166,10 +153,8 @@ class _QrScanPageState extends State<QrScanPage> {
             context: context,
             useRootNavigator: false,
             barrierDismissible: false,
-            builder: (context) => const PopScope(
-              canPop: false,
-              child: CustomLoadingIndicator(),
-            ),
+            builder: (context) =>
+                const PopScope(canPop: false, child: CustomLoadingIndicator()),
           );
         } else if (state is UserAttendancesSuccess) {
           Navigator.of(context, rootNavigator: true).pop();
@@ -179,7 +164,8 @@ class _QrScanPageState extends State<QrScanPage> {
           );
 
           context.read<UserMeetingsBloc>().add(
-              RefreshUserMeetings(classId: widget.qrScanPageExtra.classId));
+            RefreshUserMeetings(classId: widget.qrScanPageExtra.classId),
+          );
           _hasLeft = true;
           context.pop();
         } else if (state is UserAttendancesFailed) {
@@ -243,14 +229,9 @@ class _QrScanPageState extends State<QrScanPage> {
                     padding: const EdgeInsets.all(8),
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(
-                        0xffF4F4F9,
-                      ),
+                      color: Color(0xffF4F4F9),
                     ),
-                    child: const Icon(
-                      Boxicons.bx_chevron_left,
-                      size: 36,
-                    ),
+                    child: const Icon(Boxicons.bx_chevron_left, size: 36),
                   ),
                 ),
               ),

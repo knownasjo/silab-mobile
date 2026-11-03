@@ -15,60 +15,62 @@ class FakeAnnouncementRepository implements AnnouncementRepository {
   FakeAnnouncementRepository(this.announcement);
 
   @override
-  Future<Either<Failures, AnnouncementEntity>> getAnnouncement(
-          {String id = ''}) async =>
-      Right(announcement);
+  Future<Either<Failures, AnnouncementEntity>> getAnnouncement({
+    String id = '',
+  }) async => Right(announcement);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 void main() {
-  testWidgets('pengumuman 1000 karakter bisa digulir sampai akhir di HP kecil',
-      (tester) async {
-    tester.view.physicalSize = const Size(360, 640);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.reset);
+  testWidgets(
+    'pengumuman 1000 karakter bisa digulir sampai akhir di HP kecil',
+    (tester) async {
+      tester.view.physicalSize = const Size(360, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
 
-    final body = [
-      'Paragraf pertama ${'kata ' * 60}',
-      'Paragraf kedua ${'kata ' * 60}',
-      'Paragraf ketiga ${'kata ' * 60}',
-      'Bagian akhir pengumuman.',
-    ].join('\n\n');
-    expect(body.length, lessThanOrEqualTo(1000));
+      final body = [
+        'Paragraf pertama ${'kata ' * 60}',
+        'Paragraf kedua ${'kata ' * 60}',
+        'Paragraf ketiga ${'kata ' * 60}',
+        'Bagian akhir pengumuman.',
+      ].join('\n\n');
+      expect(body.length, lessThanOrEqualTo(1000));
 
-    await tester.pumpWidget(
-      MaterialApp(
-        home: BlocProvider(
-          create: (_) => GetAnnouncementBloc(
-            GetAnnouncementUseCase(
-              FakeAnnouncementRepository(
-                AnnouncementEntity(
-                  id: 'a1',
-                  title: 'Pengumuman Panjang',
-                  type: 'BASIC',
-                  body: body,
-                  createdAt: DateTime.now().toIso8601String(),
-                  author: 'Laboran',
+      await tester.pumpWidget(
+        MaterialApp(
+          home: BlocProvider(
+            create: (_) => GetAnnouncementBloc(
+              GetAnnouncementUseCase(
+                FakeAnnouncementRepository(
+                  AnnouncementEntity(
+                    id: 'a1',
+                    title: 'Pengumuman Panjang',
+                    type: 'BASIC',
+                    body: body,
+                    createdAt: DateTime.now().toIso8601String(),
+                    author: 'Laboran',
+                  ),
                 ),
               ),
             ),
+            child: const PengumumanPage(id: 'a1'),
           ),
-          child: const PengumumanPage(id: 'a1'),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      );
+      await tester.pumpAndSettle();
 
-    expect(tester.takeException(), isNull);
-    expect(find.textContaining('Paragraf pertama'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      expect(find.textContaining('Paragraf pertama'), findsOneWidget);
 
-    await tester.dragUntilVisible(
-      find.textContaining('Bagian akhir pengumuman.'),
-      find.byType(SingleChildScrollView),
-      const Offset(0, -200),
-    );
-    expect(tester.takeException(), isNull);
-  });
+      await tester.dragUntilVisible(
+        find.textContaining('Bagian akhir pengumuman.'),
+        find.byType(SingleChildScrollView),
+        const Offset(0, -200),
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

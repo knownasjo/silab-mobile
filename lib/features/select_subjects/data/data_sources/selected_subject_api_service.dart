@@ -16,16 +16,15 @@ class SelectedSubjectApiService {
 
   Future<AddSelectedSubjectResponseEntity> addUserSelectedSubject(
     List<String>? subjects,
-  ) async =>
-      AddSelectedSubjectResponseEntity.fromJson(
-        await _apiClient.post('/activation', body: {'subjectIds': subjects}),
-      );
+  ) async => AddSelectedSubjectResponseEntity.fromJson(
+    await _apiClient.post('/activation', body: {'subjectIds': subjects}),
+  );
 
   Future<UserClassOptionByPaidSubjectResponseEntity>
-      getUserClassOptionbyPaidSubjects() async =>
-          UserClassOptionByPaidSubjectResponseEntity.fromJson(
-            await _apiClient.get('/class/registration'),
-          );
+  getUserClassOptionbyPaidSubjects() async =>
+      UserClassOptionByPaidSubjectResponseEntity.fromJson(
+        await _apiClient.get('/class/registration'),
+      );
 
   Future<String> cancelActivation(String activationId) async {
     final json = await _apiClient.delete('/activation/$activationId');
@@ -35,11 +34,10 @@ class SelectedSubjectApiService {
 
   Future<AddSelectedClassResponseEntity> addSelectedClass({
     List<String>? selectedClass,
-  }) async =>
-      AddSelectedClassResponseEntity.fromJson(
-        await _apiClient.post(
-          '/class/registration',
-          body: {'classIds': selectedClass},
-        ),
-      );
+  }) async => AddSelectedClassResponseEntity.fromJson(
+    await _apiClient.post(
+      '/class/registration',
+      body: {'classIds': selectedClass},
+    ),
+  );
 }

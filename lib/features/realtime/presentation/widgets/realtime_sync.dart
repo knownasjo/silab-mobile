@@ -66,9 +66,9 @@ class _RealtimeSyncState extends State<RealtimeSync> {
         _refreshRegistration();
         context.read<GetAllAnnouncementsBloc>().add(RefreshAllAnnouncements());
       case 'meeting' || 'attendance':
-        context
-            .read<UserMeetingsBloc>()
-            .add(RefreshUserMeetings(classId: message.classId));
+        context.read<UserMeetingsBloc>().add(
+          RefreshUserMeetings(classId: message.classId),
+        );
     }
   }
 
@@ -83,14 +83,17 @@ class _RealtimeSyncState extends State<RealtimeSync> {
 
   void _refreshAnnouncements(RealtimeEventEntity message) {
     context.read<GetAllAnnouncementsBloc>().add(RefreshAllAnnouncements());
-    context.read<GetAnnouncementBloc>().add(RefreshAnnouncement(
-          id: message.announcementId,
-          isDeleted: message.action == 'deleted',
-        ));
+    context.read<GetAnnouncementBloc>().add(
+      RefreshAnnouncement(
+        id: message.announcementId,
+        isDeleted: message.action == 'deleted',
+      ),
+    );
   }
 
   void _refreshClass(RealtimeEventEntity message) {
-    final classOptions = context
+    final classOptions =
+        context
             .read<UserClassOptionByPaidSubjectBloc>()
             .state
             .userClassOptionByPaidSubjectEntity ??
@@ -98,20 +101,22 @@ class _RealtimeSyncState extends State<RealtimeSync> {
 
     if (message.action == 'created' ||
         classOptions.any((option) => option.classId == message.classId)) {
-      context
-          .read<UserClassOptionByPaidSubjectBloc>()
-          .add(RefreshUserClassOptionByPaidSubject());
-      context
-          .read<SelectedSubjectByNimBloc>()
-          .add(RefreshUserSelectedSubjects());
+      context.read<UserClassOptionByPaidSubjectBloc>().add(
+        RefreshUserClassOptionByPaidSubject(),
+      );
+      context.read<SelectedSubjectByNimBloc>().add(
+        RefreshUserSelectedSubjects(),
+      );
     }
 
-    context
-        .read<ClassmatesBloc>()
-        .add(RefreshClassmates(classId: message.classId));
-    context.read<AssistedClassesBloc>().add(RefreshAssistedClasses(
-          classId: message.action == 'assistants' ? null : message.classId,
-        ));
+    context.read<ClassmatesBloc>().add(
+      RefreshClassmates(classId: message.classId),
+    );
+    context.read<AssistedClassesBloc>().add(
+      RefreshAssistedClasses(
+        classId: message.action == 'assistants' ? null : message.classId,
+      ),
+    );
 
     if (message.action == 'assistants') {
       context.read<GetAllAnnouncementsBloc>().add(RefreshAllAnnouncements());
@@ -132,9 +137,9 @@ class _RealtimeSyncState extends State<RealtimeSync> {
 
   void _refreshRegistration() {
     context.read<SelectedSubjectByNimBloc>().add(RefreshUserSelectedSubjects());
-    context
-        .read<UserClassOptionByPaidSubjectBloc>()
-        .add(RefreshUserClassOptionByPaidSubject());
+    context.read<UserClassOptionByPaidSubjectBloc>().add(
+      RefreshUserClassOptionByPaidSubject(),
+    );
     context.read<UserRegisteredClassBloc>().add(RefreshUserRegisteredClass());
     context.read<UserScheduleBloc>().add(RefreshUserSchedule());
   }

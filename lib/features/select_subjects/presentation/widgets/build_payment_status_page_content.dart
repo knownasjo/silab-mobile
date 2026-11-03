@@ -19,9 +19,9 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
 
   void _reload(BuildContext context) {
     context.read<SelectedSubjectByNimBloc>().add(GetUserSelectedSubjects());
-    context
-        .read<UserClassOptionByPaidSubjectBloc>()
-        .add(GetUserClassOptionByPaidSubject());
+    context.read<UserClassOptionByPaidSubjectBloc>().add(
+      GetUserClassOptionByPaidSubject(),
+    );
   }
 
   @override
@@ -37,10 +37,7 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
         children: [
           const Text(
             'Selesaikan pembayaran anda. Status pembayaran anda akan diubah secara otomatis.',
-            style: TextStyle(
-              fontWeight: FontWeight.w300,
-              fontSize: 14,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
           ),
           const SizedBox(height: 48),
           SizedBox(
@@ -49,14 +46,16 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [
-                BlocBuilder<SelectedSubjectByNimBloc,
-                    SelectedSubjectByNimState>(
+                BlocBuilder<
+                  SelectedSubjectByNimBloc,
+                  SelectedSubjectByNimState
+                >(
                   builder: (context, state) =>
                       state is SelectedSubjectByNimLoaded
-                          ? BuildPaymentStatusPageUnpaidTotal(
-                              activations: state.selectedSubjectEntity ?? [],
-                            )
-                          : const SizedBox.shrink(),
+                      ? BuildPaymentStatusPageUnpaidTotal(
+                          activations: state.selectedSubjectEntity ?? [],
+                        )
+                      : const SizedBox.shrink(),
                 ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -70,8 +69,10 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
                     ),
                   ],
                 ),
-                BlocConsumer<SelectedSubjectByNimBloc,
-                    SelectedSubjectByNimState>(
+                BlocConsumer<
+                  SelectedSubjectByNimBloc,
+                  SelectedSubjectByNimState
+                >(
                   listener: (context, state) {
                     if (state is SelectedSubjectByNimFailed) {
                       if (state.message == 'jwt expired') {
@@ -90,14 +91,10 @@ class BuildPaymentStatusPageContent extends StatelessWidget {
                   builder: (context, state) {
                     if (state is SelectedSubjectByNimLoaded) {
                       if (state.selectedSubjectEntity?.isEmpty ?? true) {
-                        return const BuildStatusMessage(
-                          message: emptyMessage,
-                        );
+                        return const BuildStatusMessage(message: emptyMessage);
                       }
 
-                      return BuildPaymentStatusPageSubjectList(
-                        state: state,
-                      );
+                      return BuildPaymentStatusPageSubjectList(state: state);
                     }
 
                     if (state is SelectedSubjectByNimFailed) {

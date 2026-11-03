@@ -12,9 +12,9 @@ class ResetPasswordModel {
   });
 
   Map<String, dynamic> toJson() => {
-        'email': email,
-        'code': code,
-        'password': password,
-        'confirmPassword': confirmPassword,
-      };
+    'email': email,
+    'code': code,
+    'password': password,
+    'confirmPassword': confirmPassword,
+  };
 }

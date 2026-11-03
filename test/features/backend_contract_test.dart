@@ -36,16 +36,22 @@ const assistedClassesJson = '''
 
 void main() {
   test('login: token dibaca dari status boolean', () {
-    final login = LoginResponseEntity.fromJson(json(
-        '{"status":true,"message":"Login berhasil","data":{"accessToken":"a","refreshToken":"r"}}'));
+    final login = LoginResponseEntity.fromJson(
+      json(
+        '{"status":true,"message":"Login berhasil","data":{"accessToken":"a","refreshToken":"r"}}',
+      ),
+    );
 
     expect(login.status, true);
     expect(login.data?.accessToken, 'a');
   });
 
   test('profil: "name" dari /auth/me dibaca sebagai fullname', () {
-    final me = UserDetailResponseEntity.fromJson(json(
-        '{"status":true,"message":"Berhasil","data":{"id":"u1","nim":"2000016099","name":"Mahasiswa001","email":"m@webmail.uad.ac.id","role":"MAHASISWA"}}'));
+    final me = UserDetailResponseEntity.fromJson(
+      json(
+        '{"status":true,"message":"Berhasil","data":{"id":"u1","nim":"2000016099","name":"Mahasiswa001","email":"m@webmail.uad.ac.id","role":"MAHASISWA"}}',
+      ),
+    );
 
     expect(me.data?.fullname, 'Mahasiswa001');
     expect(me.data?.nim, '2000016099');
@@ -60,12 +66,14 @@ void main() {
   });
 
   test('pertemuan: tiga status presensi sama dengan aturan di web', () {
-    final meetings = MeetingsResponseEntity.fromJson(json('''
+    final meetings = MeetingsResponseEntity.fromJson(
+      json('''
 {"status":true,"message":"Berhasil","data":[
   {"id":"m1","meetingName":"Pertemuan 1","isOpen":false,"submittedAt":"2026-09-20T14:49:45.619Z","isAttended":true},
   {"id":"m2","meetingName":"Pertemuan 2","isOpen":false,"submittedAt":"2026-09-21T07:00:00.000Z","isAttended":false},
   {"id":"m3","meetingName":"Pertemuan 3","isOpen":true,"submittedAt":null,"isAttended":false}
-]}''')).data!;
+]}'''),
+    ).data!;
 
     expect(meetings.map((m) => m.attendanceStatus), [
       AttendanceStatus.hadir,
@@ -76,45 +84,58 @@ void main() {
   });
 
   test('teman sekelas dari /class/:id/classmates: hanya nama dan isMe', () {
-    final classmates = ClassmatesResponseEntity.fromJson(json('''
+    final classmates = ClassmatesResponseEntity.fromJson(
+      json('''
 {"status":true,"message":"Berhasil","data":[
   {"name":"Jordan","isMe":false},
   {"name":"Mahasiswa001","isMe":true},
   {"name":"Mahasiswa002","isMe":false}
-]}''')).data!;
+]}'''),
+    ).data!;
 
-    expect(classmates.map((c) => c.name),
-        ['Jordan', 'Mahasiswa001', 'Mahasiswa002']);
-    expect(
-        classmates.where((c) => c.isMe == true).single.name, 'Mahasiswa001');
+    expect(classmates.map((c) => c.name), [
+      'Jordan',
+      'Mahasiswa001',
+      'Mahasiswa002',
+    ]);
+    expect(classmates.where((c) => c.isMe == true).single.name, 'Mahasiswa001');
   });
 
   test('presensi berhasil', () {
-    final attendance = AttendanceEntity.fromJson(json(
-        '{"status":true,"message":"Presensi berhasil dicatat","data":{"meetingId":"m3","meetingName":"Pertemuan 3","studentName":"Mahasiswa001","nim":"2000016099","submittedAt":"2026-09-23T03:13:42.747Z"}}'));
+    final attendance = AttendanceEntity.fromJson(
+      json(
+        '{"status":true,"message":"Presensi berhasil dicatat","data":{"meetingId":"m3","meetingName":"Pertemuan 3","studentName":"Mahasiswa001","nim":"2000016099","submittedAt":"2026-09-23T03:13:42.747Z"}}',
+      ),
+    );
 
     expect(attendance.status, true);
     expect(attendance.message, 'Presensi berhasil dicatat');
   });
 
   test('status pembayaran dari /activation', () {
-    final activations = SelectedSubjectResponseEntity.fromJson(json('''
+    final activations = SelectedSubjectResponseEntity.fromJson(
+      json('''
 {"status":true,"message":"Berhasil","data":[{"id":"f7e2d725","userId":"u1","nim":"2000016099","student":"Mahasiswa001","status":true,"createdAt":"2025-05-01T03:50:04.571Z","subjectId":"s1",
  "subjects":[{"subjectName":"Algoritma dan Pemrograman","semester":"1"}],
- "registeredClass":{"id":"c-alpro","name":"A"},"availableClasses":[]}]}'''))
-        .data!;
+ "registeredClass":{"id":"c-alpro","name":"A"},"availableClasses":[]}]}'''),
+    ).data!;
 
     expect(activations.single.activationId, 'f7e2d725');
     expect(activations.single.status, true);
     expect(activations.single.createdAt, '2025-05-01T03:50:04.571Z');
-    expect(activations.single.subjects!.single.subjectName,
-        'Algoritma dan Pemrograman');
+    expect(
+      activations.single.subjects!.single.subjectName,
+      'Algoritma dan Pemrograman',
+    );
   });
 
   test('pilihan kelas dari /class/registration: kuota berupa angka', () {
-    final options = UserClassOptionByPaidSubjectResponseEntity.fromJson(json('''
-{"status":true,"message":"Berhasil","data":[{"id":"c-b","subjectName":"Algoritma dan Pemrograman","subjectClass":"B","semester":"1","quota":25,"day":"TUESDAY","registeredStudents":24,"sessionTime":"09.00 - 10.30"}]}'''))
-        .data!;
+    final options = UserClassOptionByPaidSubjectResponseEntity.fromJson(
+      json(
+        '''
+{"status":true,"message":"Berhasil","data":[{"id":"c-b","subjectName":"Algoritma dan Pemrograman","subjectClass":"B","semester":"1","quota":25,"day":"TUESDAY","registeredStudents":24,"sessionTime":"09.00 - 10.30"}]}''',
+      ),
+    ).data!;
 
     expect(options.single.classId, 'c-b');
     expect(options.single.quota, 25);
@@ -122,9 +143,12 @@ void main() {
   });
 
   test('daftar mata kuliah dari /subject', () {
-    final subjects = SubjectListResponseEntity.fromJson(json('''
-{"status":true,"message":"Berhasil","data":[{"id":"23b860ef","subjectCode":"553310002","subjectName":"Rekayasa Perangkat Lunak","semester":"4","lecturer":"Dosen001"}]}'''))
-        .data!;
+    final subjects = SubjectListResponseEntity.fromJson(
+      json(
+        '''
+{"status":true,"message":"Berhasil","data":[{"id":"23b860ef","subjectCode":"553310002","subjectName":"Rekayasa Perangkat Lunak","semester":"4","lecturer":"Dosen001"}]}''',
+      ),
+    ).data!;
 
     expect(subjects.single.subjectCode, '553310002');
     expect(subjects.single.subjectName, 'Rekayasa Perangkat Lunak');
@@ -132,23 +156,27 @@ void main() {
   });
 
   test('pengumuman dari /announcement', () {
-    final announcements = AnnouncementListResponseEntity.fromJson(json('''
-{"status":true,"message":"Berhasil","data":[{"id":"a1","title":"Jadwal Inhall","body":"Isi","author":"Laboran002","createdAt":"2026-09-01T00:00:00.000Z","type":"INHALL"}]}'''))
-        .data!;
+    final announcements = AnnouncementListResponseEntity.fromJson(
+      json(
+        '''
+{"status":true,"message":"Berhasil","data":[{"id":"a1","title":"Jadwal Inhall","body":"Isi","author":"Laboran002","createdAt":"2026-09-01T00:00:00.000Z","type":"INHALL"}]}''',
+      ),
+    ).data!;
 
     expect(announcements.single.author, 'Laboran002');
     expect(announcements.single.type, 'INHALL');
   });
 
-  test(
-      'jadwal disusun dari /class/me dan kelas asisten /class: urut hari dan jam, nama hari bahasa Indonesia, ruang ikut',
-      () async {
+  test('jadwal disusun dari /class/me dan kelas asisten /class: urut hari dan jam, nama hari bahasa Indonesia, ruang ikut', () async {
     AppConfig.create(baseUrl: 'http://silab.test');
     SharedPreferences.setMockInitialValues({'accessToken': 't'});
     final api = ApiClient(
-      MockClient((request) async => http.Response(
+      MockClient(
+        (request) async => http.Response(
           request.url.path == '/class' ? assistedClassesJson : myClassesJson,
-          200)),
+          200,
+        ),
+      ),
       await SharedPreferences.getInstance(),
     );
 
@@ -156,8 +184,11 @@ void main() {
 
     expect(schedule.map((s) => s.day), ['Senin', 'Rabu']);
     final monday = schedule.first.practicums!;
-    expect(monday.map((p) => p.session),
-        ['07.00 - 08.30', '10.00 - 11.30', '13.00 - 14.30']);
+    expect(monday.map((p) => p.session), [
+      '07.00 - 08.30',
+      '10.00 - 11.30',
+      '13.00 - 14.30',
+    ]);
     expect(monday.map((p) => p.room), ['PSI', 'SBTI', 'PSI']);
     expect(monday.map((p) => p.isAssistant == true), [false, true, false]);
     expect(monday[1].subjectName, 'Jaringan Komputer');

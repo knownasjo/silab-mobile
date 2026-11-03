@@ -25,10 +25,7 @@ class BuildSchedulePageContent extends StatelessWidget {
             } else {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                snackBar(
-                  message: state.message,
-                  type: AlertType.error,
-                ),
+                snackBar(message: state.message, type: AlertType.error),
               );
             }
           }

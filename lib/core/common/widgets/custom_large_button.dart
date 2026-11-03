@@ -18,9 +18,7 @@ class CustomLargeButton extends StatelessWidget {
         backgroundColor: const Color(0xff3272CA),
         foregroundColor: const Color(0xffF4F4F9),
         fixedSize: const Size(double.maxFinite, 48),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
       child: label,
     );

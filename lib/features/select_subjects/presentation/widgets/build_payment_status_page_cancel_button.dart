@@ -25,9 +25,9 @@ class BuildPaymentStatusPageCancelButton extends StatelessWidget {
     );
 
     if (confirmed == true && context.mounted) {
-      context
-          .read<CancelActivationBloc>()
-          .add(CancelActivation(activation.activationId!));
+      context.read<CancelActivationBloc>().add(
+        CancelActivation(activation.activationId!),
+      );
     }
   }
 
@@ -35,24 +35,20 @@ class BuildPaymentStatusPageCancelButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CancelActivationBloc, CancelActivationState>(
       builder: (context, state) {
-        final submittingId =
-            state is CancelActivationSubmitting ? state.activationId : null;
+        final submittingId = state is CancelActivationSubmitting
+            ? state.activationId
+            : null;
 
         return TextButton(
           onPressed: submittingId != null || activation.activationId == null
               ? null
               : () => _confirm(context),
-          style: TextButton.styleFrom(
-            foregroundColor: const Color(0xffFE2F60),
-          ),
+          style: TextButton.styleFrom(foregroundColor: const Color(0xffFE2F60)),
           child: Text(
             submittingId == activation.activationId
                 ? 'Membatalkan...'
                 : 'Batalkan pendaftaran',
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
         );
       },
@@ -64,24 +60,17 @@ class BuildPaymentStatusPageCancelButton extends StatelessWidget {
       backgroundColor: const Color(0xfff4f4f9),
       title: const Text(
         'Batalkan Pendaftaran',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
       content: Text(
         'Pendaftaran $_subjectName akan dibatalkan. Anda bisa mendaftarkannya lagi nanti.',
-        style: const TextStyle(
-          fontSize: 16,
-        ),
+        style: const TextStyle(fontSize: 16),
       ),
       actions: [
         InkWell(
           onTap: () => Navigator.of(dialogContext).pop(false),
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: const Color(0xffBFD9EF),
               borderRadius: BorderRadius.circular(12),
@@ -99,10 +88,7 @@ class BuildPaymentStatusPageCancelButton extends StatelessWidget {
         InkWell(
           onTap: () => Navigator.of(dialogContext).pop(true),
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: const Color(0xffFF0000),
               borderRadius: BorderRadius.circular(12),

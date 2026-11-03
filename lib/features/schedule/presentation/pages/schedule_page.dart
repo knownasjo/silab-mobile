@@ -21,15 +21,13 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.maxFinite,
-      height: MediaQuery.of(context).size.height -
+      height:
+          MediaQuery.of(context).size.height -
           Scaffold.of(context).appBarMaxHeight!,
       child: const Material(
         color: Colors.white,
         child: Padding(
-          padding: EdgeInsets.only(
-            right: 15,
-            left: 15,
-          ),
+          padding: EdgeInsets.only(right: 15, left: 15),
           child: BuildSchedulePageContent(),
         ),
       ),

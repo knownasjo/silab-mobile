@@ -14,6 +14,6 @@ abstract class UserClassOptionByPaidSubjectResponseEntity
   }) = _UserClassOptionByPaidSubjectResponseEntity;
 
   factory UserClassOptionByPaidSubjectResponseEntity.fromJson(
-          Map<String, dynamic> json) =>
-      _$UserClassOptionByPaidSubjectResponseEntityFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$UserClassOptionByPaidSubjectResponseEntityFromJson(json);
 }

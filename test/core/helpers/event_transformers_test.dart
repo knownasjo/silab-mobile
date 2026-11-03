@@ -45,23 +45,25 @@ void main() {
     await bloc.close();
   });
 
-  test('event sama yang datang selagi berjalan digabung jadi satu susulan',
-      () async {
-    for (var i = 0; i < 5; i++) {
-      bloc.add(const Refresh('kelas'));
-    }
-    await settle();
-    expect(bloc.started, ['kelas']);
+  test(
+    'event sama yang datang selagi berjalan digabung jadi satu susulan',
+    () async {
+      for (var i = 0; i < 5; i++) {
+        bloc.add(const Refresh('kelas'));
+      }
+      await settle();
+      expect(bloc.started, ['kelas']);
 
-    bloc.finishCurrent();
-    await settle();
-    expect(bloc.started, ['kelas', 'kelas']);
+      bloc.finishCurrent();
+      await settle();
+      expect(bloc.started, ['kelas', 'kelas']);
 
-    bloc.finishCurrent();
-    await settle();
-    expect(bloc.started, ['kelas', 'kelas']);
-    expect(bloc.state, 2);
-  });
+      bloc.finishCurrent();
+      await settle();
+      expect(bloc.started, ['kelas', 'kelas']);
+      expect(bloc.state, 2);
+    },
+  );
 
   test('event berbeda tetap dijalankan satu per satu sesuai urutan', () async {
     bloc

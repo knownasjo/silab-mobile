@@ -25,35 +25,39 @@ class BuildAnnouncementBanner extends StatelessWidget {
           ? Container(
               margin: const EdgeInsets.symmetric(horizontal: 15),
               child: AnnouncementBanner(
-                id: state.announcements != null &&
+                id:
+                    state.announcements != null &&
                         state is GetAllAnnouncementsLoaded
                     ? state.announcements![index].id!
                     : 'id',
-                createdAt: state.announcements != null &&
+                createdAt:
+                    state.announcements != null &&
                         state is GetAllAnnouncementsLoaded
                     ? state.announcements![index].createdAt!
                     : 'Created At',
-                author: state.announcements != null &&
+                author:
+                    state.announcements != null &&
                         state is GetAllAnnouncementsLoaded
                     ? state.announcements![index].author!
                     : 'Author',
-                body: state.announcements != null &&
+                body:
+                    state.announcements != null &&
                         state is GetAllAnnouncementsLoaded
                     ? state.announcements![index].body!
                     : 'Deskripsi',
-                title: state.announcements != null &&
+                title:
+                    state.announcements != null &&
                         state is GetAllAnnouncementsLoaded
                     ? state.announcements![index].title!
                     : 'Judul',
-                type: state.announcements != null &&
+                type:
+                    state.announcements != null &&
                         state is GetAllAnnouncementsLoaded
                     ? state.announcements![index].type!
                     : 'Tipe',
               ),
             )
-          : const Center(
-              child: Text('Tidak ada pengumuman untuk saat ini!'),
-            ),
+          : const Center(child: Text('Tidak ada pengumuman untuk saat ini!')),
     );
   }
 }

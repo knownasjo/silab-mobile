@@ -10,8 +10,8 @@ class ChangePasswordModel {
   });
 
   Map<String, dynamic> toJson() => {
-        'oldPassword': oldPassword,
-        'password': password,
-        'confirmPassword': confirmPassword,
-      };
+    'oldPassword': oldPassword,
+    'password': password,
+    'confirmPassword': confirmPassword,
+  };
 }

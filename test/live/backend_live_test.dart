@@ -16,147 +16,172 @@ import 'package:silab/features/user_details/data/data_sources/user_api_service.d
 
 const baseUrl = String.fromEnvironment('API_BASE_URL');
 const nim = String.fromEnvironment('TEST_NIM', defaultValue: '2000016099');
-const password =
-    String.fromEnvironment('TEST_PASSWORD', defaultValue: 'mahasiswa001');
+const password = String.fromEnvironment(
+  'TEST_PASSWORD',
+  defaultValue: 'mahasiswa001',
+);
 
 void main() {
   late ApiClient api;
   late String accessToken;
   late String refreshToken;
 
-  group('alur mahasiswa terhadap backend asli', () {
-    setUpAll(() async {
-      AppConfig.create(baseUrl: baseUrl);
-      SharedPreferences.setMockInitialValues({});
-      final prefs = await SharedPreferences.getInstance();
-      api = ApiClient(http.Client(), prefs);
+  group(
+    'alur mahasiswa terhadap backend asli',
+    () {
+      setUpAll(() async {
+        AppConfig.create(baseUrl: baseUrl);
+        SharedPreferences.setMockInitialValues({});
+        final prefs = await SharedPreferences.getInstance();
+        api = ApiClient(http.Client(), prefs);
 
-      final login = await AuthenticationApiService(api)
-          .userLogin(const LoginModel(nim: nim, password: password));
-      accessToken = login.data!.accessToken!;
-      refreshToken = login.data!.refreshToken!;
-      await prefs.setString('accessToken', accessToken);
-    });
+        final login = await AuthenticationApiService(api)
+            .userLogin(const LoginModel(nim: nim, password: password));
+        accessToken = login.data!.accessToken!;
+        refreshToken = login.data!.refreshToken!;
+        await prefs.setString('accessToken', accessToken);
+      });
 
-    test('akun uji berperan MAHASISWA dan profilnya terbaca', () async {
-      expect(
-        await AuthenticationApiService(api).getUserRole(accessToken),
-        'MAHASISWA',
+      test('akun uji berperan MAHASISWA dan profilnya terbaca', () async {
+        expect(
+          await AuthenticationApiService(api).getUserRole(accessToken),
+          'MAHASISWA',
+        );
+
+        final profile = await UserApiService(api).getUserDetails();
+
+        expect(profile.data?.nim, nim);
+        expect(profile.data?.fullname, isNotEmpty);
+      });
+
+      test(
+        'refresh token dari login ditukar dengan access token baru',
+        () async {
+          final json = await api.post(
+            '/auth/refresh',
+            body: {'refreshToken': refreshToken},
+          );
+          final newAccessToken = (json['data'] as Map)['accessToken'] as String;
+
+          expect(
+            await AuthenticationApiService(api).getUserRole(newAccessToken),
+            'MAHASISWA',
+          );
+        },
       );
 
-      final profile = await UserApiService(api).getUserDetails();
+      test('kelas, pertemuan, dan jadwal', () async {
+        final classes = (await ClassesApiService(
+          api,
+        ).getUserRegisteredClasses()).data!;
 
-      expect(profile.data?.nim, nim);
-      expect(profile.data?.fullname, isNotEmpty);
-    });
+        for (final c in classes) {
+          expect(c.subjectName, isNotEmpty);
 
-    test('refresh token dari login ditukar dengan access token baru', () async {
-      final json =
-          await api.post('/auth/refresh', body: {'refreshToken': refreshToken});
-      final newAccessToken = (json['data'] as Map)['accessToken'] as String;
+          final classmates = (await ClassesApiService(
+            api,
+          ).getClassmates(classId: c.id)).data!;
+          expect(
+            classmates.where((m) => m.isMe == true),
+            hasLength(1),
+            reason: 'mahasiswa uji harus muncul sekali di ${c.subjectName}',
+          );
 
-      expect(
-        await AuthenticationApiService(api).getUserRole(newAccessToken),
-        'MAHASISWA',
-      );
-    });
-
-    test('kelas, pertemuan, dan jadwal', () async {
-      final classes =
-          (await ClassesApiService(api).getUserRegisteredClasses()).data!;
-
-      for (final c in classes) {
-        expect(c.subjectName, isNotEmpty);
-
-        final classmates =
-            (await ClassesApiService(api).getClassmates(classId: c.id)).data!;
-        expect(classmates.where((m) => m.isMe == true), hasLength(1),
-            reason: 'mahasiswa uji harus muncul sekali di ${c.subjectName}');
-
-        final meetings =
-            (await ClassesApiService(api).getUserMeetingsData(classId: c.id))
-                .data!;
-        for (final m in meetings) {
-          expect(m.isOpen, isNotNull,
-              reason: '${m.meetingName} tanpa isOpen');
-          m.attendanceStatus;
+          final meetings = (await ClassesApiService(
+            api,
+          ).getUserMeetingsData(classId: c.id)).data!;
+          for (final m in meetings) {
+            expect(
+              m.isOpen,
+              isNotNull,
+              reason: '${m.meetingName} tanpa isOpen',
+            );
+            m.attendanceStatus;
+          }
         }
-      }
 
-      final schedule = await ScheduleApiService(api).getUserSchedule();
-      expect(
-        schedule.expand((day) => day.practicums!).length,
-        classes.length,
-      );
-    });
+        final schedule = await ScheduleApiService(api).getUserSchedule();
+        expect(
+          schedule.expand((day) => day.practicums!).length,
+          classes.length,
+        );
+      });
 
-    test('stream real-time tersambung dan mengirim "ready"', () async {
-      final firstEvent = await RealtimeApiService(api)
-          .watchEvents()
-          .first
-          .timeout(const Duration(seconds: 10));
+      test('stream real-time tersambung dan mengirim "ready"', () async {
+        final firstEvent = await RealtimeApiService(api)
+            .watchEvents()
+            .first
+            .timeout(const Duration(seconds: 10));
 
-      expect(firstEvent.type, 'ready');
-    });
+        expect(firstEvent.type, 'ready');
+      });
 
-    test('pendaftaran praktikum dan pilihan kelas', () async {
-      final subjects = (await SubjectApiService(api).getSubjectList()).data!;
-      expect(subjects, isNotEmpty);
+      test('pendaftaran praktikum dan pilihan kelas', () async {
+        final subjects = (await SubjectApiService(api).getSubjectList()).data!;
+        expect(subjects, isNotEmpty);
 
-      final activations =
-          await SelectedSubjectApiService(api).getUserSelectedSubject();
-      for (final a in activations.data!) {
-        expect(a.status, isNotNull);
-        expect(DateTime.tryParse(a.createdAt!), isNotNull);
-      }
+        final activations = await SelectedSubjectApiService(api)
+            .getUserSelectedSubject();
+        for (final a in activations.data!) {
+          expect(a.status, isNotNull);
+          expect(DateTime.tryParse(a.createdAt!), isNotNull);
+        }
 
-      final options = await SelectedSubjectApiService(api)
-          .getUserClassOptionbyPaidSubjects();
-      for (final o in options.data!) {
-        expect(o.quota, isNotNull);
-        expect(o.registeredStudents, isNotNull);
-      }
-    });
+        final options = await SelectedSubjectApiService(api)
+            .getUserClassOptionbyPaidSubjects();
+        for (final o in options.data!) {
+          expect(o.quota, isNotNull);
+          expect(o.registeredStudents, isNotNull);
+        }
+      });
 
-    test('pengumuman', () async {
-      final announcements =
-          (await AnnouncementApiService(api).getAnnouncementList()).data!;
+      test('pengumuman', () async {
+        final announcements = (await AnnouncementApiService(
+          api,
+        ).getAnnouncementList()).data!;
 
-      if (announcements.isNotEmpty) {
-        final detail = await AnnouncementApiService(api)
-            .getAnnouncement(id: announcements.first.id);
-        expect(detail.data?.title, announcements.first.title);
-      }
-    });
+        if (announcements.isNotEmpty) {
+          final detail = await AnnouncementApiService(api)
+              .getAnnouncement(id: announcements.first.id);
+          expect(detail.data?.title, announcements.first.title);
+        }
+      });
 
-    test('presensi ke sesi tertutup ditolak dengan pesan backend', () async {
-      final classes =
-          (await ClassesApiService(api).getUserRegisteredClasses()).data!;
-      final closedMeeting = classes.isEmpty
-          ? null
-          : (await ClassesApiService(api)
-                  .getUserMeetingsData(classId: classes.first.id))
-              .data!
-              .where((m) => m.isOpen == false)
-              .firstOrNull;
+      test('presensi ke sesi tertutup ditolak dengan pesan backend', () async {
+        final classes = (await ClassesApiService(
+          api,
+        ).getUserRegisteredClasses()).data!;
+        final closedMeeting = classes.isEmpty
+            ? null
+            : (await ClassesApiService(api)
+                      .getUserMeetingsData(classId: classes.first.id))
+                  .data!
+                  .where((m) => m.isOpen == false)
+                  .firstOrNull;
 
-      if (closedMeeting == null) {
-        markTestSkipped('Tidak ada pertemuan tertutup untuk dicoba');
-        return;
-      }
+        if (closedMeeting == null) {
+          markTestSkipped('Tidak ada pertemuan tertutup untuk dicoba');
+          return;
+        }
 
-      await expectLater(
-        ClassesApiService(api).addUserAttendance(
-          classId: classes.first.id,
-          meetingId: closedMeeting.id,
-          meetingToken: 'abcdef',
-        ),
-        throwsA(isA<RequestErrorException>().having(
-            (e) => e.message, 'message', 'Sesi presensi belum dibuka!')),
-      );
-    });
-  },
-      skip: baseUrl.isEmpty
-          ? 'Butuh --dart-define=API_BASE_URL=<alamat silab-backend>'
-          : false);
+        await expectLater(
+          ClassesApiService(api).addUserAttendance(
+            classId: classes.first.id,
+            meetingId: closedMeeting.id,
+            meetingToken: 'abcdef',
+          ),
+          throwsA(
+            isA<RequestErrorException>().having(
+              (e) => e.message,
+              'message',
+              'Sesi presensi belum dibuka!',
+            ),
+          ),
+        );
+      });
+    },
+    skip: baseUrl.isEmpty
+        ? 'Butuh --dart-define=API_BASE_URL=<alamat silab-backend>'
+        : false,
+  );
 }

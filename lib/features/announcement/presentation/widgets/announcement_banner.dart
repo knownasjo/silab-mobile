@@ -125,8 +125,10 @@ class _AnnouncementBannerState extends State<AnnouncementBanner> {
                 Flexible(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      final lines =
-                          _bodyLinesThatFit(context, constraints.maxHeight);
+                      final lines = _bodyLinesThatFit(
+                        context,
+                        constraints.maxHeight,
+                      );
 
                       if (lines == 0) return const SizedBox.shrink();
 
@@ -154,8 +156,10 @@ class _AnnouncementBannerState extends State<AnnouncementBanner> {
               borderRadius: BorderRadius.circular(30),
               child: Container(
                 height: 32,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 child: Text(
                   _isPracticum ? 'Daftar' : 'Pelajari lebih lanjut',
                   style: const TextStyle(

@@ -5,7 +5,8 @@ import 'package:flutter/services.dart';
 const realFontFamily = 'RealFont';
 
 Future<void> loadRealFont() async {
-  final root = Platform.environment['FLUTTER_ROOT'] ??
+  final root =
+      Platform.environment['FLUTTER_ROOT'] ??
       File(Platform.resolvedExecutable)
           .parent
           .parent
@@ -17,8 +18,9 @@ Future<void> loadRealFont() async {
   final loader = FontLoader(realFontFamily);
 
   for (final weight in ['Light', 'Regular', 'Medium', 'Bold']) {
-    final file =
-        File('$root/bin/cache/artifacts/material_fonts/Roboto-$weight.ttf');
+    final file = File(
+      '$root/bin/cache/artifacts/material_fonts/Roboto-$weight.ttf',
+    );
     if (!file.existsSync()) {
       throw StateError('Font Roboto tidak ditemukan di ${file.path}');
     }

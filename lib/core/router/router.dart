@@ -31,12 +31,15 @@ import 'package:silab/scaffold_page.dart';
 import 'package:silab/splash_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigator = GlobalKey(debugLabel: 'root');
-final GlobalKey<NavigatorState> _shellNavigatorHome =
-    GlobalKey(debugLabel: 'shell');
-final GlobalKey<NavigatorState> _shellNavigatorProfile =
-    GlobalKey(debugLabel: 'shell');
-final GlobalKey<NavigatorState> _shellNavigatorFind =
-    GlobalKey(debugLabel: 'shell');
+final GlobalKey<NavigatorState> _shellNavigatorHome = GlobalKey(
+  debugLabel: 'shell',
+);
+final GlobalKey<NavigatorState> _shellNavigatorProfile = GlobalKey(
+  debugLabel: 'shell',
+);
+final GlobalKey<NavigatorState> _shellNavigatorFind = GlobalKey(
+  debugLabel: 'shell',
+);
 
 final GoRouter router = GoRouter(
   navigatorKey: _rootNavigator,
@@ -84,9 +87,7 @@ final GoRouter router = GoRouter(
       parentNavigatorKey: _rootNavigator,
       builder: (context, state) => BlocProvider(
         create: (_) => injector<ResetPasswordBloc>(),
-        child: ResetPasswordPage(
-          extra: state.extra as ResetPasswordPageExtra,
-        ),
+        child: ResetPasswordPage(extra: state.extra as ResetPasswordPageExtra),
       ),
     ),
     GoRoute(
@@ -98,9 +99,8 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/qr-scan',
       name: 'qr-scan',
-      builder: (context, state) => QrScanPage(
-        qrScanPageExtra: state.extra as QrScanPageExtra,
-      ),
+      builder: (context, state) =>
+          QrScanPage(qrScanPageExtra: state.extra as QrScanPageExtra),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) =>
@@ -154,14 +154,13 @@ final GoRouter router = GoRouter(
                   ),
                 ),
                 GoRoute(
-                    path: 'pengumuman/:id',
-                    name: 'pengumuman',
-                    builder: (context, state) {
-                      final id = state.pathParameters['id'];
-                      return PengumumanPage(
-                        id: id,
-                      );
-                    }),
+                  path: 'pengumuman/:id',
+                  name: 'pengumuman',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id'];
+                    return PengumumanPage(id: id);
+                  },
+                ),
                 GoRoute(
                   path: 'pilih-kelas',
                   name: 'pilih-kelas',
@@ -175,7 +174,7 @@ final GoRouter router = GoRouter(
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
         StatefulShellBranch(
@@ -185,7 +184,7 @@ final GoRouter router = GoRouter(
               path: '/schedule',
               name: 'schedule',
               builder: (context, state) => const SchedulePage(),
-            )
+            ),
           ],
         ),
         StatefulShellBranch(
@@ -195,9 +194,9 @@ final GoRouter router = GoRouter(
               path: '/profile',
               name: 'profile',
               builder: (context, state) => const ProfilePage(),
-            )
+            ),
           ],
-        )
+        ),
       ],
     ),
   ],

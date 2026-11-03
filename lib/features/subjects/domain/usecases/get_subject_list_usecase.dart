@@ -11,8 +11,9 @@ class GetSubjectListUseCase
   const GetSubjectListUseCase(this.subjectRepository);
 
   @override
-  Future<Either<Failures, SubjectListResponseEntity>> call(
-      {Null params}) async {
+  Future<Either<Failures, SubjectListResponseEntity>> call({
+    Null params,
+  }) async {
     return await subjectRepository.getSubjectList();
   }
 }

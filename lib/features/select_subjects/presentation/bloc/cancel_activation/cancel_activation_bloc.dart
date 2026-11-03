@@ -10,7 +10,7 @@ class CancelActivationBloc
   final CancelActivationUsecase _cancelActivationUsecase;
 
   CancelActivationBloc(this._cancelActivationUsecase)
-      : super(const CancelActivationIdle()) {
+    : super(const CancelActivationIdle()) {
     on<CancelActivation>(_onCancelActivation);
   }
 

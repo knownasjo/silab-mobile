@@ -17,9 +17,9 @@ class BuildAnnouncementFailed extends StatelessWidget {
           children: [
             const Text('Gagal memuat pengumuman.'),
             TextButton.icon(
-              onPressed: () => context
-                  .read<GetAllAnnouncementsBloc>()
-                  .add(GetAllAnnouncements()),
+              onPressed: () => context.read<GetAllAnnouncementsBloc>().add(
+                GetAllAnnouncements(),
+              ),
               style: TextButton.styleFrom(
                 foregroundColor: const Color(0xff3272CA),
               ),

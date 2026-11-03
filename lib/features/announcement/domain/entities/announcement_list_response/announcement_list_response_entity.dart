@@ -5,7 +5,8 @@ part 'announcement_list_response_entity.freezed.dart';
 part 'announcement_list_response_entity.g.dart';
 
 @freezed
-abstract class AnnouncementListResponseEntity with _$AnnouncementListResponseEntity {
+abstract class AnnouncementListResponseEntity
+    with _$AnnouncementListResponseEntity {
   const factory AnnouncementListResponseEntity({
     bool? status,
     String? message,

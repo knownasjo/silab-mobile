@@ -6,17 +6,15 @@ import 'package:silab/features/select_subjects/domain/entities/selected_subject/
 class BuildPaymentStatusPageClassInfo extends StatelessWidget {
   final SelectedSubjectEntity activation;
 
-  const BuildPaymentStatusPageClassInfo({
-    super.key,
-    required this.activation,
-  });
+  const BuildPaymentStatusPageClassInfo({super.key, required this.activation});
 
   String get _label {
     final registered = activation.registeredClass;
 
     if (registered != null) {
-      final detail = activation.availableClasses
-          ?.firstWhereOrNull((option) => option.id == registered.id);
+      final detail = activation.availableClasses?.firstWhereOrNull(
+        (option) => option.id == registered.id,
+      );
 
       return detail == null
           ? '${registered.name}'

@@ -29,10 +29,7 @@ class PengumumanPageExtra {
 class PengumumanPage extends StatefulWidget {
   final String? id;
 
-  const PengumumanPage({
-    super.key,
-    this.id,
-  });
+  const PengumumanPage({super.key, this.id});
 
   @override
   State<PengumumanPage> createState() => _PengumumanPageState();
@@ -62,10 +59,7 @@ class _PengumumanPageState extends State<PengumumanPage> {
           } else {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
-              snackBar(
-                type: AlertType.error,
-                message: state.message,
-              ),
+              snackBar(type: AlertType.error, message: state.message),
             );
           }
         }
@@ -87,18 +81,18 @@ class _PengumumanPageState extends State<PengumumanPage> {
                   _buildAnnouncement(context, announcement),
                 GetAnnouncementFailed() => _buildFailed(context),
                 _ => const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32),
-                    child: Center(
-                      child: SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Color(0xff3272CA),
-                        ),
+                  padding: EdgeInsets.symmetric(vertical: 32),
+                  child: Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Color(0xff3272CA),
                       ),
                     ),
                   ),
+                ),
               },
             ),
           ),
@@ -108,7 +102,9 @@ class _PengumumanPageState extends State<PengumumanPage> {
   }
 
   Widget _buildAnnouncement(
-      BuildContext context, AnnouncementEntity announcement) {
+    BuildContext context,
+    AnnouncementEntity announcement,
+  ) {
     final typeStyle = AnnouncementTypeStyle.of(announcement.type);
     final body = announcement.body ?? '';
 
@@ -133,10 +129,7 @@ class _PengumumanPageState extends State<PengumumanPage> {
         const SizedBox(height: 8),
         Text(
           announcement.title ?? '-',
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         Text(
           "${announcement.author ?? '-'}, ${formatPostedAt(announcement.createdAt)}",
@@ -147,12 +140,7 @@ class _PengumumanPageState extends State<PengumumanPage> {
           ),
         ),
         const SizedBox(height: 24),
-        SelectableText(
-          body,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
+        SelectableText(body, style: const TextStyle(fontSize: 16)),
         const SizedBox(height: 16),
         Align(
           alignment: Alignment.centerRight,
@@ -175,10 +163,7 @@ class _PengumumanPageState extends State<PengumumanPage> {
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        snackBar(
-          message: 'Isi pengumuman disalin.',
-          type: AlertType.success,
-        ),
+        snackBar(message: 'Isi pengumuman disalin.', type: AlertType.success),
       );
   }
 
@@ -191,9 +176,9 @@ class _PengumumanPageState extends State<PengumumanPage> {
           children: [
             const Text('Gagal memuat pengumuman.'),
             TextButton.icon(
-              onPressed: () => context
-                  .read<GetAnnouncementBloc>()
-                  .add(GetAnnouncement(id: widget.id)),
+              onPressed: () => context.read<GetAnnouncementBloc>().add(
+                GetAnnouncement(id: widget.id),
+              ),
               style: TextButton.styleFrom(
                 foregroundColor: const Color(0xff3272CA),
               ),

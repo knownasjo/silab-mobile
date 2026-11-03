@@ -34,9 +34,9 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
   }
 
   Set<String> _registeredSubjectIds(SelectedSubjectByNimState state) => {
-        for (final activation in state.selectedSubjectEntity ?? const [])
-          if (activation.subjectId != null) activation.subjectId!,
-      };
+    for (final activation in state.selectedSubjectEntity ?? const [])
+      if (activation.subjectId != null) activation.subjectId!,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,8 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
       color: Colors.white,
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.of(context).size.height -
+        height:
+            MediaQuery.of(context).size.height -
             Scaffold.of(context).appBarMaxHeight!,
         child: Padding(
           padding: const EdgeInsets.only(right: 15, left: 15, top: 24),
@@ -54,10 +55,7 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
             children: [
               const Text(
                 'Pilihlah praktikum sesuai dengan Mata Kuliah yang anda ambil di KRS.',
-                style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
               ),
               const SizedBox(height: 48),
               SizedBox(
@@ -84,20 +82,17 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
     return CustomSmallButton(
       label: const Text(
         'Selanjutnya',
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-        ),
+        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
       ),
       onPressed: userSelectedSubjectsId.isNotEmpty
           ? () => context.pushNamed(
-                'ringkasan-praktikum',
-                extra: RingkasanDaftarPageExtra(
-                  userSelectedSubjects: UserSelectedSubjectsModel(
-                    userSelectedSubjectsId,
-                  ),
+              'ringkasan-praktikum',
+              extra: RingkasanDaftarPageExtra(
+                userSelectedSubjects: UserSelectedSubjectsModel(
+                  userSelectedSubjectsId,
                 ),
-              )
+              ),
+            )
           : null,
     );
   }
@@ -108,18 +103,15 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
       children: [
         const Text(
           'Daftar Praktikum',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
         ),
         BuildDaftarPraktikumPageDropdown(
           currentValue: currentValue,
           onChanged: (value) => setState(() {
             currentValue = value!;
-            context
-                .read<SubjectListBloc>()
-                .add(GetSubjectList(semester: value));
+            context.read<SubjectListBloc>().add(
+              GetSubjectList(semester: value),
+            );
           }),
         ),
       ],
@@ -137,78 +129,75 @@ class _DaftarPraktikumPageState extends State<DaftarPraktikumPage> {
             } else {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
-                snackBar(
-                  message: state.message,
-                  type: AlertType.error,
-                ),
+                snackBar(message: state.message, type: AlertType.error),
               );
             }
           }
         },
         builder: (context, state) =>
             BlocBuilder<SelectedSubjectByNimBloc, SelectedSubjectByNimState>(
-          builder: (context, registrations) {
-            final registeredIds = _registeredSubjectIds(registrations);
-            final hasSubjects = state is! SubjectListLoading &&
-                state.subjectList != null &&
-                state.subjectList!.isNotEmpty;
+              builder: (context, registrations) {
+                final registeredIds = _registeredSubjectIds(registrations);
+                final hasSubjects =
+                    state is! SubjectListLoading &&
+                    state.subjectList != null &&
+                    state.subjectList!.isNotEmpty;
 
-            return Skeletonizer(
-              enabled: state is SubjectListLoading ? true : false,
-              enableSwitchAnimation: true,
-              child: Container(
-                margin: const EdgeInsets.only(top: 16),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(12),
-                  border: hasSubjects
-                      ? Border.all(
-                          color: const Color(0xffBFD9EF),
-                          width: 2,
-                        )
-                      : null,
-                ),
-                child: ListView.builder(
-                  itemCount: hasSubjects ? state.subjectList!.length : 1,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(vertical: hasSubjects ? 0 : 36),
-                  itemBuilder: (context, index) {
-                    if (state is SubjectListFailed) {
-                      return BuildDaftarPraktikumPageSubjectFailed(
-                        onRetry: () => context
-                            .read<SubjectListBloc>()
-                            .add(GetSubjectList(semester: currentValue)),
-                      );
-                    }
+                return Skeletonizer(
+                  enabled: state is SubjectListLoading ? true : false,
+                  enableSwitchAnimation: true,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(12),
+                      border: hasSubjects
+                          ? Border.all(color: const Color(0xffBFD9EF), width: 2)
+                          : null,
+                    ),
+                    child: ListView.builder(
+                      itemCount: hasSubjects ? state.subjectList!.length : 1,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                        vertical: hasSubjects ? 0 : 36,
+                      ),
+                      itemBuilder: (context, index) {
+                        if (state is SubjectListFailed) {
+                          return BuildDaftarPraktikumPageSubjectFailed(
+                            onRetry: () => context.read<SubjectListBloc>().add(
+                              GetSubjectList(semester: currentValue),
+                            ),
+                          );
+                        }
 
-                    if (!hasSubjects) {
-                      return const BuildDaftarPraktikumPageSubjectEmpty();
-                    }
+                        if (!hasSubjects) {
+                          return const BuildDaftarPraktikumPageSubjectEmpty();
+                        }
 
-                    final subject = state.subjectList![index];
+                        final subject = state.subjectList![index];
 
-                    return BuildDaftarPraktikumSubjectItem(
-                      onChanged: (value) {
-                        setState(() {
-                          if (value!) {
-                            userSelectedSubjectsId.add(subject);
-                          } else {
-                            userSelectedSubjectsId.remove(subject);
-                          }
-                        });
+                        return BuildDaftarPraktikumSubjectItem(
+                          onChanged: (value) {
+                            setState(() {
+                              if (value!) {
+                                userSelectedSubjectsId.add(subject);
+                              } else {
+                                userSelectedSubjectsId.remove(subject);
+                              }
+                            });
+                          },
+                          index: index,
+                          state: state,
+                          userSelectedSubjectsId: userSelectedSubjectsId,
+                          isRegistered: registeredIds.contains(subject.id),
+                        );
                       },
-                      index: index,
-                      state: state,
-                      userSelectedSubjectsId: userSelectedSubjectsId,
-                      isRegistered: registeredIds.contains(subject.id),
-                    );
-                  },
-                ),
-              ),
-            );
-          },
-        ),
+                    ),
+                  ),
+                );
+              },
+            ),
       ),
     );
   }

@@ -37,7 +37,8 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
   }
 
   void _dropUnavailableChoices(
-      List<UserClassOptionByPaidSubjectEntity> options) {
+    List<UserClassOptionByPaidSubjectEntity> options,
+  ) {
     final openClassIds = {
       for (final option in options)
         if ((option.registeredStudents ?? 0) < (option.quota ?? 0))
@@ -45,19 +46,22 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
     };
 
     setState(() {
-      selectedClasses
-          .removeWhere((_, classId) => !openClassIds.contains(classId));
+      selectedClasses.removeWhere(
+        (_, classId) => !openClassIds.contains(classId),
+      );
     });
   }
 
   void _reload(BuildContext context) {
-    context
-        .read<UserClassOptionByPaidSubjectBloc>()
-        .add(GetUserClassOptionByPaidSubject());
+    context.read<UserClassOptionByPaidSubjectBloc>().add(
+      GetUserClassOptionByPaidSubject(),
+    );
   }
 
   void _confirm(
-      BuildContext context, List<UserClassOptionByPaidSubjectEntity> options) {
+    BuildContext context,
+    List<UserClassOptionByPaidSubjectEntity> options,
+  ) {
     showAdaptiveDialog(
       useRootNavigator: true,
       context: context,
@@ -79,12 +83,15 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
           'Pilih kelas yang anda inginkan. Sesuaikan dengan jadwal anda!',
         ),
         const SizedBox(height: 20),
-        BlocConsumer<UserClassOptionByPaidSubjectBloc,
-            UserClassOptionByPaidSubjectState>(
+        BlocConsumer<
+          UserClassOptionByPaidSubjectBloc,
+          UserClassOptionByPaidSubjectState
+        >(
           listener: (context, state) {
             if (state is UserClassOptionByPaidSubjectLoaded) {
               _dropUnavailableChoices(
-                  state.userClassOptionByPaidSubjectEntity ?? []);
+                state.userClassOptionByPaidSubjectEntity ?? [],
+              );
             }
 
             if (state is UserClassOptionByPaidSubjectFailed) {
@@ -93,10 +100,7 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
               } else {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  snackBar(
-                    message: state.message,
-                    type: AlertType.error,
-                  ),
+                  snackBar(message: state.message, type: AlertType.error),
                 );
               }
             }
@@ -112,8 +116,10 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
               }
 
               final Map<String?, List<UserClassOptionByPaidSubjectEntity>>
-                  groupedClasses =
-                  groupBy(options, ((classes) => classes.subjectName));
+              groupedClasses = groupBy(
+                options,
+                ((classes) => classes.subjectName),
+              );
 
               return Column(
                 children: [
@@ -122,9 +128,9 @@ class _BuildPickClassPageContentState extends State<BuildPickClassPageContent> {
                     selectedClasses: selectedClasses,
                     onClassChanged: ({selectedClass, subjectName}) =>
                         onSelectedClassChanged(
-                      subjectName: subjectName,
-                      selectedClass: selectedClass,
-                    ),
+                          subjectName: subjectName,
+                          selectedClass: selectedClass,
+                        ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

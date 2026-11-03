@@ -19,9 +19,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     context.read<GetAllAnnouncementsBloc>().add(GetAllAnnouncements());
     context.read<UserRegisteredClassBloc>().add(GetUserRegisteredClass());
-    context
-        .read<UserClassOptionByPaidSubjectBloc>()
-        .add(GetUserClassOptionByPaidSubject());
+    context.read<UserClassOptionByPaidSubjectBloc>().add(
+      GetUserClassOptionByPaidSubject(),
+    );
     context.read<UserDetailsBloc>().add(GetUserDetails());
     super.initState();
   }
@@ -32,7 +32,8 @@ class _HomePageState extends State<HomePage> {
       color: Colors.white,
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.of(context).size.height -
+        height:
+            MediaQuery.of(context).size.height -
             Scaffold.of(context).appBarMaxHeight!,
         child: const BuildHomePageContent(),
       ),

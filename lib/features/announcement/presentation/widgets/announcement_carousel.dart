@@ -39,10 +39,7 @@ class _AnnouncementCarouselState extends State<AnnouncementCarousel> {
           } else {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
-              snackBar(
-                type: AlertType.error,
-                message: state.message,
-              ),
+              snackBar(type: AlertType.error, message: state.message),
             );
           }
         }
@@ -50,8 +47,8 @@ class _AnnouncementCarouselState extends State<AnnouncementCarousel> {
       builder: (context, state) {
         final List<AnnouncementEntity> announcements =
             (state is GetAllAnnouncementsLoaded && state.announcements != null)
-                ? state.announcements!
-                : [];
+            ? state.announcements!
+            : [];
 
         if (state is GetAllAnnouncementsFailed) {
           return const BuildAnnouncementFailed();

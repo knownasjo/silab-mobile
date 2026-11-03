@@ -16,10 +16,7 @@ class ClassCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xffBFD9EF),
-          width: 1.5,
-        ),
+        border: Border.all(color: const Color(0xffBFD9EF), width: 1.5),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,25 +81,19 @@ class ClassCard extends StatelessWidget {
                   flex: 2,
                   child: _buildInfo('Hari', formatDay(classEntity.day)),
                 ),
-                const VerticalDivider(
-                  color: Color(0xffBFD9EF),
-                  thickness: 1,
-                ),
+                const VerticalDivider(color: Color(0xffBFD9EF), thickness: 1),
                 Expanded(
                   flex: 3,
                   child: _buildInfo('Sesi', classEntity.sessionTime!),
                 ),
-                const VerticalDivider(
-                  color: Color(0xffBFD9EF),
-                  thickness: 1,
-                ),
+                const VerticalDivider(color: Color(0xffBFD9EF), thickness: 1),
                 Expanded(
                   flex: 2,
                   child: _buildInfo('Ruang', classEntity.room ?? '-'),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -122,10 +113,7 @@ class ClassCard extends StatelessWidget {
         ),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-          ),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
         ),
       ],
     );

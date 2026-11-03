@@ -14,13 +14,15 @@ class GetAnnouncementBloc
   String? _requestedId;
 
   GetAnnouncementBloc(this._getAnnouncementUseCase)
-      : super(GetAnnouncementInitial()) {
+    : super(GetAnnouncementInitial()) {
     on<GetAnnouncement>(onGetAnnouncement);
     on<RefreshAnnouncement>(onRefreshAnnouncement, transformer: coalesced());
   }
 
   void onGetAnnouncement(
-      GetAnnouncementEvent event, Emitter<GetAnnouncementState> emit) async {
+    GetAnnouncementEvent event,
+    Emitter<GetAnnouncementState> emit,
+  ) async {
     if (event.id != null) {
       _requestedId = event.id;
       emit(GetAnnouncementLoading());
@@ -40,7 +42,9 @@ class GetAnnouncementBloc
   }
 
   Future<void> onRefreshAnnouncement(
-      RefreshAnnouncement event, Emitter<GetAnnouncementState> emit) async {
+    RefreshAnnouncement event,
+    Emitter<GetAnnouncementState> emit,
+  ) async {
     final current = state;
     if (current is! GetAnnouncementLoaded ||
         current.announcement?.id != event.id) {
@@ -48,8 +52,9 @@ class GetAnnouncementBloc
     }
 
     if (event.isDeleted) {
-      emit(const GetAnnouncementDeleted(
-          message: 'Pengumuman ini sudah dihapus.'));
+      emit(
+        const GetAnnouncementDeleted(message: 'Pengumuman ini sudah dihapus.'),
+      );
       return;
     }
 

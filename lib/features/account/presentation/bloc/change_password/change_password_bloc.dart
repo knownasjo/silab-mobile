@@ -11,7 +11,7 @@ class ChangePasswordBloc
   final ChangePasswordUsecase _changePasswordUsecase;
 
   ChangePasswordBloc(this._changePasswordUsecase)
-      : super(const ChangePasswordIdle()) {
+    : super(const ChangePasswordIdle()) {
     on<SubmitPasswordChange>(_onSubmitPasswordChange);
   }
 
@@ -19,8 +19,7 @@ class ChangePasswordBloc
     SubmitPasswordChange event,
     Emitter<ChangePasswordState> emit,
   ) async {
-    if (state is ChangePasswordSubmitting ||
-        state is ChangePasswordSucceeded) {
+    if (state is ChangePasswordSubmitting || state is ChangePasswordSucceeded) {
       return;
     }
 

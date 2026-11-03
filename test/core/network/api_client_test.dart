@@ -19,13 +19,12 @@ void main() {
   });
 
   ApiClient apiReturning(
-          Future<http.Response> Function(http.Request) handler) =>
-      ApiClient(MockClient(handler), prefs);
+    Future<http.Response> Function(http.Request) handler,
+  ) => ApiClient(MockClient(handler), prefs);
 
   Matcher throwsRequestError(String message) => throwsA(
-        isA<RequestErrorException>()
-            .having((e) => e.message, 'message', message),
-      );
+    isA<RequestErrorException>().having((e) => e.message, 'message', message),
+  );
 
   test('mengirim token login dan body JSON ke alamat server', () async {
     late http.Request sent;
@@ -34,9 +33,12 @@ void main() {
       return http.Response(jsonEncode({'status': true, 'message': 'ok'}), 201);
     });
 
-    final json = await api.post('/activation', body: {
-      'subjectIds': ['s1'],
-    });
+    final json = await api.post(
+      '/activation',
+      body: {
+        'subjectIds': ['s1'],
+      },
+    );
 
     expect(json['status'], true);
     expect(sent.url.toString(), 'http://silab.test/activation');
@@ -47,23 +49,28 @@ void main() {
     });
   });
 
-  test('token bisa diberikan langsung, dipakai saat login untuk /auth/me',
-      () async {
-    late http.Request sent;
-    final api = apiReturning((request) async {
-      sent = request;
-      return http.Response(jsonEncode({'status': true}), 200);
-    });
+  test(
+    'token bisa diberikan langsung, dipakai saat login untuk /auth/me',
+    () async {
+      late http.Request sent;
+      final api = apiReturning((request) async {
+        sent = request;
+        return http.Response(jsonEncode({'status': true}), 200);
+      });
 
-    await api.get('/auth/me', accessToken: 'token-baru');
+      await api.get('/auth/me', accessToken: 'token-baru');
 
-    expect(sent.headers['Authorization'], 'Bearer token-baru');
-  });
+      expect(sent.headers['Authorization'], 'Bearer token-baru');
+    },
+  );
 
   test('pesan error backend diteruskan apa adanya', () async {
-    final api = apiReturning((_) async => http.Response(
+    final api = apiReturning(
+      (_) async => http.Response(
         jsonEncode({'status': false, 'message': 'Sesi presensi belum dibuka!'}),
-        403));
+        403,
+      ),
+    );
 
     await expectLater(
       api.post('/subject/classes/c1/meetings/m1/attendances'),
@@ -71,36 +78,44 @@ void main() {
     );
   });
 
-  test('halaman HTML "Cannot GET" dari Express tidak membuat aplikasi crash',
-      () async {
-    final api = apiReturning((_) async =>
-        http.Response('<pre>Cannot GET /registrations/me</pre>', 404));
+  test(
+    'halaman HTML "Cannot GET" dari Express tidak membuat aplikasi crash',
+    () async {
+      final api = apiReturning(
+        (_) async =>
+            http.Response('<pre>Cannot GET /registrations/me</pre>', 404),
+      );
 
-    await expectLater(
-      api.get('/registrations/me'),
-      throwsRequestError('Respons server tidak dikenali (HTTP 404).'),
-    );
-  });
+      await expectLater(
+        api.get('/registrations/me'),
+        throwsRequestError('Respons server tidak dikenali (HTTP 404).'),
+      );
+    },
+  );
 
   test('server tidak bisa dihubungi', () async {
     final api = apiReturning(
-        (_) async => throw http.ClientException('Connection refused'));
+      (_) async => throw http.ClientException('Connection refused'),
+    );
 
     await expectLater(
       api.get('/class/me'),
       throwsRequestError(
-          'Tidak dapat terhubung ke server. Periksa koneksi internet.'),
+        'Tidak dapat terhubung ke server. Periksa koneksi internet.',
+      ),
     );
   });
 
   test('sertifikat HTTPS server bermasalah', () async {
-    final api = apiReturning((_) async =>
-        throw const HandshakeException('CERTIFICATE_VERIFY_FAILED'));
+    final api = apiReturning(
+      (_) async => throw const HandshakeException('CERTIFICATE_VERIFY_FAILED'),
+    );
 
     await expectLater(
       api.get('/class/me'),
       throwsRequestError(
-          'Koneksi aman ke server gagal (sertifikat HTTPS). Hubungi laboran.'),
+        'Koneksi aman ke server gagal (sertifikat HTTPS). Hubungi laboran.',
+      ),
     );
   });
 
@@ -108,15 +123,18 @@ void main() {
     const attendancePath = '/subject/classes/c1/meetings/m1/attendances';
 
     http.Response expired() => http.Response(
-        jsonEncode({'status': false, 'message': 'jwt expired'}), 400);
+      jsonEncode({'status': false, 'message': 'jwt expired'}),
+      400,
+    );
 
     http.Response refreshed(String accessToken) => http.Response(
-        jsonEncode({
-          'status': true,
-          'message': 'Token berhasil diperbarui',
-          'data': {'accessToken': accessToken},
-        }),
-        200);
+      jsonEncode({
+        'status': true,
+        'message': 'Token berhasil diperbarui',
+        'data': {'accessToken': accessToken},
+      }),
+      200,
+    );
 
     setUp(() async {
       SharedPreferences.setMockInitialValues({
@@ -135,16 +153,19 @@ void main() {
           return expired();
         }
         return http.Response(
-            jsonEncode(
-                {'status': true, 'message': 'Presensi berhasil dicatat'}),
-            201);
+          jsonEncode({'status': true, 'message': 'Presensi berhasil dicatat'}),
+          201,
+        );
       });
 
       final json = await api.post(attendancePath, body: {'token': 'Ab12Cd'});
 
       expect(json['message'], 'Presensi berhasil dicatat');
-      expect(sent.map((r) => r.url.path),
-          [attendancePath, '/auth/refresh', attendancePath]);
+      expect(sent.map((r) => r.url.path), [
+        attendancePath,
+        '/auth/refresh',
+        attendancePath,
+      ]);
       expect(jsonDecode(sent[1].body), {'refreshToken': 'refresh-sah'});
       expect(sent[1].headers['Authorization'], isNull);
       expect(jsonDecode(sent[2].body), {'token': 'Ab12Cd'});
@@ -174,26 +195,31 @@ void main() {
       expect(refreshCount, 1);
     });
 
-    test(
-        'refresh token ditolak server (mis. password diganti): token dihapus '
+    test('refresh token ditolak server (mis. password diganti): token dihapus '
         'dan sesi diumumkan berakhir', () async {
-      final api =
-          apiReturning((request) async => request.url.path == '/auth/refresh'
-              ? http.Response(
-                  jsonEncode({
-                    'status': false,
-                    'message': 'Sesi berakhir, silakan login kembali!',
-                  }),
-                  401)
-              : expired());
+      final api = apiReturning(
+        (request) async => request.url.path == '/auth/refresh'
+            ? http.Response(
+                jsonEncode({
+                  'status': false,
+                  'message': 'Sesi berakhir, silakan login kembali!',
+                }),
+                401,
+              )
+            : expired(),
+      );
       var sessionEnded = 0;
       final subscription = api.sessionEnded.listen((_) => sessionEnded++);
 
       await Future.wait([
-        expectLater(api.get('/class/me'),
-            throwsRequestError('Sesi berakhir, silakan masuk kembali.')),
-        expectLater(api.get('/auth/me'),
-            throwsRequestError('Sesi berakhir, silakan masuk kembali.')),
+        expectLater(
+          api.get('/class/me'),
+          throwsRequestError('Sesi berakhir, silakan masuk kembali.'),
+        ),
+        expectLater(
+          api.get('/auth/me'),
+          throwsRequestError('Sesi berakhir, silakan masuk kembali.'),
+        ),
       ]);
       await Future<void>.delayed(Duration.zero);
 
@@ -207,20 +233,25 @@ void main() {
       await prefs.remove('refreshToken');
       final api = apiReturning((_) async => expired());
 
-      await expectLater(api.get('/class/me'),
-          throwsRequestError('Sesi berakhir, silakan masuk kembali.'));
+      await expectLater(
+        api.get('/class/me'),
+        throwsRequestError('Sesi berakhir, silakan masuk kembali.'),
+      );
     });
 
     test('server error saat refresh: pengguna tidak dikeluarkan', () async {
-      final api = apiReturning((request) async =>
-          request.url.path == '/auth/refresh'
-              ? http.Response('{}', 500)
-              : expired());
+      final api = apiReturning(
+        (request) async => request.url.path == '/auth/refresh'
+            ? http.Response('{}', 500)
+            : expired(),
+      );
       var sessionEnded = 0;
       final subscription = api.sessionEnded.listen((_) => sessionEnded++);
 
-      await expectLater(api.get('/class/me'),
-          throwsRequestError('Terjadi kesalahan (HTTP 500).'));
+      await expectLater(
+        api.get('/class/me'),
+        throwsRequestError('Terjadi kesalahan (HTTP 500).'),
+      );
       await Future<void>.delayed(Duration.zero);
 
       expect(prefs.getString('refreshToken'), 'refresh-sah');
@@ -228,8 +259,7 @@ void main() {
       await subscription.cancel();
     });
 
-    test(
-        'jaringan putus saat refresh: yang muncul error jaringan, '
+    test('jaringan putus saat refresh: yang muncul error jaringan, '
         'pengguna tidak dikeluarkan', () async {
       final api = apiReturning((request) async {
         if (request.url.path == '/auth/refresh') {
@@ -241,7 +271,8 @@ void main() {
       await expectLater(
         api.get('/class/me'),
         throwsRequestError(
-            'Tidak dapat terhubung ke server. Periksa koneksi internet.'),
+          'Tidak dapat terhubung ke server. Periksa koneksi internet.',
+        ),
       );
     });
   });
@@ -270,31 +301,36 @@ void main() {
       prefs = await SharedPreferences.getInstance();
     });
 
-    test('meneruskan event perubahan, mengabaikan ping, dan mengirim token',
-        () async {
-      final sent = <http.BaseRequest>[];
-      final api = ApiClient(
-        MockClient.streaming((request, _) async {
-          sent.add(request);
-          return eventStream([
-            'event: ready\ndata: {}\n\nevent: pi',
-            'ng\ndata: {}\n\nevent: meeting\ndata: {"meetingId":"m1"}\n',
-            '\nevent: attendance\ndata: {"meetingId":"m1"}\n\n',
-          ]);
-        }),
-        prefs,
-      );
+    test(
+      'meneruskan event perubahan, mengabaikan ping, dan mengirim token',
+      () async {
+        final sent = <http.BaseRequest>[];
+        final api = ApiClient(
+          MockClient.streaming((request, _) async {
+            sent.add(request);
+            return eventStream([
+              'event: ready\ndata: {}\n\nevent: pi',
+              'ng\ndata: {}\n\nevent: meeting\ndata: {"meetingId":"m1"}\n',
+              '\nevent: attendance\ndata: {"meetingId":"m1"}\n\n',
+            ]);
+          }),
+          prefs,
+        );
 
-      final events = await api.listen(eventsPath).take(3).toList();
+        final events = await api.listen(eventsPath).take(3).toList();
 
-      expect(events.map((event) => event.type),
-          ['ready', 'meeting', 'attendance']);
-      expect(events[1].data, {'meetingId': 'm1'});
-      expect(events[0].data, isEmpty);
-      expect(sent.single.url.path, eventsPath);
-      expect(sent.single.headers['Authorization'], 'Bearer token-lama');
-      expect(sent.single.headers['Accept'], 'text/event-stream');
-    });
+        expect(events.map((event) => event.type), [
+          'ready',
+          'meeting',
+          'attendance',
+        ]);
+        expect(events[1].data, {'meetingId': 'm1'});
+        expect(events[0].data, isEmpty);
+        expect(sent.single.url.path, eventsPath);
+        expect(sent.single.headers['Authorization'], 'Bearer token-lama');
+        expect(sent.single.headers['Accept'], 'text/event-stream');
+      },
+    );
 
     test('access token kedaluwarsa: diperbarui lalu tersambung', () async {
       final tokens = <String?>[];
@@ -339,21 +375,23 @@ void main() {
       expect(connections, 2);
     });
 
-    test('server tidak bisa dihubungi: dicoba lagi sampai tersambung',
-        () async {
-      var attempts = 0;
-      final api = ApiClient(
-        MockClient.streaming((request, _) async {
-          attempts++;
-          if (attempts == 1) throw http.ClientException('Connection refused');
-          return eventStream(['event: ready\ndata: {}\n\n']);
-        }),
-        prefs,
-      );
+    test(
+      'server tidak bisa dihubungi: dicoba lagi sampai tersambung',
+      () async {
+        var attempts = 0;
+        final api = ApiClient(
+          MockClient.streaming((request, _) async {
+            attempts++;
+            if (attempts == 1) throw http.ClientException('Connection refused');
+            return eventStream(['event: ready\ndata: {}\n\n']);
+          }),
+          prefs,
+        );
 
-      expect((await api.listen(eventsPath).first).type, 'ready');
-      expect(attempts, 2);
-    });
+        expect((await api.listen(eventsPath).first).type, 'ready');
+        expect(attempts, 2);
+      },
+    );
 
     test('berhenti tersambung ulang setelah langganan dibatalkan', () async {
       var connections = 0;

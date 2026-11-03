@@ -16,10 +16,7 @@ class BuildRingkasanDaftarPageSubjectList extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color(0xffBFD9EF),
-          width: 2,
-        ),
+        border: Border.all(color: const Color(0xffBFD9EF), width: 2),
       ),
       child: ListView.builder(
         padding: const EdgeInsets.all(12),
@@ -43,11 +40,8 @@ class BuildRingkasanDaftarPageSubjectList extends StatelessWidget {
             ),
             Text(
               'Semester ${subjects![index].semester!}',
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            )
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
           ],
         ),
       ),

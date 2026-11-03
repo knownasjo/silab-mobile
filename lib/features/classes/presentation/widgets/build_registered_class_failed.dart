@@ -16,9 +16,9 @@ class BuildRegisteredClassFailed extends StatelessWidget {
           children: [
             const Text('Gagal memuat kelas.'),
             TextButton.icon(
-              onPressed: () => context
-                  .read<UserRegisteredClassBloc>()
-                  .add(GetUserRegisteredClass()),
+              onPressed: () => context.read<UserRegisteredClassBloc>().add(
+                GetUserRegisteredClass(),
+              ),
               style: TextButton.styleFrom(
                 foregroundColor: const Color(0xff3272CA),
               ),

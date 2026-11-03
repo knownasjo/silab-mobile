@@ -40,22 +40,22 @@ const emptyClasses =
     'Belum ada kelas. Kelas muncul di sini setelah pembayaran dikonfirmasi dan kelas dipilih.';
 
 Map<String, dynamic> kelas(String id, String subject, String lecturer) => {
-      'id': id,
-      'subjectName': subject,
-      'subjectClass': 'A',
-      'lecturer': lecturer,
-      'day': 'MONDAY',
-      'sessionTime': '07.00 - 08.40',
-    };
+  'id': id,
+  'subjectName': subject,
+  'subjectClass': 'A',
+  'lecturer': lecturer,
+  'day': 'MONDAY',
+  'sessionTime': '07.00 - 08.40',
+};
 
 Map<String, dynamic> pengumuman(String id, String type) => {
-      'id': id,
-      'title': 'Pengumuman $id',
-      'type': type,
-      'body': 'Isi pengumuman $id.',
-      'createdAt': '2026-09-30T02:00:00.000Z',
-      'author': 'Laboran Uji',
-    };
+  'id': id,
+  'title': 'Pengumuman $id',
+  'type': type,
+  'body': 'Isi pengumuman $id.',
+  'createdAt': '2026-09-30T02:00:00.000Z',
+  'author': 'Laboran Uji',
+};
 
 void main() {
   late SharedPreferences prefs;
@@ -67,8 +67,10 @@ void main() {
 
   setUp(() async {
     AppConfig.create(baseUrl: 'http://silab.test');
-    SharedPreferences.setMockInitialValues(
-        {'accessToken': 'akses', 'refreshToken': 'segar'});
+    SharedPreferences.setMockInitialValues({
+      'accessToken': 'akses',
+      'refreshToken': 'segar',
+    });
     prefs = await SharedPreferences.getInstance();
     down = {};
     announcements = [
@@ -85,7 +87,9 @@ void main() {
       throw http.ClientException('Connection refused');
     }
     http.Response ok(Object data) => http.Response(
-        jsonEncode({'status': true, 'message': 'Berhasil', 'data': data}), 200);
+      jsonEncode({'status': true, 'message': 'Berhasil', 'data': data}),
+      200,
+    );
     return switch (path) {
       '/auth/me' => ok({'nim': '2200018123', 'name': 'Budi Santoso'}),
       '/announcement' => ok(announcements),
@@ -98,7 +102,8 @@ void main() {
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 5; i++) {
       await tester.runAsync(
-          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+        () => Future<void>.delayed(const Duration(milliseconds: 20)),
+      );
       await tester.pump(const Duration(milliseconds: 100));
     }
     await tester.pumpAndSettle();
@@ -114,63 +119,77 @@ void main() {
     final controller = ScrollController();
     addTearDown(controller.dispose);
 
-    await tester.pumpWidget(MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (_) => GetAllAnnouncementsBloc(GetAllAnnouncementsUseCase(
-                AnnouncementRepositoryImpl(AnnouncementApiService(api))))),
-        BlocProvider(
-            create: (_) => UserRegisteredClassBloc(
-                GetUserRegisteredClassesUseCase(
-                    ClassRepositoryImpl(ClassesApiService(api))))),
-        BlocProvider(
-            create: (_) => UserClassOptionByPaidSubjectBloc(
-                GetUserClassOptionByPaidSubjectUsecase(
-                    SelectedSubjectRepositoryImpl(
-                        SelectedSubjectApiService(api))))),
-        BlocProvider(
-            create: (_) => UserDetailsBloc(GetUserDetailsUseCase(
-                UserRepositoryImpl(UserApiService(api))))),
-      ],
-      child: MaterialApp(
-        theme: ThemeData(fontFamily: realFontFamily),
-        home: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title: const UserWelcomeWidget(),
-            forceMaterialTransparency: true,
-          ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              controller: controller,
-              child: const HomePage(),
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => GetAllAnnouncementsBloc(
+              GetAllAnnouncementsUseCase(
+                AnnouncementRepositoryImpl(AnnouncementApiService(api)),
+              ),
             ),
           ),
-          extendBody: true,
-          floatingActionButton: CustomBottomNavbar(
-            isVisible: true,
-            currentIndex: 0,
-            items: [
-              for (final (icon, label) in [
-                ('home', 'Beranda'),
-                ('schedule', 'Jadwal'),
-                ('profile', 'Profil'),
-              ])
-                BottomNavbarEntity(
-                  icon: SvgPicture.asset('assets/image/$icon.svg'),
-                  iconActive:
-                      SvgPicture.asset('assets/image/${icon}_active.svg'),
-                  label: label,
-                ),
-            ],
-            scrollController: controller,
-            onTap: (_) {},
+          BlocProvider(
+            create: (_) => UserRegisteredClassBloc(
+              GetUserRegisteredClassesUseCase(
+                ClassRepositoryImpl(ClassesApiService(api)),
+              ),
+            ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+          BlocProvider(
+            create: (_) => UserClassOptionByPaidSubjectBloc(
+              GetUserClassOptionByPaidSubjectUsecase(
+                SelectedSubjectRepositoryImpl(SelectedSubjectApiService(api)),
+              ),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserDetailsBloc(
+              GetUserDetailsUseCase(UserRepositoryImpl(UserApiService(api))),
+            ),
+          ),
+        ],
+        child: MaterialApp(
+          theme: ThemeData(fontFamily: realFontFamily),
+          home: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              title: const UserWelcomeWidget(),
+              forceMaterialTransparency: true,
+            ),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                controller: controller,
+                child: const HomePage(),
+              ),
+            ),
+            extendBody: true,
+            floatingActionButton: CustomBottomNavbar(
+              isVisible: true,
+              currentIndex: 0,
+              items: [
+                for (final (icon, label) in [
+                  ('home', 'Beranda'),
+                  ('schedule', 'Jadwal'),
+                  ('profile', 'Profil'),
+                ])
+                  BottomNavbarEntity(
+                    icon: SvgPicture.asset('assets/image/$icon.svg'),
+                    iconActive: SvgPicture.asset(
+                      'assets/image/${icon}_active.svg',
+                    ),
+                    label: label,
+                  ),
+              ],
+              scrollController: controller,
+              onTap: (_) {},
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          ),
         ),
       ),
-    ));
+    );
     await settle(tester);
   }
 
@@ -183,30 +202,33 @@ void main() {
       .map((e) => (e.widget as AnimatedContainer).constraints!.maxWidth)
       .toList();
 
-  testWidgets('nama dosen panjang dipotong "…", kartu kelas tidak meluap',
-      (tester) async {
+  testWidgets('nama dosen panjang dipotong "…", kartu kelas tidak meluap', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(360, 640) * 3;
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(MaterialApp(
-      theme: ThemeData(fontFamily: realFontFamily),
-      home: const Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: RegisteredClassCard(
-            classEntity: ClassEntity(
-              id: 'k1',
-              subjectName: 'Interaksi Manusia dan Komputer Lanjutan',
-              subjectClass: 'A',
-              lecturer: longLecturer,
-              day: 'MONDAY',
-              sessionTime: '07.00 - 08.40',
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(fontFamily: realFontFamily),
+        home: const Scaffold(
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: RegisteredClassCard(
+              classEntity: ClassEntity(
+                id: 'k1',
+                subjectName: 'Interaksi Manusia dan Komputer Lanjutan',
+                subjectClass: 'A',
+                lecturer: longLecturer,
+                day: 'MONDAY',
+                sessionTime: '07.00 - 08.40',
+              ),
             ),
           ),
         ),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
@@ -217,75 +239,86 @@ void main() {
 
     final card = tester.getRect(find.byType(RegisteredClassCard));
     final arrow = tester.getRect(find.byType(Image).last);
-    expect(tester.getRect(find.text(longLecturer)).right,
-        lessThanOrEqualTo(arrow.left));
+    expect(
+      tester.getRect(find.text(longLecturer)).right,
+      lessThanOrEqualTo(arrow.left),
+    );
     expect(arrow.right, lessThanOrEqualTo(card.right));
   });
 
-  testWidgets('huruf HP 1,3×: kartu kelas memanjang, tidak terpotong',
-      (tester) async {
+  testWidgets('huruf HP 1,3×: kartu kelas memanjang, tidak terpotong', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(360, 640) * 3;
     tester.view.devicePixelRatio = 3;
     tester.platformDispatcher.textScaleFactorTestValue = 1.3;
     addTearDown(tester.view.reset);
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 
-    await tester.pumpWidget(MaterialApp(
-      theme: ThemeData(fontFamily: realFontFamily),
-      home: const Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: RegisteredClassCard(
-            classEntity: ClassEntity(
-              id: 'k1',
-              subjectName: 'Basis Data',
-              subjectClass: 'A',
-              lecturer: 'Dosen001',
-              day: 'MONDAY',
-              sessionTime: '07.00 - 08.40',
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(fontFamily: realFontFamily),
+        home: const Scaffold(
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: RegisteredClassCard(
+              classEntity: ClassEntity(
+                id: 'k1',
+                subjectName: 'Basis Data',
+                subjectClass: 'A',
+                lecturer: 'Dosen001',
+                day: 'MONDAY',
+                sessionTime: '07.00 - 08.40',
+              ),
             ),
           ),
         ),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
-    expect(tester.getRect(find.byType(RegisteredClassCard)).height,
-        greaterThan(120));
+    expect(
+      tester.getRect(find.byType(RegisteredClassCard)).height,
+      greaterThan(120),
+    );
   });
 
   testWidgets(
-      'server mati: pesan asli tanpa bahasa Inggris, tiap bagian punya "Coba lagi" yang terlihat',
-      (tester) async {
-    down.add('*');
-    await openBeranda(tester);
+    'server mati: pesan asli tanpa bahasa Inggris, tiap bagian punya "Coba lagi" yang terlihat',
+    (tester) async {
+      down.add('*');
+      await openBeranda(tester);
 
-    expect(tester.takeException(), isNull);
-    expect(find.text('An Error Occurred!'), findsNothing);
-    expect(find.text('Retry'), findsNothing);
-    expect(find.text(offline), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      expect(find.text('An Error Occurred!'), findsNothing);
+      expect(find.text('Retry'), findsNothing);
+      expect(find.text(offline), findsOneWidget);
 
-    expect(find.text('Gagal memuat pengumuman.'), findsOneWidget);
-    expect(find.text('Gagal memuat kelas.'), findsOneWidget);
-    expect(find.text('Coba lagi'), findsNWidgets(2));
-    for (final button in find.text('Coba lagi').evaluate()) {
-      expect(tester.getRect(find.byWidget(button.widget)).bottom,
-          lessThan(navbarTop(tester)));
-    }
+      expect(find.text('Gagal memuat pengumuman.'), findsOneWidget);
+      expect(find.text('Gagal memuat kelas.'), findsOneWidget);
+      expect(find.text('Coba lagi'), findsNWidgets(2));
+      for (final button in find.text('Coba lagi').evaluate()) {
+        expect(
+          tester.getRect(find.byWidget(button.widget)).bottom,
+          lessThan(navbarTop(tester)),
+        );
+      }
 
-    down.clear();
-    ScaffoldMessenger.of(tester.element(find.byType(HomePage)))
-        .removeCurrentSnackBar();
-    await tester.tap(find.text('Coba lagi').last);
-    await settle(tester);
+      down.clear();
+      ScaffoldMessenger.of(tester.element(find.byType(HomePage)))
+          .removeCurrentSnackBar();
+      await tester.tap(find.text('Coba lagi').last);
+      await settle(tester);
 
-    expect(find.text('Gagal memuat kelas.'), findsNothing);
-    expect(find.text('Basis Data'), findsOneWidget);
-  });
+      expect(find.text('Gagal memuat kelas.'), findsNothing);
+      expect(find.text('Basis Data'), findsOneWidget);
+    },
+  );
 
-  testWidgets('data akun gagal dimuat: pesan asli dan tombol "Ulangi"',
-      (tester) async {
+  testWidgets('data akun gagal dimuat: pesan asli dan tombol "Ulangi"', (
+    tester,
+  ) async {
     down.add('/auth/me');
     await openBeranda(tester);
 
@@ -300,36 +333,40 @@ void main() {
   });
 
   testWidgets(
-      'belum punya kelas: pesan terbaca utuh di atas menu bawah pada layar 360×640',
-      (tester) async {
-    classes = [];
-    await openBeranda(tester);
+    'belum punya kelas: pesan terbaca utuh di atas menu bawah pada layar 360×640',
+    (tester) async {
+      classes = [];
+      await openBeranda(tester);
 
-    expect(tester.takeException(), isNull);
-    expect(find.textContaining('Oops'), findsNothing);
-    expect(tester.getRect(find.text(emptyClasses)).bottom,
-        lessThanOrEqualTo(navbarTop(tester)));
-  });
+      expect(tester.takeException(), isNull);
+      expect(find.textContaining('Oops'), findsNothing);
+      expect(
+        tester.getRect(find.text(emptyClasses)).bottom,
+        lessThanOrEqualTo(navbarTop(tester)),
+      );
+    },
+  );
 
   testWidgets(
-      'pengumuman yang sedang dilihat dihapus: titik penanda pindah ke halaman yang tampil',
-      (tester) async {
-    await openBeranda(tester);
+    'pengumuman yang sedang dilihat dihapus: titik penanda pindah ke halaman yang tampil',
+    (tester) async {
+      await openBeranda(tester);
 
-    await tester.drag(find.byType(PageView), const Offset(-500, 0));
-    await tester.pumpAndSettle();
-    await tester.drag(find.byType(PageView), const Offset(-500, 0));
-    await tester.pumpAndSettle();
-    expect(dotSizes(tester), [4, 4, 6]);
+      await tester.drag(find.byType(PageView), const Offset(-500, 0));
+      await tester.pumpAndSettle();
+      await tester.drag(find.byType(PageView), const Offset(-500, 0));
+      await tester.pumpAndSettle();
+      expect(dotSizes(tester), [4, 4, 6]);
 
-    announcements.removeLast();
-    tester
-        .element(find.byType(HomePage))
-        .read<GetAllAnnouncementsBloc>()
-        .add(RefreshAllAnnouncements());
-    await settle(tester);
+      announcements.removeLast();
+      tester
+          .element(find.byType(HomePage))
+          .read<GetAllAnnouncementsBloc>()
+          .add(RefreshAllAnnouncements());
+      await settle(tester);
 
-    expect(find.text('Pengumuman p2'), findsOneWidget);
-    expect(dotSizes(tester), [4, 6]);
-  });
+      expect(find.text('Pengumuman p2'), findsOneWidget);
+      expect(dotSizes(tester), [4, 6]);
+    },
+  );
 }

@@ -23,15 +23,16 @@ class FakeClassRepository implements ClassRepository {
 
   @override
   Future<Either<Failures, ClassesResponseEntity>>
-      getUserRegisteredClasses() async {
+  getUserRegisteredClasses() async {
     calls.add('/class/me');
     if (fail) return Left(RequestFailures('Server tidak merespons.'));
     return Right(ClassesResponseEntity(data: List.of(classes)));
   }
 
   @override
-  Future<Either<Failures, MeetingsResponseEntity>> getUserMeetingsData(
-      {String? classId}) async {
+  Future<Either<Failures, MeetingsResponseEntity>> getUserMeetingsData({
+    String? classId,
+  }) async {
     calls.add('/meeting/$classId');
     return Right(MeetingsResponseEntity(data: meetings[classId] ?? const []));
   }
@@ -45,8 +46,9 @@ class FakeAnnouncementRepository implements AnnouncementRepository {
   Map<String, AnnouncementEntity> announcements = {};
 
   @override
-  Future<Either<Failures, AnnouncementEntity>> getAnnouncement(
-      {String id = ''}) async {
+  Future<Either<Failures, AnnouncementEntity>> getAnnouncement({
+    String id = '',
+  }) async {
     calls.add('/announcement/$id');
     final announcement = announcements[id];
     return announcement == null
@@ -68,22 +70,25 @@ void main() {
 
     setUp(() {
       repository = FakeClassRepository();
-      bloc =
-          UserRegisteredClassBloc(GetUserRegisteredClassesUseCase(repository));
+      bloc = UserRegisteredClassBloc(
+        GetUserRegisteredClassesUseCase(repository),
+      );
       states = [];
       bloc.stream.listen(states.add);
     });
 
     tearDown(() => bloc.close());
 
-    test('belum pernah dimuat: event real-time tidak memicu permintaan',
-        () async {
-      bloc.add(RefreshUserRegisteredClass());
-      await settle();
+    test(
+      'belum pernah dimuat: event real-time tidak memicu permintaan',
+      () async {
+        bloc.add(RefreshUserRegisteredClass());
+        await settle();
 
-      expect(repository.calls, isEmpty);
-      expect(states, isEmpty);
-    });
+        expect(repository.calls, isEmpty);
+        expect(states, isEmpty);
+      },
+    );
 
     test('kelas baru muncul tanpa state loading', () async {
       repository.classes = [const ClassEntity(id: 'c1')];
@@ -170,8 +175,10 @@ void main() {
     });
 
     test('isi yang diubah laboran langsung tampil', () async {
-      repository.announcements['a1'] =
-          const AnnouncementEntity(id: 'a1', title: 'Baru');
+      repository.announcements['a1'] = const AnnouncementEntity(
+        id: 'a1',
+        title: 'Baru',
+      );
       bloc.add(const RefreshAnnouncement(id: 'a1'));
       await settle();
 

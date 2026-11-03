@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:either_dart/either.dart';
 import 'package:silab/core/exceptions/exceptions.dart';
 import 'package:silab/core/failures/failures.dart';
@@ -27,7 +28,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<Failures, List<AssistedClassEntity>>>
-      getAssistedClasses() async {
+  getAssistedClasses() async {
     try {
       return Right(await _userApiService.getAssistedClasses());
     } on RequestErrorException catch (e) {

@@ -28,21 +28,26 @@ class ClassOptionList extends StatelessWidget {
           final quota = option.quota ?? 0;
           final registered = option.registeredStudents ?? 0;
           final isFull = registered >= quota;
-          final textColor =
-              isFull ? const Color(0xff8d8d8d) : const Color(0xff1d1d1d);
+          final textColor = isFull
+              ? const Color(0xff8d8d8d)
+              : const Color(0xff1d1d1d);
 
           return Container(
-            margin:
-                EdgeInsets.only(bottom: index != classes.length - 1 ? 12 : 0),
+            margin: EdgeInsets.only(
+              bottom: index != classes.length - 1 ? 12 : 0,
+            ),
             child: InkWell(
               borderRadius: BorderRadius.circular(24),
               onTap: isFull
                   ? null
                   : () => onClassChanged(
-                      option.classId == selectedClass ? null : option.classId),
+                      option.classId == selectedClass ? null : option.classId,
+                    ),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(
@@ -59,11 +64,14 @@ class ClassOptionList extends StatelessWidget {
                     Radio<String?>(
                       value: option.classId,
                       enabled: !isFull,
-                      visualDensity:
-                          const VisualDensity(horizontal: -4, vertical: -4),
+                      visualDensity: const VisualDensity(
+                        horizontal: -4,
+                        vertical: -4,
+                      ),
                       toggleable: !isFull,
-                      fillColor:
-                          WidgetStateProperty.resolveWith<Color>((states) {
+                      fillColor: WidgetStateProperty.resolveWith<Color>((
+                        states,
+                      ) {
                         if (states.contains(WidgetState.disabled)) {
                           return const Color(0xff8d8d8d).withValues(alpha: 0.5);
                         }
@@ -95,8 +103,8 @@ class ClassOptionList extends StatelessWidget {
                               color: isFull
                                   ? const Color(0xffFF0000)
                                   : quota - registered <= 5
-                                      ? const Color(0xffFFBF01)
-                                      : const Color(0xff1d1d1d),
+                                  ? const Color(0xffFFBF01)
+                                  : const Color(0xff1d1d1d),
                             ),
                           ),
                         ],

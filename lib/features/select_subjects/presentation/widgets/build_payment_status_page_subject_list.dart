@@ -8,10 +8,7 @@ import 'package:silab/features/select_subjects/presentation/widgets/build_paymen
 class BuildPaymentStatusPageSubjectList extends StatelessWidget {
   final SelectedSubjectByNimState state;
 
-  const BuildPaymentStatusPageSubjectList({
-    super.key,
-    required this.state,
-  });
+  const BuildPaymentStatusPageSubjectList({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +20,7 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
         final isPaid = state.selectedSubjectEntity![index].status == true;
 
         return Container(
-          margin: const EdgeInsets.only(
-            top: 16,
-          ),
+          margin: const EdgeInsets.only(top: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -61,7 +56,7 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
                             : const Color(0xffFFBF01),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               Container(
@@ -71,9 +66,7 @@ class BuildPaymentStatusPageSubjectList extends StatelessWidget {
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xffBFD9EF),
-                  ),
+                  border: Border.all(color: const Color(0xffBFD9EF)),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(

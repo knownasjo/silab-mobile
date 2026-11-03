@@ -21,9 +21,9 @@ class _PaymentStatusPageState extends State<PaymentStatusPage> {
   @override
   void initState() {
     context.read<SelectedSubjectByNimBloc>().add(GetUserSelectedSubjects());
-    context
-        .read<UserClassOptionByPaidSubjectBloc>()
-        .add(GetUserClassOptionByPaidSubject());
+    context.read<UserClassOptionByPaidSubjectBloc>().add(
+      GetUserClassOptionByPaidSubject(),
+    );
     super.initState();
   }
 
@@ -33,7 +33,8 @@ class _PaymentStatusPageState extends State<PaymentStatusPage> {
       color: Colors.white,
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.of(context).size.height -
+        height:
+            MediaQuery.of(context).size.height -
             Scaffold.of(context).appBarMaxHeight!,
         child: BlocListener<CancelActivationBloc, CancelActivationState>(
           listener: _onCancelActivation,
@@ -49,15 +50,12 @@ class _PaymentStatusPageState extends State<PaymentStatusPage> {
   void _onCancelActivation(BuildContext context, CancelActivationState state) {
     if (state is CancelActivationSucceeded) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        snackBar(
-          message: state.message,
-          type: AlertType.success,
-        ),
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(snackBar(message: state.message, type: AlertType.success));
+      context.read<SelectedSubjectByNimBloc>().add(
+        RefreshUserSelectedSubjects(),
       );
-      context
-          .read<SelectedSubjectByNimBloc>()
-          .add(RefreshUserSelectedSubjects());
     }
 
     if (state is CancelActivationFailed) {
@@ -67,12 +65,9 @@ class _PaymentStatusPageState extends State<PaymentStatusPage> {
       }
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        snackBar(
-          message: state.message,
-          type: AlertType.error,
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(snackBar(message: state.message, type: AlertType.error));
     }
   }
 }

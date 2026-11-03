@@ -11,12 +11,14 @@ class AddSelectedClassBloc
   final AddSelectedClassUseCase _addSelectedClassUseCase;
 
   AddSelectedClassBloc(this._addSelectedClassUseCase)
-      : super(AddSelectedClassInitial()) {
+    : super(AddSelectedClassInitial()) {
     on<AddSelectedClass>(onAddSelectedClass);
   }
 
   void onAddSelectedClass(
-      AddSelectedClassEvent event, Emitter<AddSelectedClassState> emit) async {
+    AddSelectedClassEvent event,
+    Emitter<AddSelectedClassState> emit,
+  ) async {
     if (state is AddSelectedClassLoading) return;
 
     emit(AddSelectedClassLoading());

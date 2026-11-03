@@ -18,14 +18,13 @@ class RealtimeEventEntity extends Equatable {
   factory RealtimeEventEntity.fromJson(
     String type,
     Map<String, dynamic> json,
-  ) =>
-      RealtimeEventEntity(
-        type: type,
-        classId: _readString(json['classId']),
-        meetingId: _readString(json['meetingId']),
-        announcementId: _readString(json['announcementId']),
-        action: _readString(json['action']),
-      );
+  ) => RealtimeEventEntity(
+    type: type,
+    classId: _readString(json['classId']),
+    meetingId: _readString(json['meetingId']),
+    announcementId: _readString(json['announcementId']),
+    action: _readString(json['action']),
+  );
 
   static String? _readString(Object? value) => value is String ? value : null;
 

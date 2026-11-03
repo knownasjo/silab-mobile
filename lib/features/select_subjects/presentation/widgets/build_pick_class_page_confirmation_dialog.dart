@@ -23,11 +23,12 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
 
   void _save(BuildContext context) {
     context.read<AddSelectedClassBloc>().add(
-          AddSelectedClass(
-            selectedClass:
-                selectedClasses.map((option) => option.classId!).toList(),
-          ),
-        );
+      AddSelectedClass(
+        selectedClass: selectedClasses
+            .map((option) => option.classId!)
+            .toList(),
+      ),
+    );
   }
 
   @override
@@ -46,14 +47,11 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
         if (state is AddSelectedClassFailed) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
-            snackBar(
-              message: state.message,
-              type: AlertType.error,
-            ),
+            snackBar(message: state.message, type: AlertType.error),
           );
-          context
-              .read<UserClassOptionByPaidSubjectBloc>()
-              .add(RefreshUserClassOptionByPaidSubject());
+          context.read<UserClassOptionByPaidSubjectBloc>().add(
+            RefreshUserClassOptionByPaidSubject(),
+          );
           Navigator.of(context, rootNavigator: true).pop();
         }
       },
@@ -152,10 +150,7 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
             icon: SizedBox(
               height: 24,
               width: 24,
-              child: Image.asset(
-                'assets/image/info.png',
-                scale: 2,
-              ),
+              child: Image.asset('assets/image/info.png', scale: 2),
             ),
             actionsAlignment: MainAxisAlignment.spaceEvenly,
           ),
@@ -166,9 +161,9 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
 
   void _finish(BuildContext context) {
     context.read<UserRegisteredClassBloc>().add(GetUserRegisteredClass());
-    context
-        .read<UserClassOptionByPaidSubjectBloc>()
-        .add(GetUserClassOptionByPaidSubject());
+    context.read<UserClassOptionByPaidSubjectBloc>().add(
+      GetUserClassOptionByPaidSubject(),
+    );
     context.read<SelectedSubjectByNimBloc>().add(RefreshUserSelectedSubjects());
     final router = GoRouter.of(context);
     Navigator.of(context, rootNavigator: true).pop();
@@ -188,17 +183,11 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
         icon: SizedBox(
           width: 65,
           height: 65,
-          child: Image.asset(
-            'assets/image/checkmark-green.png',
-            scale: 2,
-          ),
+          child: Image.asset('assets/image/checkmark-green.png', scale: 2),
         ),
         title: const Text(
           'Berhasil',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -216,20 +205,15 @@ class BuildPickClassPageConfirmationDialog extends StatelessWidget {
           ElevatedButton(
             onPressed: () => _finish(context),
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 24,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
               backgroundColor: const Color(0xffBFD9EF),
               foregroundColor: const Color(0xff3272CA),
             ),
             child: const Text(
               'OK',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          )
+          ),
         ],
       ),
     );

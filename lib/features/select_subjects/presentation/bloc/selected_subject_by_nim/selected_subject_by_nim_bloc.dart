@@ -12,10 +12,12 @@ class SelectedSubjectByNimBloc
   final GetSelectedSubjectByNimUsecase _getSelectedSubjectByNimUsecase;
 
   SelectedSubjectByNimBloc(this._getSelectedSubjectByNimUsecase)
-      : super(SelectedSubjectByNimInitial()) {
+    : super(SelectedSubjectByNimInitial()) {
     on<GetUserSelectedSubjects>(onAppOpened);
-    on<RefreshUserSelectedSubjects>(onRefreshUserSelectedSubjects,
-        transformer: coalesced());
+    on<RefreshUserSelectedSubjects>(
+      onRefreshUserSelectedSubjects,
+      transformer: coalesced(),
+    );
   }
 
   void onAppOpened(
@@ -30,7 +32,8 @@ class SelectedSubjectByNimBloc
     data.fold(
       (left) => emit(SelectedSubjectByNimFailed(message: left.message)),
       (right) => emit(
-          SelectedSubjectByNimLoaded(selectedSubjectEntity: data.right.data)),
+        SelectedSubjectByNimLoaded(selectedSubjectEntity: data.right.data),
+      ),
     );
   }
 

@@ -23,15 +23,11 @@ class BuildSchedulePageScheduleList extends StatelessWidget {
             state.schedules != null && state.schedules![index].day != null
                 ? state.schedules![index].day!
                 : '',
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           PracticumsScheduleCard(
-            practicumsEntity:
-                state.schedules?[index].practicums ?? [],
-          )
+            practicumsEntity: state.schedules?[index].practicums ?? [],
+          ),
         ],
       ),
     );

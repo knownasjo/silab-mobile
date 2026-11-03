@@ -4,10 +4,7 @@ class AuthenticationState extends Equatable {
   final String? message;
   final LoginDataEntity? data;
 
-  const AuthenticationState({
-    this.data,
-    this.message,
-  });
+  const AuthenticationState({this.data, this.message});
 
   @override
   List<Object?> get props => [message, data];

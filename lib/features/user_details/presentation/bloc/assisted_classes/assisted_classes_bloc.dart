@@ -12,7 +12,7 @@ class AssistedClassesBloc
   final GetAssistedClassesUsecase _getAssistedClassesUsecase;
 
   AssistedClassesBloc(this._getAssistedClassesUsecase)
-      : super(const AssistedClassesInitial()) {
+    : super(const AssistedClassesInitial()) {
     on<GetAssistedClasses>(_onGetAssistedClasses);
     on<RefreshAssistedClasses>(
       _onRefreshAssistedClasses,

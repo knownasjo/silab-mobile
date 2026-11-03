@@ -7,10 +7,7 @@ import 'package:silab/features/schedule/domain/entities/practicums/practicums_en
 class PracticumsScheduleCard extends StatelessWidget {
   final List<PracticumsEntity>? practicumsEntity;
 
-  const PracticumsScheduleCard({
-    super.key,
-    this.practicumsEntity,
-  });
+  const PracticumsScheduleCard({super.key, this.practicumsEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +32,15 @@ class PracticumsScheduleCard extends StatelessWidget {
         onTap: classEntity == null
             ? null
             : () => context.pushNamed(
-                  'class',
-                  pathParameters: {'id': classEntity.id!},
-                  extra: ClassDetailPageExtra(classEntity: classEntity),
-                ),
+                'class',
+                pathParameters: {'id': classEntity.id!},
+                extra: ClassDetailPageExtra(classEntity: classEntity),
+              ),
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 8,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color(0xffBFD9EF),
-              width: 2,
-            ),
+            border: Border.all(color: const Color(0xffBFD9EF), width: 2),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -90,9 +81,7 @@ class PracticumsScheduleCard extends StatelessWidget {
                     ),
                     Text(
                       room == null ? session : '$session · $room',
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ],
                 ),
@@ -118,10 +107,7 @@ class PracticumsScheduleCard extends StatelessWidget {
                   ),
                 )
               else if (classEntity != null)
-                const Icon(
-                  Boxicons.bx_chevron_right,
-                  color: Color(0xff3272CA),
-                ),
+                const Icon(Boxicons.bx_chevron_right, color: Color(0xff3272CA)),
             ],
           ),
         ),

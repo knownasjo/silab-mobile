@@ -26,8 +26,8 @@ class SubjectListBloc extends Bloc<SubjectListEvent, SubjectListState> {
     subjectList.clear();
     emit(SubjectListLoading());
 
-    final data =
-        await _getSubjectListUseCase.subjectRepository.getSubjectList();
+    final data = await _getSubjectListUseCase.subjectRepository
+        .getSubjectList();
 
     if (data.isRight && data.right.data != null) {
       final List<SubjectEntity> filteredSubjectList = data.right.data!
@@ -49,8 +49,8 @@ class SubjectListBloc extends Bloc<SubjectListEvent, SubjectListState> {
     if (state is SubjectListInitial) return;
 
     final semester = _semester;
-    final data =
-        await _getSubjectListUseCase.subjectRepository.getSubjectList();
+    final data = await _getSubjectListUseCase.subjectRepository
+        .getSubjectList();
 
     if (semester != _semester || data.isLeft) return;
 

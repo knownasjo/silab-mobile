@@ -11,8 +11,9 @@ class GetClassmatesUsecase
   const GetClassmatesUsecase(this.classRepository);
 
   @override
-  Future<Either<Failures, ClassmatesResponseEntity>> call(
-      {String? params}) async {
+  Future<Either<Failures, ClassmatesResponseEntity>> call({
+    String? params,
+  }) async {
     return await classRepository.getClassmates(classId: params);
   }
 }

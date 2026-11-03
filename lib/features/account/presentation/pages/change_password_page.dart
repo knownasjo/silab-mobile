@@ -33,21 +33,20 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     if (!_formKey.currentState!.validate()) return;
 
     context.read<ChangePasswordBloc>().add(
-          SubmitPasswordChange(
-            ChangePasswordModel(
-              oldPassword: _oldPasswordController.text,
-              password: _passwordController.text,
-              confirmPassword: _confirmPasswordController.text,
-            ),
-          ),
-        );
+      SubmitPasswordChange(
+        ChangePasswordModel(
+          oldPassword: _oldPasswordController.text,
+          password: _passwordController.text,
+          confirmPassword: _confirmPasswordController.text,
+        ),
+      ),
+    );
   }
 
   void _showMessage(String message, AlertType type) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      snackBar(message: message, type: type),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(snackBar(message: message, type: type));
   }
 
   @override
@@ -56,7 +55,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       color: Colors.white,
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.of(context).size.height -
+        height:
+            MediaQuery.of(context).size.height -
             (Scaffold.maybeOf(context)?.appBarMaxHeight ?? 0),
         child: BlocListener<ChangePasswordBloc, ChangePasswordState>(
           listener: (context, state) {
@@ -136,7 +136,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   const SizedBox(height: 24),
                   BlocBuilder<ChangePasswordBloc, ChangePasswordState>(
                     builder: (context, state) {
-                      final isSubmitting = state is ChangePasswordSubmitting ||
+                      final isSubmitting =
+                          state is ChangePasswordSubmitting ||
                           state is ChangePasswordSucceeded;
 
                       return CustomLargeButton(
@@ -145,8 +146,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             ? const SizedBox(
                                 width: 16,
                                 height: 16,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text(
                                 'Simpan',

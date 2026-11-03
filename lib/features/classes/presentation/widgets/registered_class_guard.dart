@@ -18,10 +18,12 @@ class RegisteredClassGuard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserRegisteredClassBloc, UserRegisteredClassState>(
       builder: (context, state) {
-        final registered =
-            state is UserRegisteredClassLoaded ? state.registeredClasses : null;
-        final latest =
-            registered?.where((item) => item.id == classEntity.id).firstOrNull;
+        final registered = state is UserRegisteredClassLoaded
+            ? state.registeredClasses
+            : null;
+        final latest = registered
+            ?.where((item) => item.id == classEntity.id)
+            .firstOrNull;
 
         if (registered != null && latest == null) {
           return const _LeftClassNotice();

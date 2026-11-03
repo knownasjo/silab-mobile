@@ -4,10 +4,7 @@ class ClassmatesState extends Equatable {
   final String? message;
   final List<ClassmateEntity>? classmates;
 
-  const ClassmatesState({
-    this.classmates,
-    this.message,
-  });
+  const ClassmatesState({this.classmates, this.message});
 
   @override
   List<Object?> get props => [classmates, message];

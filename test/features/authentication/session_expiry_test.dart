@@ -57,28 +57,30 @@ void main() {
   final now = DateTime.now();
 
   test(
-      'access token sudah habis tetapi refresh token masih berlaku: tetap masuk',
-      () async {
-    final state = await checkSession({
-      'accessToken': jwtExpiringAt(now.subtract(const Duration(hours: 1))),
-      'refreshToken': jwtExpiringAt(now.add(const Duration(hours: 12))),
-    });
+    'access token sudah habis tetapi refresh token masih berlaku: tetap masuk',
+    () async {
+      final state = await checkSession({
+        'accessToken': jwtExpiringAt(now.subtract(const Duration(hours: 1))),
+        'refreshToken': jwtExpiringAt(now.add(const Duration(hours: 12))),
+      });
 
-    expect(state, isA<AuthenticationSuccess>());
-  });
-
-  test('refresh token sudah habis (lewat 1 hari): diarahkan ke login',
-      () async {
-    final state = await checkSession({
-      'accessToken': jwtExpiringAt(now.subtract(const Duration(days: 1))),
-      'refreshToken': jwtExpiringAt(now.subtract(const Duration(minutes: 1))),
-    });
-
-    expect(state, isA<SessionExpired>());
-  });
+      expect(state, isA<AuthenticationSuccess>());
+    },
+  );
 
   test(
-      'server menolak sesi saat aplikasi dipakai (password diganti di '
+    'refresh token sudah habis (lewat 1 hari): diarahkan ke login',
+    () async {
+      final state = await checkSession({
+        'accessToken': jwtExpiringAt(now.subtract(const Duration(days: 1))),
+        'refreshToken': jwtExpiringAt(now.subtract(const Duration(minutes: 1))),
+      });
+
+      expect(state, isA<SessionExpired>());
+    },
+  );
+
+  test('server menolak sesi saat aplikasi dipakai (password diganti di '
       'perangkat lain): diarahkan ke login', () async {
     SharedPreferences.setMockInitialValues({
       'accessToken': jwtExpiringAt(now.add(const Duration(minutes: 10))),
@@ -86,15 +88,20 @@ void main() {
     });
     final prefs = await SharedPreferences.getInstance();
     final api = ApiClient(
-      MockClient((request) async => request.url.path == '/auth/refresh'
-          ? http.Response(
-              jsonEncode({
-                'status': false,
-                'message': 'Sesi berakhir, silakan login kembali!',
-              }),
-              401)
-          : http.Response(
-              jsonEncode({'status': false, 'message': 'jwt expired'}), 400)),
+      MockClient(
+        (request) async => request.url.path == '/auth/refresh'
+            ? http.Response(
+                jsonEncode({
+                  'status': false,
+                  'message': 'Sesi berakhir, silakan login kembali!',
+                }),
+                401,
+              )
+            : http.Response(
+                jsonEncode({'status': false, 'message': 'jwt expired'}),
+                400,
+              ),
+      ),
       prefs,
     );
     final bloc = blocWith(api, prefs);

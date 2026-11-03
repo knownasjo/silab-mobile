@@ -11,7 +11,7 @@ class SubjectDetailsBloc
   final GetSubjectDetailsUseCase _getSubjectDetailsUseCase;
 
   SubjectDetailsBloc(this._getSubjectDetailsUseCase)
-      : super(SubjectDetailInitial()) {
+    : super(SubjectDetailInitial()) {
     on<SubjectDetailsEvent>(onSubjectDetailPageOpened);
   }
 

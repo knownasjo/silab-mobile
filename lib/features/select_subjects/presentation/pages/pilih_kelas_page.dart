@@ -16,9 +16,7 @@ class PilihKelasPageExtra {
 }
 
 class PilihKelasPage extends StatefulWidget {
-  const PilihKelasPage({
-    super.key,
-  });
+  const PilihKelasPage({super.key});
 
   @override
   State<PilihKelasPage> createState() => _PilihKelasPageState();
@@ -27,9 +25,9 @@ class PilihKelasPage extends StatefulWidget {
 class _PilihKelasPageState extends State<PilihKelasPage> {
   @override
   void initState() {
-    context
-        .read<UserClassOptionByPaidSubjectBloc>()
-        .add(GetUserClassOptionByPaidSubject());
+    context.read<UserClassOptionByPaidSubjectBloc>().add(
+      GetUserClassOptionByPaidSubject(),
+    );
     super.initState();
   }
 

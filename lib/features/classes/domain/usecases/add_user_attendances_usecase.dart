@@ -18,6 +18,9 @@ class AddUserAttendancesUsecase
     String? meetingToken,
   }) async {
     return await classRepository.addUserAttendances(
-        classId: classId, meetingId: meetingId, meetingToken: meetingToken);
+      classId: classId,
+      meetingId: meetingId,
+      meetingToken: meetingToken,
+    );
   }
 }

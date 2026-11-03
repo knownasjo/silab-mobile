@@ -46,15 +46,15 @@ const noRegistrations =
     'Belum ada pendaftaran. Daftar praktikum lewat pengumuman Pendaftaran Praktikum di Beranda.';
 
 Map<String, dynamic> kelas(String id, String name, String day, String time) => {
-      'id': id,
-      'name': name,
-      'day': day,
-      'sessionTime': time,
-      'room': 'Lab RPL',
-      'quota': 30,
-      'registeredStudents': 5,
-      'isFull': false,
-    };
+  'id': id,
+  'name': name,
+  'day': day,
+  'sessionTime': time,
+  'room': 'Lab RPL',
+  'quota': 30,
+  'registeredStudents': 5,
+  'isFull': false,
+};
 
 Map<String, dynamic> activation(
   String id,
@@ -62,18 +62,17 @@ Map<String, dynamic> activation(
   bool paid, {
   Map<String, dynamic>? registered,
   List<Map<String, dynamic>> classes = const [],
-}) =>
-    {
-      'id': id,
-      'status': paid,
-      'createdAt': '2026-09-30T02:00:00.000Z',
-      'subjectId': 's-$id',
-      'subjects': [
-        {'subjectName': subject, 'semester': '3'},
-      ],
-      'registeredClass': registered,
-      'availableClasses': classes,
-    };
+}) => {
+  'id': id,
+  'status': paid,
+  'createdAt': '2026-09-30T02:00:00.000Z',
+  'subjectId': 's-$id',
+  'subjects': [
+    {'subjectName': subject, 'semester': '3'},
+  ],
+  'registeredClass': registered,
+  'availableClasses': classes,
+};
 
 http.Response jsonResponse(Object body, int status) =>
     http.Response(jsonEncode(body), status);
@@ -99,31 +98,39 @@ void main() {
     activationsDown = false;
     holdActivations = null;
     activations = [
-      activation('a-bd', 'Basis Data', true,
-          registered: {'id': 'k-bd-a', 'name': 'A'},
-          classes: [kelas('k-bd-a', 'A', 'MONDAY', '08:00 - 10:00')]),
+      activation(
+        'a-bd',
+        'Basis Data',
+        true,
+        registered: {'id': 'k-bd-a', 'name': 'A'},
+        classes: [kelas('k-bd-a', 'A', 'MONDAY', '08:00 - 10:00')],
+      ),
       activation('a-jk', 'Jaringan Komputer', true, classes: [jkA, jkB]),
-      activation('a-alg', 'Algoritma', false,
-          classes: [kelas('k-alg-a', 'A', 'THURSDAY', '07:00 - 09:00')]),
+      activation(
+        'a-alg',
+        'Algoritma',
+        false,
+        classes: [kelas('k-alg-a', 'A', 'THURSDAY', '07:00 - 09:00')],
+      ),
       activation('a-so', 'Sistem Operasi', true),
     ];
   });
 
   List<Map<String, dynamic>> classOptions() => [
-        for (final a in activations)
-          if (a['status'] == true && a['registeredClass'] == null)
-            for (final c in a['availableClasses'] as List)
-              {
-                'id': c['id'],
-                'subjectName': (a['subjects'] as List).first['subjectName'],
-                'subjectClass': c['name'],
-                'semester': '3',
-                'sessionTime': c['sessionTime'],
-                'quota': c['quota'],
-                'registeredStudents': c['registeredStudents'],
-                'day': c['day'],
-              },
-      ];
+    for (final a in activations)
+      if (a['status'] == true && a['registeredClass'] == null)
+        for (final c in a['availableClasses'] as List)
+          {
+            'id': c['id'],
+            'subjectName': (a['subjects'] as List).first['subjectName'],
+            'subjectClass': c['name'],
+            'semester': '3',
+            'sessionTime': c['sessionTime'],
+            'quota': c['quota'],
+            'registeredStudents': c['registeredStudents'],
+            'day': c['day'],
+          },
+  ];
 
   Future<http.Response> backend(http.Request request) async {
     requests.add(request);
@@ -184,8 +191,9 @@ void main() {
     addTearDown(tester.view.reset);
 
     final api = ApiClient(MockClient(backend), prefs);
-    final subjects =
-        SelectedSubjectRepositoryImpl(SelectedSubjectApiService(api));
+    final subjects = SelectedSubjectRepositoryImpl(
+      SelectedSubjectApiService(api),
+    );
     final classes = ClassRepositoryImpl(ClassesApiService(api));
     final users = UserRepositoryImpl(UserApiService(api));
 
@@ -204,72 +212,84 @@ void main() {
             body: navigationShell,
           ),
           branches: [
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/home',
-                name: 'home',
-                builder: (context, state) => const Material(
-                  child: Column(children: [Text('Beranda'), PickClassBanner()]),
-                ),
-                routes: [
-                  GoRoute(
-                    path: 'payment-status',
-                    name: 'payment-status',
-                    builder: (context, state) => BlocProvider(
-                      create: (_) => CancelActivationBloc(
-                          CancelActivationUsecase(subjects)),
-                      child: const PaymentStatusPage(),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/home',
+                  name: 'home',
+                  builder: (context, state) => const Material(
+                    child: Column(
+                      children: [Text('Beranda'), PickClassBanner()],
                     ),
                   ),
-                  GoRoute(
-                    path: 'pilih-kelas',
-                    name: 'pilih-kelas',
-                    builder: (context, state) => const PilihKelasPage(),
-                  ),
-                ],
-              ),
-            ]),
-            StatefulShellBranch(routes: [
-              GoRoute(
-                path: '/profile',
-                name: 'profile',
-                builder: (context, state) => const ProfilePage(),
-              ),
-            ]),
+                  routes: [
+                    GoRoute(
+                      path: 'payment-status',
+                      name: 'payment-status',
+                      builder: (context, state) => BlocProvider(
+                        create: (_) => CancelActivationBloc(
+                          CancelActivationUsecase(subjects),
+                        ),
+                        child: const PaymentStatusPage(),
+                      ),
+                    ),
+                    GoRoute(
+                      path: 'pilih-kelas',
+                      name: 'pilih-kelas',
+                      builder: (context, state) => const PilihKelasPage(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/profile',
+                  name: 'profile',
+                  builder: (context, state) => const ProfilePage(),
+                ),
+              ],
+            ),
           ],
         ),
       ],
     );
     addTearDown(router.dispose);
 
-    await tester.pumpWidget(MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => SelectedSubjectByNimBloc(
-              GetSelectedSubjectByNimUsecase(subjects)),
-        ),
-        BlocProvider(
-          create: (_) => UserClassOptionByPaidSubjectBloc(
-              GetUserClassOptionByPaidSubjectUsecase(subjects))
-            ..add(GetUserClassOptionByPaidSubject()),
-        ),
-        BlocProvider(
-          create: (_) =>
-              AddSelectedClassBloc(AddSelectedClassUseCase(subjects)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              UserRegisteredClassBloc(GetUserRegisteredClassesUseCase(classes)),
-        ),
-        BlocProvider(
-          create: (_) => UserDetailsBloc(GetUserDetailsUseCase(users)),
-        ),
-        BlocProvider(
-          create: (_) => AssistedClassesBloc(GetAssistedClassesUsecase(users)),
-        ),
-      ],
-      child: MaterialApp.router(routerConfig: router),
-    ));
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => SelectedSubjectByNimBloc(
+              GetSelectedSubjectByNimUsecase(subjects),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserClassOptionByPaidSubjectBloc(
+              GetUserClassOptionByPaidSubjectUsecase(subjects),
+            )..add(GetUserClassOptionByPaidSubject()),
+          ),
+          BlocProvider(
+            create: (_) =>
+                AddSelectedClassBloc(AddSelectedClassUseCase(subjects)),
+          ),
+          BlocProvider(
+            create: (_) => UserRegisteredClassBloc(
+              GetUserRegisteredClassesUseCase(classes),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserDetailsBloc(GetUserDetailsUseCase(users)),
+          ),
+          BlocProvider(
+            create: (_) =>
+                AssistedClassesBloc(GetAssistedClassesUsecase(users)),
+          ),
+        ],
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
     if (settle) await tester.pumpAndSettle();
     return router;
   }
@@ -295,16 +315,20 @@ void main() {
 
   Future<void> saveClassB(WidgetTester tester) async {
     expect(
-        find.text(
-            'Pilih kelas yang anda inginkan. Sesuaikan dengan jadwal anda!'),
-        findsOneWidget);
+      find.text(
+        'Pilih kelas yang anda inginkan. Sesuaikan dengan jadwal anda!',
+      ),
+      findsOneWidget,
+    );
     await tapText(tester, 'Rabu, 13:00 - 15:00');
     await tapText(tester, 'Simpan');
     expect(find.text('Simpan Pilihan Kelas'), findsOneWidget);
     await tester.tap(find.text('Simpan').last);
     await tester.pumpAndSettle();
     expect(
-        find.text('Anda sudah terdaftar di kelas praktikum'), findsOneWidget);
+      find.text('Anda sudah terdaftar di kelas praktikum'),
+      findsOneWidget,
+    );
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();
 
@@ -345,8 +369,9 @@ void main() {
     expect(chosenStyle.color, const Color(0xff3272CA));
   });
 
-  testWidgets('kelas yang dipindah laboran tetap tampil walau belum lunas',
-      (tester) async {
+  testWidgets('kelas yang dipindah laboran tetap tampil walau belum lunas', (
+    tester,
+  ) async {
     activations[2]['registeredClass'] = {'id': 'k-alg-a', 'name': 'A'};
     await openApp(tester, '/home/payment-status');
 
@@ -354,41 +379,48 @@ void main() {
     expect(find.text(waitPaid), findsNothing);
   });
 
-  testWidgets('menu Profil: Pembayaran & Kelas menggantikan Riwayat Pembayaran',
-      (tester) async {
-    await openApp(tester, '/profile');
+  testWidgets(
+    'menu Profil: Pembayaran & Kelas menggantikan Riwayat Pembayaran',
+    (tester) async {
+      await openApp(tester, '/profile');
 
-    expect(find.text('Riwayat Pembayaran'), findsNothing);
-    expect(find.text(menuLabel), findsOneWidget);
+      expect(find.text('Riwayat Pembayaran'), findsNothing);
+      expect(find.text(menuLabel), findsOneWidget);
 
-    await tapText(tester, menuLabel);
+      await tapText(tester, menuLabel);
 
-    expect(showing(), 'payment-status');
-    expect(title('/home/payment-status'), findsOneWidget);
-    expect(find.text(notChosen), findsOneWidget);
-  });
+      expect(showing(), 'payment-status');
+      expect(title('/home/payment-status'), findsOneWidget);
+      expect(find.text(notChosen), findsOneWidget);
+    },
+  );
 
-  testWidgets('dari Profil: setelah simpan kelas kembali ke Pembayaran & Kelas',
-      (tester) async {
-    await openApp(tester, '/profile');
-    await tapText(tester, menuLabel);
-    await tapText(tester, 'Pilih Kelas');
-    expect(showing(), 'pilih-kelas');
-    expect(title('/home/pilih-kelas'), findsOneWidget);
+  testWidgets(
+    'dari Profil: setelah simpan kelas kembali ke Pembayaran & Kelas',
+    (tester) async {
+      await openApp(tester, '/profile');
+      await tapText(tester, menuLabel);
+      await tapText(tester, 'Pilih Kelas');
+      expect(showing(), 'pilih-kelas');
+      expect(title('/home/pilih-kelas'), findsOneWidget);
 
-    await saveClassB(tester);
+      await saveClassB(tester);
 
-    expect(showing(), 'payment-status');
-    expect(title('/home/payment-status'), findsOneWidget);
-    expect(find.text(chosenJK), findsOneWidget);
-    expect(find.text(notChosen), findsNothing);
-  });
+      expect(showing(), 'payment-status');
+      expect(title('/home/payment-status'), findsOneWidget);
+      expect(find.text(chosenJK), findsOneWidget);
+      expect(find.text(notChosen), findsNothing);
+    },
+  );
 
-  testWidgets('dari banner Beranda: setelah simpan kelas kembali ke Beranda',
-      (tester) async {
+  testWidgets('dari banner Beranda: setelah simpan kelas kembali ke Beranda', (
+    tester,
+  ) async {
     await openApp(tester, '/home');
-    expect(find.text('Anda dapat memilih kelas untuk 1 Mata Kuliah'),
-        findsOneWidget);
+    expect(
+      find.text('Anda dapat memilih kelas untuk 1 Mata Kuliah'),
+      findsOneWidget,
+    );
 
     await tapText(tester, 'Anda dapat memilih kelas untuk 1 Mata Kuliah');
     expect(showing(), 'pilih-kelas');
@@ -399,26 +431,36 @@ void main() {
     expect(showing(), 'home');
     expect(title('/home'), findsOneWidget);
     expect(find.text('Beranda'), findsOneWidget);
-    expect(find.text('Anda dapat memilih kelas untuk 1 Mata Kuliah'),
-        findsNothing);
+    expect(
+      find.text('Anda dapat memilih kelas untuk 1 Mata Kuliah'),
+      findsNothing,
+    );
   });
 
-  testWidgets('judul "Mata Kuliah Didaftarkan" dan waktu berbahasa Indonesia',
-      (tester) async {
+  testWidgets('judul "Mata Kuliah Didaftarkan" dan waktu berbahasa Indonesia', (
+    tester,
+  ) async {
     final now = DateTime.now();
-    activations[0]['createdAt'] =
-        now.subtract(const Duration(minutes: 5)).toUtc().toIso8601String();
+    activations[0]['createdAt'] = now
+        .subtract(const Duration(minutes: 5))
+        .toUtc()
+        .toIso8601String();
     for (final a in activations.skip(1)) {
-      a['createdAt'] =
-          now.subtract(const Duration(days: 3)).toUtc().toIso8601String();
+      a['createdAt'] = now
+          .subtract(const Duration(days: 3))
+          .toUtc()
+          .toIso8601String();
     }
     await openApp(tester, '/home/payment-status');
 
     expect(find.text('Mata Kuliah Didaftarkan'), findsOneWidget);
     expect(find.text('Daftar Aktivasi'), findsNothing);
     expect(find.textContaining('ago'), findsNothing);
-    final dates = find.textContaining(RegExp(
-        r'^\d{1,2} (Jan|Feb|Mar|Apr|Mei|Jun|Jul|Agu|Sep|Okt|Nov|Des) \d{4}, \d{2}\.\d{2}$'));
+    final dates = find.textContaining(
+      RegExp(
+        r'^\d{1,2} (Jan|Feb|Mar|Apr|Mei|Jun|Jul|Agu|Sep|Okt|Nov|Des) \d{4}, \d{2}\.\d{2}$',
+      ),
+    );
     expect(dates, findsNWidgets(activations.length - 1));
     expect(find.text('5 menit yang lalu'), findsOneWidget);
   });
@@ -432,24 +474,26 @@ void main() {
   });
 
   testWidgets(
-      'server mati: "Gagal memuat pendaftaran." dan Coba lagi memuat ulang',
-      (tester) async {
-    activationsDown = true;
-    await openApp(tester, '/home/payment-status');
+    'server mati: "Gagal memuat pendaftaran." dan Coba lagi memuat ulang',
+    (tester) async {
+      activationsDown = true;
+      await openApp(tester, '/home/payment-status');
 
-    expect(find.text('Gagal memuat pendaftaran.'), findsOneWidget);
-    expect(find.text(noRegistrations), findsNothing);
+      expect(find.text('Gagal memuat pendaftaran.'), findsOneWidget);
+      expect(find.text(noRegistrations), findsNothing);
 
-    activationsDown = false;
-    await tester.tap(find.text('Coba lagi'));
-    await tester.pumpAndSettle();
+      activationsDown = false;
+      await tester.tap(find.text('Coba lagi'));
+      await tester.pumpAndSettle();
 
-    expect(find.text('Gagal memuat pendaftaran.'), findsNothing);
-    expect(find.text('Basis Data'), findsOneWidget);
-  });
+      expect(find.text('Gagal memuat pendaftaran.'), findsNothing);
+      expect(find.text('Basis Data'), findsOneWidget);
+    },
+  );
 
-  testWidgets('sedang memuat: lingkaran berputar, bukan halaman kosong',
-      (tester) async {
+  testWidgets('sedang memuat: lingkaran berputar, bukan halaman kosong', (
+    tester,
+  ) async {
     holdActivations = Completer<void>();
     await openApp(tester, '/home/payment-status', settle: false);
     await tester.pump(const Duration(milliseconds: 100));
@@ -465,26 +509,28 @@ void main() {
   });
 
   testWidgets(
-      'kotak Belum dibayar: jumlah dan total mata kuliah Belum Lunas, di atas daftar',
-      (tester) async {
-    await openApp(tester, '/home/payment-status');
+    'kotak Belum dibayar: jumlah dan total mata kuliah Belum Lunas, di atas daftar',
+    (tester) async {
+      await openApp(tester, '/home/payment-status');
 
-    expect(find.text('Belum dibayar: 1 mata kuliah'), findsOneWidget);
-    expect(find.text('Total: Rp5.000'), findsOneWidget);
-    expect(
-      tester.getRect(find.text('Total: Rp5.000')).bottom,
-      lessThan(tester.getRect(find.text('Mata Kuliah Didaftarkan')).top),
-    );
+      expect(find.text('Belum dibayar: 1 mata kuliah'), findsOneWidget);
+      expect(find.text('Total: Rp5.000'), findsOneWidget);
+      expect(
+        tester.getRect(find.text('Total: Rp5.000')).bottom,
+        lessThan(tester.getRect(find.text('Mata Kuliah Didaftarkan')).top),
+      );
 
-    activations.add(activation('a-rpl', 'Rekayasa Perangkat Lunak', false));
-    await openApp(tester, '/home/payment-status');
+      activations.add(activation('a-rpl', 'Rekayasa Perangkat Lunak', false));
+      await openApp(tester, '/home/payment-status');
 
-    expect(find.text('Belum dibayar: 2 mata kuliah'), findsOneWidget);
-    expect(find.text('Total: Rp10.000'), findsOneWidget);
-  });
+      expect(find.text('Belum dibayar: 2 mata kuliah'), findsOneWidget);
+      expect(find.text('Total: Rp10.000'), findsOneWidget);
+    },
+  );
 
-  testWidgets('semua sudah lunas: kotak Belum dibayar tidak muncul',
-      (tester) async {
+  testWidgets('semua sudah lunas: kotak Belum dibayar tidak muncul', (
+    tester,
+  ) async {
     for (final a in activations) {
       a['status'] = true;
     }

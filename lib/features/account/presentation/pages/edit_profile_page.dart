@@ -17,8 +17,9 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late final TextEditingController _fullnameController =
-      TextEditingController(text: widget.initialName);
+  late final TextEditingController _fullnameController = TextEditingController(
+    text: widget.initialName,
+  );
 
   @override
   void dispose() {
@@ -30,17 +31,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (!_formKey.currentState!.validate()) return;
 
     context.read<EditProfileBloc>().add(
-          SubmitProfile(
-            _fullnameController.text.trim().replaceAll(RegExp(r'\s+'), ' '),
-          ),
-        );
+      SubmitProfile(
+        _fullnameController.text.trim().replaceAll(RegExp(r'\s+'), ' '),
+      ),
+    );
   }
 
   void _showMessage(String message, AlertType type) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      snackBar(message: message, type: type),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(snackBar(message: message, type: type));
   }
 
   @override
@@ -49,7 +49,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       color: Colors.white,
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.of(context).size.height -
+        height:
+            MediaQuery.of(context).size.height -
             (Scaffold.maybeOf(context)?.appBarMaxHeight ?? 0),
         child: BlocListener<EditProfileBloc, EditProfileState>(
           listener: (context, state) {
@@ -108,7 +109,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   const SizedBox(height: 24),
                   BlocBuilder<EditProfileBloc, EditProfileState>(
                     builder: (context, state) {
-                      final isSubmitting = state is EditProfileSubmitting ||
+                      final isSubmitting =
+                          state is EditProfileSubmitting ||
                           state is EditProfileSucceeded;
 
                       return CustomLargeButton(
@@ -117,8 +119,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ? const SizedBox(
                                 width: 16,
                                 height: 16,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text(
                                 'Simpan',

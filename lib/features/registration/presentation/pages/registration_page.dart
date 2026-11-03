@@ -50,15 +50,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (!_formKey.currentState!.validate()) return;
 
     context.read<RegistrationBloc>().add(
-          SubmitRegistration(
-            RegisterModel(
-              email: normalizeEmail(_emailController.text),
-              fullname: _fullnameController.text.trim(),
-              password: _passwordController.text,
-              confirmPassword: _confirmPasswordController.text,
-            ),
-          ),
-        );
+      SubmitRegistration(
+        RegisterModel(
+          email: normalizeEmail(_emailController.text),
+          fullname: _fullnameController.text.trim(),
+          password: _passwordController.text,
+          confirmPassword: _confirmPasswordController.text,
+        ),
+      ),
+    );
   }
 
   void _backToLogin() {
@@ -226,8 +226,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               ? const SizedBox(
                                   width: 16,
                                   height: 16,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text(
                                   'Daftar',

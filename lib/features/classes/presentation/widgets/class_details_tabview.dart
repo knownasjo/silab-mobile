@@ -14,10 +14,7 @@ import 'package:silab/features/classes/presentation/pages/qr_scan_page.dart';
 class ClassDetailTabView extends StatefulWidget {
   final String? classId;
 
-  const ClassDetailTabView({
-    super.key,
-    this.classId,
-  });
+  const ClassDetailTabView({super.key, this.classId});
 
   @override
   State<ClassDetailTabView> createState() => _ClassDetailPageTabiewState();
@@ -91,9 +88,9 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   }
 
   Widget _buildPageContent(int index) => switch (pageItems[index]) {
-        'Classmates' => _buildClassmates(),
-        _ => _buildMeetings(),
-      };
+    'Classmates' => _buildClassmates(),
+    _ => _buildMeetings(),
+  };
 
   Widget _buildMeetings() {
     return BlocBuilder<UserMeetingsBloc, UserMeetingsState>(
@@ -105,9 +102,9 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
         if (state is UserMeetingsFailed) {
           return _buildTabMessage(
             state.message ?? 'Gagal memuat daftar pertemuan.',
-            onRetry: () => context
-                .read<UserMeetingsBloc>()
-                .add(GetUserMeetings(classId: widget.classId)),
+            onRetry: () => context.read<UserMeetingsBloc>().add(
+              GetUserMeetings(classId: widget.classId),
+            ),
           );
         }
 
@@ -137,9 +134,9 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
         if (state is ClassmatesFailed) {
           return _buildTabMessage(
             state.message ?? 'Gagal memuat daftar teman sekelas.',
-            onRetry: () => context
-                .read<ClassmatesBloc>()
-                .add(GetClassmates(classId: widget.classId)),
+            onRetry: () => context.read<ClassmatesBloc>().add(
+              GetClassmates(classId: widget.classId),
+            ),
           );
         }
 
@@ -205,9 +202,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
             ),
           ),
           const SizedBox(width: 12),
-          Expanded(
-            child: Text(name, overflow: TextOverflow.ellipsis),
-          ),
+          Expanded(child: Text(name, overflow: TextOverflow.ellipsis)),
           if (isMe)
             const Padding(
               padding: EdgeInsets.only(right: 16),
@@ -354,10 +349,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
               : Border.all(color: style.border!, width: 2),
           color: style.background,
         ),
-        child: Image.asset(
-          'assets/image/${style.icon}',
-          scale: 2,
-        ),
+        child: Image.asset('assets/image/${style.icon}', scale: 2),
       ),
     );
   }

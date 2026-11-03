@@ -19,8 +19,7 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   @override
   Future<Either<Failures, RegistrationEntity>> register(
     RegisterModel registerData,
-  ) =>
-      _guard(() => _registrationApiService.register(registerData));
+  ) => _guard(() => _registrationApiService.register(registerData));
 
   @override
   Future<Either<Failures, RegistrationEntity>> resendCode(String email) =>

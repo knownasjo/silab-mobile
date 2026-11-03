@@ -42,17 +42,16 @@ Map<String, dynamic> option(
   String name,
   String day,
   String time,
-) =>
-    {
-      'id': id,
-      'subjectName': subject,
-      'subjectClass': name,
-      'semester': '3',
-      'sessionTime': time,
-      'quota': 30,
-      'registeredStudents': 5,
-      'day': day,
-    };
+) => {
+  'id': id,
+  'subjectName': subject,
+  'subjectClass': name,
+  'semester': '3',
+  'sessionTime': time,
+  'quota': 30,
+  'registeredStudents': 5,
+  'day': day,
+};
 
 void main() {
   late SharedPreferences prefs;
@@ -68,8 +67,10 @@ void main() {
 
   setUp(() async {
     AppConfig.create(baseUrl: 'http://silab.test');
-    SharedPreferences.setMockInitialValues(
-        {'accessToken': 'akses', 'refreshToken': 'segar'});
+    SharedPreferences.setMockInitialValues({
+      'accessToken': 'akses',
+      'refreshToken': 'segar',
+    });
     prefs = await SharedPreferences.getInstance();
     posts = [];
     optionsDown = false;
@@ -86,7 +87,9 @@ void main() {
 
   http.Response ok(Object? data, [String message = 'Berhasil']) =>
       http.Response(
-          jsonEncode({'status': true, 'message': message, 'data': data}), 200);
+        jsonEncode({'status': true, 'message': message, 'data': data}),
+        200,
+      );
 
   Future<http.Response> backend(http.Request request) async {
     final path = request.url.path;
@@ -112,7 +115,8 @@ void main() {
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 5; i++) {
       await tester.runAsync(
-          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+        () => Future<void>.delayed(const Duration(milliseconds: 20)),
+      );
       await tester.pump(const Duration(milliseconds: 100));
     }
     await tester.pumpAndSettle();
@@ -122,61 +126,71 @@ void main() {
     useSmallPhone(tester);
 
     final api = ApiClient(MockClient(backend), prefs);
-    final subjects =
-        SelectedSubjectRepositoryImpl(SelectedSubjectApiService(api));
+    final subjects = SelectedSubjectRepositoryImpl(
+      SelectedSubjectApiService(api),
+    );
     final controller = ScrollController();
     addTearDown(controller.dispose);
 
-    final router = GoRouter(initialLocation: '/home/pilih-kelas', routes: [
-      ShellRoute(
-        builder: (context, state, child) => shellWithNavbar(
-          title: 'Pilih Kelas',
-          controller: controller,
-          child: child,
-        ),
-        routes: [
-          GoRoute(
-            path: '/home',
-            name: 'home',
-            builder: (_, __) => const Text('Halaman Beranda'),
-            routes: [
-              GoRoute(
-                path: 'pilih-kelas',
-                name: 'pilih-kelas',
-                builder: (_, __) => const PilihKelasPage(),
-              ),
-            ],
+    final router = GoRouter(
+      initialLocation: '/home/pilih-kelas',
+      routes: [
+        ShellRoute(
+          builder: (context, state, child) => shellWithNavbar(
+            title: 'Pilih Kelas',
+            controller: controller,
+            child: child,
           ),
-        ],
-      ),
-    ]);
-    addTearDown(router.dispose);
-
-    await tester.pumpWidget(MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => UserClassOptionByPaidSubjectBloc(
-              GetUserClassOptionByPaidSubjectUsecase(subjects)),
-        ),
-        BlocProvider(
-          create: (_) =>
-              AddSelectedClassBloc(AddSelectedClassUseCase(subjects)),
-        ),
-        BlocProvider(
-          create: (_) => SelectedSubjectByNimBloc(
-              GetSelectedSubjectByNimUsecase(subjects)),
-        ),
-        BlocProvider(
-          create: (_) => UserRegisteredClassBloc(
-              GetUserRegisteredClassesUseCase(
-                  ClassRepositoryImpl(ClassesApiService(api)))),
+          routes: [
+            GoRoute(
+              path: '/home',
+              name: 'home',
+              builder: (_, __) => const Text('Halaman Beranda'),
+              routes: [
+                GoRoute(
+                  path: 'pilih-kelas',
+                  name: 'pilih-kelas',
+                  builder: (_, __) => const PilihKelasPage(),
+                ),
+              ],
+            ),
+          ],
         ),
       ],
-      child: MaterialApp.router(
-        theme: ThemeData(fontFamily: realFontFamily),
-        routerConfig: router,
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => UserClassOptionByPaidSubjectBloc(
+              GetUserClassOptionByPaidSubjectUsecase(subjects),
+            ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                AddSelectedClassBloc(AddSelectedClassUseCase(subjects)),
+          ),
+          BlocProvider(
+            create: (_) => SelectedSubjectByNimBloc(
+              GetSelectedSubjectByNimUsecase(subjects),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => UserRegisteredClassBloc(
+              GetUserRegisteredClassesUseCase(
+                ClassRepositoryImpl(ClassesApiService(api)),
+              ),
+            ),
+          ),
+        ],
+        child: MaterialApp.router(
+          theme: ThemeData(fontFamily: realFontFamily),
+          routerConfig: router,
+        ),
       ),
-    ));
+    );
     if (waitForData) await settle(tester);
   }
 
@@ -192,15 +206,20 @@ void main() {
   bool canSave(WidgetTester tester) =>
       tester.widget<ElevatedButton>(pageSave()).onPressed != null;
 
-  Finder inDialog(String text) => find.descendant(
-      of: find.byType(AlertDialog), matching: find.text(text));
+  Finder inDialog(String text) =>
+      find.descendant(of: find.byType(AlertDialog), matching: find.text(text));
 
   Finder radioOf(String classId) => find.byWidgetPredicate(
-      (widget) => widget is Radio<String?> && widget.value == classId);
+    (widget) => widget is Radio<String?> && widget.value == classId,
+  );
 
   String? groupValueOf(WidgetTester tester, String classId) => tester
-      .widget<RadioGroup<String?>>(find.ancestor(
-          of: radioOf(classId), matching: find.byType(RadioGroup<String?>)))
+      .widget<RadioGroup<String?>>(
+        find.ancestor(
+          of: radioOf(classId),
+          matching: find.byType(RadioGroup<String?>),
+        ),
+      )
       .groupValue;
 
   Future<void> openConfirmation(WidgetTester tester) async {
@@ -217,147 +236,157 @@ void main() {
       .add(RefreshUserClassOptionByPaidSubject());
 
   testWidgets(
-      'konfirmasi menampilkan kelas yang dipilih dan peringatan tidak bisa diganti sendiri',
-      (tester) async {
-    await openPage(tester);
-    await tapText(tester, bdA);
-    await tapText(tester, jkA);
-    await openConfirmation(tester);
+    'konfirmasi menampilkan kelas yang dipilih dan peringatan tidak bisa diganti sendiri',
+    (tester) async {
+      await openPage(tester);
+      await tapText(tester, bdA);
+      await tapText(tester, jkA);
+      await openConfirmation(tester);
 
-    expect(inDialog('Basis Data'), findsOneWidget);
-    expect(inDialog('Kelas A · $bdA'), findsOneWidget);
-    expect(inDialog('Jaringan Komputer'), findsOneWidget);
-    expect(inDialog('Kelas A · $jkA'), findsOneWidget);
-    expect(inDialog('Kelas B · $bdB'), findsNothing);
-    expect(inDialog(warning), findsOneWidget);
-  });
+      expect(inDialog('Basis Data'), findsOneWidget);
+      expect(inDialog('Kelas A · $bdA'), findsOneWidget);
+      expect(inDialog('Jaringan Komputer'), findsOneWidget);
+      expect(inDialog('Kelas A · $jkA'), findsOneWidget);
+      expect(inDialog('Kelas B · $bdB'), findsNothing);
+      expect(inDialog(warning), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      'Simpan ditekan berkali-kali: satu kiriman, "Menyimpan...", dialog tidak bisa ditutup',
-      (tester) async {
-    await openPage(tester);
-    await tapText(tester, bdA);
-    await openConfirmation(tester);
+    'Simpan ditekan berkali-kali: satu kiriman, "Menyimpan...", dialog tidak bisa ditutup',
+    (tester) async {
+      await openPage(tester);
+      await tapText(tester, bdA);
+      await openConfirmation(tester);
 
-    holdPost = Completer<void>();
-    await tester.tap(inDialog('Simpan'));
-    await tester.pump();
-
-    expect(inDialog('Menyimpan...'), findsOneWidget);
-    for (final label in ['Menyimpan...', 'Kembali']) {
-      await tester.tap(inDialog(label), warnIfMissed: false);
+      holdPost = Completer<void>();
+      await tester.tap(inDialog('Simpan'));
       await tester.pump();
-    }
-    await tester.tapAt(const Offset(10, 10));
-    await tester.pump();
-    await tester.binding.handlePopRoute();
-    await tester.pump();
-    expect(find.text(confirmTitle), findsOneWidget);
 
-    holdPost!.complete();
-    await settle(tester);
+      expect(inDialog('Menyimpan...'), findsOneWidget);
+      for (final label in ['Menyimpan...', 'Kembali']) {
+        await tester.tap(inDialog(label), warnIfMissed: false);
+        await tester.pump();
+      }
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pump();
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+      expect(find.text(confirmTitle), findsOneWidget);
 
-    expect(tester.takeException(), isNull);
-    expect(posts, hasLength(1));
-    expect(jsonDecode(posts.single.body), {
-      'classIds': ['bd-a']
-    });
-    expect(find.text(succeeded), findsOneWidget);
-  });
+      holdPost!.complete();
+      await settle(tester);
 
-  testWidgets(
-      'dialog Berhasil: ketuk di luar tidak menutup, tombol kembali sama dengan OK',
-      (tester) async {
-    await openPage(tester);
-    await tapText(tester, bdA);
-    await openConfirmation(tester);
-    await tester.tap(inDialog('Simpan'));
-    await settle(tester);
-    expect(find.text(succeeded), findsOneWidget);
-
-    await tester.tapAt(const Offset(10, 10));
-    await tester.pumpAndSettle();
-    expect(find.text(succeeded), findsOneWidget);
-    expect(find.byType(PilihKelasPage), findsOneWidget);
-
-    await tester.binding.handlePopRoute();
-    await settle(tester);
-
-    expect(tester.takeException(), isNull);
-    expect(find.text(succeeded), findsNothing);
-    expect(find.byType(PilihKelasPage), findsNothing);
-    expect(find.text('Halaman Beranda'), findsOneWidget);
-  });
+      expect(tester.takeException(), isNull);
+      expect(posts, hasLength(1));
+      expect(jsonDecode(posts.single.body), {
+        'classIds': ['bd-a'],
+      });
+      expect(find.text(succeeded), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      'server menolak: dialog tertutup, pesan merah terlihat, daftar kelas dimuat ulang',
-      (tester) async {
-    await openPage(tester);
-    await tapText(tester, bdA);
-    await openConfirmation(tester);
+    'dialog Berhasil: ketuk di luar tidak menutup, tombol kembali sama dengan OK',
+    (tester) async {
+      await openPage(tester);
+      await tapText(tester, bdA);
+      await openConfirmation(tester);
+      await tester.tap(inDialog('Simpan'));
+      await settle(tester);
+      expect(find.text(succeeded), findsOneWidget);
 
-    rejection = http.Response(
-        jsonEncode(
-            {'status': false, 'message': 'Kelas A Basis Data sudah penuh!'}),
-        409);
-    onPost = () => options[0]['registeredStudents'] = 30;
-    await tester.tap(inDialog('Simpan'));
-    await settle(tester);
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pumpAndSettle();
+      expect(find.text(succeeded), findsOneWidget);
+      expect(find.byType(PilihKelasPage), findsOneWidget);
 
-    expect(tester.takeException(), isNull);
-    expect(find.text(confirmTitle), findsNothing);
-    expect(find.text('Kelas A Basis Data sudah penuh!'), findsOneWidget);
-    expect(find.text('30/30'), findsOneWidget);
-    expect(tester.widget<Radio<String?>>(radioOf('bd-a')).enabled, isFalse);
-    expect(canSave(tester), isFalse);
-  });
+      await tester.binding.handlePopRoute();
+      await settle(tester);
 
-  testWidgets(
-      'kelas yang dipilih dihapus atau penuh saat halaman terbuka: pilihannya dilepas',
-      (tester) async {
-    await openPage(tester);
-    await tapText(tester, bdA);
-    await tapText(tester, jkA);
-    expect(canSave(tester), isTrue);
-
-    options.removeAt(0);
-    options.last['registeredStudents'] = 30;
-    refreshOptions(tester);
-    await settle(tester);
-
-    expect(find.text(bdA), findsNothing);
-    expect(groupValueOf(tester, 'jk-a'), isNull);
-    expect(canSave(tester), isFalse);
-
-    await tapText(tester, bdB);
-    await openConfirmation(tester);
-    expect(inDialog('Kelas B · $bdB'), findsOneWidget);
-    expect(inDialog('Jaringan Komputer'), findsNothing);
-  });
+      expect(tester.takeException(), isNull);
+      expect(find.text(succeeded), findsNothing);
+      expect(find.byType(PilihKelasPage), findsNothing);
+      expect(find.text('Halaman Beranda'), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      'ketuk lagi kelas yang sudah dipilih: pilihan batal, lewat lingkaran maupun baris',
-      (tester) async {
-    await openPage(tester);
+    'server menolak: dialog tertutup, pesan merah terlihat, daftar kelas dimuat ulang',
+    (tester) async {
+      await openPage(tester);
+      await tapText(tester, bdA);
+      await openConfirmation(tester);
 
-    await tapText(tester, bdA);
-    expect(groupValueOf(tester, 'bd-a'), 'bd-a');
+      rejection = http.Response(
+        jsonEncode({
+          'status': false,
+          'message': 'Kelas A Basis Data sudah penuh!',
+        }),
+        409,
+      );
+      onPost = () => options[0]['registeredStudents'] = 30;
+      await tester.tap(inDialog('Simpan'));
+      await settle(tester);
 
-    await tester.tap(radioOf('bd-a'));
-    await tester.pumpAndSettle();
-    expect(tester.takeException(), isNull);
-    expect(groupValueOf(tester, 'bd-a'), isNull);
-    expect(canSave(tester), isFalse);
+      expect(tester.takeException(), isNull);
+      expect(find.text(confirmTitle), findsNothing);
+      expect(find.text('Kelas A Basis Data sudah penuh!'), findsOneWidget);
+      expect(find.text('30/30'), findsOneWidget);
+      expect(tester.widget<Radio<String?>>(radioOf('bd-a')).enabled, isFalse);
+      expect(canSave(tester), isFalse);
+    },
+  );
 
-    await tapText(tester, bdA);
-    expect(canSave(tester), isTrue);
-    await tapText(tester, bdA);
-    expect(groupValueOf(tester, 'bd-a'), isNull);
-    expect(canSave(tester), isFalse);
-  });
+  testWidgets(
+    'kelas yang dipilih dihapus atau penuh saat halaman terbuka: pilihannya dilepas',
+    (tester) async {
+      await openPage(tester);
+      await tapText(tester, bdA);
+      await tapText(tester, jkA);
+      expect(canSave(tester), isTrue);
 
-  testWidgets('sedang memuat: lingkaran berputar, bukan halaman kosong',
-      (tester) async {
+      options.removeAt(0);
+      options.last['registeredStudents'] = 30;
+      refreshOptions(tester);
+      await settle(tester);
+
+      expect(find.text(bdA), findsNothing);
+      expect(groupValueOf(tester, 'jk-a'), isNull);
+      expect(canSave(tester), isFalse);
+
+      await tapText(tester, bdB);
+      await openConfirmation(tester);
+      expect(inDialog('Kelas B · $bdB'), findsOneWidget);
+      expect(inDialog('Jaringan Komputer'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'ketuk lagi kelas yang sudah dipilih: pilihan batal, lewat lingkaran maupun baris',
+    (tester) async {
+      await openPage(tester);
+
+      await tapText(tester, bdA);
+      expect(groupValueOf(tester, 'bd-a'), 'bd-a');
+
+      await tester.tap(radioOf('bd-a'));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(groupValueOf(tester, 'bd-a'), isNull);
+      expect(canSave(tester), isFalse);
+
+      await tapText(tester, bdA);
+      expect(canSave(tester), isTrue);
+      await tapText(tester, bdA);
+      expect(groupValueOf(tester, 'bd-a'), isNull);
+      expect(canSave(tester), isFalse);
+    },
+  );
+
+  testWidgets('sedang memuat: lingkaran berputar, bukan halaman kosong', (
+    tester,
+  ) async {
     holdGet = Completer<void>();
     await openPage(tester, waitForData: false);
     await tester.pump(const Duration(milliseconds: 100));
@@ -372,8 +401,9 @@ void main() {
     expect(find.text(bdA), findsOneWidget);
   });
 
-  testWidgets('server mati: "Gagal memuat kelas." dan Coba lagi memuat ulang',
-      (tester) async {
+  testWidgets('server mati: "Gagal memuat kelas." dan Coba lagi memuat ulang', (
+    tester,
+  ) async {
     optionsDown = true;
     await openPage(tester);
 
@@ -388,8 +418,9 @@ void main() {
     expect(find.text(bdA), findsOneWidget);
   });
 
-  testWidgets('tidak ada kelas: keterangan tampil tanpa tombol Simpan',
-      (tester) async {
+  testWidgets('tidak ada kelas: keterangan tampil tanpa tombol Simpan', (
+    tester,
+  ) async {
     options = [];
     await openPage(tester);
 

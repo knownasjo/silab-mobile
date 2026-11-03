@@ -10,18 +10,18 @@ class BuildPaymentStatusPagePickClassButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserClassOptionByPaidSubjectBloc,
-        UserClassOptionByPaidSubjectState>(
+    return BlocBuilder<
+      UserClassOptionByPaidSubjectBloc,
+      UserClassOptionByPaidSubjectState
+    >(
       builder: (context, state) {
         return CustomSmallButton(
           label: const Text(
             'Pilih Kelas',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
-          onPressed: state.userClassOptionByPaidSubjectEntity != null &&
+          onPressed:
+              state.userClassOptionByPaidSubjectEntity != null &&
                   state.userClassOptionByPaidSubjectEntity!.isNotEmpty
               ? () => context.pushNamed('pilih-kelas')
               : null,

@@ -12,7 +12,7 @@ class ForgotPasswordBloc
   final RequestPasswordResetCodeUsecase _requestPasswordResetCodeUsecase;
 
   ForgotPasswordBloc(this._requestPasswordResetCodeUsecase)
-      : super(const ForgotPasswordInitial()) {
+    : super(const ForgotPasswordInitial()) {
     on<SubmitForgotPassword>(_onSubmitForgotPassword);
   }
 

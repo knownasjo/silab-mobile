@@ -23,8 +23,9 @@ class RealtimeBloc extends Bloc<RealtimeEvent, RealtimeState> {
 
   void onStartRealtime(StartRealtime event, Emitter<RealtimeState> emit) {
     _subscription?.cancel();
-    _subscription = _watchRealtimeEventsUsecase()
-        .listen((message) => add(RealtimeMessageReceived(message)));
+    _subscription = _watchRealtimeEventsUsecase().listen(
+      (message) => add(RealtimeMessageReceived(message)),
+    );
   }
 
   void onStopRealtime(StopRealtime event, Emitter<RealtimeState> emit) {
@@ -35,7 +36,9 @@ class RealtimeBloc extends Bloc<RealtimeEvent, RealtimeState> {
   }
 
   void onRealtimeMessageReceived(
-      RealtimeMessageReceived event, Emitter<RealtimeState> emit) {
+    RealtimeMessageReceived event,
+    Emitter<RealtimeState> emit,
+  ) {
     if (_subscription == null) return;
 
     if (event.message.type == 'ready' && !_hasConnected) {

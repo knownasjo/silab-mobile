@@ -36,8 +36,10 @@ void main() {
 
   setUp(() async {
     AppConfig.create(baseUrl: 'http://silab.test');
-    SharedPreferences.setMockInitialValues(
-        {'accessToken': 'akses', 'refreshToken': 'segar'});
+    SharedPreferences.setMockInitialValues({
+      'accessToken': 'akses',
+      'refreshToken': 'segar',
+    });
     prefs = await SharedPreferences.getInstance();
     down = {};
     hold = {};
@@ -69,7 +71,8 @@ void main() {
   Future<void> settle(WidgetTester tester) async {
     for (var i = 0; i < 5; i++) {
       await tester.runAsync(
-          () => Future<void>.delayed(const Duration(milliseconds: 20)));
+        () => Future<void>.delayed(const Duration(milliseconds: 20)),
+      );
       await tester.pump(const Duration(milliseconds: 100));
     }
     await tester.pumpAndSettle();
@@ -81,40 +84,48 @@ void main() {
     final controller = ScrollController();
     addTearDown(controller.dispose);
 
-    router = GoRouter(initialLocation: '/home', routes: [
-      ShellRoute(
-        builder: (context, state, child) => shellWithNavbar(
-          title: 'Pengumuman',
-          controller: controller,
-          child: child,
-        ),
-        routes: [
-          GoRoute(
-            path: '/home',
-            name: 'home',
-            builder: (_, __) => const Text('Halaman Beranda'),
-            routes: [
-              GoRoute(
-                path: 'pengumuman/:id',
-                name: 'pengumuman',
-                builder: (_, state) =>
-                    PengumumanPage(id: state.pathParameters['id']),
-              ),
-            ],
+    router = GoRouter(
+      initialLocation: '/home',
+      routes: [
+        ShellRoute(
+          builder: (context, state, child) => shellWithNavbar(
+            title: 'Pengumuman',
+            controller: controller,
+            child: child,
           ),
-        ],
-      ),
-    ]);
+          routes: [
+            GoRoute(
+              path: '/home',
+              name: 'home',
+              builder: (_, __) => const Text('Halaman Beranda'),
+              routes: [
+                GoRoute(
+                  path: 'pengumuman/:id',
+                  name: 'pengumuman',
+                  builder: (_, state) =>
+                      PengumumanPage(id: state.pathParameters['id']),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
     addTearDown(router.dispose);
 
-    await tester.pumpWidget(BlocProvider(
-      create: (_) => GetAnnouncementBloc(GetAnnouncementUseCase(
-          AnnouncementRepositoryImpl(AnnouncementApiService(api)))),
-      child: MaterialApp.router(
-        theme: ThemeData(fontFamily: realFontFamily),
-        routerConfig: router,
+    await tester.pumpWidget(
+      BlocProvider(
+        create: (_) => GetAnnouncementBloc(
+          GetAnnouncementUseCase(
+            AnnouncementRepositoryImpl(AnnouncementApiService(api)),
+          ),
+        ),
+        child: MaterialApp.router(
+          theme: ThemeData(fontFamily: realFontFamily),
+          routerConfig: router,
+        ),
       ),
-    ));
+    );
     await settle(tester);
   }
 
@@ -136,114 +147,129 @@ void main() {
   Finder spinner() => find.byType(CircularProgressIndicator);
 
   testWidgets(
-      'membuka pengumuman kedua: selama memuat tidak menampilkan isi pengumuman sebelumnya',
-      (tester) async {
-    await openApp(tester);
-    await open(tester, 'p1');
-    expect(find.text('Judul p1'), findsOneWidget);
-    await back(tester);
+    'membuka pengumuman kedua: selama memuat tidak menampilkan isi pengumuman sebelumnya',
+    (tester) async {
+      await openApp(tester);
+      await open(tester, 'p1');
+      expect(find.text('Judul p1'), findsOneWidget);
+      await back(tester);
 
-    hold['p2'] = Completer<void>();
-    await open(tester, 'p2', wait: false);
+      hold['p2'] = Completer<void>();
+      await open(tester, 'p2', wait: false);
 
-    expect(find.text('Judul p1'), findsNothing);
-    expect(find.text('Isi pengumuman p1.'), findsNothing);
-    expect(spinner(), findsOneWidget);
+      expect(find.text('Judul p1'), findsNothing);
+      expect(find.text('Isi pengumuman p1.'), findsNothing);
+      expect(spinner(), findsOneWidget);
 
-    hold['p2']!.complete();
-    await settle(tester);
-    expect(find.text('Judul p2'), findsOneWidget);
-  });
-
-  testWidgets(
-      'jawaban pengumuman lama yang datang terlambat tidak menimpa pengumuman yang sedang dibuka',
-      (tester) async {
-    await openApp(tester);
-    hold['p1'] = Completer<void>();
-    await open(tester, 'p1', wait: false);
-    router.pop();
-    await tester.pump(const Duration(milliseconds: 400));
-
-    await open(tester, 'p2');
-    expect(find.text('Judul p2'), findsOneWidget);
-
-    hold['p1']!.complete();
-    await settle(tester);
-
-    expect(find.text('Judul p2'), findsOneWidget);
-    expect(find.text('Judul p1'), findsNothing);
-  });
+      hold['p2']!.complete();
+      await settle(tester);
+      expect(find.text('Judul p2'), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      'memuat: lingkaran berputar; gagal: "Gagal memuat pengumuman." dan Coba lagi memuat ulang',
-      (tester) async {
-    await openApp(tester);
-    hold['p1'] = Completer<void>();
-    down.add('p1');
-    await open(tester, 'p1', wait: false);
-    expect(spinner(), findsOneWidget);
+    'jawaban pengumuman lama yang datang terlambat tidak menimpa pengumuman yang sedang dibuka',
+    (tester) async {
+      await openApp(tester);
+      hold['p1'] = Completer<void>();
+      await open(tester, 'p1', wait: false);
+      router.pop();
+      await tester.pump(const Duration(milliseconds: 400));
 
-    hold['p1']!.complete();
-    await settle(tester);
-    expect(spinner(), findsNothing);
-    expect(find.text('Gagal memuat pengumuman.'), findsOneWidget);
+      await open(tester, 'p2');
+      expect(find.text('Judul p2'), findsOneWidget);
 
-    down.clear();
-    await tester.tap(find.text('Coba lagi'));
-    await settle(tester);
+      hold['p1']!.complete();
+      await settle(tester);
 
-    expect(find.text('Gagal memuat pengumuman.'), findsNothing);
-    expect(find.text('Judul p1'), findsOneWidget);
-  });
+      expect(find.text('Judul p2'), findsOneWidget);
+      expect(find.text('Judul p1'), findsNothing);
+    },
+  );
 
   testWidgets(
-      'pengumuman panjang di HP 360×640: satu geseran, baris terakhir bisa sampai di atas menu bawah',
-      (tester) async {
-    await openApp(tester);
-    await open(tester, 'panjang');
+    'memuat: lingkaran berputar; gagal: "Gagal memuat pengumuman." dan Coba lagi memuat ulang',
+    (tester) async {
+      await openApp(tester);
+      hold['p1'] = Completer<void>();
+      down.add('p1');
+      await open(tester, 'p1', wait: false);
+      expect(spinner(), findsOneWidget);
 
-    final scrollingAreas = [
-      for (final element in find.byType(Scrollable).evaluate())
-        if (((element as StatefulElement).state as ScrollableState)
-                    .position
-                    .axis ==
-                Axis.vertical &&
-            (element.state as ScrollableState).position.maxScrollExtent > 0)
-          element,
-    ];
-    expect(scrollingAreas, hasLength(1));
+      hold['p1']!.complete();
+      await settle(tester);
+      expect(spinner(), findsNothing);
+      expect(find.text('Gagal memuat pengumuman.'), findsOneWidget);
 
-    await scrollEverythingToEnd(tester);
-    expect(tester.getRect(find.byType(SelectableText)).bottom,
-        lessThanOrEqualTo(navbarTop(tester)));
-  });
+      down.clear();
+      await tester.tap(find.text('Coba lagi'));
+      await settle(tester);
+
+      expect(find.text('Gagal memuat pengumuman.'), findsNothing);
+      expect(find.text('Judul p1'), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      'isi bisa dipilih untuk disalin sebagian, dan "Salin isi" menyalin seluruh isi',
-      (tester) async {
-    String? copied;
-    tester.binding.defaultBinaryMessenger
-        .setMockMethodCallHandler(SystemChannels.platform, (call) async {
-      if (call.method == 'Clipboard.setData') {
-        copied = (call.arguments as Map)['text'] as String?;
-      }
-      return null;
-    });
-    addTearDown(() => tester.binding.defaultBinaryMessenger
-        .setMockMethodCallHandler(SystemChannels.platform, null));
+    'pengumuman panjang di HP 360×640: satu geseran, baris terakhir bisa sampai di atas menu bawah',
+    (tester) async {
+      await openApp(tester);
+      await open(tester, 'panjang');
 
-    await openApp(tester);
-    await open(tester, 'p1');
+      final scrollingAreas = [
+        for (final element in find.byType(Scrollable).evaluate())
+          if (((element as StatefulElement).state as ScrollableState)
+                      .position
+                      .axis ==
+                  Axis.vertical &&
+              (element.state as ScrollableState).position.maxScrollExtent > 0)
+            element,
+      ];
+      expect(scrollingAreas, hasLength(1));
 
-    expect(tester.widget<SelectableText>(find.byType(SelectableText)).data,
-        'Isi pengumuman p1.');
+      await scrollEverythingToEnd(tester);
+      expect(
+        tester.getRect(find.byType(SelectableText)).bottom,
+        lessThanOrEqualTo(navbarTop(tester)),
+      );
+    },
+  );
 
-    await tester.tap(find.text('Salin isi'));
-    await tester.pump();
+  testWidgets(
+    'isi bisa dipilih untuk disalin sebagian, dan "Salin isi" menyalin seluruh isi',
+    (tester) async {
+      String? copied;
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        (call) async {
+          if (call.method == 'Clipboard.setData') {
+            copied = (call.arguments as Map)['text'] as String?;
+          }
+          return null;
+        },
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          SystemChannels.platform,
+          null,
+        ),
+      );
 
-    expect(copied, 'Isi pengumuman p1.');
-    expect(find.text('Isi pengumuman disalin.'), findsOneWidget);
-  });
+      await openApp(tester);
+      await open(tester, 'p1');
+
+      expect(
+        tester.widget<SelectableText>(find.byType(SelectableText)).data,
+        'Isi pengumuman p1.',
+      );
+
+      await tester.tap(find.text('Salin isi'));
+      await tester.pump();
+
+      expect(copied, 'Isi pengumuman p1.');
+      expect(find.text('Isi pengumuman disalin.'), findsOneWidget);
+    },
+  );
 
   testWidgets('label jenis pengumuman tampil di atas judul', (tester) async {
     types['p1'] = 'INHALL';
@@ -251,7 +277,9 @@ void main() {
     await open(tester, 'p1');
 
     expect(find.text('Pendaftaran Inhal'), findsOneWidget);
-    expect(tester.getRect(find.text('Pendaftaran Inhal')).bottom,
-        lessThanOrEqualTo(tester.getRect(find.text('Judul p1')).top));
+    expect(
+      tester.getRect(find.text('Pendaftaran Inhal')).bottom,
+      lessThanOrEqualTo(tester.getRect(find.text('Judul p1')).top),
+    );
   });
 }

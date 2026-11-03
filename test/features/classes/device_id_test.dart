@@ -29,27 +29,29 @@ void main() {
     prefs = await SharedPreferences.getInstance();
     bodies = [];
     respond = () => http.Response(
-          jsonEncode({
-            'status': true,
-            'message': 'Berhasil',
-            'data': {'accessToken': 'a', 'refreshToken': 'r'},
-          }),
-          200,
-        );
+      jsonEncode({
+        'status': true,
+        'message': 'Berhasil',
+        'data': {'accessToken': 'a', 'refreshToken': 'r'},
+      }),
+      200,
+    );
   });
 
   ApiClient api() => ApiClient(
-        MockClient((request) async {
-          bodies.add(jsonDecode(request.body) as Map<String, dynamic>);
-          return respond();
-        }),
-        prefs,
-      );
+    MockClient((request) async {
+      bodies.add(jsonDecode(request.body) as Map<String, dynamic>);
+      return respond();
+    }),
+    prefs,
+  );
 
   group('login', () {
     test('kode HP ikut dikirim', () async {
-      await AuthenticationApiService(api(), FixedDeviceIdSource(phoneA))
-          .userLogin(const LoginModel(nim: '2000016099', password: 'rahasia'));
+      await AuthenticationApiService(
+        api(),
+        FixedDeviceIdSource(phoneA),
+      ).userLogin(const LoginModel(nim: '2000016099', password: 'rahasia'));
 
       expect(bodies.single, {
         'nim': '2000016099',
@@ -59,8 +61,10 @@ void main() {
     });
 
     test('kode HP tidak terbaca: login tetap dikirim tanpa kode', () async {
-      await AuthenticationApiService(api(), const FixedDeviceIdSource(null))
-          .userLogin(const LoginModel(nim: '2000016099', password: 'rahasia'));
+      await AuthenticationApiService(
+        api(),
+        const FixedDeviceIdSource(null),
+      ).userLogin(const LoginModel(nim: '2000016099', password: 'rahasia'));
 
       expect(bodies.single.containsKey('deviceId'), isFalse);
     });
@@ -69,31 +73,40 @@ void main() {
   group('scan QR', () {
     test('token QR dan kode HP dikirim bersama', () async {
       respond = () => http.Response(
-            jsonEncode({
-              'status': true,
-              'message': 'Presensi berhasil dicatat',
-              'data': {'meetingId': 'm1'},
-            }),
-            201,
-          );
+        jsonEncode({
+          'status': true,
+          'message': 'Presensi berhasil dicatat',
+          'data': {'meetingId': 'm1'},
+        }),
+        201,
+      );
 
-      await ClassesApiService(api(), FixedDeviceIdSource(phoneA))
-          .addUserAttendance(
-              classId: 'c1', meetingId: 'm1', meetingToken: 'QR123');
+      await ClassesApiService(
+        api(),
+        FixedDeviceIdSource(phoneA),
+      ).addUserAttendance(
+        classId: 'c1',
+        meetingId: 'm1',
+        meetingToken: 'QR123',
+      );
 
       expect(bodies.single, {'token': 'QR123', 'deviceId': phoneA});
     });
 
     test('HP sudah dipakai akun lain: pesan server diteruskan', () async {
       respond = () => http.Response(
-            jsonEncode({'status': false, 'message': deviceUsed}),
-            409,
-          );
+        jsonEncode({'status': false, 'message': deviceUsed}),
+        409,
+      );
 
-      final result = await ClassRepositoryImpl(
-        ClassesApiService(api(), FixedDeviceIdSource(phoneA)),
-      ).addUserAttendances(
-          classId: 'c1', meetingId: 'm1', meetingToken: 'QR123');
+      final result =
+          await ClassRepositoryImpl(
+            ClassesApiService(api(), FixedDeviceIdSource(phoneA)),
+          ).addUserAttendances(
+            classId: 'c1',
+            meetingId: 'm1',
+            meetingToken: 'QR123',
+          );
 
       expect(result.isLeft, isTrue);
       expect(result.left, isA<RequestFailures>());

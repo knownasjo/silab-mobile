@@ -11,12 +11,14 @@ class AddSelectedSubjectBloc
   final AddSelectedSubjectUseCase _addSelectedSubjectUseCase;
 
   AddSelectedSubjectBloc(this._addSelectedSubjectUseCase)
-      : super(AddSelectedSubjectInitial()) {
+    : super(AddSelectedSubjectInitial()) {
     on<AddSelectedSubjectButtonTapped>(onAddSelectedSubjectButtonTapped);
   }
 
-  void onAddSelectedSubjectButtonTapped(AddSelectedSubjectEvent event,
-      Emitter<AddSelectedSubjectState> emit) async {
+  void onAddSelectedSubjectButtonTapped(
+    AddSelectedSubjectEvent event,
+    Emitter<AddSelectedSubjectState> emit,
+  ) async {
     if (state is AddSelectedSubjectLoading) return;
 
     emit(AddSelectedSubjectLoading());
@@ -31,8 +33,11 @@ class AddSelectedSubjectBloc
             emit(AddSelectedSubjectSuccess(selectedSubjectEntity: right.data)),
       );
     } else {
-      emit(const AddSelectedSubjectFailed(
-          message: 'Selected Subject Data is null'));
+      emit(
+        const AddSelectedSubjectFailed(
+          message: 'Selected Subject Data is null',
+        ),
+      );
     }
   }
 }

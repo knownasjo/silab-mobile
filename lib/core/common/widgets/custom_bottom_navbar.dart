@@ -105,15 +105,18 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeInOut,
                           style: TextStyle(
-                            fontSize: widget.currentIndex ==
+                            fontSize:
+                                widget.currentIndex ==
                                     widget.items.indexOf(item)
                                 ? 14
                                 : 12,
-                            color: widget.currentIndex ==
+                            color:
+                                widget.currentIndex ==
                                     widget.items.indexOf(item)
                                 ? Colors.white
                                 : Colors.white70,
-                            fontWeight: widget.currentIndex ==
+                            fontWeight:
+                                widget.currentIndex ==
                                     widget.items.indexOf(item)
                                 ? FontWeight.bold
                                 : FontWeight.normal,

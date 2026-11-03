@@ -17,9 +17,7 @@ class ClassesApiService {
   Future<ClassesResponseEntity> getUserRegisteredClasses() async =>
       ClassesResponseEntity.fromJson(await _apiClient.get('/class/me'));
 
-  Future<MeetingsResponseEntity> getUserMeetingsData({
-    String? classId,
-  }) async =>
+  Future<MeetingsResponseEntity> getUserMeetingsData({String? classId}) async =>
       MeetingsResponseEntity.fromJson(
         await _apiClient.get('/meeting/$classId'),
       );
