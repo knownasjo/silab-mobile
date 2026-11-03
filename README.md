@@ -237,6 +237,22 @@ ulang, permintaan ke server sama (96 permintaan dalam 47 langkah), 10 kasus
 tombol kembali sama, dan presensi QR sungguhan tetap tercatat hadir dengan
 status BIASA.
 
+`flutter_svg` naik dari 2.1.0 ke 2.3.2, bersama `vector_graphics` 1.2.6
+(dari 1.1.18) dan `vector_graphics_compiler` 1.3.4 (dari 1.1.16) di
+`pubspec.lock`. Paket ini hanya dipakai untuk enam ikon menu bawah. Data
+gambar hasil terjemahan ketujuh file SVG di `assets/image` sama persis byte
+demi byte dengan versi lama. Sejak `vector_graphics` 1.1.20, `SvgPicture`
+tanpa `width` dan `height` tidak lagi dibungkus kotak seukuran gambarnya.
+Ikon menu bawah tidak terpengaruh karena `Column` di
+`custom_bottom_navbar.dart` hanya memberi batas maksimum; bila kelak
+`SvgPicture` dipasang di wadah yang memaksa ukuran minimum, beri `width` dan
+`height` agar ukurannya tetap. Diuji dengan cara yang sama: 216 tes widget dan
+6 tes live lulus dengan gambar akhir sama persis, APK baru yang dipasang di
+atas APK lama tetap masuk tanpa login ulang, permintaan ke server sama (96
+permintaan dalam 47 langkah), 10 kasus tombol kembali sama, dan presensi QR
+sungguhan tetap tercatat hadir dengan status BIASA. Di emulator, ikon menu
+bawah di 32 layar sama persis sampai tiap piksel.
+
 ## Akun uji
 
 | NIM | Password |
