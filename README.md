@@ -85,11 +85,10 @@ Gradle di bawah 8.14, AGP di bawah 8.11.1, atau Kotlin di bawah 2.2.20:
 Penyesuaian untuk AGP 9 mengikuti panduan resmi Flutter:
 
 - `android/gradle.properties` berisi `android.newDsl=false` dan
-  `android.builtInKotlin=false`, karena `flutter_udid`, `mobile_scanner`,
-  `shared_preferences_android`, dan `smart_auth` (dari `pinput`) belum
-  mendukung Kotlin bawaan AGP 9. Build menampilkan peringatan untuk keempat
-  plugin itu; peringatan hilang setelah plugin-plugin itu dinaikkan atau
-  dilepas.
+  `android.builtInKotlin=false`, karena `flutter_udid`, `mobile_scanner`, dan
+  `shared_preferences_android` belum mendukung Kotlin bawaan AGP 9. Build
+  menampilkan peringatan untuk ketiga plugin itu; peringatan hilang setelah
+  plugin-plugin itu dinaikkan.
 - Plugin `kotlin-android` dilepas dari `android/app/build.gradle` dan diganti
   blok `kotlin { compilerOptions { jvmTarget = JVM_17 } }`.
 - `buildFeatures { resValues = true }`, karena flavor memakai `resValue` untuk
@@ -117,10 +116,13 @@ Dua pengaturan menjaga aplikasi tetap bekerja seperti di Flutter 3.24:
   secara otomatis. Mode ketat sengaja tidak dimatikan lewat
   `gradle.properties` karena pengaturan itu dihapus di AGP 10.
 
-`flutter_local_notifications` mewajibkan *core library desugaring*, jadi
-fitur itu diaktifkan di `android/app/build.gradle`. Plugin Google Services
-(sisa FlutterFire) dilepas karena aplikasi tidak memakai Firebase dan
-`google-services.json` tidak ada.
+*Core library desugaring* di `android/app/build.gradle` tetap aktif. Dulu
+fitur ini dinyalakan untuk `flutter_local_notifications`, yang sudah dilepas,
+tetapi kode ML Kit, Google Play Services, CameraX, DataStore (penyimpanan
+`shared_preferences`), dan Flutter sendiri juga ikut diproses olehnya.
+Mematikannya akan mengubah kode pustaka-pustaka itu di setiap HP. Plugin
+Google Services (sisa FlutterFire) dilepas karena aplikasi tidak memakai
+Firebase dan `google-services.json` tidak ada.
 
 ### Flutter 3.47
 
@@ -191,6 +193,20 @@ lulus, gambar akhir tes widget sama kecuali selisih 1/255 tadi, dan di
 emulator isi kiriman login, pilihan kelas, dan pendaftaran sama persis,
 permintaan ke server sama (96 permintaan dalam 47 langkah), dan 10 kasus
 tombol kembali sama.
+
+Paket yang tidak pernah dipakai kode mana pun dilepas:
+`flutter_local_notifications`, `pinput`, dan `timer_count_down`, bersama enam
+paket turunannya (antara lain `smart_auth`, yang membawa pustaka Google
+Sign-In). Meta-data notifikasi Firebase di `AndroidManifest.xml` dan ikon
+`ic_notification` yang hanya dipakai meta-data itu ikut dihapus. Akibatnya
+aplikasi tidak lagi meminta izin `POST_NOTIFICATIONS` dan `VIBRATE` (di
+Android 13 ke atas entri izin Notifikasi SILAB tidak muncul lagi di pengaturan
+HP), APK sekitar 280 KB lebih kecil, dan pustaka yang dipakai pemindai QR tetap
+di versi yang sama. Diuji dengan cara yang sama: 216 tes widget dan 6 tes live
+lulus dengan gambar akhir sama persis, APK baru yang dipasang di atas APK lama
+tetap masuk tanpa login ulang, permintaan ke server sama (96 permintaan dalam
+47 langkah), 10 kasus tombol kembali sama, dan presensi QR sungguhan tetap
+tercatat hadir dengan status BIASA.
 
 ## Akun uji
 
@@ -872,10 +888,6 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - Aplikasi mengizinkan HTTP tanpa TLS (`usesCleartextTraffic` di Android,
   `NSAllowsArbitraryLoads` di iOS) karena backend lab berjalan di jaringan
   lokal. Untuk rilis publik, pakai HTTPS dan hapus pengecualian itu.
-- `flutter_local_notifications` terdaftar di `pubspec.yaml` tetapi belum
-  dipakai kode mana pun, begitu juga meta-data notifikasi Firebase di
-  `AndroidManifest.xml`. Bila notifikasi tidak direncanakan, hapus
-  keduanya; desugaring di `android/app/build.gradle` lalu bisa ikut dihapus.
 - Detail Kelas: tab "Classmates" menampilkan nama teman sekelas
   (`GET /class/:id/classmates`, diri sendiri ditandai "Anda"). Fitur modul
   praktikum tidak dikerjakan, jadi tab "Modul" dan widget "Segera Hadir"-nya
