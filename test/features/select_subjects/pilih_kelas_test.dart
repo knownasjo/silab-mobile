@@ -198,6 +198,11 @@ void main() {
   Finder radioOf(String classId) => find.byWidgetPredicate(
       (widget) => widget is Radio<String?> && widget.value == classId);
 
+  String? groupValueOf(WidgetTester tester, String classId) => tester
+      .widget<RadioGroup<String?>>(find.ancestor(
+          of: radioOf(classId), matching: find.byType(RadioGroup<String?>)))
+      .groupValue;
+
   Future<void> openConfirmation(WidgetTester tester) async {
     await tester.ensureVisible(pageSave());
     await tester.pumpAndSettle();
@@ -303,7 +308,7 @@ void main() {
     expect(find.text(confirmTitle), findsNothing);
     expect(find.text('Kelas A Basis Data sudah penuh!'), findsOneWidget);
     expect(find.text('30/30'), findsOneWidget);
-    expect(tester.widget<Radio<String?>>(radioOf('bd-a')).onChanged, isNull);
+    expect(tester.widget<Radio<String?>>(radioOf('bd-a')).enabled, isFalse);
     expect(canSave(tester), isFalse);
   });
 
@@ -321,7 +326,7 @@ void main() {
     await settle(tester);
 
     expect(find.text(bdA), findsNothing);
-    expect(tester.widget<Radio<String?>>(radioOf('jk-a')).groupValue, isNull);
+    expect(groupValueOf(tester, 'jk-a'), isNull);
     expect(canSave(tester), isFalse);
 
     await tapText(tester, bdB);
@@ -336,18 +341,18 @@ void main() {
     await openPage(tester);
 
     await tapText(tester, bdA);
-    expect(tester.widget<Radio<String?>>(radioOf('bd-a')).groupValue, 'bd-a');
+    expect(groupValueOf(tester, 'bd-a'), 'bd-a');
 
     await tester.tap(radioOf('bd-a'));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
-    expect(tester.widget<Radio<String?>>(radioOf('bd-a')).groupValue, isNull);
+    expect(groupValueOf(tester, 'bd-a'), isNull);
     expect(canSave(tester), isFalse);
 
     await tapText(tester, bdA);
     expect(canSave(tester), isTrue);
     await tapText(tester, bdA);
-    expect(tester.widget<Radio<String?>>(radioOf('bd-a')).groupValue, isNull);
+    expect(groupValueOf(tester, 'bd-a'), isNull);
     expect(canSave(tester), isFalse);
   });
 

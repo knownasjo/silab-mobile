@@ -117,7 +117,7 @@ class ClassCard extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.normal,
-            color: const Color(0xff1d1d1d).withOpacity(0.5),
+            color: const Color(0xff1d1d1d).withValues(alpha: 0.5),
           ),
         ),
         Text(

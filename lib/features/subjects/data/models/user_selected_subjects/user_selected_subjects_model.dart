@@ -3,7 +3,7 @@ import 'package:silab/features/subjects/domain/entities/subject/subject_entity.d
 
 part 'user_selected_subjects_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class UserSelectedSubjectsModel {
   final List<SubjectEntity>? subjects;
 

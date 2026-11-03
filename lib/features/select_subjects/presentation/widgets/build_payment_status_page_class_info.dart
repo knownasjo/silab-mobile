@@ -43,7 +43,7 @@ class BuildPaymentStatusPageClassInfo extends StatelessWidget {
           fontWeight: hasClass ? FontWeight.w600 : FontWeight.normal,
           color: hasClass
               ? const Color(0xff3272CA)
-              : const Color(0xff1d1d1d).withOpacity(0.6),
+              : const Color(0xff1d1d1d).withValues(alpha: 0.6),
         ),
       ),
     );

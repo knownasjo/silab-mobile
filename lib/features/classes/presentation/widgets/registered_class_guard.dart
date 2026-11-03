@@ -55,7 +55,7 @@ class _LeftClassNotice extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13,
-                color: const Color(0xff1d1d1d).withOpacity(0.6),
+                color: const Color(0xff1d1d1d).withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 16),

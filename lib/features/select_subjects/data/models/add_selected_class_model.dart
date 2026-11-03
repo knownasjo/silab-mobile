@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'add_selected_class_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class AddSelectedClassModel {
   final Map<String, String>? selectedClasses;
 

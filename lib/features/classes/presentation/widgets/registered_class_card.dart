@@ -21,9 +21,9 @@ class RegisteredClassCard extends StatelessWidget {
         extra: ClassDetailPageExtra(classEntity: classEntity!),
       ),
       borderRadius: BorderRadius.circular(16),
-      splashColor: const Color(0xffBFD9EF).withOpacity(0.5),
+      splashColor: const Color(0xffBFD9EF).withValues(alpha: 0.5),
       highlightColor: Colors.white,
-      hoverColor: const Color(0xffBFD9EF).withOpacity(0.5),
+      hoverColor: const Color(0xffBFD9EF).withValues(alpha: 0.5),
       child: Container(
         width: double.infinity,
         constraints: const BoxConstraints(minHeight: 120),
@@ -124,7 +124,8 @@ class RegisteredClassCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
-                            color: const Color(0xff1d1d1d).withOpacity(0.5),
+                            color:
+                                const Color(0xff1d1d1d).withValues(alpha: 0.5),
                           ),
                         ),
                         Text(
@@ -149,7 +150,8 @@ class RegisteredClassCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
-                            color: const Color(0xff1d1d1d).withOpacity(0.5),
+                            color:
+                                const Color(0xff1d1d1d).withValues(alpha: 0.5),
                           ),
                         ),
                         Text(

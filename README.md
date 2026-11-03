@@ -164,6 +164,34 @@ atas APK lama tetap masuk tanpa login ulang. Permintaan ke server sama persis
 (96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama, dan snackbar
 "Ulangi" tampil sekitar 3 detik seperti dulu.
 
+Setelah itu catatan `flutter analyze` dibersihkan dari 33 menjadi 0:
+
+- `withOpacity(x)` diganti `withValues(alpha: x)` di 19 tempat. Tingkat
+  transparan kini dipakai apa adanya, tidak dibulatkan dulu ke 1/255, jadi
+  sebagian piksel warna transparan bergeser paling banyak 1 dari 255 tingkat
+  (misalnya lingkaran kelas penuh dari abu-abu 193 menjadi 194). Selisih ini
+  tidak terlihat mata.
+- Pilihan kelas di Pilih Kelas (`class_option_list.dart`) memakai
+  `RadioGroup`, karena `groupValue` dan `onChanged` di `Radio` sudah usang;
+  kelas penuh dikunci dengan `enabled: !isFull`. Memilih, membatalkan dengan
+  ketuk ulang, dan kelas penuh tetap sama, dan TalkBack membacakan halaman ini
+  sama persis, baik saat disentuh maupun saat digeser.
+- `dialogBackgroundColor` di `main.dart` dan `main_dev.dart` diganti
+  `dialogTheme: DialogThemeData(backgroundColor: Colors.white)`. Semua dialog
+  yang dipakai menentukan warnanya sendiri, jadi tampilannya tidak berubah.
+- Model yang hanya dikirim ke server (`LoginModel`, `AddSelectedClassModel`,
+  `AddSelectedSubjectModel`, `UserSelectedSubjectsModel`) memakai
+  `@JsonSerializable(createFactory: false)`, sehingga fungsi `fromJson` yang
+  tidak pernah dipakai tidak dibuat lagi di file `.g.dart`.
+- Parameter generik `Type` di `UseCase` diganti `Result` agar tidak sama
+  dengan tipe bawaan Dart.
+
+Perubahan ini diuji dengan cara yang sama: 216 tes widget dan 6 tes live
+lulus, gambar akhir tes widget sama kecuali selisih 1/255 tadi, dan di
+emulator isi kiriman login, pilihan kelas, dan pendaftaran sama persis,
+permintaan ke server sama (96 permintaan dalam 47 langkah), dan 10 kasus
+tombol kembali sama.
+
 ## Akun uji
 
 | NIM | Password |
@@ -666,6 +694,14 @@ dart run build_runner build --delete-conflicting-outputs
 
 Jangan menggabungkan `--build-filter` dengan `--delete-conflicting-outputs`:
 file generate milik entity lain ikut terhapus.
+
+Sejak Flutter 3.47, `pubspec.lock` memakai `freezed` 2.5.2 dan
+`json_serializable` 6.8.0: versi yang lebih baru dalam batas `pubspec.yaml`
+memakai `analyzer` 7, yang gagal membaca sintaks baru Dart di dalam Flutter
+3.47. Karena itu perintah di atas menulis ulang semua file `.freezed.dart`
+dengan gaya `freezed` 2.5.2 (tanpa komentar dokumentasi dan dengan
+`@JsonKey(ignore: true)`), dengan fungsi yang sama. File `.g.dart` tidak
+berubah.
 
 ## Tes
 

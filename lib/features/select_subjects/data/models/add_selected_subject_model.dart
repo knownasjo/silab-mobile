@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'add_selected_subject_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class AddSelectedSubjectModel {
   final String nim;
   final List<String> subjects;
