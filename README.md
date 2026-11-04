@@ -320,6 +320,25 @@ langkah), 10 kasus tombol kembali sama, huruf Manrope tetap terunduh dan
 tersimpan sama, dan presensi QR sungguhan tetap tercatat hadir dengan status
 BIASA dan kode perangkat yang sama.
 
+`xml` naik dari 6.5.0 ke 7.0.1 dan `petitparser` dari 6.0.2 ke 7.1.0 di
+`pubspec.lock`. Keduanya hanya dipakai `vector_graphics_compiler` dari
+`flutter_svg` untuk membaca file SVG ikon menu bawah saat aplikasi berjalan.
+`xml` 7.1.0 sudah ada, tetapi `vector_graphics_compiler` 1.3.4 hanya
+mengizinkan sampai 7.0.1. Perubahan pembacaan di versi baru hanya satu: nama
+tag dan atribut kini boleh berisi huruf di luar U+FFFF, misalnya emoji, sesuai
+standar XML, sedangkan ikon SILAB hanya berisi huruf ASCII. Hasil baca versi
+lama dan baru dibandingkan langsung: 8.089 file SVG yang ada di laptop
+menghasilkan data gambar yang sama persis, setiap huruf Unicode di 12 posisi
+dibaca sama kecuali di nama tadi, dan 34.391 dari 250.000 dokumen acak yang
+bisa digambar versi lama hasilnya sama persis di versi baru. Ukuran APK baru
+sama sampai ke byte; yang berbeda hanya kode Dart dan tahun hak cipta `xml`
+dan `petitparser` di daftar lisensi. Diuji dengan cara yang sama: 216 tes
+widget dan 6 tes live lulus dengan gambar akhir sama persis, APK baru yang
+dipasang di atas APK lama tetap masuk tanpa login ulang, permintaan ke server
+sama (96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu
+bawah di 32 layar sama persis sampai tiap piksel, dan presensi QR sungguhan
+tetap tercatat hadir dengan status BIASA.
+
 ## Akun uji
 
 | NIM | Password |
