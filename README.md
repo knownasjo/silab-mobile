@@ -272,6 +272,25 @@ atas APK lama tetap masuk tanpa login ulang, permintaan ke server sama (96
 permintaan dalam 47 langkah), 10 kasus tombol kembali sama, dan presensi QR
 sungguhan tetap tercatat hadir dengan status BIASA.
 
+`path_provider` naik dari 2.1.5 ke 2.1.6, bersama `path_provider_android`
+2.3.1 (dari 2.2.15), `path_provider_platform_interface` 2.1.3,
+`path_provider_linux` 2.2.2, dan `path_provider_foundation` 2.5.1 (khusus iOS
+dan macOS) di `pubspec.lock`, ditambah paket baru `jni_flutter` 1.0.4+1. Kode
+SILAB tidak memakai paket ini secara langsung; satu-satunya pemakainya di
+Android adalah `google_fonts`, yang menyimpan huruf Manrope hasil unduhan di
+folder `files` milik aplikasi. Plugin Android-nya kini berupa kode Dart yang
+memanggil Android lewat JNI tanpa kode Java, dan folder itu tetap diambil dari
+`getFilesDir()` seperti sebelumnya. APK menjadi 16 KB lebih kecil. Di
+emulator, APK baru yang dipasang di atas APK lama saat HP tanpa internet tetap
+menampilkan Manrope dari file yang sudah tersimpan, dan layar Masuk sama persis
+dengan APK lama. File huruf tidak diunduh ulang setelah internet tersambung
+lagi, dan pemasangan baru mengunduh file yang sama ke folder yang sama. Diuji
+dengan cara yang sama: 216 tes widget dan 6 tes live lulus dengan gambar akhir
+sama persis, APK baru yang dipasang di atas APK lama tetap masuk tanpa login
+ulang, permintaan ke server sama (96 permintaan dalam 47 langkah), 10 kasus
+tombol kembali sama, dan presensi QR sungguhan tetap tercatat hadir dengan
+status BIASA.
+
 ## Akun uji
 
 | NIM | Password |
