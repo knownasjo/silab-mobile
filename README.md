@@ -291,6 +291,18 @@ ulang, permintaan ke server sama (96 permintaan dalam 47 langkah), 10 kasus
 tombol kembali sama, dan presensi QR sungguhan tetap tercatat hadir dengan
 status BIASA.
 
+Alat pengembangan juga naik di `pubspec.lock`: `build_daemon` 4.1.7,
+`pubspec_parse` 1.7.0, `shelf_web_socket` 3.0.0, `vm_service` 15.4.0,
+`boolean_selector` 2.1.2, `built_collection` 5.1.2, `checked_yaml` 2.0.4, dan
+`http_multi_server` 3.2.3. Paket ini hanya dipakai `build_runner` dan tes,
+tidak masuk ke aplikasi. `build_runner build` dari nol menghasilkan 78 file
+generate yang sama persis, 216 tes widget dan 6 tes live lulus dengan gambar
+akhir sama persis, dan APK yang dibangun dari folder yang sama isinya identik
+byte demi byte dengan APK sebelumnya (tanda tangan v2 sama). Yang berbeda hanya
+blok info dependensi terenkripsi dari Gradle, yang memang berubah di setiap
+build. Folder build ikut menentukan isi `libapp.so`, karena Dart menyimpan
+alamat file `dart_plugin_registrant.dart` hasil build.
+
 ## Akun uji
 
 | NIM | Password |
