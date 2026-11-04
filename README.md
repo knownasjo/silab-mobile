@@ -303,6 +303,23 @@ blok info dependensi terenkripsi dari Gradle, yang memang berubah di setiap
 build. Folder build ikut menentukan isi `libapp.so`, karena Dart menyimpan
 alamat file `dart_plugin_registrant.dart` hasil build.
 
+Paket Dart kecil yang ikut masuk ke aplikasi juga naik di `pubspec.lock`:
+`async` 2.13.1, `crypto` 3.0.8, `http_parser` 4.1.2, `string_scanner` 1.4.1,
+`source_span` 1.10.2, `term_glyph` 1.2.2, `platform` 3.2.0, dan `web` 1.1.2,
+ditambah `shelf` 1.4.3 untuk alat pengembangan. `crypto` dipakai
+`flutter_udid` untuk membentuk kode perangkat presensi (SHA-256 dari
+ANDROID_ID) dan dipakai `google_fonts` untuk memeriksa file huruf. Cara hitung
+SHA-256 di versi baru ditulis ulang agar lebih cepat; hasilnya sama persis
+dengan versi lama untuk 3.353 masukan uji dan cocok dengan vektor uji NIST
+serta `shasum`. Di `http_parser`, yang berubah hanya pembacaan nilai header
+bertanda kutip; header `application/json; charset=utf-8` dari backend tetap
+dibaca sama. Diuji dengan cara yang sama: 216 tes widget dan 6 tes live lulus
+dengan gambar akhir sama persis, APK baru yang dipasang di atas APK lama tetap
+masuk tanpa login ulang, permintaan ke server sama (96 permintaan dalam 47
+langkah), 10 kasus tombol kembali sama, huruf Manrope tetap terunduh dan
+tersimpan sama, dan presensi QR sungguhan tetap tercatat hadir dengan status
+BIASA dan kode perangkat yang sama.
+
 ## Akun uji
 
 | NIM | Password |
