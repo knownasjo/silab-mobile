@@ -383,6 +383,32 @@ langkah), 10 kasus tombol kembali sama, ikon menu bawah di 32 layar sama
 persis sampai tiap piksel, dan presensi QR sungguhan tetap tercatat hadir
 dengan status BIASA dan kode perangkat yang sama.
 
+`equatable` naik dari 2.1.0 ke 3.0.0 di `pubspec.yaml` dan `pubspec.lock`.
+`equatable` dipakai 194 kelas state dan event bloc serta empat entitas
+(`AssistedClassEntity`, `PasswordResetEntity`, `RealtimeEventEntity`, dan
+`RegistrationEntity`) untuk membandingkan isi objek, misalnya agar bloc tidak
+memperbarui layar kalau state barunya sama dengan state lama. Versi 3 membawa
+tiga perubahan. `EquatableMixin` dihapus, dan aplikasi tidak memakainya. Di
+build rilis, `toString()` kini menghasilkan `Instance of 'NamaKelas'`, bukan
+`NamaKelas` (di mode debug dan tes tetap menampilkan isi `props`); aplikasi
+tidak pernah menampilkan atau mencatat `toString()` objek-objek ini, dan 216
+tes widget yang dijalankan dengan `toString()` versi rilis memberi gambar
+akhir sama persis dengan versi lama. Perbandingan isi `props` tidak lagi
+langsung menolak dua nilai yang jenisnya berbeda sebelum memanggil `==`,
+tetapi semua isi `props` di aplikasi berupa teks, angka, `bool`, list, entitas
+freezed, model, dan entitas `Equatable` lain yang `==`-nya sendiri sudah
+membedakan jenis, sehingga hasilnya sama. Perbandingan di tingkat objek tetap
+memeriksa jenis kelas, dan `hashCode` tidak berubah. Ukuran APK baru sama
+sampai ke byte, dan yang berbeda hanya kode Dart. Diuji dengan cara yang sama:
+216 tes widget dan 6 tes live lulus dengan gambar akhir sama persis, APK baru
+yang dipasang di atas APK lama tetap masuk tanpa login ulang, isi
+`FlutterSharedPreferences.xml` sama dengan versi lama setelah login, setelah
+update, dan setelah keluar, huruf Manrope tetap dibaca dari file yang sama
+tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47 langkah),
+10 kasus tombol kembali sama, ikon menu bawah di 32 layar sama persis sampai
+tiap piksel, dan presensi QR sungguhan tetap tercatat hadir dengan status
+BIASA dan kode perangkat yang sama.
+
 ## Akun uji
 
 | NIM | Password |
