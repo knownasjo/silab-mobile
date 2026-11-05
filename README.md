@@ -339,6 +339,28 @@ sama (96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu
 bawah di 32 layar sama persis sampai tiap piksel, dan presensi QR sungguhan
 tetap tercatat hadir dengan status BIASA.
 
+`jni` naik dari 1.1.1 ke 1.1.2 dan `package_config` dari 2.2.0 ke 3.0.0 di
+`pubspec.lock`. `jni` adalah jembatan Dart ke Android yang dipakai
+`shared_preferences_android` untuk menyimpan token login dan
+`path_provider_android` untuk folder huruf Manrope. Versi baru hanya
+memperbaiki satu jalur galat: kalau sebuah objek JNI dilepas dua kali atau
+dipakai setelah dilepas, build rilis versi lama langsung crash, sedangkan
+versi baru melempar galat biasa. Jalur normal tidak berubah, dan kode C serta
+Java-nya sama persis. `package_config` hanya dipakai alat pengembangan seperti
+`build_runner` dan `analyzer`; APK yang dibangun dengan versi barunya saja
+identik byte demi byte dengan APK sebelumnya, dan `build_runner build` dari
+nol tetap menghasilkan 78 file generate yang sama persis. Di APK baru, selain
+kode Dart, yang berbeda hanya 20 byte penanda build di `libdartjni.so`, karena
+nama folder sumber `jni` di cache pub ikut berganti. Diuji dengan cara yang
+sama: 216 tes widget dan 6 tes live lulus dengan gambar akhir sama persis, APK
+baru yang dipasang di atas APK lama tetap masuk tanpa login ulang, isi
+`FlutterSharedPreferences.xml` sama dengan versi lama setelah login, setelah
+update, dan setelah keluar, huruf Manrope tetap dibaca dari file yang sama
+tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47 langkah),
+10 kasus tombol kembali sama, ikon menu bawah di 32 layar sama persis sampai
+tiap piksel, dan presensi QR sungguhan tetap tercatat hadir dengan status
+BIASA dan kode perangkat yang sama.
+
 ## Akun uji
 
 | NIM | Password |
