@@ -434,6 +434,25 @@ tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47 langkah),
 tiap piksel, dan presensi QR sungguhan tetap tercatat hadir dengan status
 BIASA dan kode perangkat yang sama.
 
+`get_it` naik dari 7.7.0 ke 9.3.0 di `pubspec.yaml` dan `pubspec.lock`.
+`get_it` hanya dipakai di `lib/injector.dart` untuk mendaftarkan 55 objek
+tunggal (`registerSingleton`) dan 24 pembuat objek (`registerFactory`), lalu
+objeknya diambil dengan `injector()`. Perubahan besar di versi 8 dan 9 ada di
+bagian yang tidak dipakai SILAB: urutan `dispose` saat `reset` atau
+`popScope`, pengaman scope, `releaseInstance`, `allReady`, pemeriksaan
+`param1` dan `param2` di mode debug, serta ekstensi DevTools yang baru aktif
+kalau `debugEventsEnabled` dinyalakan. Cara mendaftarkan dan mengambil objek
+yang dipakai SILAB tetap sama. Ukuran APK baru sama sampai ke byte, dan yang
+berbeda hanya kode Dart. Diuji dengan cara yang sama: 216 tes widget dan 6 tes
+live lulus dengan gambar akhir sama persis, APK baru yang dipasang di atas APK
+lama tetap masuk tanpa login ulang, isi `FlutterSharedPreferences.xml` sama
+dengan versi lama setelah login, setelah update, dan setelah keluar, huruf
+Manrope tetap dibaca dari file yang sama tanpa unduh ulang, permintaan ke
+server sama (96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama,
+ikon menu bawah di 32 layar sama persis sampai tiap piksel, dan presensi QR
+sungguhan tetap tercatat hadir dengan status BIASA dan kode perangkat yang
+sama.
+
 ## Akun uji
 
 | NIM | Password |
