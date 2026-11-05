@@ -361,6 +361,28 @@ tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47 langkah),
 tiap piksel, dan presensi QR sungguhan tetap tercatat hadir dengan status
 BIASA dan kode perangkat yang sama.
 
+`ffi` naik dari 2.1.3 ke 2.2.0 di `pubspec.lock`. Di Android, `ffi` dipakai
+`jni` untuk memesan dan melepas memori serta mengubah teks antara Dart dan
+kode asli saat menyimpan token login dan mencari folder huruf Manrope; pemakai
+lainnya, `path_provider_linux` dan `path_provider_windows`, hanya berjalan di
+desktop. Isi versi baru hanya perapian: tata letak baris, nama parameter di
+tipe fungsi, dua nama kelas yang kini ikut diekspor (`CallocAllocator` dan
+`MallocAllocator`), dan satu salah ketik di dokumentasi; cara kerjanya tidak
+berubah. `path_provider_foundation` 2.6.0 dan `shared_preferences_foundation`
+2.6.1 sudah ada, tetapi sengaja belum dinaikkan. Keduanya hanya untuk iOS dan
+macOS, dan versi barunya membawa `objective_c` yang hook bangunnya ikut
+berjalan di setiap `flutter test` di Mac dan memerlukan Xcode yang lisensinya
+sudah disetujui, sehingga keduanya ditunda sampai versi iOS dikerjakan. Ukuran
+APK baru sama sampai ke byte, dan yang berbeda hanya kode Dart. Diuji dengan
+cara yang sama: 216 tes widget dan 6 tes live lulus dengan gambar akhir sama
+persis, APK baru yang dipasang di atas APK lama tetap masuk tanpa login ulang,
+isi `FlutterSharedPreferences.xml` sama dengan versi lama setelah login,
+setelah update, dan setelah keluar, huruf Manrope tetap dibaca dari file yang
+sama tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47
+langkah), 10 kasus tombol kembali sama, ikon menu bawah di 32 layar sama
+persis sampai tiap piksel, dan presensi QR sungguhan tetap tercatat hadir
+dengan status BIASA dan kode perangkat yang sama.
+
 ## Akun uji
 
 | NIM | Password |
