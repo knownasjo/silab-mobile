@@ -85,10 +85,10 @@ Gradle di bawah 8.14, AGP di bawah 8.11.1, atau Kotlin di bawah 2.2.20:
 Penyesuaian untuk AGP 9 mengikuti panduan resmi Flutter:
 
 - `android/gradle.properties` berisi `android.newDsl=false` dan
-  `android.builtInKotlin=false`, karena `flutter_udid`, `mobile_scanner`, dan
-  `shared_preferences_android` belum mendukung Kotlin bawaan AGP 9. Build
-  menampilkan peringatan untuk ketiga plugin itu; peringatan hilang setelah
-  plugin-plugin itu dinaikkan.
+  `android.builtInKotlin=false`, karena `flutter_udid` belum mendukung Kotlin
+  bawaan AGP 9. Build menampilkan peringatan untuk plugin itu. Peringatan untuk
+  `shared_preferences_android` hilang sejak versi 2.5.4, dan untuk
+  `mobile_scanner` sejak versi 7.4.1.
 - Plugin `kotlin-android` dilepas dari `android/app/build.gradle` dan diganti
   blok `kotlin { compilerOptions { jvmTarget = JVM_17 } }`.
 - `buildFeatures { resValues = true }`, karena flavor memakai `resValue` untuk
@@ -483,6 +483,35 @@ halaman di dalam tab, misalnya Detail Kelas → tab Jadwal → kembali, padahal 
 versi sekarang langkah itu menutup aplikasi
 ([flutter#193098](https://github.com/flutter/flutter/issues/193098)).
 Perbaikan masalah kedua belum ada di `go_router` 18.1.3.
+
+`mobile_scanner` naik dari 6.0.11 ke 7.5.0 di `pubspec.yaml` dan
+`pubspec.lock`. Versi 7 menghapus argumen ketiga `errorBuilder` yang tidak
+terpakai, sehingga `errorBuilder` di `qr_scan_page.dart` kini hanya menerima
+`context` dan `error`. Tiruan kamera di
+`test/features/classes/class_detail_test.dart` ditambah saluran
+`dev.steenbakker.mobile_scanner/scanner/deviceOrientation` dan empat data yang
+kini dikirim plugin Android saat kamera menyala (`naturalDeviceOrientation`,
+`handlesCropAndRotation`, `sensorOrientation`, dan `cameraDirection`). Di
+Android, CameraX naik dari 1.5.0 ke 1.6.1, ML Kit tetap 18.3.1 dari Google
+Play Services (`useUnbundled=true`), dan gambar yang dianalisis ML Kit kini
+berukuran sekitar 1920×1080, sebelumnya ukuran bawaan CameraX sekitar 640×480.
+APK bertambah sekitar 0,36 MB. Batas bingkai pindai tetap sama: QR yang
+seluruhnya berada di dalam bingkai kuning terbaca, sedangkan QR yang keluar
+sebagian atau berada di luar bingkai tidak terbaca. Satu perbedaan tampilan:
+setelah izin kamera ditolak lalu Coba lagi ditekan, latar di belakang dialog
+izin Android kini halaman scan yang terang, bukan layar hitam pesan izin
+ditolak, karena versi 7 mengosongkan galat selama kamera dinyalakan ulang.
+Setelah dialog dijawab, tampilannya sama seperti dulu. Diuji dengan cara yang
+sama: 216 tes widget dan 6 tes live lulus dengan gambar akhir sama persis, APK
+baru yang dipasang di atas APK lama tetap masuk tanpa login ulang, isi
+`FlutterSharedPreferences.xml` sama dengan versi lama setelah login, setelah
+update, dan setelah keluar, huruf Manrope tetap dibaca dari file yang sama
+tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47 langkah),
+10 kasus tombol kembali sama, ikon menu bawah di 32 layar sama persis sampai
+tiap piksel, alur izin kamera (ditolak sekali, ditolak dua kali, lalu
+diizinkan) berakhir sama, dan presensi QR sungguhan tetap tercatat hadir
+dengan status BIASA dan kode perangkat yang sama, termasuk saat QR berada di
+dekat pojok bingkai.
 
 ## Akun uji
 

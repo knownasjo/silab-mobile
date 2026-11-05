@@ -43,6 +43,9 @@ const scannerMethods = MethodChannel(
 const scannerEvents = EventChannel(
   'dev.steenbakker.mobile_scanner/scanner/event',
 );
+const scannerOrientation = EventChannel(
+  'dev.steenbakker.mobile_scanner/scanner/deviceOrientation',
+);
 const longLecturer = 'Dr. Ir. Budi Santoso Wibowo, S.T., M.Kom., IPM.';
 const longTitle = 'Normalisasi Basis Data dan Desain Skema Lanjut 01';
 const offline = 'Tidak dapat terhubung ke server. Periksa koneksi internet.';
@@ -150,8 +153,12 @@ void main() {
         'start' => {
           'textureId': 1,
           'size': {'width': 640.0, 'height': 480.0},
+          'naturalDeviceOrientation': 'PORTRAIT_UP',
+          'handlesCropAndRotation': true,
+          'sensorOrientation': 90,
           'numberOfCameras': 1,
           'currentTorchState': 0,
+          'cameraDirection': 1,
         },
         _ => null,
       };
@@ -160,9 +167,14 @@ void main() {
       scannerEvents,
       MockStreamHandler.inline(onListen: (_, __) {}),
     );
+    messenger.setMockStreamHandler(
+      scannerOrientation,
+      MockStreamHandler.inline(onListen: (_, __) {}),
+    );
     addTearDown(() {
       messenger.setMockMethodCallHandler(scannerMethods, null);
       messenger.setMockStreamHandler(scannerEvents, null);
+      messenger.setMockStreamHandler(scannerOrientation, null);
     });
 
     final api = ApiClient(MockClient(backend), prefs);

@@ -191,7 +191,7 @@ class _QrScanPageState extends State<QrScanPage> {
               MobileScanner(
                 controller: _controller,
                 onDetect: _handleBarcode,
-                errorBuilder: (context, error, _) => _buildCameraError(error),
+                errorBuilder: (context, error) => _buildCameraError(error),
                 scanWindow: Rect.fromCenter(
                   center: Offset(
                     MediaQuery.of(context).size.width / 2,
