@@ -453,6 +453,37 @@ ikon menu bawah di 32 layar sama persis sampai tiap piksel, dan presensi QR
 sungguhan tetap tercatat hadir dengan status BIASA dan kode perangkat yang
 sama.
 
+`intl` naik dari 0.19.0 ke 0.20.3 di `pubspec.yaml` dan `pubspec.lock`. `intl`
+hanya dipakai di `lib/core/helpers/currency_formatter.dart`: `formatRupiah`
+menulis harga dengan `NumberFormat.decimalPattern('id_ID')`, misalnya
+`Rp5.000`. Perubahan di versi 0.20 berupa data bahasa CLDR 48, tipe yang lebih
+ketat untuk tabel simbol, simbol baru Lira Turki dan Cedi Ghana, perbaikan
+penanda AM/PM, dan pembacaan nama lokal yang memuat kode aksara seperti
+`zh-Hans-CN`. Data angka bahasa Indonesia (`id`) sama persis: pemisah ribuan
+titik, desimal koma, dan pola `#,##0.###`. `id_ID` juga tetap dibaca sebagai
+`id`, sehingga hasil `formatRupiah` tidak berubah. `timeago` memakai `intl`
+hanya untuk pesan bahasa Burma, sedangkan SILAB memakai pesan bahasa Indonesia
+milik `timeago`. Ukuran APK baru sama sampai ke byte, dan yang berbeda hanya
+kode Dart. Diuji dengan cara yang sama: 216 tes widget dan 6 tes live lulus
+dengan gambar akhir sama persis, APK baru yang dipasang di atas APK lama tetap
+masuk tanpa login ulang, isi `FlutterSharedPreferences.xml` sama dengan versi
+lama setelah login, setelah update, dan setelah keluar, huruf Manrope tetap
+dibaca dari file yang sama tanpa unduh ulang, permintaan ke server sama (96
+permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu bawah di
+32 layar sama persis sampai tiap piksel, dan presensi QR sungguhan tetap
+tercatat hadir dengan status BIASA dan kode perangkat yang sama.
+
+`go_router` sengaja tetap di 14.8.1. `go_router` 18 mengambil halaman Material
+dari paket baru `material_ui`, bukan dari `package:flutter/material.dart` yang
+dipakai SILAB, sehingga `MaterialApp` SILAB tidak dikenali dan semua halaman
+berpindah tanpa animasi
+([flutter#192761](https://github.com/flutter/flutter/issues/192761)). Selain
+itu, sejak versi 16.2.3 tombol kembali tidak bereaksi setelah pindah tab dari
+halaman di dalam tab, misalnya Detail Kelas → tab Jadwal → kembali, padahal di
+versi sekarang langkah itu menutup aplikasi
+([flutter#193098](https://github.com/flutter/flutter/issues/193098)).
+Perbaikan masalah kedua belum ada di `go_router` 18.1.3.
+
 ## Akun uji
 
 | NIM | Password |
