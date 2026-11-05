@@ -409,6 +409,31 @@ tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47 langkah),
 tiap piksel, dan presensi QR sungguhan tetap tercatat hadir dengan status
 BIASA dan kode perangkat yang sama.
 
+`flutter_bloc` naik dari 8.1.6 ke 9.1.1 di `pubspec.yaml` dan `pubspec.lock`,
+bersama `bloc` dari 8.1.4 ke 9.2.1. Keduanya menjadi dasar 23 bloc di aplikasi
+beserta `BlocProvider`, `BlocBuilder`, `BlocListener`, dan `BlocConsumer`.
+Sebagian besar perubahan versi 9 ada di bagian yang tidak dipakai SILAB:
+`BlocOverrides` dihapus, `RepositoryProvider` kini bisa diberi `dispose`,
+`BlocSelector` menghitung ulang `selector` yang berganti, dan antarmuka
+`EmittableStateStreamableSource` ditambahkan. Kait baru `onDone` dan
+`MultiBlocObserver` secara bawaan tidak melakukan apa-apa. `isClosed` kini
+sudah bernilai `true` sejak bloc mulai ditutup, tetapi nilai ini tidak dibaca
+aplikasi maupun `flutter_bloc`, dan pemeriksaan di `emit` tetap sama.
+`BlocListener`, yang juga dipakai `BlocBuilder` dan `BlocConsumer`, kini tidak
+memanggil listener kalau widgetnya sudah dilepas; langganan state sudah
+diputus saat widget dilepas, jadi tidak ada panggilan yang hilang. Di dalam
+APK, selain kode Dart, yang berubah hanya teks lisensi di `NOTICES.Z` (tahun
+hak cipta `bloc` dan `flutter_bloc`), yang tidak ditampilkan di aplikasi,
+sehingga ukuran APK bertambah 20 byte. Diuji dengan cara yang sama: 216 tes
+widget dan 6 tes live lulus dengan gambar akhir sama persis, APK baru yang
+dipasang di atas APK lama tetap masuk tanpa login ulang, isi
+`FlutterSharedPreferences.xml` sama dengan versi lama setelah login, setelah
+update, dan setelah keluar, huruf Manrope tetap dibaca dari file yang sama
+tanpa unduh ulang, permintaan ke server sama (96 permintaan dalam 47 langkah),
+10 kasus tombol kembali sama, ikon menu bawah di 32 layar sama persis sampai
+tiap piksel, dan presensi QR sungguhan tetap tercatat hadir dengan status
+BIASA dan kode perangkat yang sama.
+
 ## Akun uji
 
 | NIM | Password |
