@@ -130,8 +130,7 @@ Sejak 3 November 2026 aplikasi memakai Flutter 3.47.9 (sebelumnya 3.24.5).
 Selain konfigurasi Android di atas, yang berubah:
 
 - `skeletonizer` naik dari 1.4 ke 2.1.3 karena 1.x tidak bisa di-compile
-  dengan Flutter 3.47. Versi 3 sengaja belum dipakai karena warna kerangka
-  memuat akan mengikuti mode gelap HP.
+  dengan Flutter 3.47, lalu ke 3.0.0 (dijelaskan di bawah).
 - `flutter_udid` naik dari 4.0.0 ke 4.1.6 (lihat "Satu HP satu akun per
   pertemuan"), dan `google_fonts` dari 6.3.0 ke 6.3.3 di `pubspec.lock`;
   file huruf Manrope di dalamnya sama persis.
@@ -512,6 +511,32 @@ tiap piksel, alur izin kamera (ditolak sekali, ditolak dua kali, lalu
 diizinkan) berakhir sama, dan presensi QR sungguhan tetap tercatat hadir
 dengan status BIASA dan kode perangkat yang sama, termasuk saat QR berada di
 dekat pojok bingkai.
+
+`skeletonizer` naik dari 2.1.3 ke 3.0.0 di `pubspec.yaml` dan `pubspec.lock`.
+Versi 3 memilih warna kerangka memuat dari mode terang atau gelap HP,
+sedangkan versi 2 memilihnya dari tema aplikasi. Tema SILAB selalu terang,
+sehingga tanpa pengaturan tambahan HP yang memakai mode gelap akan menampilkan
+kerangka abu-abu tua di atas halaman putih. Sesuai petunjuk resmi
+`skeletonizer` untuk aplikasi yang temanya berbeda dari mode HP,
+`MaterialApp.router` di `main.dart` dan `main_dev.dart` kini punya `builder`
+yang membungkus semua halaman dengan `SkeletonizerConfig`, dan `brightness` di
+dalamnya diisi `Theme.of(context).brightness`. Dengan begitu kerangka tetap
+abu-abu muda seperti dulu. Perubahan lain di versi 3 tidak menyentuh SILAB:
+`SkeletonizerConfigData` tidak lagi dipasang lewat `ThemeData.extensions`,
+`SkeletonizerConfigData.light()` dan `SkeletonizerConfigData.dark()` dihapus,
+dan `Bone.button()` tidak lagi membaca tema tombol Material. Di dalamnya,
+`skeletonizer` kini memakai `package:flutter/widgets.dart`, bukan
+`package:flutter/material.dart`. Ukuran APK sama sampai ke byte, dan yang
+berbeda hanya kode Dart. Diuji dengan cara yang sama: 216 tes widget dan 6 tes
+live lulus dengan gambar akhir sama persis, APK baru yang dipasang di atas APK
+lama tetap masuk tanpa login ulang, isi `FlutterSharedPreferences.xml` sama
+dengan versi lama setelah login, setelah update, dan setelah keluar, huruf
+Manrope tetap dibaca dari file yang sama tanpa unduh ulang, permintaan ke
+server sama (96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama,
+ikon menu bawah di 32 layar sama persis sampai tiap piksel, kerangka memuat di
+Beranda, Jadwal, Profil, dan Daftar Praktikum tetap abu-abu muda dalam mode
+terang maupun mode gelap HP, dan presensi QR sungguhan tetap tercatat hadir
+dengan status BIASA dan kode perangkat yang sama.
 
 ## Akun uji
 

@@ -21,6 +21,7 @@ import 'package:silab/features/subjects/presentation/bloc/subject_details/subjec
 import 'package:silab/features/subjects/presentation/bloc/subject_list/subject_list_bloc.dart';
 import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
 import 'package:silab/injector.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
@@ -120,6 +121,12 @@ class MainApp extends StatelessWidget {
             fillColor: WidgetStatePropertyAll(Color(0xff3272CA)),
           ),
           dialogTheme: const DialogThemeData(backgroundColor: Colors.white),
+        ),
+        builder: (context, child) => SkeletonizerConfig(
+          data: SkeletonizerConfigData(
+            brightness: Theme.of(context).brightness,
+          ),
+          child: child!,
         ),
         routerConfig: router,
       ),
