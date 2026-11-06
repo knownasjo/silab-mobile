@@ -564,6 +564,28 @@ permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu bawah di
 tercatat hadir dengan status BIASA, kode perangkat yang sama, dan isi kiriman
 yang sama persis.
 
+`url_strategy` 0.3.0 dilepas karena paket itu tidak dirawat lagi (berstatus
+discontinued di pub.dev). Penggantinya fungsi bawaan Flutter
+`usePathUrlStrategy()` dari `flutter_web_plugins`, yang kini tercantum di
+`pubspec.yaml` sebagai paket SDK Flutter. `main.dart` dan `main_dev.dart`
+memanggilnya di tempat `setPathUrlStrategy()`. Isi kedua fungsi itu sama: di
+web keduanya memasang `PathUrlStrategy`, sehingga alamat halaman tetap
+berbentuk `/authentication`, bukan `/#/authentication`, sedangkan di Android
+dan iOS keduanya tidak melakukan apa-apa. Teks lisensi `url_strategy` ikut
+hilang dari daftar lisensi di dalam APK (`NOTICES.Z`), yang tidak ditampilkan
+di aplikasi, sehingga APK 128 byte lebih kecil. Selebihnya yang berbeda hanya
+kode Dart. Diuji dengan cara yang sama: 216 tes widget dan 6 tes live lulus
+dengan gambar akhir sama persis, APK baru yang dipasang di atas APK lama tetap
+masuk tanpa login ulang, isi `FlutterSharedPreferences.xml` sama dengan versi
+lama setelah login, setelah update, dan setelah keluar, huruf Manrope tetap
+dibaca dari file yang sama tanpa unduh ulang, permintaan ke server sama (96
+permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu bawah di
+32 layar sama persis sampai tiap piksel, dan presensi QR sungguhan tetap
+tercatat hadir dengan status BIASA dan kode perangkat yang sama. Build web
+versi lama dan baru juga dibuka di Chrome: alamat akar pindah ke
+`/authentication`, `/register` dan `/forgot-password` terbuka langsung dari
+alamatnya, dan tampilannya sama persis sampai tiap piksel.
+
 ## Akun uji
 
 | NIM | Password |
