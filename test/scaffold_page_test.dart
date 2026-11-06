@@ -93,7 +93,7 @@ void main() {
                 GoRoute(
                   path: '/home',
                   name: 'home',
-                  builder: (_, __) => const Text('Halaman Beranda'),
+                  builder: (_, _) => const Text('Halaman Beranda'),
                   routes: [
                     GoRoute(
                       path: 'class/:id',
@@ -127,7 +127,7 @@ void main() {
                 GoRoute(
                   path: '/profile',
                   name: 'profile',
-                  builder: (_, __) => const Text('Halaman Profil'),
+                  builder: (_, _) => const Text('Halaman Profil'),
                 ),
               ],
             ),

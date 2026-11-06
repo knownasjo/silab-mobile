@@ -142,12 +142,12 @@ void main() {
             GoRoute(
               path: '/home',
               name: 'home',
-              builder: (_, __) => const Text('Beranda'),
+              builder: (_, _) => const Text('Beranda'),
               routes: [
                 GoRoute(
                   path: 'daftar',
                   name: 'daftar-praktikum',
-                  builder: (_, __) => const DaftarPraktikumPage(),
+                  builder: (_, _) => const DaftarPraktikumPage(),
                 ),
                 GoRoute(
                   path: 'ringkasan',
@@ -160,7 +160,7 @@ void main() {
                 GoRoute(
                   path: 'payment-status',
                   name: 'payment-status',
-                  builder: (_, __) => const Text('Halaman Pembayaran'),
+                  builder: (_, _) => const Text('Halaman Pembayaran'),
                 ),
               ],
             ),

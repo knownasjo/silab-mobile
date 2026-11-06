@@ -50,7 +50,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<AuthenticationBloc, AuthenticationState>(
-        listenWhen: (_, __) => ModalRoute.of(context)?.isCurrent ?? true,
+        listenWhen: (_, _) => ModalRoute.of(context)?.isCurrent ?? true,
         listener: (context, state) {
           if (state is AuthenticationSuccess) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();

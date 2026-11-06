@@ -21,10 +21,7 @@ class BuildDaftarPraktikumSubjectItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final code = state.subjectList?[index].subjectCode;
-    final subtitle = [
-      if (code != null) code,
-      if (isRegistered) 'Sudah didaftarkan',
-    ].join(' · ');
+    final subtitle = [?code, if (isRegistered) 'Sudah didaftarkan'].join(' · ');
 
     return CheckboxListTile.adaptive(
       activeColor: const Color(0xff3272CA),

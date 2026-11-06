@@ -538,6 +538,32 @@ Beranda, Jadwal, Profil, dan Daftar Praktikum tetap abu-abu muda dalam mode
 terang maupun mode gelap HP, dan presensi QR sungguhan tetap tercatat hadir
 dengan status BIASA dan kode perangkat yang sama.
 
+`flutter_lints` naik dari 3.0.2 ke 6.0.0 di `pubspec.yaml` dan `pubspec.lock`,
+bersama `lints` dari 3.0.0 ke 6.1.0. Kedua paket ini hanya dipakai
+`flutter analyze` dan tidak ikut masuk ke APK. Delapan aturan baru ikut aktif,
+antara lain `use_null_aware_elements` dan `unnecessary_underscores`, dan enam
+aturan dilepas, antara lain tiga aturan yang mewajibkan `const`
+(`prefer_const_constructors`, `prefer_const_declarations`, dan
+`prefer_const_literals_to_create_immutables`). Temuan aturan baru dirapikan
+dengan `dart fix`. Kunci `deviceId` di isi kiriman login
+(`authentication_api_service.dart`) dan presensi (`classes_api_service.dart`)
+kini ditulis dengan penanda `?`, bukan dengan `if` yang memeriksa `null`,
+begitu juga kode mata kuliah di subjudul Daftar Praktikum
+(`build_daftar_praktikum_subject_item.dart`). Parameter `__` yang tidak
+dipakai diganti `_`, satu di `authentication_page.dart` dan 21 di tes. Isi
+kiriman ke server tetap sama: `deviceId` hanya ikut bila ada. Ketiga bagian
+yang memakai penanda `?` kini muat dalam satu baris, jadi ikut dirapikan
+`dart format`. Ukuran APK sama sampai ke byte, dan yang berbeda hanya kode
+Dart. Diuji dengan cara yang sama: 216 tes widget dan 6 tes live lulus dengan
+gambar akhir sama persis, APK baru yang dipasang di atas APK lama tetap masuk
+tanpa login ulang, isi `FlutterSharedPreferences.xml` sama dengan versi lama
+setelah login, setelah update, dan setelah keluar, huruf Manrope tetap dibaca
+dari file yang sama tanpa unduh ulang, permintaan ke server sama (96
+permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu bawah di
+32 layar sama persis sampai tiap piksel, dan presensi QR sungguhan tetap
+tercatat hadir dengan status BIASA, kode perangkat yang sama, dan isi kiriman
+yang sama persis.
+
 ## Akun uji
 
 | NIM | Password |

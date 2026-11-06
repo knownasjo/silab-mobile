@@ -137,11 +137,11 @@ void main() {
           routes: [
             GoRoute(
               path: '/home',
-              builder: (_, __) => const Text('Halaman Beranda'),
+              builder: (_, _) => const Text('Halaman Beranda'),
               routes: [
                 GoRoute(
                   path: 'edit-profil',
-                  builder: (_, __) => BlocProvider(
+                  builder: (_, _) => BlocProvider(
                     create: (_) =>
                         EditProfileBloc(UpdateProfileUsecase(accounts)),
                     child: const EditProfilePage(initialName: 'Budi Santoso'),
@@ -149,7 +149,7 @@ void main() {
                 ),
                 GoRoute(
                   path: 'ganti-password',
-                  builder: (_, __) => BlocProvider(
+                  builder: (_, _) => BlocProvider(
                     create: (_) =>
                         ChangePasswordBloc(ChangePasswordUsecase(accounts)),
                     child: const ChangePasswordPage(),
@@ -157,7 +157,7 @@ void main() {
                 ),
               ],
             ),
-            GoRoute(path: '/profile', builder: (_, __) => const ProfilePage()),
+            GoRoute(path: '/profile', builder: (_, _) => const ProfilePage()),
           ],
         ),
       ],

@@ -20,10 +20,7 @@ class AuthenticationApiService {
     return LoginResponseEntity.fromJson(
       await _apiClient.post(
         '/auth/login',
-        body: {
-          ...loginData.toJson(),
-          if (deviceId != null) 'deviceId': deviceId,
-        },
+        body: {...loginData.toJson(), 'deviceId': ?deviceId},
       ),
     );
   }

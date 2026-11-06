@@ -136,19 +136,19 @@ void main() {
           routes: [
             GoRoute(
               path: '/home',
-              builder: (_, __) => const SizedBox(),
+              builder: (_, _) => const SizedBox(),
               routes: [
                 GoRoute(
                   path: 'pilih-kelas',
-                  builder: (_, __) => const PilihKelasPage(),
+                  builder: (_, _) => const PilihKelasPage(),
                 ),
                 GoRoute(
                   path: 'daftar-praktikum',
-                  builder: (_, __) => const DaftarPraktikumPage(),
+                  builder: (_, _) => const DaftarPraktikumPage(),
                 ),
                 GoRoute(
                   path: 'payment-status',
-                  builder: (_, __) => BlocProvider(
+                  builder: (_, _) => BlocProvider(
                     create: (_) =>
                         CancelActivationBloc(CancelActivationUsecase(subjects)),
                     child: const PaymentStatusPage(),

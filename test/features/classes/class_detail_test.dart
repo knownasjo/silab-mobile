@@ -165,11 +165,11 @@ void main() {
     });
     messenger.setMockStreamHandler(
       scannerEvents,
-      MockStreamHandler.inline(onListen: (_, __) {}),
+      MockStreamHandler.inline(onListen: (_, _) {}),
     );
     messenger.setMockStreamHandler(
       scannerOrientation,
-      MockStreamHandler.inline(onListen: (_, __) {}),
+      MockStreamHandler.inline(onListen: (_, _) {}),
     );
     addTearDown(() {
       messenger.setMockMethodCallHandler(scannerMethods, null);
@@ -204,7 +204,7 @@ void main() {
             GoRoute(
               path: '/home',
               name: 'home',
-              builder: (_, __) => const Text('Halaman Beranda'),
+              builder: (_, _) => const Text('Halaman Beranda'),
               routes: [
                 GoRoute(
                   path: 'class/:id',

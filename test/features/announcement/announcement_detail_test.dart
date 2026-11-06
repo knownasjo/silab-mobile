@@ -97,7 +97,7 @@ void main() {
             GoRoute(
               path: '/home',
               name: 'home',
-              builder: (_, __) => const Text('Halaman Beranda'),
+              builder: (_, _) => const Text('Halaman Beranda'),
               routes: [
                 GoRoute(
                   path: 'pengumuman/:id',

@@ -145,12 +145,12 @@ void main() {
             GoRoute(
               path: '/home',
               name: 'home',
-              builder: (_, __) => const Text('Halaman Beranda'),
+              builder: (_, _) => const Text('Halaman Beranda'),
               routes: [
                 GoRoute(
                   path: 'pilih-kelas',
                   name: 'pilih-kelas',
-                  builder: (_, __) => const PilihKelasPage(),
+                  builder: (_, _) => const PilihKelasPage(),
                 ),
               ],
             ),

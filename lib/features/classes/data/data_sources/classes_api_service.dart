@@ -37,10 +37,7 @@ class ClassesApiService {
     return AttendanceEntity.fromJson(
       await _apiClient.post(
         '/subject/classes/$classId/meetings/$meetingId/attendances',
-        body: {
-          'token': meetingToken,
-          if (deviceId != null) 'deviceId': deviceId,
-        },
+        body: {'token': meetingToken, 'deviceId': ?deviceId},
       ),
     );
   }

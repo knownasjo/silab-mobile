@@ -122,7 +122,7 @@ void main() {
                 GoRoute(
                   path: '/home',
                   name: 'home',
-                  builder: (_, __) => const Text('Halaman Beranda'),
+                  builder: (_, _) => const Text('Halaman Beranda'),
                   routes: [
                     GoRoute(
                       path: 'class/:id',
@@ -141,7 +141,7 @@ void main() {
                 GoRoute(
                   path: '/schedule',
                   name: 'schedule',
-                  builder: (_, __) => const SchedulePage(),
+                  builder: (_, _) => const SchedulePage(),
                 ),
               ],
             ),
