@@ -106,8 +106,10 @@ Dua pengaturan menjaga aplikasi tetap bekerja seperti di Flutter 3.24:
   misalnya Detail Kelas → Scan QR → kembali → kembali. Pengaturan resmi
   Android ini membuat tombol kembali bekerja seperti dulu. go_router 17.5
   memperbaiki kasus itu, tetapi tombol kembali jadi macet setelah pindah tab
-  ([flutter#193098](https://github.com/flutter/flutter/issues/193098)). Periksa
-  lagi saat go_router dinaikkan atau targetSdk naik ke 37.
+  ([flutter#193098](https://github.com/flutter/flutter/issues/193098)) sampai
+  diperbaiki di go_router 18.1.4 yang kini dipakai. Pengaturan ini tetap
+  dipasang, dan dengan go_router 18.1.4 ke-10 kasus tombol kembali di emulator
+  tetap sama seperti sebelumnya. Periksa lagi saat targetSdk naik ke 37.
 - `android/app/proguard-rules.pro` berisi aturan `-keep` untuk kelas
   `ComponentRegistrar`. R8 di AGP 9 (mode ketat
   `android.r8.strictFullModeForKeepRules`) membuang konstruktor kelas
@@ -472,16 +474,76 @@ permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu bawah di
 32 layar sama persis sampai tiap piksel, dan presensi QR sungguhan tetap
 tercatat hadir dengan status BIASA dan kode perangkat yang sama.
 
-`go_router` sengaja tetap di 14.8.1. `go_router` 18 mengambil halaman Material
-dari paket baru `material_ui`, bukan dari `package:flutter/material.dart` yang
-dipakai SILAB, sehingga `MaterialApp` SILAB tidak dikenali dan semua halaman
-berpindah tanpa animasi
-([flutter#192761](https://github.com/flutter/flutter/issues/192761)). Selain
-itu, sejak versi 16.2.3 tombol kembali tidak bereaksi setelah pindah tab dari
-halaman di dalam tab, misalnya Detail Kelas → tab Jadwal → kembali, padahal di
-versi sekarang langkah itu menutup aplikasi
-([flutter#193098](https://github.com/flutter/flutter/issues/193098)).
-Perbaikan masalah kedua belum ada di `go_router` 18.1.3.
+`go_router` naik dari 14.8.1 ke 18.1.4 dan `google_fonts` dari 6.3.3 ke 9.0.0
+di `pubspec.yaml` dan `pubspec.lock`, bersama dua paket baru dari tim Flutter,
+`material_ui` 1.11.0 dan `cupertino_ui` 1.1.6. Mulai Flutter 3.47 widget
+Material dan Cupertino tersedia sebagai paket tersendiri, sedangkan versi di
+dalam Flutter (`package:flutter/material.dart` dan
+`package:flutter/cupertino.dart`) dibekukan sejak Flutter 3.44 dan dinyatakan
+usang di Flutter 3.50
+([panduan migrasi](https://docs.flutter.dev/release/breaking-changes/material-ui-and-cupertino-ui)).
+`go_router` 18 dan `google_fonts` 9 sudah memakai paket baru itu, jadi keduanya
+baru bisa naik setelah SILAB ikut pindah. Tanpa pindah, `go_router` 18 tidak
+mengenali `MaterialApp` SILAB sehingga semua halaman berpindah tanpa animasi
+([flutter#192761](https://github.com/flutter/flutter/issues/192761)), dan tema
+huruf dari `google_fonts` 9 tidak bisa dipasang di `ThemeData` milik Flutter.
+Import diganti dengan alat resmi
+`dart fix --apply --code=migrate_design_widgets`:
+`package:flutter/material.dart` menjadi `package:material_ui/material_ui.dart`
+di 84 file `lib` dan 24 file `test`, dan `package:flutter/cupertino.dart` di
+`custom_loading_indicator.dart` menjadi
+`package:cupertino_ui/cupertino_ui.dart`. Kedua paket dicatat di
+`pubspec.yaml` dengan `flutter pub add`. Tidak ada baris kode lain yang
+berubah. `MaterialUiCompatibilityBridge` tidak dipasang karena tidak ada paket
+lain yang membaca tema dari Material bawaan Flutter: `mobile_scanner` hanya
+memakai konstanta warna dan ikon, sedangkan `skeletonizer` dan `flutter_svg`
+tidak memakai Material sama sekali.
+
+`material_ui` 1.0.0 sama dengan Material di Flutter 3.47.9. Dari perubahan
+sampai 1.11.0, hanya dua yang menyentuh widget yang dipakai SILAB:
+
+- Animasi pindah halaman Android (`FadeForwardsPageTransitionsBuilder`,
+  cadangan dari `PredictiveBackPageTransitionsBuilder`) kini memotret halaman
+  selama animasi 450 ms supaya lebih ringan. Animasi di dalam halaman, misalnya
+  indikator memuat, berhenti sebentar sampai perpindahan selesai. Di rekaman
+  layar 30 bingkai per detik, perpindahan halaman versi lama dan baru tampak
+  sama.
+- Lebar tombol Ulangi di SnackBar kini diukur dengan ukuran huruf HP. Tombol
+  baru pindah ke bawah teks kalau lebarnya melebihi seperempat lebar SnackBar,
+  dan di layar 360 dp dengan ukuran huruf 200% pun batas itu belum tercapai.
+
+Warna, gaya huruf, tombol, kolom isian, dialog, dan indikator memuat lainnya
+tetap sama. `go_router` 18.1.4 juga memperbaiki tombol kembali yang tidak
+bereaksi setelah pindah tab dari halaman di dalam tab
+([flutter#193098](https://github.com/flutter/flutter/issues/193098)), jadi
+Detail Kelas → tab Jadwal → kembali tetap menutup aplikasi seperti di 14.8.1.
+Perubahan lain di `go_router` 15 sampai 18 tidak menyentuh SILAB; alamat
+halaman kini membedakan huruf besar dan kecil, tetapi ke-18 alamat SILAB huruf
+kecil semua.
+
+File huruf Manrope di `google_fonts` 9 punya bentuk, ukuran, dan jarak huruf
+yang sama persis dengan versi 6; yang berbeda hanya dua angka keterangan di
+dalam file, yaitu lebar rata-rata huruf dan checksum. Nama file simpanan di HP
+memuat kode file itu, jadi setelah update HP mengunduh `Manrope_regular` sekali
+lagi (94.948 byte) dan file lama tetap tertinggal. Kalau aplikasi hasil update
+pertama kali dibuka tanpa internet, teks memakai huruf bawaan HP sampai file
+baru terunduh, sama seperti aplikasi yang baru dipasang tanpa internet. APK
+bertambah 284.029 byte: kode Dart bertambah, dan shader efek riak
+`packages/material_ui/shaders/ink_sparkle.frag` (21.856 byte) ikut masuk di
+samping shader bawaan Flutter. Daftar lisensi di dalam APK (`NOTICES.Z`) kini
+memuat `material_ui` dan `cupertino_ui`. Diuji dengan cara yang sama: 216 tes
+widget dan 6 tes live lulus dengan gambar akhir sama persis, APK baru yang
+dipasang di atas APK lama tetap masuk tanpa login ulang, isi
+`FlutterSharedPreferences.xml` sama dengan versi lama setelah login, setelah
+update, dan setelah keluar, layar Masuk dengan huruf Manrope yang baru sama
+persis dengan versi lama, permintaan ke server sama termasuk isi kirimannya
+(96 permintaan dalam 47 langkah), 10 kasus tombol kembali sama, ikon menu bawah
+di 32 layar sama persis sampai tiap piksel, SnackBar Ulangi sama persis di
+layar 360 dp dengan ukuran huruf 100% dan 200%, dan presensi QR sungguhan tetap
+tercatat hadir dengan status BIASA, kode perangkat yang sama, dan isi kiriman
+yang sama persis. Build web versi lama dan baru juga dibuka di Chrome: halaman
+`/authentication`, `/register`, dan `/forgot-password` sama persis sampai tiap
+piksel.
 
 `mobile_scanner` naik dari 6.0.11 ke 7.5.0 di `pubspec.yaml` dan
 `pubspec.lock`. Versi 7 menghapus argumen ketiga `errorBuilder` yang tidak

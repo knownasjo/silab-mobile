@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:silab/core/helpers/day_formatter.dart';
 import 'package:silab/features/user_details/domain/entities/assisted_class/assisted_class_entity.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silab/features/schedule/presentation/widgets/practicums_schedule_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

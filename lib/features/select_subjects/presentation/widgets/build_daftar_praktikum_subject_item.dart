@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silab/features/subjects/domain/entities/subject/subject_entity.dart';
 import 'package:silab/features/subjects/presentation/bloc/subject_list/subject_list_bloc.dart';
 

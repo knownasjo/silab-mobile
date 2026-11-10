@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silab/features/announcement/domain/entities/announcement/announcement_entity.dart';
 import 'package:silab/features/announcement/presentation/blocs/get_all_announcements/get_all_announcements_bloc.dart';
 import 'package:silab/features/announcement/presentation/widgets/announcement_banner.dart';

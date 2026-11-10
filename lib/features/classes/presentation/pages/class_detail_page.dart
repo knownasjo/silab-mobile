@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:silab/core/common/entities/class/class_entity.dart';
 import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';

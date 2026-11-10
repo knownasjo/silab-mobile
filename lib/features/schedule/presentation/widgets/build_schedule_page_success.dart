@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/features/schedule/presentation/bloc/user_schedule_bloc.dart';
 import 'package:silab/features/schedule/presentation/widgets/build_schedule_page_empty.dart';

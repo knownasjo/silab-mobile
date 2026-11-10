@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silab/core/common/entities/bottom_navbar/bottom_navbar_entity.dart';
 
 const double bottomNavbarSpace = 100;

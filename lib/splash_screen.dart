@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:silab/core/router/router.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';

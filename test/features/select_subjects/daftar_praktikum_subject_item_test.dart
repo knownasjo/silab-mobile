@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:silab/features/select_subjects/presentation/widgets/build_daftar_praktikum_subject_item.dart';
 import 'package:silab/features/subjects/domain/entities/subject/subject_entity.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:silab/features/announcement/presentation/widgets/announcement_carousel.dart';
 
 class BuildAnnouncementCarousel extends StatelessWidget {

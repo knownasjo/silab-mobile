@@ -1,5 +1,5 @@
 import 'package:silab/features/authentication/presentation/widgets/log_out_button.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/core/helpers/initials.dart';
