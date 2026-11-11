@@ -41,12 +41,16 @@ class RealtimeBloc extends Bloc<RealtimeEvent, RealtimeState> {
   ) {
     if (_subscription == null) return;
 
-    if (event.message.type == 'ready' && !_hasConnected) {
-      _hasConnected = true;
-      return;
-    }
+    final isFirstConnection = event.message.type == 'ready' && !_hasConnected;
+    if (isFirstConnection) _hasConnected = true;
 
-    emit(RealtimeMessage(message: event.message, sequence: ++_sequence));
+    emit(
+      RealtimeMessage(
+        message: event.message,
+        sequence: ++_sequence,
+        isFirstConnection: isFirstConnection,
+      ),
+    );
   }
 
   @override

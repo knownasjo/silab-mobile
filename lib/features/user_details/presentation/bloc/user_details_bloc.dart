@@ -19,7 +19,7 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
     RefreshUserDetails event,
     Emitter<UserDetailsState> emit,
   ) async {
-    if (state is! UserDetailLoaded) return;
+    if (state is! UserDetailLoaded && state is! UserDetailFailed) return;
 
     final data = await _getUserDetailsUseCase.userRepository.getUserDetails();
 

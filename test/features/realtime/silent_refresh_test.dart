@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:either_dart/either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:silab/core/common/entities/class/class_entity.dart';
@@ -14,6 +16,11 @@ import 'package:silab/features/classes/domain/usecases/get_user_meetings_data_us
 import 'package:silab/features/classes/domain/usecases/get_user_registered_classes_usecase.dart';
 import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meetings_bloc.dart';
 import 'package:silab/features/classes/presentation/bloc/user_registered_class/user_registered_class_bloc.dart';
+import 'package:silab/features/user_details/domain/entities/user_detail/user_detail_entity.dart';
+import 'package:silab/features/user_details/domain/entities/user_detail_response/user_detail_response_entity.dart';
+import 'package:silab/features/user_details/domain/repositories/user_repository.dart';
+import 'package:silab/features/user_details/domain/usecases/get_user_details_usecase.dart';
+import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
 
 class FakeClassRepository implements ClassRepository {
   final List<String> calls = [];
@@ -44,16 +51,37 @@ class FakeClassRepository implements ClassRepository {
 class FakeAnnouncementRepository implements AnnouncementRepository {
   final List<String> calls = [];
   Map<String, AnnouncementEntity> announcements = {};
+  Completer<void>? slow;
 
   @override
   Future<Either<Failures, AnnouncementEntity>> getAnnouncement({
     String id = '',
   }) async {
     calls.add('/announcement/$id');
+    await slow?.future;
     final announcement = announcements[id];
     return announcement == null
         ? Left(RequestFailures('Pengumuman tidak ditemukan!'))
         : Right(announcement);
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class FakeUserRepository implements UserRepository {
+  final List<String> calls = [];
+  bool fail = false;
+
+  @override
+  Future<Either<Failures, UserDetailResponseEntity>> getUserDetails() async {
+    calls.add('/auth/me');
+    if (fail) return Left(RequestFailures('Server tidak merespons.'));
+    return const Right(
+      UserDetailResponseEntity(
+        data: UserDetailEntity(fullname: 'Budi Santoso'),
+      ),
+    );
   }
 
   @override
@@ -192,6 +220,120 @@ void main() {
       expect(bloc.state, isA<GetAnnouncementDeleted>());
       expect(bloc.state.message, 'Pengumuman ini sudah dihapus.');
       expect(repository.calls, isEmpty);
+    });
+
+    test(
+      'gagal dibuka lalu server hidup lagi: isinya tampil tanpa state loading',
+      () async {
+        bloc.add(const GetAnnouncement(id: 'a2'));
+        await settle();
+        expect(bloc.state, isA<GetAnnouncementFailed>());
+        repository
+          ..announcements['a2'] = const AnnouncementEntity(
+            id: 'a2',
+            title: 'Susulan',
+          )
+          ..calls.clear();
+
+        final states = <GetAnnouncementState>[];
+        final subscription = bloc.stream.listen(states.add);
+        bloc.add(const RetryAnnouncement());
+        await settle();
+        await subscription.cancel();
+
+        expect(repository.calls, ['/announcement/a2']);
+        expect(states, hasLength(1));
+        expect(states.single, isA<GetAnnouncementLoaded>());
+        expect(states.single.announcement?.title, 'Susulan');
+      },
+    );
+
+    test('pengumuman yang tampil tidak diminta ulang', () async {
+      bloc.add(const RetryAnnouncement());
+      await settle();
+
+      expect(repository.calls, isEmpty);
+      expect(bloc.state.announcement?.title, 'Lama');
+    });
+
+    test(
+      'pengumuman lain dibuka selagi dimuat ulang: hasil lama dibuang',
+      () async {
+        bloc.add(const GetAnnouncement(id: 'a2'));
+        await settle();
+        repository.announcements['a2'] = const AnnouncementEntity(
+          id: 'a2',
+          title: 'Susulan',
+        );
+        final slow = Completer<void>();
+        repository.slow = slow;
+        bloc.add(const RetryAnnouncement());
+        await settle();
+
+        repository.slow = null;
+        bloc.add(const GetAnnouncement(id: 'a1'));
+        await settle();
+        slow.complete();
+        await settle();
+
+        expect(bloc.state.announcement?.id, 'a1');
+        expect(bloc.state.announcement?.title, 'Lama');
+      },
+    );
+  });
+
+  group('data akun', () {
+    late FakeUserRepository repository;
+    late UserDetailsBloc bloc;
+    late List<UserDetailsState> states;
+
+    setUp(() {
+      repository = FakeUserRepository();
+      bloc = UserDetailsBloc(GetUserDetailsUseCase(repository));
+      states = [];
+      bloc.stream.listen(states.add);
+    });
+
+    tearDown(() => bloc.close());
+
+    test('belum pernah dimuat: refresh tidak memicu permintaan', () async {
+      bloc.add(RefreshUserDetails());
+      await settle();
+
+      expect(repository.calls, isEmpty);
+      expect(states, isEmpty);
+    });
+
+    test(
+      'gagal dimuat lalu server hidup lagi: nama tampil tanpa state loading',
+      () async {
+        repository.fail = true;
+        bloc.add(GetUserDetails());
+        await settle();
+        states.clear();
+
+        repository.fail = false;
+        bloc.add(RefreshUserDetails());
+        await settle();
+
+        expect(states, hasLength(1));
+        expect(states.single, isA<UserDetailLoaded>());
+        expect(states.single.userDetailEntity?.fullname, 'Budi Santoso');
+      },
+    );
+
+    test('masih gagal saat dimuat ulang: tidak ada pesan gagal baru', () async {
+      repository.fail = true;
+      bloc.add(GetUserDetails());
+      await settle();
+      states.clear();
+
+      bloc.add(RefreshUserDetails());
+      await settle();
+
+      expect(repository.calls, ['/auth/me', '/auth/me']);
+      expect(states, isEmpty);
+      expect(bloc.state, isA<UserDetailFailed>());
     });
   });
 }

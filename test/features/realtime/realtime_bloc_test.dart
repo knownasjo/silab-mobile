@@ -38,8 +38,12 @@ void main() {
   Iterable<String?> receivedTypes() =>
       states.whereType<RealtimeMessage>().map((state) => state.message?.type);
 
+  Iterable<bool> firstConnections() => states.whereType<RealtimeMessage>().map(
+    (state) => state.isFirstConnection,
+  );
+
   test(
-    'ready pertama diabaikan karena halaman baru saja memuat data',
+    'ready pertama diteruskan dengan tanda koneksi pertama, tidak diabaikan',
     () async {
       bloc.add(const StartRealtime());
       await settle();
@@ -49,7 +53,8 @@ void main() {
         ..add(const RealtimeEventEntity(type: 'meeting', classId: 'c1'));
       await settle();
 
-      expect(receivedTypes(), ['meeting']);
+      expect(receivedTypes(), ['ready', 'meeting']);
+      expect(firstConnections(), [true, false]);
       expect(
         (states.last as RealtimeMessage).message,
         const RealtimeEventEntity(type: 'meeting', classId: 'c1'),
@@ -69,7 +74,8 @@ void main() {
     await settle();
 
     expect(repository.connections, hasLength(2));
-    expect(receivedTypes(), ['ready']);
+    expect(receivedTypes(), ['ready', 'ready']);
+    expect(firstConnections(), [true, false]);
   });
 
   test('event yang sama berturut-turut tetap diteruskan semuanya', () async {
@@ -114,7 +120,8 @@ void main() {
       repository.current.add(const RealtimeEventEntity(type: 'ready'));
       await settle();
 
-      expect(receivedTypes(), isEmpty);
+      expect(receivedTypes(), ['ready', 'ready']);
+      expect(firstConnections(), [true, true]);
     },
   );
 

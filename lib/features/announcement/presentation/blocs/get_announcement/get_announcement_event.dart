@@ -21,3 +21,7 @@ final class RefreshAnnouncement extends GetAnnouncementEvent {
   @override
   List<Object?> get props => [id, isDeleted];
 }
+
+final class RetryAnnouncement extends GetAnnouncementEvent {
+  const RetryAnnouncement();
+}

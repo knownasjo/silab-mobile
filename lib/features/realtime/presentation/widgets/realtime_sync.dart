@@ -11,8 +11,10 @@ import 'package:silab/features/schedule/presentation/bloc/user_schedule_bloc.dar
 import 'package:silab/features/select_subjects/presentation/bloc/selected_subject_by_nim/selected_subject_by_nim_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_bloc.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_event.dart';
+import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_state.dart';
 import 'package:silab/features/subjects/presentation/bloc/subject_list/subject_list_bloc.dart';
 import 'package:silab/features/user_details/presentation/bloc/assisted_classes/assisted_classes_bloc.dart';
+import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
 
 class RealtimeSync extends StatefulWidget {
   final Widget child;
@@ -47,13 +49,17 @@ class _RealtimeSyncState extends State<RealtimeSync> {
   Widget build(BuildContext context) {
     return BlocListener<RealtimeBloc, RealtimeState>(
       listenWhen: (_, current) => current is RealtimeMessage,
-      listener: (context, state) => _onMessage(state.message!),
+      listener: (context, state) => _onMessage(state),
       child: widget.child,
     );
   }
 
-  void _onMessage(RealtimeEventEntity message) {
+  void _onMessage(RealtimeState state) {
+    final message = state.message!;
+
     switch (message.type) {
+      case 'ready' when state.isFirstConnection:
+        _reloadFailed();
       case 'ready' || 'period':
         _refreshEverything();
       case 'announcement':
@@ -79,6 +85,68 @@ class _RealtimeSyncState extends State<RealtimeSync> {
     context.read<ClassmatesBloc>().add(const RefreshClassmates());
     context.read<UserMeetingsBloc>().add(const RefreshUserMeetings());
     _refreshRegistration();
+    _reloadFailedDetails();
+  }
+
+  void _reloadFailed() {
+    final assistedClasses = context.read<AssistedClassesBloc>();
+    if (assistedClasses.state is AssistedClassesFailed) {
+      assistedClasses.add(const RefreshAssistedClasses());
+    }
+
+    final announcements = context.read<GetAllAnnouncementsBloc>();
+    if (announcements.state is GetAllAnnouncementsFailed) {
+      announcements.add(RefreshAllAnnouncements());
+    }
+
+    final subjects = context.read<SubjectListBloc>();
+    if (subjects.state is SubjectListFailed) {
+      subjects.add(const RefreshSubjectList());
+    }
+
+    final classmates = context.read<ClassmatesBloc>();
+    if (classmates.state is ClassmatesFailed) {
+      classmates.add(const RefreshClassmates());
+    }
+
+    final meetings = context.read<UserMeetingsBloc>();
+    if (meetings.state is UserMeetingsFailed) {
+      meetings.add(const RefreshUserMeetings());
+    }
+
+    final selectedSubjects = context.read<SelectedSubjectByNimBloc>();
+    if (selectedSubjects.state is SelectedSubjectByNimFailed) {
+      selectedSubjects.add(RefreshUserSelectedSubjects());
+    }
+
+    final classOptions = context.read<UserClassOptionByPaidSubjectBloc>();
+    if (classOptions.state is UserClassOptionByPaidSubjectFailed) {
+      classOptions.add(RefreshUserClassOptionByPaidSubject());
+    }
+
+    final registeredClasses = context.read<UserRegisteredClassBloc>();
+    if (registeredClasses.state is UserRegisteredClassFailed) {
+      registeredClasses.add(RefreshUserRegisteredClass());
+    }
+
+    final schedule = context.read<UserScheduleBloc>();
+    if (schedule.state is UserScheduleFailed) {
+      schedule.add(RefreshUserSchedule());
+    }
+
+    _reloadFailedDetails();
+  }
+
+  void _reloadFailedDetails() {
+    final userDetails = context.read<UserDetailsBloc>();
+    if (userDetails.state is UserDetailFailed) {
+      userDetails.add(RefreshUserDetails());
+    }
+
+    final announcement = context.read<GetAnnouncementBloc>();
+    if (announcement.state is GetAnnouncementFailed) {
+      announcement.add(const RetryAnnouncement());
+    }
   }
 
   void _refreshAnnouncements(RealtimeEventEntity message) {

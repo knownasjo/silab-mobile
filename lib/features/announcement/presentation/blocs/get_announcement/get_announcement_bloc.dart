@@ -17,6 +17,7 @@ class GetAnnouncementBloc
     : super(GetAnnouncementInitial()) {
     on<GetAnnouncement>(onGetAnnouncement);
     on<RefreshAnnouncement>(onRefreshAnnouncement, transformer: coalesced());
+    on<RetryAnnouncement>(onRetryAnnouncement, transformer: coalesced());
   }
 
   void onGetAnnouncement(
@@ -62,6 +63,25 @@ class GetAnnouncementBloc
         .getAnnouncement(id: event.id!);
 
     if (state != current) return;
+
+    data.fold(
+      (left) => null,
+      (right) => emit(GetAnnouncementLoaded(announcement: right)),
+    );
+  }
+
+  Future<void> onRetryAnnouncement(
+    RetryAnnouncement event,
+    Emitter<GetAnnouncementState> emit,
+  ) async {
+    final current = state;
+    final id = _requestedId;
+    if (current is! GetAnnouncementFailed || id == null) return;
+
+    final data = await _getAnnouncementUseCase.announcementRepository
+        .getAnnouncement(id: id);
+
+    if (state != current || _requestedId != id) return;
 
     data.fold(
       (left) => null,

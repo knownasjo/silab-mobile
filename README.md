@@ -813,6 +813,11 @@ juga tampil di Jadwal dengan tanda "Asisten" (lihat "Jadwal").
    memuat ulang bagian yang sudah tampil. Dulu tiap bagian memasang pesannya
    sendiri dan saling menimpa, jadi kadang yang terlihat pesan tanpa "Ulangi",
    dan "Ulangi" hanya memuat ulang nama.
+
+   Tanpa menekan apa pun, bagian yang gagal juga terisi sendiri begitu HP
+   tersambung lagi ke server, misalnya bila aplikasi dibuka saat server mati
+   atau sebelum HP mendapat internet (lihat pembaruan real-time di bagian
+   Struktur).
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
    di Profil → Pembayaran & Kelas. Di daftar pilihan, kode mata kuliah (9 angka)
    tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS. Selama masih
@@ -1065,6 +1070,24 @@ ulang saat aplikasi kembali dari background, karena koneksi lama bisa sudah
 diputus sistem. Event `ready` setelah tersambung ulang dan event `period`
 (semester baru dimulai) memuat ulang semua data sekaligus.
 
+Event `ready` pertama sejak aplikasi dibuka atau sejak login hanya memuat
+ulang bagian yang sedang gagal, karena saat aplikasi dibuka normal setiap
+halaman baru saja memuat datanya sendiri; bila tidak ada yang gagal, tidak
+ada permintaan tambahan. Bila aplikasi dibuka saat server mati atau sebelum
+HP mendapat internet, koneksi pertama itu baru terjadi setelah server bisa
+dihubungi, jadi semua tampilan "Gagal memuat" terisi sendiri tanpa ditarik
+ke bawah atau ditekan "Ulangi". `ApiClient` mencoba menyambung lagi setelah
+2, 4, 8, dan 16 detik, lalu tiap 30 detik, jadi paling lama sekitar 30 detik
+setelah server hidup; saat aplikasi dibuka kembali dari background,
+sambungan langsung dicoba. Saat tersambung ulang, nama akun dan detail
+pengumuman yang sedang gagal ikut dimuat ulang (detail pengumuman lewat
+`RetryAnnouncement`, karena `RefreshAnnouncement` hanya untuk pengumuman yang
+sedang tampil), sedangkan yang sudah tampil tidak diminta ulang. Pengiriman
+presensi QR tidak ikut diulang, karena itu tindakan, bukan data yang dimuat.
+Dulu event `ready` pertama selalu diabaikan, jadi tampilan itu tetap "Gagal
+memuat" sampai dimuat ulang manual, dan nama akun yang gagal tidak pernah
+ikut dimuat ulang.
+
 Setiap bloc data punya event `Refresh…` (misalnya `RefreshUserRegisteredClass`)
 yang memuat ulang tanpa state loading, jadi daftar tidak berkedip. Refresh
 diabaikan bila data belum pernah dibuka (state masih `Initial`), gagalnya
@@ -1182,13 +1205,20 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   (termasuk sertifikat HTTPS bermasalah), refresh token (termasuk sesi berakhir: token dihapus, sinyal dikirim sekali),
   dan stream SSE (token, refresh, isi event, tersambung ulang,
   berhenti saat dibatalkan)
-- `test/features/realtime/` — `RealtimeBloc` (koneksi pertama, tersambung
-  ulang, logout), refresh diam-diam di bloc (tanpa loading, data lama tetap
-  tampil bila gagal, event kelas lain diabaikan, pengumuman dihapus), dan
-  `RealtimeSync` (event `period` dan `ready` setelah tersambung ulang memuat
-  ulang semua tampilan, event `subject` hanya daftar mata kuliah, kelas
-  baru ikut memuat ulang baris Kelas di Pembayaran & Kelas, dan pergantian
-  asisten atau perubahan kelas yang tampil di Jadwal memuat ulang Jadwal)
+- `test/features/realtime/` — `RealtimeBloc` (koneksi pertama ditandai,
+  tersambung ulang, logout), refresh diam-diam di bloc (tanpa loading, data
+  lama tetap tampil bila gagal, event kelas lain diabaikan, pengumuman
+  dihapus, data akun dan detail pengumuman yang gagal termuat lagi tanpa
+  loading dan tanpa pesan gagal baru, hasil susulan yang terlambat tidak
+  menimpa pengumuman lain), dan `RealtimeSync` (event `period` dan `ready`
+  setelah tersambung ulang memuat ulang semua tampilan, event `subject` hanya
+  daftar mata kuliah, kelas baru ikut memuat ulang baris Kelas di Pembayaran
+  & Kelas, pergantian asisten atau perubahan kelas yang tampil di Jadwal
+  memuat ulang Jadwal; aplikasi dibuka saat server mati: begitu tersambung,
+  semua yang gagal dimuat ulang; dibuka normal: koneksi pertama tidak meminta
+  data lagi, baik yang masih dimuat maupun yang sudah tampil; hanya bagian
+  yang gagal yang diminta ulang; tersambung ulang ikut memuat nama dan detail
+  pengumuman yang gagal, tetapi tidak meminta ulang yang sudah tampil)
 - `test/features/schedule/schedule_page_test.dart` — kelas di 4–6 hari pada
   layar 360×640: kartu terakhir bisa digeser sampai di atas menu bawah; server
   mati menampilkan "Gagal memuat jadwal." dan Coba lagi memuat ulang; kartu
