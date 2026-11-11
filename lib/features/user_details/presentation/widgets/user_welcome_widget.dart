@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/features/home/presentation/widgets/home_load_error_snackbar.dart';
 import 'package:silab/features/user_details/presentation/bloc/user_details_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -21,15 +21,9 @@ class _UserWelcomeState extends State<UserWelcomeWidget> {
           if (state.message == 'jwt expired') {
             context.goNamed('authentication');
           } else {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
-              snackBar(
-                message: state.message ?? 'Gagal memuat data akun.',
-                type: AlertType.error,
-                actionLabel: 'Ulangi',
-                action: () =>
-                    context.read<UserDetailsBloc>().add(GetUserDetails()),
-              ),
+            showHomeLoadError(
+              context,
+              state.message ?? 'Gagal memuat data akun.',
             );
           }
         }

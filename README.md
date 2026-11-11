@@ -804,6 +804,15 @@ juga tampil di Jadwal dengan tanda "Asisten" (lihat "Jadwal").
    pengumuman." / "Gagal memuat kelas." dengan tombol "Coba lagi", dan pesan
    di bawah layar memakai pesan aslinya (misalnya "Tidak dapat terhubung ke
    server. Periksa koneksi internet.") dengan tombol "Ulangi".
+
+   Pesan di bawah layar itu dipasang lewat satu fungsi,
+   `home/presentation/widgets/home_load_error_snackbar.dart`, oleh ketiga
+   bagian Beranda (nama, pengumuman, dan kelas), jadi tombol "Ulangi" selalu
+   ada, bagian mana pun yang gagal paling akhir. "Ulangi" memuat ulang semua
+   bagian Beranda yang sedang gagal, termasuk banner Pilih Kelas, dan tidak
+   memuat ulang bagian yang sudah tampil. Dulu tiap bagian memasang pesannya
+   sendiri dan saling menimpa, jadi kadang yang terlihat pesan tanpa "Ulangi",
+   dan "Ulangi" hanya memuat ulang nama.
 2. Mahasiswa memilih mata kuliah → `POST /activation` → status "Belum Lunas"
    di Profil → Pembayaran & Kelas. Di daftar pilihan, kode mata kuliah (9 angka)
    tampil kecil di bawah nama supaya mudah dicocokkan dengan KRS. Selama masih
@@ -1273,9 +1282,13 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   tanpa meluap; dengan huruf HP 1,3× kartu kelas memanjang tanpa terpotong;
   server mati menampilkan pesan asli tanpa bahasa Inggris dan
   tombol "Coba lagi" yang terlihat di atas menu bawah dan bisa memuat ulang;
-  data akun gagal dimuat menampilkan "Ulangi"; pesan belum punya kelas terbaca
-  utuh di layar 360×640; titik penanda pengumuman pindah setelah pengumuman
-  yang dilihat dihapus
+  data akun gagal dimuat menampilkan "Ulangi"; saat server mati pesan di
+  bawah tetap punya "Ulangi", bagian mana pun yang gagal paling akhir (data
+  akun, pengumuman, atau kelas); setelah server hidup lagi "Ulangi" memuat
+  ulang nama, pengumuman, kelas, dan pilihan kelas sekaligus; bila hanya
+  pengumuman yang gagal, hanya pengumuman yang diminta ulang; pesan belum
+  punya kelas terbaca utuh di layar 360×640; titik penanda pengumuman pindah
+  setelah pengumuman yang dilihat dihapus
 - `test/features/select_subjects/cancel_activation_test.dart` — tombol
   "Batalkan pendaftaran" hanya di pendaftaran Belum Lunas; Kembali tidak
   mengirim apa pun; "Ya, batalkan" mengirim `DELETE /activation/:id`,

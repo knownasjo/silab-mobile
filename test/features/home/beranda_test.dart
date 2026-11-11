@@ -26,6 +26,7 @@ import 'package:silab/features/select_subjects/data/data_sources/selected_subjec
 import 'package:silab/features/select_subjects/data/repository/selected_subject_repository_impl.dart';
 import 'package:silab/features/select_subjects/domain/usecases/get_user_class_option_by_paid_subject_usecase.dart';
 import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_bloc.dart';
+import 'package:silab/features/select_subjects/presentation/bloc/user_class_option_by_paid_subject/user_class_option_by_paid_subject_state.dart';
 import 'package:silab/features/user_details/data/data_sources/user_api_service.dart';
 import 'package:silab/features/user_details/data/repositories/user_repository_impl.dart';
 import 'package:silab/features/user_details/domain/usecases/get_user_details_usecase.dart';
@@ -60,6 +61,8 @@ Map<String, dynamic> pengumuman(String id, String type) => {
 void main() {
   late SharedPreferences prefs;
   late Set<String> down;
+  late String? lastToFail;
+  late List<String> requests;
   late List<Map<String, dynamic>> announcements;
   late List<Map<String, dynamic>> classes;
 
@@ -73,6 +76,8 @@ void main() {
     });
     prefs = await SharedPreferences.getInstance();
     down = {};
+    lastToFail = null;
+    requests = [];
     announcements = [
       pengumuman('p1', 'BASIC'),
       pengumuman('p2', 'PRACTICUM'),
@@ -83,6 +88,10 @@ void main() {
 
   Future<http.Response> backend(http.Request request) async {
     final path = request.url.path;
+    requests.add(path);
+    if (path == lastToFail) {
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+    }
     if (down.contains(path) || down.contains('*')) {
       throw http.ClientException('Connection refused');
     }
@@ -331,6 +340,67 @@ void main() {
 
     expect(find.text('Budi Santoso'), findsOneWidget);
   });
+
+  for (final (path, part) in [
+    ('/auth/me', 'data akun'),
+    ('/announcement', 'pengumuman'),
+    ('/class/me', 'kelas'),
+  ]) {
+    testWidgets(
+      'server mati, $part gagal paling akhir: pesan di bawah tetap punya "Ulangi"',
+      (tester) async {
+        down.add('*');
+        lastToFail = path;
+        await openBeranda(tester);
+
+        expect(find.text(offline), findsOneWidget);
+        expect(find.text('Ulangi'), findsOneWidget);
+      },
+    );
+  }
+
+  testWidgets(
+    'server hidup lagi: "Ulangi" memuat ulang nama, pengumuman, kelas, dan pilihan kelas sekaligus',
+    (tester) async {
+      down.add('*');
+      await openBeranda(tester);
+
+      down.clear();
+      await tester.tap(find.text('Ulangi'));
+      await settle(tester);
+
+      expect(find.text('Budi Santoso'), findsOneWidget);
+      expect(find.text('Pengumuman p1'), findsOneWidget);
+      expect(find.text('Basis Data'), findsOneWidget);
+      expect(find.text('Gagal memuat pengumuman.'), findsNothing);
+      expect(find.text('Gagal memuat kelas.'), findsNothing);
+      expect(
+        tester
+            .element(find.byType(HomePage))
+            .read<UserClassOptionByPaidSubjectBloc>()
+            .state,
+        isA<UserClassOptionByPaidSubjectLoaded>(),
+      );
+    },
+  );
+
+  testWidgets(
+    'hanya pengumuman yang gagal: "Ulangi" tidak memuat ulang bagian yang sudah tampil',
+    (tester) async {
+      down.add('/announcement');
+      await openBeranda(tester);
+      expect(find.text('Ulangi'), findsOneWidget);
+      requests.clear();
+
+      down.clear();
+      await tester.tap(find.text('Ulangi'));
+      await settle(tester);
+
+      expect(requests, ['/announcement']);
+      expect(find.text('Pengumuman p1'), findsOneWidget);
+      expect(find.text('Budi Santoso'), findsOneWidget);
+    },
+  );
 
   testWidgets(
     'belum punya kelas: pesan terbaca utuh di atas menu bawah pada layar 360×640',

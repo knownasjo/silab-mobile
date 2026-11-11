@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/announcement/domain/entities/announcement/announcement_entity.dart';
 import 'package:silab/features/announcement/presentation/blocs/get_all_announcements/get_all_announcements_bloc.dart';
 import 'package:silab/features/announcement/presentation/widgets/build_announcement_failed.dart';
 import 'package:silab/features/announcement/presentation/widgets/build_announcement_success.dart';
+import 'package:silab/features/home/presentation/widgets/home_load_error_snackbar.dart';
 
 class AnnouncementCarousel extends StatefulWidget {
   const AnnouncementCarousel({super.key});
@@ -37,10 +37,7 @@ class _AnnouncementCarouselState extends State<AnnouncementCarousel> {
           if (state.message == 'jwt expired') {
             context.goNamed('authentication');
           } else {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
-              snackBar(type: AlertType.error, message: state.message),
-            );
+            showHomeLoadError(context, state.message);
           }
         }
       },
