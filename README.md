@@ -193,6 +193,18 @@ Versi plugin tidak berubah: `path_provider_foundation` 2.6.0 dan
 mengabaikan `.widget_preview/`, folder kerja *Widget Preview* yang dibuat
 ekstensi Flutter di VS Code.
 
+Papan ketik iPhone diatur di `lib/core/helpers/ios_keyboard.dart` dan hanya
+berlaku di iOS, jadi Android tidak berubah. Pada uji iPhone asli pertama papan
+ketik tetap terbuka di semua halaman setelah masuk. Gejala yang sama muncul di
+simulator bila iOS melepas kolom yang aktif lalu memunculkan papan ketiknya
+lagi (di iPhone kemungkinan karena jendela izin jaringan lokal saat pertama
+masuk): Flutter sudah menganggap kolom itu selesai, jadi papan ketiknya tidak
+pernah ditutup. Karena itu aplikasi selalu menutup papan ketik setelah
+berhasil masuk (`hideIosKeyboard`), dan mengetuk di luar kolom isian juga
+menutupnya (`hideIosKeyboardOnTapOutside`) karena papan ketik angka iPhone
+tidak punya tombol selesai. Mengetuk ikon mata di kolom password atau pindah
+ke kolom lain tidak menutup papan ketik.
+
 ### Flutter 3.47
 
 Sejak 3 November 2026 aplikasi memakai Flutter 3.47.9 (sebelumnya 3.24.5).

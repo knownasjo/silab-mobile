@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_form_field.dart';
 import 'package:silab/core/common/widgets/custom_large_button.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/core/helpers/ios_keyboard.dart';
 import 'package:silab/features/password_reset/data/models/reset_password_model.dart';
 import 'package:silab/features/password_reset/presentation/bloc/reset_password/reset_password_bloc.dart';
 
@@ -171,6 +172,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       validator: (value) => value?.length == _codeLength
                           ? null
                           : 'Masukkan 6 angka kode verifikasi!',
+                      onTapOutside: hideIosKeyboardOnTapOutside,
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w700,

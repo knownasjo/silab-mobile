@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_form_field.dart';
 import 'package:silab/core/common/widgets/custom_large_button.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/core/helpers/ios_keyboard.dart';
 import 'package:silab/core/helpers/login_number.dart';
 import 'package:silab/features/authentication/data/models/login_model.dart';
 import 'package:silab/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -53,6 +54,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
         listenWhen: (_, _) => ModalRoute.of(context)?.isCurrent ?? true,
         listener: (context, state) {
           if (state is AuthenticationSuccess) {
+            hideIosKeyboard();
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
               snackBar(message: 'Berhasil masuk', type: AlertType.success),

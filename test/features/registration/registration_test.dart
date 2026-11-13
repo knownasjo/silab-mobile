@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -383,6 +384,44 @@ void main() {
 
         await tester.pumpWidget(const SizedBox());
       },
+    );
+
+    testWidgets(
+      'layar kode: ketuk di luar kolom menutup papan ketik hanya di iPhone',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: BlocProvider(
+              create: (_) => RegistrationVerificationBloc(
+                VerifyRegistrationUsecase(repositoryWith(backend)),
+                ResendRegistrationCodeUsecase(repositoryWith(backend)),
+              ),
+              child: const RegistrationVerificationPage(
+                extra: RegistrationVerificationPageExtra(
+                  email: email,
+                  resendIn: 60,
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        expect(tester.testTextInput.isVisible, isTrue);
+
+        await tester.tap(find.text('Kode berlaku 10 menit.'));
+        await tester.pump();
+
+        expect(
+          tester.testTextInput.isVisible,
+          defaultTargetPlatform != TargetPlatform.iOS,
+        );
+
+        await tester.pumpWidget(const SizedBox());
+      },
+      variant: const TargetPlatformVariant({
+        TargetPlatform.iOS,
+        TargetPlatform.android,
+      }),
     );
   });
 }

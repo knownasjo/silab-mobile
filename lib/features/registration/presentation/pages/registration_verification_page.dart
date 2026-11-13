@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:silab/core/common/widgets/custom_large_button.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
+import 'package:silab/core/helpers/ios_keyboard.dart';
 import 'package:silab/features/registration/presentation/bloc/registration_verification/registration_verification_bloc.dart';
 
 class RegistrationVerificationPageExtra {
@@ -175,6 +176,7 @@ class _RegistrationVerificationPageState
                         onChanged: (value) {
                           if (value.length == _codeLength) _submit();
                         },
+                        onTapOutside: hideIosKeyboardOnTapOutside,
                         style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.w700,

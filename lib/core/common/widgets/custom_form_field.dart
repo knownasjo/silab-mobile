@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:silab/core/helpers/ios_keyboard.dart';
 
 class CustomFormField extends StatefulWidget {
   final String hintText;
@@ -48,6 +49,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
       obscureText: isObscure,
       validator: widget.validator,
       onFieldSubmitted: widget.onFieldSubmitted,
+      onTapOutside: hideIosKeyboardOnTapOutside,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: TextStyle(
