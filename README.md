@@ -24,6 +24,8 @@ terjadi di dua tempat (`lib/core/helpers/login_number.dart`):
   untuk Gradle 9 dan AGP 9). NDK 28.2, CMake 3.22.1, dan build-tools 36
   diunduh otomatis saat build pertama. JDK 21 juga bisa, tetapi perintah build
   di bawah tetap memakai JDK 17, versi yang dipakai saat pengujian
+- Untuk iOS: Xcode 27.1 (butuh macOS 26.6 ke atas) dengan platform iOS. Plugin
+  iOS dipasang lewat Swift Package Manager, jadi CocoaPods tidak diperlukan
 
 ## Menjalankan
 
@@ -68,6 +70,35 @@ Bila HP tidak bisa tersambung:
 - Pastikan port 3000 diizinkan firewall laptop.
 - Wi-Fi kampus atau publik sering memblokir koneksi antarperangkat
   (*client isolation*). Pakai hotspot HP atau router sendiri.
+
+### iPhone
+
+Aplikasi iOS memakai bundle id `id.ac.uad.silab` dan butuh iOS 15 ke atas,
+batas terendah Flutter 3.47. Simulator iOS tidak punya kamera, jadi presensi
+QR hanya bisa dicoba di iPhone asli. Untuk memasang di iPhone sendiri cukup
+Apple ID biasa, tanpa akun Apple Developer berbayar:
+
+1. Di Xcode, masuk dengan Apple ID (Settings → Accounts). Buka
+   `ios/Runner.xcworkspace`, pilih target Runner → Signing & Capabilities,
+   lalu pilih tim "Personal Team" milik Apple ID itu. Pilihan ini tersimpan
+   sebagai `DEVELOPMENT_TEAM` di `ios/Runner.xcodeproj/project.pbxproj`.
+2. Sambungkan iPhone ke laptop dengan kabel, ketuk "Percayai" di iPhone, lalu
+   nyalakan Mode Pengembang (Pengaturan → Privasi & Keamanan → Mode
+   Pengembang). iPhone akan memulai ulang.
+3. Dengan iPhone dan laptop di Wi-Fi yang sama, jalankan:
+
+   ```bash
+   flutter run --release -d <nama-iPhone> \
+     --dart-define=API_BASE_URL=http://192.168.1.10:3000
+   ```
+
+4. Bila iPhone menolak membuka aplikasi, percayai pengembangnya di Pengaturan
+   → Umum → VPN & Manajemen Perangkat. Saat pertama dibuka, izinkan akses
+   jaringan lokal dan kamera.
+
+Pemasangan dengan Apple ID biasa berlaku 7 hari. Setelah itu aplikasi tidak
+bisa dibuka sampai dipasang ulang dengan perintah yang sama. Untuk dibagikan ke
+mahasiswa lewat TestFlight atau App Store perlu akun Apple Developer berbayar.
 
 ### Konfigurasi Android
 
@@ -125,6 +156,42 @@ tetapi kode ML Kit, Google Play Services, CameraX, DataStore (penyimpanan
 Mematikannya akan mengubah kode pustaka-pustaka itu di setiap HP. Plugin
 Google Services (sisa FlutterFire) dilepas karena aplikasi tidak memakai
 Firebase dan `google-services.json` tidak ada.
+
+### Konfigurasi iOS
+
+Proyek iOS pertama kali disiapkan dan dicoba pada 13 November 2026 dengan
+Xcode 27.1 di simulator iPhone 17 (iOS 27.0). Build berjalan tanpa peringatan,
+233 tes lulus, dan halaman Masuk, Lupa Password, Daftar, Beranda, Detail Kelas,
+Scan QR, Jadwal, Profil, Pembayaran & Kelas, Edit Profil, Ganti Password, dan
+Pilih Kelas tampil tanpa error, termasuk masuk dan keluar dengan akun uji. Kode
+HP tetap sama setelah aplikasi dihapus lalu dipasang ulang, dan dalam mode
+gelap iPhone tulisan bilah status tetap gelap di atas latar putih. Yang
+berubah di `ios/`:
+
+- Bundle id `com.example.silab` menjadi `id.ac.uad.silab`, nama di layar
+  "Silab" menjadi "SILAB" (sama dengan Android), dan iOS minimal 12.0 menjadi
+  15.0.
+- CocoaPods dilepas. Dengan integrasi CocoaPods lama build pertama gagal,
+  padahal keempat plugin iOS (`flutter_udid`, `mobile_scanner`,
+  `path_provider_foundation`, `shared_preferences_foundation`) sudah tersedia
+  sebagai paket Swift Package Manager. `ios/Podfile` dihapus, begitu juga
+  baris `#include?` Pods di `ios/Flutter/Debug.xcconfig` dan
+  `Release.xcconfig`. Versi KeychainAccess yang dipakai `flutter_udid` dikunci
+  di dua file `Package.resolved`.
+- `Info.plist` mendapat keterangan izin jaringan lokal ("Jaringan lokal
+  dipakai untuk tersambung ke server SILAB."), yang tampil saat aplikasi
+  pertama kali tersambung ke server di jaringan lokal.
+- Sisanya ditulis Flutter 3.47 sendiri saat build pertama: `AppDelegate.swift`
+  memakai siklus hidup *UIScene* (`@main` dan `FlutterImplicitEngineDelegate`),
+  `Info.plist` mendapat `UIApplicationSceneManifest` dan urutan kuncinya
+  dirapikan, skema Xcode mendapat langkah persiapan Flutter,
+  `AppFrameworkInfo.plist` tidak lagi menulis `MinimumOSVersion`, dan
+  `.gitignore` mengabaikan `.build/` dan `.swiftpm/`.
+
+Versi plugin tidak berubah: `path_provider_foundation` 2.6.0 dan
+`shared_preferences_foundation` 2.6.1 tetap belum dipakai. `.gitignore` juga
+mengabaikan `.widget_preview/`, folder kerja *Widget Preview* yang dibuat
+ekstensi Flutter di VS Code.
 
 ### Flutter 3.47
 
@@ -1009,9 +1076,9 @@ kedua dari HP yang sama untuk akun lain dibalas "HP ini sudah dipakai presensi
 akun lain di pertemuan ini." dan pesan itu tampil seperti penolakan lain.
 
 - Kode HP diambil dari paket `flutter_udid` (`lib/core/device/device_id.dart`):
-  SHA-256 dari Android ID, 64 karakter. Di iPhone nanti paket yang sama
-  menyimpan kodenya di Keychain. Kode ini tetap sama walaupun aplikasi dihapus
-  lalu dipasang ulang, dan berubah setelah reset pabrik.
+  SHA-256 dari Android ID, 64 karakter. Di iPhone paket yang sama menyimpan
+  kodenya di Keychain. Kode ini tetap sama walaupun aplikasi dihapus lalu
+  dipasang ulang, dan berubah setelah reset pabrik.
 - Kode HP juga bergantung pada **kunci tanda tangan APK**. APK rilis sekarang
   ditandatangani dengan kunci debug di laptop pembuatnya
   (`~/.android/debug.keystore`), jadi selalu build dari laptop yang sama dan
