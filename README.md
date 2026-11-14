@@ -210,6 +210,14 @@ halaman lanjutan seperti "Detail Kelas") dibuat rata kiri dengan
 `centerTitle: false` di `lib/scaffold_page.dart`. Bawaan Flutter menaruh judul
 itu di tengah layar di iOS dan di kiri di Android, jadi Android tidak berubah.
 
+Bilah menu bawah (Beranda, Jadwal, Profil) di iPhone dibuat lebih kecil di
+`lib/core/common/widgets/custom_bottom_navbar.dart`: tinggi 52 (Android 70),
+ikon 20 (Android 24), tulisan menu 11 dan 10 (Android 14 dan 12), dan letaknya
+8 lebih rendah, tetap di atas garis home. Sebelumnya bilah yang disembunyikan
+saat layar digulir ke bawah masih terlihat sekitar 22 dari tinggi 70 di tepi
+bawah layar iPhone, karena jarak gesernya tidak menghitung area garis home.
+Sekarang bilah turun sampai hilang penuh. Android tidak berubah.
+
 ### Flutter 3.47
 
 Sejak 3 November 2026 aplikasi memakai Flutter 3.47.9 (sebelumnya 3.24.5).

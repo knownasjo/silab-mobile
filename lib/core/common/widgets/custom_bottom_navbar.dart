@@ -26,7 +26,7 @@ class CustomBottomNavbar extends StatefulWidget {
 class _CustomBottomNavbarState extends State<CustomBottomNavbar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<Offset> _offsetAnimation;
+  late Animation<double> _slide;
 
   @override
   void initState() {
@@ -35,10 +35,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(0, 1.2),
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    _slide = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
   }
 
   @override
@@ -71,11 +68,18 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
 
   @override
   Widget build(BuildContext context) {
+    final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    final barHeight = isIos ? 52.0 : 70.0;
+    final lowerBy = isIos ? 8 / (barHeight + 12) : 0.0;
+
     return SlideTransition(
-      position: _offsetAnimation,
+      position: Tween<Offset>(
+        begin: Offset(0, lowerBy),
+        end: Offset(0, isIos ? 2 : 1.2),
+      ).animate(_slide),
       child: Container(
         width: double.infinity,
-        height: 70,
+        height: barHeight,
         margin: const EdgeInsets.only(right: 15, left: 15, top: 12),
         padding: const EdgeInsets.symmetric(horizontal: 45),
         decoration: BoxDecoration(
@@ -97,9 +101,13 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        widget.currentIndex == widget.items.indexOf(item)
-                            ? item.iconActive
-                            : item.icon,
+                        SizedBox(
+                          height: isIos ? 20 : null,
+                          child:
+                              widget.currentIndex == widget.items.indexOf(item)
+                              ? item.iconActive
+                              : item.icon,
+                        ),
                         const SizedBox(height: 2),
                         AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 300),
@@ -108,8 +116,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                             fontSize:
                                 widget.currentIndex ==
                                     widget.items.indexOf(item)
-                                ? 14
-                                : 12,
+                                ? (isIos ? 11 : 14)
+                                : (isIos ? 10 : 12),
                             color:
                                 widget.currentIndex ==
                                     widget.items.indexOf(item)
