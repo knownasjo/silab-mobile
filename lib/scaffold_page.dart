@@ -210,7 +210,9 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
             _goBranch(index);
           },
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: BottomNavbarLocation(
+          Theme.of(context).platform,
+        ),
       ),
     );
   }

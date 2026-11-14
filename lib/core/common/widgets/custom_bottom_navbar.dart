@@ -3,6 +3,31 @@ import 'package:silab/core/common/entities/bottom_navbar/bottom_navbar_entity.da
 
 const double bottomNavbarSpace = 100;
 
+double _lowerBy(TargetPlatform platform, double bottomInset) =>
+    platform == TargetPlatform.iOS && bottomInset > 0 ? 8 : 0;
+
+class BottomNavbarLocation extends StandardFabLocation
+    with FabCenterOffsetX, FabFloatOffsetY {
+  final TargetPlatform platform;
+
+  const BottomNavbarLocation(this.platform);
+
+  @override
+  double getOffsetY(
+    ScaffoldPrelayoutGeometry scaffoldGeometry,
+    double adjustment,
+  ) =>
+      super.getOffsetY(scaffoldGeometry, adjustment) +
+      _lowerBy(platform, scaffoldGeometry.minViewPadding.bottom);
+
+  @override
+  bool operator ==(Object other) =>
+      other is BottomNavbarLocation && other.platform == platform;
+
+  @override
+  int get hashCode => platform.hashCode;
+}
+
 class CustomBottomNavbar extends StatefulWidget {
   final List<BottomNavbarEntity> items;
   final void Function(int) onTap;
@@ -68,78 +93,100 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
 
   @override
   Widget build(BuildContext context) {
-    final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    final platform = Theme.of(context).platform;
+    final isIos = platform == TargetPlatform.iOS;
     final view = View.of(context);
     final bottomInset = view.viewPadding.bottom / view.devicePixelRatio;
     final barHeight = isIos ? 52.0 : 70.0;
-    final slotHeight = barHeight + 12;
-    final lowerBy = isIos && bottomInset > 0 ? 8 / slotHeight : 0.0;
+    final lowerBy = _lowerBy(platform, bottomInset);
+    final slotHeight = barHeight + 12 + lowerBy;
 
     return SlideTransition(
       position: Tween<Offset>(
-        begin: Offset(0, lowerBy),
-        end: Offset(0, isIos ? 2 : 1.2 + bottomInset / slotHeight),
+        begin: Offset.zero,
+        end: Offset(
+          0,
+          isIos
+              ? (2 * (barHeight + 12) - lowerBy) / slotHeight
+              : 1.2 + bottomInset / slotHeight,
+        ),
       ).animate(_slide),
       child: Container(
         width: double.infinity,
         height: barHeight,
-        margin: const EdgeInsets.only(right: 15, left: 15, top: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 45),
+        margin: EdgeInsets.only(right: 15, left: 15, top: 12 + lowerBy),
         decoration: BoxDecoration(
           color: const Color(0xff3272CA),
           borderRadius: BorderRadius.circular(90),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: widget.items
-              .map(
-                (item) => GestureDetector(
-                  onTap: () {
-                    widget.onTap(widget.items.indexOf(item));
-                  },
-                  child: SizedBox(
-                    width: 80,
-                    height: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: isIos ? 20 : null,
-                          child:
-                              widget.currentIndex == widget.items.indexOf(item)
-                              ? item.iconActive
-                              : item.icon,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final halfGap =
+                ((constraints.maxWidth - 2 * 45 - 80.0 * widget.items.length) /
+                        (widget.items.length - 1) /
+                        2)
+                    .clamp(0.0, double.infinity);
+
+            return Row(
+              children: widget.items
+                  .map(
+                    (item) => GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        widget.onTap(widget.items.indexOf(item));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: item == widget.items.first ? 45 : halfGap,
+                          right: item == widget.items.last ? 45 : halfGap,
                         ),
-                        const SizedBox(height: 2),
-                        AnimatedDefaultTextStyle(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                          style: TextStyle(
-                            fontSize:
-                                widget.currentIndex ==
-                                    widget.items.indexOf(item)
-                                ? (isIos ? 11 : 14)
-                                : (isIos ? 10 : 12),
-                            color:
-                                widget.currentIndex ==
-                                    widget.items.indexOf(item)
-                                ? Colors.white
-                                : Colors.white70,
-                            fontWeight:
-                                widget.currentIndex ==
-                                    widget.items.indexOf(item)
-                                ? FontWeight.bold
-                                : FontWeight.normal,
+                        child: SizedBox(
+                          width: 80,
+                          height: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: isIos ? 20 : null,
+                                child:
+                                    widget.currentIndex ==
+                                        widget.items.indexOf(item)
+                                    ? item.iconActive
+                                    : item.icon,
+                              ),
+                              const SizedBox(height: 2),
+                              AnimatedDefaultTextStyle(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                                style: TextStyle(
+                                  fontSize:
+                                      widget.currentIndex ==
+                                          widget.items.indexOf(item)
+                                      ? (isIos ? 11 : 14)
+                                      : (isIos ? 10 : 12),
+                                  color:
+                                      widget.currentIndex ==
+                                          widget.items.indexOf(item)
+                                      ? Colors.white
+                                      : Colors.white70,
+                                  fontWeight:
+                                      widget.currentIndex ==
+                                          widget.items.indexOf(item)
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
+                                child: Text(item.label),
+                              ),
+                            ],
                           ),
-                          child: Text(item.label),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              )
-              .toList(),
+                  )
+                  .toList(),
+            );
+          },
         ),
       ),
     );

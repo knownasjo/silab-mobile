@@ -228,6 +228,17 @@ tombol mengambang `Scaffold` sudah tidak memuat jarak bawah. Bila bilah
 navigasi sistem tidak berada di dalam layar aplikasi, tingginya 0 dan
 gerakannya sama seperti dulu.
 
+Penurunan 8 di iPhone yang punya garis home dikerjakan oleh
+`BottomNavbarLocation`, letak tombol mengambang yang dipakai
+`lib/scaffold_page.dart`, bukan oleh geseran `SlideTransition`. `Scaffold`
+hanya menerima ketukan di dalam wadah tombol mengambang, jadi saat bilah cuma
+digeser, 8 titik paling bawahnya keluar dari wadah dan tidak bisa ditekan.
+Jarak atas bilah ditambah 8 supaya puncak wadah tetap di tempat yang sama:
+snackbar, yang muncul di atas wadah itu, tidak ikut turun, dan jarak geser saat
+bilah disembunyikan tetap sama. `BottomNavbarLocation` dianggap sama bila
+platformnya sama, sehingga `Scaffold` tidak menjalankan animasi pindah tombol
+mengambang setiap kali halaman dibangun ulang.
+
 ### Flutter 3.47
 
 Sejak 3 November 2026 aplikasi memakai Flutter 3.47.9 (sebelumnya 3.24.5).
@@ -835,6 +846,13 @@ menyimpan, sama seperti di halaman Masuk.
   selama keyboard terbuka. Dulu menu bawah mengambang tepat di atas keyboard dan
   menutupi kolom yang sedang diketik (misalnya konfirmasi password) atau tombol
   Simpan di Edit Profil.
+- Seluruh bilah `CustomBottomNavbar` bisa ditekan. Dulu hanya gambar ikon dan
+  tulisan menu yang menangkap ketukan (sekitar 14% dari luas bilah), karena
+  `GestureDetector` dengan perilaku bawaan hanya merespons di atas isi yang
+  tergambar. Sekarang setiap menu memakai `HitTestBehavior.opaque` dan areanya
+  diperlebar sampai setengah jarak ke menu di sebelahnya, sedangkan menu
+  pertama dan terakhir sampai ke ujung bilah. Jadi setiap titik di bilah
+  membuka menu yang paling dekat, dan letak ikon serta tulisan tidak berubah.
 - `ScaffoldPage` menyalakan menu sesuai halaman utama yang sedang tampil
   (`/home`, `/schedule`, `/profile`), bukan hanya saat menu diketuk. Dulu
   setelah Detail Kelas dibuka dari Jadwal lalu "Kembali ke Beranda" ditekan,
