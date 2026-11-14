@@ -47,21 +47,27 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: RegisteredClassGuard(
             classEntity: widget.classDetailPageExtra.classEntity,
-            builder: (context, latest) => RefreshIndicator(
-              color: const Color(0xff3272CA),
-              backgroundColor: Colors.white,
-              triggerMode: RefreshIndicatorTriggerMode.anywhere,
-              onRefresh: () async => _loadClassData(),
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  ClassCard(classEntity: latest),
-                  const SizedBox(height: 24),
-                  ClassDetailTabView(
-                    classId: widget.classDetailPageExtra.classEntity.id,
-                  ),
-                  const SizedBox(height: bottomNavbarSpace),
-                ],
+            builder: (context, latest) => SizedBox(
+              height:
+                  MediaQuery.of(context).size.height -
+                  Scaffold.of(context).appBarMaxHeight! -
+                  View.of(context).padding.bottom /
+                      View.of(context).devicePixelRatio,
+              child: RefreshIndicator(
+                color: const Color(0xff3272CA),
+                backgroundColor: Colors.white,
+                triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                onRefresh: () async => _loadClassData(),
+                child: ListView(
+                  children: [
+                    ClassCard(classEntity: latest),
+                    const SizedBox(height: 24),
+                    ClassDetailTabView(
+                      classId: widget.classDetailPageExtra.classEntity.id,
+                    ),
+                    const SizedBox(height: bottomNavbarSpace),
+                  ],
+                ),
               ),
             ),
           ),

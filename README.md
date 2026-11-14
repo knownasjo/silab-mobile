@@ -1275,6 +1275,19 @@ dan `GET /class` (kelas yang dipegang sebagai asisten), dikelompokkan per hari
   dengan geseran sendiri: di HP 360×640 hanya 4 pertemuan terlihat dan bagian
   bawah kotak tertutup menu, di HP 411×891 hanya 5 pertemuan sementara layar
   di bawahnya kosong.
+- Halaman Detail Kelas setinggi area yang terlihat (layar dikurangi bilah judul
+  dan bilah sistem di bawah), dan `ListView` halaman itu sendiri yang
+  bergeser. Dulu halaman tidak diberi tinggi, jadi `ListView` itu setinggi
+  seluruh isinya dan tidak punya apa pun untuk digeser, tetapi tetap menangkap
+  geseran jari, karena daftar vertikal tanpa controller memakai
+  `AlwaysScrollableScrollPhysics`. Geseran tidak pernah sampai ke
+  `SingleChildScrollView` di `ScaffoldPage`: dengan 14 pertemuan di iPhone 11
+  Pro, Pertemuan 1–6 tidak pernah terlihat. Bilah sistem di bawah ikut
+  dikurangi supaya pertemuan terakhir tetap di atas menu bawah di Android
+  dengan navigasi 3 tombol. Tesnya dulu lolos karena menggeser lewat `jumpTo`;
+  sekarang tes menggeser dengan jari (`swipeUpToEnd` di
+  `test/helpers/small_phone_shell.dart`). Tarik ke bawah untuk memuat ulang
+  tetap berjalan.
 - Kartu kelas (Detail Kelas dan Beranda) memakai tinggi minimal 120, jadi
   memanjang bila ukuran huruf HP diperbesar (dulu terpotong di 1,3×). Nama
   dosen dan judul pertemuan yang panjang (server membolehkan 50 huruf)

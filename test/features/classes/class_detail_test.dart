@@ -71,6 +71,7 @@ void main() {
   late bool cameraAllowed;
   late String lecturer;
   late ScrollController controller;
+  late int meetingRequests;
   Completer<void>? holdAttendance;
 
   setUpAll(loadRealFont);
@@ -88,6 +89,7 @@ void main() {
     cameraAllowed = true;
     lecturer = 'Dosen001';
     holdAttendance = null;
+    meetingRequests = 0;
   });
 
   http.Response ok(Object? data, [String message = 'Berhasil']) =>
@@ -109,7 +111,10 @@ void main() {
     final path = request.url.path;
     if (down.contains(path)) throw http.ClientException('Connection refused');
 
-    if (path == '/meeting/k1') return ok(meetings);
+    if (path == '/meeting/k1') {
+      meetingRequests++;
+      return ok(meetings);
+    }
     if (path == '/class/k1/classmates') {
       return ok([
         {'id': 'u1', 'name': 'Budi Santoso', 'isMe': true},
@@ -278,32 +283,35 @@ void main() {
 
   group('Detail Kelas', () {
     testWidgets(
-      '14 pertemuan di HP 360×640: seluruh halaman yang digeser, pertemuan terakhir bisa sampai di atas menu bawah',
+      '14 pertemuan di HP 360×640: halaman digeser dengan jari sampai pertemuan terakhir di atas menu bawah',
       (tester) async {
         meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
         await openDetail(tester);
+        final top = tester.getRect(rowOf('Pertemuan 14')).top;
 
-        expect(controller.position.maxScrollExtent, greaterThan(0));
-        for (final element in find.byType(Scrollable).evaluate()) {
-          final position =
-              ((element as StatefulElement).state as ScrollableState).position;
-          if (position != controller.position &&
-              position.axis == Axis.vertical) {
-            expect(
-              position.maxScrollExtent,
-              0,
-              reason: 'tidak boleh ada kotak geser di dalam halaman',
-            );
-          }
-        }
+        await swipeUpToEnd(tester);
 
-        await scrollEverythingToEnd(tester);
+        expect(tester.getRect(rowOf('Pertemuan 14')).top, lessThan(top));
         expect(
           tester.getRect(rowOf('Pertemuan 1')).bottom,
           lessThanOrEqualTo(navbarTop(tester)),
         );
+        expect(controller.offset, 0);
+        expect(controller.position.maxScrollExtent, 0);
       },
     );
+
+    testWidgets('tarik halaman ke bawah memuat ulang daftar pertemuan', (
+      tester,
+    ) async {
+      await openDetail(tester);
+      final before = meetingRequests;
+
+      await tester.fling(rowOf('Pertemuan 3'), const Offset(0, 300), 1000);
+      await settle(tester);
+
+      expect(meetingRequests, greaterThan(before));
+    });
 
     testWidgets(
       '14 pertemuan di HP tinggi 411×891: layar terisi, bukan kotak kecil berisi 5 baris',
