@@ -151,6 +151,7 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
                         ),
                       )
                     : const UserWelcomeWidget(),
+                centerTitle: false,
                 forceMaterialTransparency: true,
               )
             : currentRoute.contains('/home')
@@ -167,6 +168,7 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
                   borderRadius: BorderRadius.circular(100),
                   child: const Icon(Icons.chevron_left, size: 32),
                 ),
+                centerTitle: false,
                 forceMaterialTransparency: true,
               )
             : null,

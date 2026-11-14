@@ -205,6 +205,11 @@ menutupnya (`hideIosKeyboardOnTapOutside`) karena papan ketik angka iPhone
 tidak punya tombol selesai. Mengetuk ikon mata di kolom password atau pindah
 ke kolom lain tidak menutup papan ketik.
 
+Judul di bagian atas layar (sapaan di Beranda, "Jadwal Praktikum", dan judul
+halaman lanjutan seperti "Detail Kelas") dibuat rata kiri dengan
+`centerTitle: false` di `lib/scaffold_page.dart`. Bawaan Flutter menaruh judul
+itu di tengah layar di iOS dan di kiri di Android, jadi Android tidak berubah.
+
 ### Flutter 3.47
 
 Sejak 3 November 2026 aplikasi memakai Flutter 3.47.9 (sebelumnya 3.24.5).

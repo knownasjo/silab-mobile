@@ -196,4 +196,26 @@ void main() {
       expect(find.byType(UserWelcomeWidget), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'judul atas rata kiri seperti di Android: sapaan Beranda, Jadwal Praktikum, dan Detail Kelas',
+    (tester) async {
+      await openApp(tester);
+      final titleLefts = [tester.getTopLeft(find.text('Selamat Datang,')).dx];
+
+      await tester.tap(find.text('Jadwal'));
+      await tester.pumpAndSettle();
+      titleLefts.add(tester.getTopLeft(find.text('Jadwal Praktikum')).dx);
+
+      await tester.tap(find.text('Buka kelas'));
+      await tester.pumpAndSettle();
+      titleLefts.add(tester.getTopLeft(find.text('Detail Kelas')).dx);
+
+      expect(titleLefts, [16, 16, 72]);
+    },
+    variant: const TargetPlatformVariant({
+      TargetPlatform.iOS,
+      TargetPlatform.android,
+    }),
+  );
 }
