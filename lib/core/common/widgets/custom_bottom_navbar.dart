@@ -69,13 +69,16 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
   @override
   Widget build(BuildContext context) {
     final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+    final view = View.of(context);
+    final bottomInset = view.viewPadding.bottom / view.devicePixelRatio;
     final barHeight = isIos ? 52.0 : 70.0;
-    final lowerBy = isIos ? 8 / (barHeight + 12) : 0.0;
+    final slotHeight = barHeight + 12;
+    final lowerBy = isIos && bottomInset > 0 ? 8 / slotHeight : 0.0;
 
     return SlideTransition(
       position: Tween<Offset>(
         begin: Offset(0, lowerBy),
-        end: Offset(0, isIos ? 2 : 1.2),
+        end: Offset(0, isIos ? 2 : 1.2 + bottomInset / slotHeight),
       ).animate(_slide),
       child: Container(
         width: double.infinity,

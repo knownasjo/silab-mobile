@@ -212,11 +212,21 @@ itu di tengah layar di iOS dan di kiri di Android, jadi Android tidak berubah.
 
 Bilah menu bawah (Beranda, Jadwal, Profil) di iPhone dibuat lebih kecil di
 `lib/core/common/widgets/custom_bottom_navbar.dart`: tinggi 52 (Android 70),
-ikon 20 (Android 24), tulisan menu 11 dan 10 (Android 14 dan 12), dan letaknya
-8 lebih rendah, tetap di atas garis home. Sebelumnya bilah yang disembunyikan
-saat layar digulir ke bawah masih terlihat sekitar 22 dari tinggi 70 di tepi
-bawah layar iPhone, karena jarak gesernya tidak menghitung area garis home.
-Sekarang bilah turun sampai hilang penuh. Android tidak berubah.
+ikon 20 (Android 24), tulisan menu 11 dan 10 (Android 14 dan 12). Di iPhone
+yang punya garis home, letaknya 8 lebih rendah tetapi tetap di atas garis
+home; di iPhone bertombol Home (SE, iPhone 8) jaraknya tetap 16 dari tepi
+bawah layar.
+
+Bilah yang disembunyikan saat layar digulir ke bawah dulu masih terlihat
+sebagian di tepi bawah layar bila area garis home atau bilah navigasi sistem
+berada di dalam layar aplikasi: sekitar 22 dari tinggi 70 di iPhone, serta
+sekitar 12 (navigasi garis) dan 36 (navigasi 3 tombol) di Android 16. Sekarang
+bilah turun sampai hilang penuh: di iPhone sejauh dua kali tingginya, di
+Android sejauh jarak lama ditambah tinggi bilah navigasi sistem. Tinggi itu
+dibaca dari `View.of(context).viewPadding`, karena `MediaQuery` di dalam
+tombol mengambang `Scaffold` sudah tidak memuat jarak bawah. Bila bilah
+navigasi sistem tidak berada di dalam layar aplikasi, tingginya 0 dan
+gerakannya sama seperti dulu.
 
 ### Flutter 3.47
 

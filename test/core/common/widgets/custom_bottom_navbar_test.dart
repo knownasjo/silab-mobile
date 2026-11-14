@@ -18,9 +18,14 @@ void main() {
   setUp(() => controller = ScrollController());
   tearDown(() => controller.dispose());
 
-  Future<void> openNavbar(WidgetTester tester, {bool isVisible = true}) async {
-    const insets = FakeViewPadding(top: 44 * 3, bottom: 34 * 3);
-    tester.view.physicalSize = const Size(375, 812) * 3;
+  Future<void> openNavbar(
+    WidgetTester tester, {
+    bool isVisible = true,
+    Size screen = const Size(375, 812),
+    double bottomInset = 34,
+  }) async {
+    final insets = FakeViewPadding(top: 44 * 3, bottom: bottomInset * 3);
+    tester.view.physicalSize = screen * 3;
     tester.view.devicePixelRatio = 3;
     tester.view.padding = insets;
     tester.view.viewPadding = insets;
@@ -114,5 +119,68 @@ void main() {
       expect(bar(tester).top, greaterThanOrEqualTo(812));
     },
     variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+  );
+
+  testWidgets(
+    'iPhone bertombol Home (SE): bilah tetap 16 dari tepi bawah dan hilang penuh saat disembunyikan',
+    (tester) async {
+      const screen = Size(375, 667);
+      await openNavbar(tester, screen: screen, bottomInset: 0);
+      expect(screen.height - bar(tester).bottom, moreOrLessEquals(16));
+
+      await openNavbar(
+        tester,
+        isVisible: false,
+        screen: screen,
+        bottomInset: 0,
+      );
+      expect(bar(tester).top, greaterThanOrEqualTo(screen.height));
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+  );
+
+  for (final (navigation, bottomInset) in [
+    ('garis', 24.0),
+    ('3 tombol', 48.0),
+  ]) {
+    testWidgets(
+      'Android 16 navigasi $navigation: letak bilah tetap dan bilah hilang penuh saat disembunyikan',
+      (tester) async {
+        const screen = Size(412, 915);
+        await openNavbar(tester, screen: screen, bottomInset: bottomInset);
+        expect(bar(tester).height, moreOrLessEquals(70));
+        expect(
+          screen.height - bar(tester).bottom,
+          moreOrLessEquals(bottomInset + 16),
+        );
+
+        await openNavbar(
+          tester,
+          isVisible: false,
+          screen: screen,
+          bottomInset: bottomInset,
+        );
+        expect(bar(tester).top, greaterThanOrEqualTo(screen.height));
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.android),
+    );
+  }
+
+  testWidgets(
+    'Android tanpa bilah navigasi sistem di dalam layar: bilah turun sejauh dulu saat disembunyikan',
+    (tester) async {
+      const screen = Size(412, 915);
+      await openNavbar(tester, screen: screen, bottomInset: 0);
+      final shown = bar(tester);
+
+      await openNavbar(
+        tester,
+        isVisible: false,
+        screen: screen,
+        bottomInset: 0,
+      );
+      expect(bar(tester).top - shown.top, moreOrLessEquals((70 + 12) * 1.2));
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.android),
   );
 }
