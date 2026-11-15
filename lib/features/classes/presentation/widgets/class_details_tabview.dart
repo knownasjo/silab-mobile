@@ -3,6 +3,7 @@ import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:silab/core/helpers/initials.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/core/common/widgets/custom_loading_indicator.dart';
 import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/features/classes/domain/entities/classmate/classmate_entity.dart';
@@ -13,8 +14,9 @@ import 'package:silab/features/classes/presentation/pages/qr_scan_page.dart';
 
 class ClassDetailTabView extends StatefulWidget {
   final String? classId;
+  final bool shrinkWrap;
 
-  const ClassDetailTabView({super.key, this.classId});
+  const ClassDetailTabView({super.key, this.classId, this.shrinkWrap = true});
 
   @override
   State<ClassDetailTabView> createState() => _ClassDetailPageTabiewState();
@@ -27,12 +29,19 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
 
   @override
   Widget build(BuildContext context) {
+    final content = _buildPageContent(pageLocation);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         _buildPageSelector(),
         const SizedBox(height: 24),
-        _buildPageContent(pageLocation),
+        if (widget.shrinkWrap)
+          content
+        else
+          Expanded(
+            child: Material(type: MaterialType.transparency, child: content),
+          ),
       ],
     );
   }
@@ -146,6 +155,11 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
           return _buildTabMessage('Belum ada peserta di kelas ini.');
         }
 
+        final list = _buildList(
+          itemCount: classmates.length,
+          itemBuilder: (context, idx) => _buildClassmateItem(classmates[idx]),
+        );
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -161,14 +175,7 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
                   ),
                 ),
               ),
-            ListView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              itemCount: classmates.length,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, idx) =>
-                  _buildClassmateItem(classmates[idx]),
-            ),
+            if (widget.shrinkWrap) list else Expanded(child: list),
           ],
         );
       },
@@ -220,48 +227,49 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
   }
 
   Widget _buildTabLoading() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 32),
-      child: Center(child: CustomLoadingIndicator()),
+    return _buildScrollable(
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 32),
+        child: Center(child: CustomLoadingIndicator()),
+      ),
     );
   }
 
   Widget _buildTabMessage(String message, {VoidCallback? onRetry}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: const Color(0xff1D1D1D).withValues(alpha: 0.7),
-              ),
-            ),
-            if (onRetry != null)
-              TextButton.icon(
-                onPressed: onRetry,
-                style: TextButton.styleFrom(
-                  foregroundColor: const Color(0xff3272CA),
+    return _buildScrollable(
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: const Color(0xff1D1D1D).withValues(alpha: 0.7),
                 ),
-                icon: const Icon(Boxicons.bx_refresh),
-                label: const Text('Coba lagi'),
               ),
-          ],
+              if (onRetry != null)
+                TextButton.icon(
+                  onPressed: onRetry,
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xff3272CA),
+                  ),
+                  icon: const Icon(Boxicons.bx_refresh),
+                  label: const Text('Coba lagi'),
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildMeetingList(List<MeetingsEntity> meetingList) {
-    return ListView.builder(
-      shrinkWrap: true,
-      padding: EdgeInsets.zero,
+    return _buildList(
       itemCount: meetingList.length,
-      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, idx) {
         final meeting = meetingList[idx];
 
@@ -295,6 +303,30 @@ class _ClassDetailPageTabiewState extends State<ClassDetailTabView> {
       },
     );
   }
+
+  Widget _buildList({
+    required int itemCount,
+    required IndexedWidgetBuilder itemBuilder,
+  }) {
+    if (widget.shrinkWrap) {
+      return ListView.builder(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        itemCount: itemCount,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: itemBuilder,
+      );
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.only(bottom: bottomNavbarSpace),
+      itemCount: itemCount,
+      itemBuilder: itemBuilder,
+    );
+  }
+
+  Widget _buildScrollable(Widget child) =>
+      widget.shrinkWrap ? child : ListView(children: [child]);
 
   bool _canScan(MeetingsEntity meeting) =>
       meeting.isOpen == true &&

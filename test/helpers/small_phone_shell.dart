@@ -56,10 +56,11 @@ Future<void> scrollEverythingToEnd(WidgetTester tester) async {
   }
 }
 
-Future<void> swipeUpToEnd(WidgetTester tester) async {
+Future<void> swipeUpToEnd(WidgetTester tester, {Offset? from}) async {
   final screen = tester.view.physicalSize / tester.view.devicePixelRatio;
+  final start = from ?? screen.center(Offset.zero);
   for (var round = 0; round < 12; round++) {
-    await tester.dragFrom(screen.center(Offset.zero), const Offset(0, -300));
+    await tester.dragFrom(start, const Offset(0, -300));
     await tester.pumpAndSettle();
   }
 }

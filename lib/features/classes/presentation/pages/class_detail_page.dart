@@ -24,6 +24,8 @@ class ClassDetailPage extends StatefulWidget {
 }
 
 class _ClassDetailPageState extends State<ClassDetailPage> {
+  final _tabView = GlobalKey();
+
   @override
   void initState() {
     _loadClassData();
@@ -39,6 +41,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final portrait = MediaQuery.orientationOf(context) == Orientation.portrait;
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Material(
@@ -58,16 +62,32 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                 backgroundColor: Colors.white,
                 triggerMode: RefreshIndicatorTriggerMode.anywhere,
                 onRefresh: () async => _loadClassData(),
-                child: ListView(
-                  children: [
-                    ClassCard(classEntity: latest),
-                    const SizedBox(height: 24),
-                    ClassDetailTabView(
-                      classId: widget.classDetailPageExtra.classEntity.id,
-                    ),
-                    const SizedBox(height: bottomNavbarSpace),
-                  ],
-                ),
+                child: portrait
+                    ? Column(
+                        children: [
+                          ClassCard(classEntity: latest),
+                          const SizedBox(height: 24),
+                          Expanded(
+                            child: ClassDetailTabView(
+                              key: _tabView,
+                              classId:
+                                  widget.classDetailPageExtra.classEntity.id,
+                              shrinkWrap: false,
+                            ),
+                          ),
+                        ],
+                      )
+                    : ListView(
+                        children: [
+                          ClassCard(classEntity: latest),
+                          const SizedBox(height: 24),
+                          ClassDetailTabView(
+                            key: _tabView,
+                            classId: widget.classDetailPageExtra.classEntity.id,
+                          ),
+                          const SizedBox(height: bottomNavbarSpace),
+                        ],
+                      ),
               ),
             ),
           ),

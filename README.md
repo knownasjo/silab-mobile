@@ -1289,25 +1289,33 @@ dan `GET /class` (kelas yang dipegang sebagai asisten), dikelompokkan per hari
 
 ### Detail Kelas dan Scan QR
 
-- Seluruh halaman Detail Kelas yang digeser, dan di bawahnya ada ruang
-  `bottomNavbarSpace` supaya pertemuan terakhir bisa sampai di atas menu
-  bawah. Dulu tab Presensi/Classmates berada di kotak setinggi lebar layar
-  dengan geseran sendiri: di HP 360×640 hanya 4 pertemuan terlihat dan bagian
-  bawah kotak tertutup menu, di HP 411×891 hanya 5 pertemuan sementara layar
-  di bawahnya kosong.
 - Halaman Detail Kelas setinggi area yang terlihat (layar dikurangi bilah judul
-  dan bilah sistem di bawah), dan `ListView` halaman itu sendiri yang
-  bergeser. Dulu halaman tidak diberi tinggi, jadi `ListView` itu setinggi
-  seluruh isinya dan tidak punya apa pun untuk digeser, tetapi tetap menangkap
-  geseran jari, karena daftar vertikal tanpa controller memakai
-  `AlwaysScrollableScrollPhysics`. Geseran tidak pernah sampai ke
-  `SingleChildScrollView` di `ScaffoldPage`: dengan 14 pertemuan di iPhone 11
-  Pro, Pertemuan 1–6 tidak pernah terlihat. Bilah sistem di bawah ikut
-  dikurangi supaya pertemuan terakhir tetap di atas menu bawah di Android
-  dengan navigasi 3 tombol. Tesnya dulu lolos karena menggeser lewat `jumpTo`;
-  sekarang tes menggeser dengan jari (`swipeUpToEnd` di
-  `test/helpers/small_phone_shell.dart`). Tarik ke bawah untuk memuat ulang
-  tetap berjalan.
+  dan bilah sistem di bawah). Saat HP tegak, kartu kelas, tombol
+  Presensi/Classmates, dan baris "N mahasiswa terdaftar" diam; hanya daftar di
+  bawahnya yang bergeser (`ClassDetailTabView` dengan `shrinkWrap: false`).
+  Daftar itu mengisi sampai bawah layar dan diberi ruang `bottomNavbarSpace` di
+  bawahnya, jadi baris terakhir bisa sampai di atas menu bawah. Tarik ke bawah
+  untuk memuat ulang dilakukan dari daftar. Daftar punya `Material` transparan
+  sendiri, jadi efek ketuk baris yang setengah tertutup tidak tergambar di luar
+  daftar.
+- Saat HP miring, seluruh halaman yang bergeser. Di layar miring daftar baru
+  mulai sekitar 70% dari atas layar atau lebih, jadi kalau bagian atas ikut
+  diam, daftar hampir seluruhnya tertutup menu bawah. Tab yang dipilih tetap
+  terbuka saat HP diputar (`GlobalKey` pada `ClassDetailTabView`).
+- Dulu tab Presensi/Classmates berada di kotak setinggi lebar layar dengan
+  geseran sendiri: di HP 360×640 hanya 4 pertemuan terlihat dan bagian bawah
+  kotak tertutup menu, di HP 411×891 hanya 5 pertemuan sementara layar di
+  bawahnya kosong. Sesudah itu seluruh halaman dibuat bergeser, tetapi
+  halaman belum diberi tinggi, jadi `ListView`-nya setinggi seluruh isi dan
+  tidak bisa bergeser, padahal tetap menangkap geseran jari (daftar vertikal
+  tanpa controller memakai `AlwaysScrollableScrollPhysics`): dengan 14
+  pertemuan di iPhone 11 Pro, Pertemuan 1–6 tidak pernah terlihat. Tesnya
+  lolos karena menggeser lewat `jumpTo`; sekarang tes menggeser dengan jari
+  (`swipeUpToEnd` di `test/helpers/small_phone_shell.dart`). Setelah halaman
+  diberi tinggi, kartu kelas dan tombol tab masih ikut tergeser keluar layar
+  saat HP tegak. Bilah sistem di bawah ikut dikurangi dari tinggi halaman
+  supaya baris terakhir tetap di atas menu bawah di Android dengan navigasi 3
+  tombol.
 - Kartu kelas (Detail Kelas dan Beranda) memakai tinggi minimal 120, bukan
   tinggi tetap, jadi kartu memanjang bila isinya lebih tinggi. Dulu kartu
   terpotong saat huruf HP 1,3×, sebelum aplikasi berhenti mengikuti ukuran
@@ -1443,16 +1451,20 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   Coba lagi; pengumuman panjang di 360×640 hanya punya satu geseran dan baris
   terakhir sampai di atas menu bawah; isi bisa dipilih dan "Salin isi"
   menyalin seluruh isi; label jenis tampil di atas judul
-- `test/features/classes/class_detail_test.dart` — 14 pertemuan di HP
-  360×640 digeser bersama halaman sampai di atas menu bawah dan mengisi layar
-  HP 411×891 (minimal 7 baris); nama dosen panjang tidak merusak
-  kartu; judul pertemuan 50 huruf dipotong; tombol "Scan QR" hanya di
-  pertemuan terbuka yang belum dipresensi dan membuka kamera; pesan "Sesi
-  presensi sedang tidak dibuka."; Coba lagi di kedua tab; saat presensi
-  dicatat, ketukan di luar dan tombol kembali HP diabaikan lalu aplikasi
-  kembali ke Detail Kelas; izin kamera ditolak tampil berbahasa Indonesia dan
-  Coba lagi menyalakan kamera; tombol kembali scan tidak menimpa bingkai.
-  Kamera ditiru lewat `MethodChannel` paket `mobile_scanner`.
+- `test/features/classes/class_detail_test.dart` — HP 360×640 tegak: 14
+  pertemuan dan 30 teman sekelas digeser dengan jari sampai baris terakhir di
+  atas menu bawah, sementara kartu kelas, tombol tab, dan "30 mahasiswa
+  terdaftar" tetap di tempat; menggeser dari kartu tidak menggerakkan apa
+  pun; HP miring 640×360: seluruh halaman yang bergeser; tab yang dipilih
+  tetap terbuka saat HP diputar; tarik ke bawah memuat ulang; daftar mengisi
+  layar HP 411×891 (minimal 7 baris); nama dosen panjang tidak merusak kartu;
+  judul pertemuan 50 huruf dipotong; tombol "Scan QR" hanya di pertemuan
+  terbuka yang belum dipresensi dan membuka kamera; pesan "Sesi presensi
+  sedang tidak dibuka."; Coba lagi di kedua tab; saat presensi dicatat,
+  ketukan di luar dan tombol kembali HP diabaikan lalu aplikasi kembali ke
+  Detail Kelas; izin kamera ditolak tampil berbahasa Indonesia dan Coba lagi
+  menyalakan kamera; tombol kembali scan tidak menimpa bingkai. Kamera ditiru
+  lewat `MethodChannel` paket `mobile_scanner`.
 - `test/features/classes/registered_class_guard_test.dart` — Detail Kelas
   memakai data kelas terbaru dari `GET /class/me`, menampilkan pemberitahuan
   bila kelasnya sudah tidak ada, dan tidak salah menganggap kelas dihapus saat

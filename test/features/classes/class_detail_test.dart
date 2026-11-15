@@ -28,6 +28,7 @@ import 'package:silab/features/classes/presentation/bloc/user_meetings/user_meet
 import 'package:silab/features/classes/presentation/bloc/user_registered_class/user_registered_class_bloc.dart';
 import 'package:silab/features/classes/presentation/pages/class_detail_page.dart';
 import 'package:silab/features/classes/presentation/pages/qr_scan_page.dart';
+import 'package:silab/features/classes/presentation/widgets/class_card.dart';
 
 import '../../helpers/real_font.dart';
 import '../../helpers/small_phone_shell.dart';
@@ -66,6 +67,7 @@ Map<String, dynamic> meeting(
 void main() {
   late SharedPreferences prefs;
   late List<Map<String, dynamic>> meetings;
+  late List<Map<String, dynamic>> classmates;
   late List<http.Request> attendancePosts;
   late Set<String> down;
   late bool cameraAllowed;
@@ -84,6 +86,9 @@ void main() {
     });
     prefs = await SharedPreferences.getInstance();
     meetings = [meeting(1), meeting(2, attended: true), meeting(3, open: true)];
+    classmates = [
+      {'id': 'u1', 'name': 'Budi Santoso', 'isMe': true},
+    ];
     attendancePosts = [];
     down = {};
     cameraAllowed = true;
@@ -115,11 +120,7 @@ void main() {
       meetingRequests++;
       return ok(meetings);
     }
-    if (path == '/class/k1/classmates') {
-      return ok([
-        {'id': 'u1', 'name': 'Budi Santoso', 'isMe': true},
-      ]);
-    }
+    if (path == '/class/k1/classmates') return ok(classmates);
     if (path == '/class/me') return ok([kelas()]);
     if (path == '/subject/classes/k1/meetings/m3/attendances') {
       attendancePosts.add(request);
@@ -280,15 +281,84 @@ void main() {
 
   group('Detail Kelas', () {
     testWidgets(
-      '14 pertemuan di HP 360×640: halaman digeser dengan jari sampai pertemuan terakhir di atas menu bawah',
+      '14 pertemuan di HP 360×640 tegak: hanya daftar yang bergeser sampai pertemuan terakhir di atas menu bawah, kartu kelas dan tombol tab tetap',
       (tester) async {
         meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
         await openDetail(tester);
-        final top = tester.getRect(rowOf('Pertemuan 14')).top;
+        final card = tester.getRect(find.byType(ClassCard));
+        final tab = tester.getRect(find.text('Presensi'));
+        final listTop = tester.getRect(rowOf('Pertemuan 14')).top;
+
+        await swipeUpToEnd(
+          tester,
+          from: tester.getCenter(rowOf('Pertemuan 14')),
+        );
+
+        expect(tester.getRect(find.byType(ClassCard)), card);
+        expect(tester.getRect(find.text('Presensi')), tab);
+        final last = tester.getRect(rowOf('Pertemuan 1'));
+        expect(last.top, greaterThanOrEqualTo(listTop));
+        expect(last.bottom, lessThanOrEqualTo(navbarTop(tester)));
+        expect(controller.offset, 0);
+        expect(controller.position.maxScrollExtent, 0);
+      },
+    );
+
+    testWidgets(
+      'HP tegak: menggeser dari kartu kelas tidak menggerakkan kartu maupun daftar',
+      (tester) async {
+        meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
+        await openDetail(tester);
+        final card = tester.getRect(find.byType(ClassCard));
+        final row = tester.getRect(rowOf('Pertemuan 14'));
+
+        await tester.dragFrom(card.center, const Offset(0, -300));
+        await tester.pumpAndSettle();
+
+        expect(tester.getRect(find.byType(ClassCard)), card);
+        expect(tester.getRect(rowOf('Pertemuan 14')), row);
+      },
+    );
+
+    testWidgets(
+      '30 teman sekelas di HP 360×640 tegak: hanya daftar nama yang bergeser, kartu kelas dan "30 mahasiswa terdaftar" tetap',
+      (tester) async {
+        classmates = [
+          for (var i = 1; i <= 30; i++)
+            {'id': 'u$i', 'name': 'Mahasiswa $i', 'isMe': i == 1},
+        ];
+        await openDetail(tester);
+        await tester.tap(find.text('Classmates'));
+        await tester.pumpAndSettle();
+        final card = tester.getRect(find.byType(ClassCard));
+        final count = tester.getRect(find.text('30 mahasiswa terdaftar'));
+
+        await swipeUpToEnd(
+          tester,
+          from: tester.getCenter(rowOf('Mahasiswa 1')),
+        );
+
+        expect(tester.getRect(find.byType(ClassCard)), card);
+        expect(tester.getRect(find.text('30 mahasiswa terdaftar')), count);
+        final last = tester.getRect(rowOf('Mahasiswa 30'));
+        expect(last.top, greaterThanOrEqualTo(count.bottom));
+        expect(last.bottom, lessThanOrEqualTo(navbarTop(tester)));
+      },
+    );
+
+    testWidgets(
+      '14 pertemuan di HP miring 640×360: seluruh halaman yang bergeser sampai pertemuan terakhir di atas menu bawah',
+      (tester) async {
+        meetings = [for (var i = 1; i <= 14; i++) meeting(i)];
+        await openDetail(tester, size: const Size(640, 360));
+        final card = tester.getRect(find.byType(ClassCard));
+
+        await tester.dragFrom(card.center, const Offset(0, -100));
+        await tester.pumpAndSettle();
+        expect(tester.getRect(find.byType(ClassCard)).top, lessThan(card.top));
 
         await swipeUpToEnd(tester);
 
-        expect(tester.getRect(rowOf('Pertemuan 14')).top, lessThan(top));
         expect(
           tester.getRect(rowOf('Pertemuan 1')).bottom,
           lessThanOrEqualTo(navbarTop(tester)),
@@ -297,6 +367,23 @@ void main() {
         expect(controller.position.maxScrollExtent, 0);
       },
     );
+
+    testWidgets('HP diputar: tab Classmates yang dipilih tetap terbuka', (
+      tester,
+    ) async {
+      await openDetail(tester);
+      await tester.tap(find.text('Classmates'));
+      await tester.pumpAndSettle();
+      expect(find.text('Budi Santoso'), findsOneWidget);
+
+      tester.view.physicalSize = const Size(640, 360) * 3;
+      await tester.pumpAndSettle();
+      expect(find.text('Budi Santoso'), findsOneWidget);
+
+      tester.view.physicalSize = const Size(360, 640) * 3;
+      await tester.pumpAndSettle();
+      expect(find.text('Budi Santoso'), findsOneWidget);
+    });
 
     testWidgets('tarik halaman ke bawah memuat ulang daftar pertemuan', (
       tester,
@@ -318,8 +405,9 @@ void main() {
 
         final visible = [
           for (var i = 1; i <= 14; i++)
-            if (tester.getRect(rowOf('Pertemuan $i')).bottom <=
-                navbarTop(tester))
+            if (find.text('Pertemuan $i').evaluate().isNotEmpty &&
+                tester.getRect(rowOf('Pertemuan $i')).bottom <=
+                    navbarTop(tester))
               i,
         ];
         expect(visible.length, greaterThanOrEqualTo(7));
