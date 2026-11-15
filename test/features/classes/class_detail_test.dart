@@ -143,12 +143,9 @@ void main() {
   Future<void> openDetail(
     WidgetTester tester, {
     Size size = const Size(360, 640),
-    double textScale = 1,
   }) async {
     useSmallPhone(tester);
     tester.view.physicalSize = size * 3;
-    tester.platformDispatcher.textScaleFactorTestValue = textScale;
-    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 
     final messenger = tester.binding.defaultBinaryMessenger;
     messenger.setMockMethodCallHandler(scannerMethods, (call) async {
@@ -329,19 +326,16 @@ void main() {
       },
     );
 
-    testWidgets(
-      'kartu kelas: nama dosen panjang dipotong "…" dan huruf HP 1,3× tidak memotong kartu',
-      (tester) async {
-        lecturer = longLecturer;
-        await openDetail(tester, textScale: 1.3);
+    testWidgets('kartu kelas: nama dosen panjang dipotong "…"', (tester) async {
+      lecturer = longLecturer;
+      await openDetail(tester);
 
-        expect(tester.takeException(), isNull);
-        final text = tester.widget<Text>(find.text(longLecturer));
-        expect(text.maxLines, 1);
-        expect(text.overflow, TextOverflow.ellipsis);
-        expect(find.text('07.00 - 08.40'), findsOneWidget);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      final text = tester.widget<Text>(find.text(longLecturer));
+      expect(text.maxLines, 1);
+      expect(text.overflow, TextOverflow.ellipsis);
+      expect(find.text('07.00 - 08.40'), findsOneWidget);
+    });
 
     testWidgets('judul pertemuan 50 huruf dipotong "…", baris tidak meluap', (
       tester,

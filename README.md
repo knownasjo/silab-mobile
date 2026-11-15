@@ -1229,6 +1229,26 @@ mengambil kelas yang sama dari `UserRegisteredClassBloc`, yang dimuat ulang
 oleh event `activation`. Bila kelas itu sudah tidak ada di daftar, halaman
 menampilkan pemberitahuan alih-alih tab Presensi dan Classmates.
 
+### Ukuran huruf
+
+Tulisan SILAB selalu seukuran rancangan aplikasi. Ukuran teks di setelan HP
+(termasuk ukuran aksesibilitas di iPhone) dan setelan Teks Tebal tidak
+mengubahnya. `builder` di `MaterialApp.router` (`lib/main.dart` dan
+`lib/main_dev.dart`) memasang `MediaQuery` dengan
+`textScaler: TextScaler.noScaling` dan `boldText: false` di atas semua
+halaman, dialog, dan SnackBar. Data layar lain dari HP, misalnya ukuran
+layar, tepi aman, dan tinggi keyboard, tetap diteruskan apa adanya. Pada
+setelan huruf normal, tampilan sama persis dengan sebelumnya.
+
+Yang tetap mengikuti HP adalah bagian yang digambar sistem: pop-up izin
+kamera, keyboard, dan bilah status. Zoom Tampilan di iPhone dan Ukuran
+tampilan di Android juga tetap berlaku, karena setelan itu memperbesar
+seluruh layar, bukan hanya huruf.
+
+Sampai 15 November 2026 tulisan ikut membesar sesuai setelan HP. Di ukuran
+terbesar, baris "Belum punya akun? Daftar" di halaman Masuk, label menu
+bawah, kartu pengumuman, dan daftar kelas di Beranda meluap.
+
 ### Detail pengumuman
 
 - `GetAnnouncementBloc` masuk keadaan memuat setiap kali pengumuman dibuka,
@@ -1288,10 +1308,11 @@ dan `GET /class` (kelas yang dipegang sebagai asisten), dikelompokkan per hari
   sekarang tes menggeser dengan jari (`swipeUpToEnd` di
   `test/helpers/small_phone_shell.dart`). Tarik ke bawah untuk memuat ulang
   tetap berjalan.
-- Kartu kelas (Detail Kelas dan Beranda) memakai tinggi minimal 120, jadi
-  memanjang bila ukuran huruf HP diperbesar (dulu terpotong di 1,3×). Nama
-  dosen dan judul pertemuan yang panjang (server membolehkan 50 huruf)
-  dipotong "…" dalam satu baris.
+- Kartu kelas (Detail Kelas dan Beranda) memakai tinggi minimal 120, bukan
+  tinggi tetap, jadi kartu memanjang bila isinya lebih tinggi. Dulu kartu
+  terpotong saat huruf HP 1,3×, sebelum aplikasi berhenti mengikuti ukuran
+  huruf HP (lihat "Ukuran huruf"). Nama dosen dan judul pertemuan yang
+  panjang (server membolehkan 50 huruf) dipotong "…" dalam satu baris.
 - Bila tab Presensi atau Classmates gagal dimuat, pesannya disertai tombol
   "Coba lagi".
 - Halaman scan: dialog memuat setelah QR terbaca tidak bisa ditutup dengan
@@ -1334,6 +1355,10 @@ flutter test                                          # tanpa server
 flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 ```
 
+- `test/main_test.dart` — aplikasi asli dari `lib/main.dart` dan
+  `lib/main_dev.dart`: huruf HP 1,3×, 2×, dan 3,12× serta Teks Tebal, juga
+  bila diubah selagi aplikasi terbuka, tidak mengubah ukuran dan ketebalan
+  tulisan di halaman Masuk, dialog, dan SnackBar, dan tidak ada yang meluap
 - `test/core/network/api_client_test.dart` — token, body, penanganan error
   (termasuk sertifikat HTTPS bermasalah), refresh token (termasuk sesi berakhir: token dihapus, sinyal dikirim sekali),
   dan stream SSE (token, refresh, isi event, tersambung ulang,
@@ -1420,8 +1445,8 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   menyalin seluruh isi; label jenis tampil di atas judul
 - `test/features/classes/class_detail_test.dart` — 14 pertemuan di HP
   360×640 digeser bersama halaman sampai di atas menu bawah dan mengisi layar
-  HP 411×891 (minimal 7 baris); nama dosen panjang dan huruf HP 1,3× tidak
-  merusak kartu; judul pertemuan 50 huruf dipotong; tombol "Scan QR" hanya di
+  HP 411×891 (minimal 7 baris); nama dosen panjang tidak merusak
+  kartu; judul pertemuan 50 huruf dipotong; tombol "Scan QR" hanya di
   pertemuan terbuka yang belum dipresensi dan membuka kamera; pesan "Sesi
   presensi sedang tidak dibuka."; Coba lagi di kedua tab; saat presensi
   dicatat, ketukan di luar dan tombol kembali HP diabaikan lalu aplikasi
@@ -1442,8 +1467,7 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
 - `test/features/home/beranda_test.dart` — memakai huruf Roboto dari Flutter
   (`test/helpers/real_font.dart`, lebarnya hampir sama dengan Manrope) supaya
   letak teks sama dengan di HP: nama dosen bergelar panjang dipotong "…"
-  tanpa meluap; dengan huruf HP 1,3× kartu kelas memanjang tanpa terpotong;
-  server mati menampilkan pesan asli tanpa bahasa Inggris dan
+  tanpa meluap; server mati menampilkan pesan asli tanpa bahasa Inggris dan
   tombol "Coba lagi" yang terlihat di atas menu bawah dan bisa memuat ulang;
   data akun gagal dimuat menampilkan "Ulangi"; saat server mati pesan di
   bawah tetap punya "Ulangi", bagian mana pun yang gagal paling akhir (data

@@ -126,7 +126,11 @@ class MainApp extends StatelessWidget {
           data: SkeletonizerConfigData(
             brightness: Theme.of(context).brightness,
           ),
-          child: child!,
+          child: MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.noScaling, boldText: false),
+            child: child!,
+          ),
         ),
         routerConfig: router,
       ),
