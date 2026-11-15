@@ -102,20 +102,17 @@ void main() {
   }
 
   testWidgets(
-    'bilah menu bawah di iPhone lebih kecil dan lebih dekat ke garis home, di Android tetap',
+    'bilah menu bawah sama kecilnya di iPhone dan Android, hanya di iPhone lebih dekat ke garis home',
     (tester) async {
       await openNavbar(tester);
 
       final shown = bar(tester);
       expect(shown.width, moreOrLessEquals(345));
-      expect(shown.height, moreOrLessEquals(onIPhone ? 52 : 70));
+      expect(shown.height, moreOrLessEquals(52));
       expect(812 - shown.bottom, moreOrLessEquals(onIPhone ? 42 : 50));
-      expect(
-        tester.getSize(find.byType(SvgPicture).first).height,
-        onIPhone ? 20 : 24,
-      );
-      expect(fontSizeOf(tester, 'Beranda'), onIPhone ? 11 : 14);
-      expect(fontSizeOf(tester, 'Jadwal'), onIPhone ? 10 : 12);
+      expect(tester.getSize(find.byType(SvgPicture).first).height, 20);
+      expect(fontSizeOf(tester, 'Beranda'), 11);
+      expect(fontSizeOf(tester, 'Jadwal'), 10);
     },
     variant: iPhoneAndAndroid,
   );
@@ -157,7 +154,7 @@ void main() {
       (tester) async {
         const screen = Size(412, 915);
         await openNavbar(tester, screen: screen, bottomInset: bottomInset);
-        expect(bar(tester).height, moreOrLessEquals(70));
+        expect(bar(tester).height, moreOrLessEquals(52));
         expect(
           screen.height - bar(tester).bottom,
           moreOrLessEquals(bottomInset + 16),
@@ -176,7 +173,7 @@ void main() {
   }
 
   testWidgets(
-    'Android tanpa bilah navigasi sistem di dalam layar: bilah turun sejauh dulu saat disembunyikan',
+    'Android tanpa bilah navigasi sistem di dalam layar: bilah turun 1,2 kali tinggi wadahnya dan hilang penuh saat disembunyikan',
     (tester) async {
       const screen = Size(412, 915);
       await openNavbar(tester, screen: screen, bottomInset: 0);
@@ -188,10 +185,29 @@ void main() {
         screen: screen,
         bottomInset: 0,
       );
-      expect(bar(tester).top - shown.top, moreOrLessEquals((70 + 12) * 1.2));
+      expect(bar(tester).top - shown.top, moreOrLessEquals((52 + 12) * 1.2));
+      expect(bar(tester).top, greaterThanOrEqualTo(screen.height));
     },
     variant: TargetPlatformVariant.only(TargetPlatform.android),
   );
+
+  testWidgets('Android 16: snackbar muncul tepat di atas bilah', (
+    tester,
+  ) async {
+    const screen = Size(412, 915);
+    await openNavbar(tester, screen: screen, bottomInset: 24);
+    final shown = bar(tester);
+
+    ScaffoldMessenger.of(tester.element(find.byType(CustomBottomNavbar)))
+        .showSnackBar(snackBar(message: 'Tersimpan', type: AlertType.success));
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.getRect(find.byType(SnackBar)).bottom,
+      moreOrLessEquals(shown.top - 12),
+    );
+    expect(shown.top - 12, moreOrLessEquals(915 - (24 + 16) - (52 + 12)));
+  }, variant: TargetPlatformVariant.only(TargetPlatform.android));
 
   for (final (device, platform, screen, bottomInset) in [
     ('iPhone 11 Pro', TargetPlatform.iOS, const Size(375, 812), 34.0),

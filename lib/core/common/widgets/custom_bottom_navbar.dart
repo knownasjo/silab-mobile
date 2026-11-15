@@ -97,7 +97,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
     final isIos = platform == TargetPlatform.iOS;
     final view = View.of(context);
     final bottomInset = view.viewPadding.bottom / view.devicePixelRatio;
-    final barHeight = isIos ? 52.0 : 70.0;
+    const barHeight = 52.0;
     final barWidth = (MediaQuery.sizeOf(context).shortestSide - 30).clamp(
       0.0,
       double.infinity,
@@ -157,7 +157,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
-                                height: isIos ? 20 : null,
+                                height: 20,
                                 child:
                                     widget.currentIndex ==
                                         widget.items.indexOf(item)
@@ -172,8 +172,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                                   fontSize:
                                       widget.currentIndex ==
                                           widget.items.indexOf(item)
-                                      ? (isIos ? 11 : 14)
-                                      : (isIos ? 10 : 12),
+                                      ? 11
+                                      : 10,
                                   color:
                                       widget.currentIndex ==
                                           widget.items.indexOf(item)

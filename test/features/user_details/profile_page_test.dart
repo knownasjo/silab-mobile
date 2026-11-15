@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silab/app_config.dart';
+import 'package:silab/core/common/widgets/custom_bottom_navbar.dart';
 import 'package:silab/core/network/api_client.dart';
 import 'package:silab/features/account/data/data_sources/account_api_service.dart';
 import 'package:silab/features/account/data/repository/account_repository_impl.dart';
@@ -205,6 +206,17 @@ void main() {
       tester.view.physicalSize.height / tester.view.devicePixelRatio -
       keyboardHeight;
 
+  double barTop(WidgetTester tester) => tester
+      .getRect(
+        find
+            .descendant(
+              of: find.byType(CustomBottomNavbar),
+              matching: find.byType(DecoratedBox),
+            )
+            .first,
+      )
+      .top;
+
   testWidgets(
     'keyboard terbuka di Ganti Password: menu bawah turun dan kolom konfirmasi tidak tertutup, lalu kembali saat keyboard ditutup',
     (tester) async {
@@ -214,7 +226,7 @@ void main() {
 
       await openKeyboard(tester, confirm);
 
-      expect(navbarTop(tester), greaterThanOrEqualTo(keyboardTop(tester)));
+      expect(barTop(tester), greaterThanOrEqualTo(keyboardTop(tester)));
       expect(
         tester.getRect(confirm).bottom,
         lessThanOrEqualTo(keyboardTop(tester)),

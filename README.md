@@ -210,23 +210,28 @@ halaman lanjutan seperti "Detail Kelas") dibuat rata kiri dengan
 `centerTitle: false` di `lib/scaffold_page.dart`. Bawaan Flutter menaruh judul
 itu di tengah layar di iOS dan di kiri di Android, jadi Android tidak berubah.
 
-Bilah menu bawah (Beranda, Jadwal, Profil) di iPhone dibuat lebih kecil di
-`lib/core/common/widgets/custom_bottom_navbar.dart`: tinggi 52 (Android 70),
-ikon 20 (Android 24), tulisan menu 11 dan 10 (Android 14 dan 12). Di iPhone
-yang punya garis home, letaknya 8 lebih rendah tetapi tetap di atas garis
-home; di iPhone bertombol Home (SE, iPhone 8) jaraknya tetap 16 dari tepi
-bawah layar.
+Bilah menu bawah (Beranda, Jadwal, Profil) dibuat lebih kecil di
+`lib/core/common/widgets/custom_bottom_navbar.dart`, sama di iPhone dan
+Android: tinggi 52 (dulu 70), ikon 20 (dulu 24), tulisan menu 11 dan 10 (dulu
+14 dan 12). Di iPhone yang punya garis home, letaknya 8 lebih rendah tetapi
+tetap di atas garis home; di iPhone bertombol Home (SE, iPhone 8) jaraknya
+tetap 16 dari tepi bawah layar. Di Android letaknya tidak diturunkan, tetap 16
+di atas bilah navigasi sistem (di Android 16: 40 dari tepi bawah layar dengan
+navigasi garis, 64 dengan navigasi 3 tombol), karena dengan navigasi 3 tombol
+penurunan 8 membuat bilah hanya berjarak 8 dari tombol Kembali dan Home.
+Snackbar, yang muncul tepat di atas bilah, di Android ikut 18 lebih rendah.
 
 Bilah yang disembunyikan saat layar digulir ke bawah dulu masih terlihat
 sebagian di tepi bawah layar bila area garis home atau bilah navigasi sistem
 berada di dalam layar aplikasi: sekitar 22 dari tinggi 70 di iPhone, serta
 sekitar 12 (navigasi garis) dan 36 (navigasi 3 tombol) di Android 16. Sekarang
 bilah turun sampai hilang penuh: di iPhone sejauh dua kali tingginya, di
-Android sejauh jarak lama ditambah tinggi bilah navigasi sistem. Tinggi itu
-dibaca dari `View.of(context).viewPadding`, karena `MediaQuery` di dalam
-tombol mengambang `Scaffold` sudah tidak memuat jarak bawah. Bila bilah
-navigasi sistem tidak berada di dalam layar aplikasi, tingginya 0 dan
-gerakannya sama seperti dulu.
+Android sejauh 1,2 kali tinggi wadahnya (bilah ditambah jarak atas 12)
+ditambah tinggi bilah navigasi sistem. Tinggi itu dibaca dari
+`View.of(context).viewPadding`, karena `MediaQuery` di dalam tombol mengambang
+`Scaffold` sudah tidak memuat jarak bawah. Bila bilah navigasi sistem tidak
+berada di dalam layar aplikasi, tingginya 0 dan bilah turun 1,2 kali tinggi
+wadahnya, seperti dulu.
 
 Penurunan 8 di iPhone yang punya garis home dikerjakan oleh
 `BottomNavbarLocation`, letak tombol mengambang yang dipakai
