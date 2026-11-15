@@ -108,6 +108,45 @@ void main() {
     );
   }
 
+  for (final (file, app) in [
+    ('lib/main.dart', const prod.MainApp()),
+    ('lib/main_dev.dart', const dev.MainApp()),
+  ]) {
+    testWidgets(
+      '$file: SnackBar selebar sisi pendek layar dikurangi 30 di tengah layar, juga dengan jarak aman kiri-kanan, dan tetap 16 dari batas bawah layar',
+      (tester) async {
+        final ratio = tester.view.devicePixelRatio;
+        final inset = FakeViewPadding(
+          left: 44 * ratio,
+          right: 44 * ratio,
+          bottom: 34 * ratio,
+        );
+        tester.view.padding = inset;
+        tester.view.viewPadding = inset;
+        addTearDown(tester.view.reset);
+        await openLogin(tester, app);
+        final screen = tester.view.physicalSize / ratio;
+
+        ScaffoldMessenger.of(
+          tester.element(find.byType(AuthenticationPage)),
+        ).showSnackBar(snackBar(message: 'Uji pesan', type: AlertType.error));
+        await tester.pumpAndSettle();
+
+        final message = tester.getRect(
+          find
+              .descendant(
+                of: find.byType(SnackBar),
+                matching: find.byType(Material),
+              )
+              .first,
+        );
+        expect(message.width, moreOrLessEquals(screen.shortestSide - 30));
+        expect(message.center.dx, moreOrLessEquals(screen.width / 2));
+        expect(message.bottom, moreOrLessEquals(screen.height - 34 - 16));
+      },
+    );
+  }
+
   testWidgets(
     'dialog dan SnackBar juga tidak mengikuti huruf HP 3,12× dan Teks Tebal',
     (tester) async {

@@ -24,6 +24,7 @@ void main() {
   tearDown(() => controller.dispose());
 
   Widget navbarApp({bool isVisible = true}) => MaterialApp(
+    builder: (context, child) => SnackBarWidth(child: child!),
     home: Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -60,8 +61,15 @@ void main() {
     bool isVisible = true,
     Size screen = const Size(375, 812),
     double bottomInset = 34,
+    double left = 0,
+    double right = 0,
   }) async {
-    final insets = FakeViewPadding(top: 44 * 3, bottom: bottomInset * 3);
+    final insets = FakeViewPadding(
+      left: left * 3,
+      top: 44 * 3,
+      right: right * 3,
+      bottom: bottomInset * 3,
+    );
     tester.view.physicalSize = screen * 3;
     tester.view.devicePixelRatio = 3;
     tester.view.padding = insets;
@@ -93,6 +101,16 @@ void main() {
       )
       .style
       .fontSize!;
+
+  void showMessage(WidgetTester tester) => ScaffoldMessenger.of(
+    tester.element(find.byType(CustomBottomNavbar)),
+  ).showSnackBar(snackBar(message: 'Berhasil masuk', type: AlertType.success));
+
+  Rect message(WidgetTester tester) => tester.getRect(
+    find
+        .descendant(of: find.byType(SnackBar), matching: find.byType(Material))
+        .first,
+  );
 
   Future<int?> tapMenu(WidgetTester tester, Offset position) async {
     taps.clear();
@@ -286,6 +304,95 @@ void main() {
       variant: TargetPlatformVariant.only(platform),
     );
   }
+
+  for (final (device, platform, screen, bottomInset, left, right) in [
+    ('iPhone 11 Pro', TargetPlatform.iOS, const Size(375, 812), 34.0, 0.0, 0.0),
+    (
+      'iPhone 11 Pro miring',
+      TargetPlatform.iOS,
+      const Size(812, 375),
+      21.0,
+      44.0,
+      44.0,
+    ),
+    ('iPhone SE', TargetPlatform.iOS, const Size(375, 667), 0.0, 0.0, 0.0),
+    (
+      'Android 16',
+      TargetPlatform.android,
+      const Size(412, 915),
+      24.0,
+      0.0,
+      0.0,
+    ),
+    (
+      'Android 16 miring, navigasi 3 tombol di kanan',
+      TargetPlatform.android,
+      const Size(915, 412),
+      0.0,
+      0.0,
+      48.0,
+    ),
+    (
+      'Android 16 miring, kamera di kiri',
+      TargetPlatform.android,
+      const Size(915, 412),
+      24.0,
+      32.0,
+      0.0,
+    ),
+  ]) {
+    testWidgets(
+      '$device: snackbar selebar bilah dan tepi kiri-kanannya lurus dengan bilah',
+      (tester) async {
+        await openNavbar(
+          tester,
+          screen: screen,
+          bottomInset: bottomInset,
+          left: left,
+          right: right,
+        );
+        final shown = bar(tester);
+
+        showMessage(tester);
+        await tester.pumpAndSettle();
+
+        expect(message(tester).left, moreOrLessEquals(shown.left));
+        expect(message(tester).right, moreOrLessEquals(shown.right));
+        expect(message(tester).bottom, lessThan(shown.top));
+      },
+      variant: TargetPlatformVariant.only(platform),
+    );
+  }
+
+  testWidgets(
+    'HP diputar saat snackbar tampil: snackbar tetap selebar bilah dan lurus dengan bilah',
+    (tester) async {
+      await openNavbar(tester);
+      showMessage(tester);
+      await tester.pumpAndSettle();
+
+      for (final (screen, side, bottom) in [
+        (const Size(812, 375), 44.0, 21.0),
+        (const Size(375, 812), 0.0, 34.0),
+      ]) {
+        final insets = FakeViewPadding(
+          left: side * 3,
+          top: 44 * 3,
+          right: side * 3,
+          bottom: bottom * 3,
+        );
+        tester.view.physicalSize = screen * 3;
+        tester.view.padding = insets;
+        tester.view.viewPadding = insets;
+        await tester.pumpAndSettle();
+
+        expect(message(tester).left, moreOrLessEquals(bar(tester).left));
+        expect(message(tester).right, moreOrLessEquals(bar(tester).right));
+      }
+      expect(tester.takeException(), isNull);
+    },
+    variant: iPhoneAndAndroid,
+  );
 
   for (final (device, platform, screen, bottomInset) in [
     ('iPhone 11 Pro', TargetPlatform.iOS, const Size(812, 375), 21.0),

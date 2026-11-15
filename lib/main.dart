@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:silab/app_config.dart';
+import 'package:silab/core/common/widgets/custom_snackbar.dart';
 import 'package:silab/core/router/router.dart';
 import 'package:silab/features/user_details/presentation/bloc/assisted_classes/assisted_classes_bloc.dart';
 import 'package:silab/features/announcement/presentation/blocs/get_all_announcements/get_all_announcements_bloc.dart';
@@ -129,7 +130,7 @@ class MainApp extends StatelessWidget {
           child: MediaQuery(
             data: MediaQuery.of(context)
                 .copyWith(textScaler: TextScaler.noScaling, boldText: false),
-            child: child!,
+            child: SnackBarWidth(child: child!),
           ),
         ),
         routerConfig: router,

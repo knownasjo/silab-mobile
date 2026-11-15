@@ -867,6 +867,18 @@ menyimpan, sama seperti di halaman Masuk.
   diperkecil sama rata, misalnya 25 di layar 320, sehingga ketiga menu tetap di
   tengah. Dulu isi bilah tetap 330, jadi di layar 320 menu bergeser 20 ke kanan
   dan meluap 40. Saat HP tegak di layar 360 ke atas tidak ada yang berubah.
+- Lebar snackbar sama dengan lebar bilah `CustomBottomNavbar`: sisi pendek
+  layar dikurangi 30 dan berada di tengah layar, saat HP tegak maupun miring,
+  di iPhone dan Android. Dulu jarak kiri-kanannya 8, jadi saat tegak 7 lebih
+  lebar dari bilah di tiap sisi, dan saat miring membentang hampir selebar
+  layar (iPhone 11 Pro 708, bilah 345). `SnackBarWidth` di
+  `custom_snackbar.dart`, yang membungkus aplikasi di `main.dart` dan
+  `main_dev.dart`, menghitung jarak kiri-kanan `insetPadding` dari ukuran
+  layar dan jarak aman kiri-kanan (poni iPhone saat miring), dan ikut berubah
+  saat HP diputar. `SnackBar.width` tidak dipakai karena Flutter menggeser
+  snackbar sejauh jarak aman kiri (44 di iPhone 11 Pro saat miring). Jarak
+  bawah tetap 16, jadi letak atas-bawahnya tidak berubah. Aturan ini juga
+  berlaku di halaman tanpa menu bawah.
 - `ScaffoldPage` menyalakan menu sesuai halaman utama yang sedang tampil
   (`/home`, `/schedule`, `/profile`), bukan hanya saat menu diketuk. Dulu
   setelah Detail Kelas dibuka dari Jadwal lalu "Kembali ke Beranda" ditekan,

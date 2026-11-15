@@ -32,7 +32,6 @@ SnackBar snackBar({
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     backgroundColor: backgroundColor,
     behavior: SnackBarBehavior.floating,
-    margin: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
     action: (action != null && actionLabel != null)
         ? SnackBarAction(
             label: actionLabel,
@@ -41,4 +40,32 @@ SnackBar snackBar({
           )
         : null,
   );
+}
+
+class SnackBarWidth extends StatelessWidget {
+  final Widget child;
+
+  const SnackBarWidth({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final padding = MediaQuery.paddingOf(context);
+    final side = (size.width - (size.shortestSide - 30)) / 2;
+    final theme = Theme.of(context);
+
+    return Theme(
+      data: theme.copyWith(
+        snackBarTheme: theme.snackBarTheme.copyWith(
+          insetPadding: EdgeInsets.fromLTRB(
+            (side - padding.left).clamp(0.0, double.infinity),
+            0,
+            (side - padding.right).clamp(0.0, double.infinity),
+            16,
+          ),
+        ),
+      ),
+      child: child,
+    );
+  }
 }
