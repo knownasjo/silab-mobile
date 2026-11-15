@@ -208,6 +208,14 @@ void main() {
       const Size(412, 915),
       48.0,
     ),
+    ('iPhone 11 Pro miring', TargetPlatform.iOS, const Size(812, 375), 21.0),
+    ('Android 16 miring', TargetPlatform.android, const Size(915, 412), 24.0),
+    (
+      'iPhone SE dengan Zoom Tampilan',
+      TargetPlatform.iOS,
+      const Size(320, 568),
+      0.0,
+    ),
   ]) {
     testWidgets(
       '$device: seluruh bilah bisa ditekan dan tiap bagian membuka menu terdekat',
@@ -249,6 +257,88 @@ void main() {
         expect(
           await tapMenu(tester, Offset(centers[1], shown.bottom + 1)),
           isNull,
+        );
+        expect(
+          await tapMenu(tester, Offset(shown.left - 1, shown.center.dy)),
+          isNull,
+        );
+        expect(
+          await tapMenu(tester, Offset(shown.right + 1, shown.center.dy)),
+          isNull,
+        );
+      },
+      variant: TargetPlatformVariant.only(platform),
+    );
+  }
+
+  for (final (device, platform, screen, bottomInset) in [
+    ('iPhone 11 Pro', TargetPlatform.iOS, const Size(812, 375), 21.0),
+    ('iPhone SE', TargetPlatform.iOS, const Size(667, 375), 0.0),
+    ('Android 16', TargetPlatform.android, const Size(915, 412), 24.0),
+  ]) {
+    testWidgets(
+      '$device miring: bilah selebar saat tegak dan di tengah, tidak sampai ke samping layar',
+      (tester) async {
+        await openNavbar(tester, screen: screen, bottomInset: bottomInset);
+        final shown = bar(tester);
+
+        expect(shown.width, moreOrLessEquals(screen.shortestSide - 30));
+        expect(shown.center.dx, moreOrLessEquals(screen.width / 2));
+        expect(shown.left, greaterThan(15));
+      },
+      variant: TargetPlatformVariant.only(platform),
+    );
+  }
+
+  testWidgets(
+    'HP diputar: bilah menyempit saat miring dan kembali selebar layar dikurangi 30 saat tegak',
+    (tester) async {
+      await openNavbar(tester);
+      expect(bar(tester).width, moreOrLessEquals(345));
+
+      tester.view.physicalSize = const Size(812, 375) * 3;
+      await tester.pumpAndSettle();
+      expect(bar(tester).width, moreOrLessEquals(345));
+      expect(bar(tester).center.dx, moreOrLessEquals(406));
+
+      tester.view.physicalSize = const Size(375, 812) * 3;
+      await tester.pumpAndSettle();
+      expect(bar(tester).left, moreOrLessEquals(15));
+      expect(bar(tester).right, moreOrLessEquals(360));
+    },
+    variant: iPhoneAndAndroid,
+  );
+
+  for (final (device, platform, screen, bottomInset) in [
+    (
+      'iPhone SE dengan Zoom Tampilan',
+      TargetPlatform.iOS,
+      const Size(320, 568),
+      0.0,
+    ),
+    (
+      'Android dengan Ukuran tampilan terbesar',
+      TargetPlatform.android,
+      const Size(320, 711),
+      24.0,
+    ),
+  ]) {
+    testWidgets(
+      '$device (lebar 320): ketiga menu di tengah bilah dan tidak meluap',
+      (tester) async {
+        await openNavbar(tester, screen: screen, bottomInset: bottomInset);
+
+        expect(tester.takeException(), isNull);
+        final shown = bar(tester);
+        final centers = [
+          for (var i = 0; i < 3; i++)
+            tester.getCenter(find.byType(SvgPicture).at(i)).dx,
+        ];
+        expect(shown.width, moreOrLessEquals(290));
+        expect(centers[1], moreOrLessEquals(160));
+        expect(
+          centers[0] - shown.left,
+          moreOrLessEquals(shown.right - centers[2]),
         );
       },
       variant: TargetPlatformVariant.only(platform),

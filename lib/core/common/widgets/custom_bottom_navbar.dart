@@ -98,6 +98,10 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
     final view = View.of(context);
     final bottomInset = view.viewPadding.bottom / view.devicePixelRatio;
     final barHeight = isIos ? 52.0 : 70.0;
+    final barWidth = (MediaQuery.sizeOf(context).shortestSide - 30).clamp(
+      0.0,
+      double.infinity,
+    );
     final lowerBy = _lowerBy(platform, bottomInset);
     final slotHeight = barHeight + 12 + lowerBy;
 
@@ -112,7 +116,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
         ),
       ).animate(_slide),
       child: Container(
-        width: double.infinity,
+        width: barWidth,
         height: barHeight,
         margin: EdgeInsets.only(right: 15, left: 15, top: 12 + lowerBy),
         decoration: BoxDecoration(
@@ -121,8 +125,13 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
+            final itemsWidth = 80.0 * widget.items.length;
+            final sideGap = ((constraints.maxWidth - itemsWidth) / 2).clamp(
+              0.0,
+              45.0,
+            );
             final halfGap =
-                ((constraints.maxWidth - 2 * 45 - 80.0 * widget.items.length) /
+                ((constraints.maxWidth - 2 * sideGap - itemsWidth) /
                         (widget.items.length - 1) /
                         2)
                     .clamp(0.0, double.infinity);
@@ -137,8 +146,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                       },
                       child: Padding(
                         padding: EdgeInsets.only(
-                          left: item == widget.items.first ? 45 : halfGap,
-                          right: item == widget.items.last ? 45 : halfGap,
+                          left: item == widget.items.first ? sideGap : halfGap,
+                          right: item == widget.items.last ? sideGap : halfGap,
                         ),
                         child: SizedBox(
                           width: 80,

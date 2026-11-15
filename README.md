@@ -853,6 +853,15 @@ menyimpan, sama seperti di halaman Masuk.
   diperlebar sampai setengah jarak ke menu di sebelahnya, sedangkan menu
   pertama dan terakhir sampai ke ujung bilah. Jadi setiap titik di bilah
   membuka menu yang paling dekat, dan letak ikon serta tulisan tidak berubah.
+- Lebar bilah `CustomBottomNavbar` paling besar sisi pendek layar dikurangi 30,
+  yaitu lebarnya saat HP tegak. Saat HP miring bilah tetap selebar itu dan
+  berada di tengah, jadi tidak lagi membentang sampai ke samping layar: di
+  iPhone 11 Pro dulu 782 dengan jarak antarikon 306, sekarang 345 dengan jarak
+  88. Di layar yang lebih sempit dari 360 (iPhone SE dengan Zoom Tampilan,
+  Android dengan Ukuran tampilan diperbesar), jarak 45 di kedua ujung bilah
+  diperkecil sama rata, misalnya 25 di layar 320, sehingga ketiga menu tetap di
+  tengah. Dulu isi bilah tetap 330, jadi di layar 320 menu bergeser 20 ke kanan
+  dan meluap 40. Saat HP tegak di layar 360 ke atas tidak ada yang berubah.
 - `ScaffoldPage` menyalakan menu sesuai halaman utama yang sedang tampil
   (`/home`, `/schedule`, `/profile`), bukan hanya saat menu diketuk. Dulu
   setelah Detail Kelas dibuka dari Jadwal lalu "Kembali ke Beranda" ditekan,
