@@ -1112,6 +1112,18 @@ tombol Simpan tertutup menu bawah bila satu mata kuliah punya 5 kelas, begitu
 juga Selanjutnya (4–5 mata kuliah) dan Pilih Kelas di Pembayaran & Kelas (3
 mata kuliah atau lebih).
 
+Banner hijau "Anda dapat memilih kelas untuk N Mata Kuliah" di Beranda
+(`pick_class_banner.dart`) menyempitkan kotak tulisannya di layar yang lebih
+sempit dari 360, dengan jarak paling sedikit 8 ke ikon centang dan ke panah,
+jadi panah selalu berada di dalam kotak hijau. Dulu kotak tulisan selalu 250,
+sehingga di layar 320 (iPhone SE dengan Zoom Tampilan, Android dengan Ukuran
+tampilan diperbesar) isi banner meluap 24: panah putih terdorong keluar kotak
+hijau dan tulisan menempel ke ikon centang. Di layar 360 ke atas letak dan
+lebar banner sama persis dengan sebelumnya. Tulisan yang tidak muat dalam 2
+baris diakhiri "…". Saat HP miring, banner bisa berada di belakang menu bawah
+ketika Beranda baru dibuka; begitu layar digeser, menu turun dan banner
+terlihat penuh, sama seperti isi halaman lain yang lewat di belakang menu.
+
 ### Batalkan pendaftaran
 
 Di Profil → Pembayaran & Kelas, setiap pendaftaran berstatus **Belum Lunas**
@@ -1556,6 +1568,10 @@ flutter test test/live --dart-define=API_BASE_URL=http://localhost:3000
   360×640 dengan menu bawah tampil, tombol Simpan (3–6 kelas), Selanjutnya
   (3–6 mata kuliah), dan Pilih Kelas (2–4 pendaftaran) bisa digeser sampai di
   atas menu bawah (`test/helpers/small_phone_shell.dart`)
+- `test/features/select_subjects/pick_class_banner_test.dart` — banner Pilih
+  Kelas di Beranda: di layar 320 dan 344 panah tetap di dalam kotak hijau,
+  tulisan berjarak 8 dari ikon dan panah, dan banner tetap membuka Pilih
+  Kelas; di layar 360, 375, dan 411 letak dan lebarnya sama dengan sebelumnya
 - `test/features/backend_contract_test.dart` — setiap entity membaca contoh
   respons asli backend; Jadwal disusun dari contoh `GET /class/me` dan
   `GET /class` (urut hari dan jam, ruang ikut, kelas asisten bertanda)

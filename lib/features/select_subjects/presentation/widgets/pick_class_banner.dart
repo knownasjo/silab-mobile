@@ -42,19 +42,23 @@ class _PickClassBannerState extends State<PickClassBanner> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  spacing: 8,
                   children: [
                     Image.asset('assets/image/check-circle.png', scale: 2),
-                    SizedBox(
-                      width: 250,
-                      child: Text(
-                        'Anda dapat memilih kelas untuk ${subjects.length} Mata Kuliah',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                    Flexible(
+                      child: SizedBox(
+                        width: 250,
+                        child: Text(
+                          'Anda dapat memilih kelas untuk ${subjects.length} Mata Kuliah',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
                         ),
-                        maxLines: 2,
-                        textAlign: TextAlign.start,
                       ),
                     ),
                     const Icon(Boxicons.bx_chevron_right, color: Colors.white),
